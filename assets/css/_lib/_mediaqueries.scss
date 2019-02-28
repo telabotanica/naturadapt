@@ -1,0 +1,126 @@
+/**************************************************
+* BREAKPOINTS
+**************************************************/
+
+$breakpoint-medium: rem(600px) !default;
+$breakpoint-large: rem(960px) !default;
+
+/**************************************************
+* SCREEN SIZE MEDIAQUERIES
+**************************************************/
+
+@mixin small-or-less {
+	@media screen and (max-width: $breakpoint-medium - rem(1px)) {
+		@content;
+	}
+}
+
+@mixin medium-or-more {
+	@media screen and (min-width: $breakpoint-medium) {
+		@content;
+	}
+}
+
+@mixin medium {
+	@media screen and (min-width: $breakpoint-medium) and (max-width: $breakpoint-large - rem(1px)) {
+		@content;
+	}
+}
+
+@mixin medium-or-less {
+	@media screen and (max-width: $breakpoint-large - rem(1px)) {
+		@content;
+	}
+}
+
+@mixin large-or-more {
+	@media screen and (min-width: $breakpoint-large) {
+		@content;
+	}
+}
+
+/**************************************************
+* HDPI MEDIAQUERIES
+**************************************************/
+
+@mixin hdpi {
+	@media only screen and (-webkit-min-device-pixel-ratio: 2),
+	only screen and (min--moz-device-pixel-ratio: 2),
+	only screen and (-o-min-device-pixel-ratio: 2/1),
+	only screen and (min-device-pixel-ratio: 2),
+	only screen and (min-resolution: 192dpi),
+	only screen and (min-resolution: 2dppx) {
+		@content;
+	}
+}
+
+/**************************************************
+* CSS -> JS trick
+**************************************************/
+
+@include small-or-less {
+	body::before {
+		content: 'small';
+		display: none;
+	}
+}
+
+@include medium {
+	body::before {
+		content: 'medium';
+		display: none;
+	}
+}
+
+@include large-or-more {
+	body::before {
+		content: 'large';
+		display: none;
+	}
+}
+
+/**************************************************
+* HELPERS
+**************************************************/
+
+.hide-on-small.hide-on-small {
+	@include small-or-less {
+		display: none;
+	}
+}
+
+.hide-on-medium.hide-on-medium {
+	@include medium {
+		display: none;
+	}
+}
+
+.hide-on-large.hide-on-large {
+	@include large-or-more {
+		display: none;
+	}
+}
+
+.show-on-small.show-on-small {
+	display: none;
+
+	@include small-or-less {
+		display: block;
+	}
+}
+
+.show-on-medium.show-on-medium {
+	display: none;
+
+	@include medium {
+		display: block;
+	}
+}
+
+.show-on-large.show-on-large {
+	display: none;
+
+	@include large-or-more {
+		display: block;
+	}
+}

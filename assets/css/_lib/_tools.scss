@@ -1,0 +1,110 @@
+/**************************************************
+* FONT SIZE TOOLS
+**************************************************/
+
+$base_font_size: 16px !default;
+
+@function em($target, $context: $base_font_size) {
+	@if $target == 0 {
+		@return 0
+	}
+	@return $target / $context + 0em;
+}
+
+@function rem($target, $context: $base_font_size) {
+	@if $target == 0 {
+		@return 0
+	}
+	@return $target / $context + 0rem;
+}
+
+/**************************************************
+* CLEAR FLOAT CONTAINER
+**************************************************/
+
+@mixin clearfloat {
+	&::after {
+		content: "";
+		display: block;
+		height:  0;
+		clear:   both;
+	}
+
+	zoom: 1;
+}
+
+@mixin clearfix {
+	@include clearfloat;
+}
+
+/**************************************************
+* REMOVE SPACE BETWEEN INLINEBLOCKS
+* http://cahnory.tumblr.com/post/127631188627/effectively-remove-whitespaces-between
+**************************************************/
+
+@mixin inlineblock-no-margin-container {
+	font-size: 0;
+}
+
+@mixin inlineblock-no-margin($font-size: 1rem) {
+	display:        inline-block;
+	vertical-align: top;
+	font-size:      $font-size;
+}
+
+/**************************************************
+* RESPONSIVE IMAGES
+**************************************************/
+
+@mixin max100 {
+	max-width:  100%;
+	width:      auto;
+	height:     auto;
+	box-sizing: border-box;
+}
+
+/**************************************************
+* RESET TAGS
+**************************************************/
+
+@mixin clearulli($is_container: false) {
+	@if ($is_container) {
+		margin:  0;
+		padding: 0;
+	} @else {
+		ul,
+		ol {
+			margin:  0;
+			padding: 0;
+		}
+	}
+
+	li {
+		margin:           0;
+		padding:          0;
+		list-style-image: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7);
+		list-style:       none;
+	}
+}
+
+@mixin clearbr {
+	br {
+		&,
+		&::after {
+			content: ' ';
+		}
+	}
+}
+
+/**************************************************
+ * PICTOS DEFINITIONS
+ **************************************************/
+
+@mixin picto-set-size($width, $picto_width, $picto_height, $sheet_width: 100px, $sheet_height: 300px, $sprite_number: 0, $sprite_offset: 100px) {
+	width:               $width;
+	height:              ceil($width * ($picto_height / $picto_width));
+
+	background-repeat:   no-repeat;
+	background-size:     ($sheet_width * ($width / $picto_width)) ($sheet_height * ($width / $picto_width));
+	background-position: 0 (-$sprite_offset * $sprite_number * ($width / $picto_width));
+}

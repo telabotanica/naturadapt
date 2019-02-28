@@ -1,0 +1,38 @@
+/**************************************************
+* LAYOUT
+**************************************************/
+
+@function padding_horizontal($size: 'small') {
+	@return 1rem;
+}
+
+@function padding_vertical($size: 'small') {
+	@return 1rem;
+}
+
+@function content_width() {
+	@return rem(960px);
+}
+
+// Content column
+@mixin content-container {
+	margin-left:  auto;
+	margin-right: auto;
+	max-width:    content_width();
+}
+
+.content-container {
+	@include content-container;
+}
+
+/**************************************************
+* HEADER
+**************************************************/
+
+@function header_height($size: 'small') {
+	@if $size == 'large' {
+		@return rem(77px);
+	}
+
+	@return rem(.5 * 118px);
+}

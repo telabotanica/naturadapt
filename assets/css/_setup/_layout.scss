@@ -1,0 +1,73 @@
+/**************************************************
+* ELEMENTS STYLES
+**************************************************/
+
+body {
+	@include font_default;
+
+	font-size:        font_size_default();
+
+	@include large-or-more {
+		font-size: font_size_default('large');
+	}
+
+	line-height:      line_height_default();
+
+	color:            $color_default;
+	background-color: #f7f7f7;
+}
+
+button,
+input {
+	line-height: line_height_default();
+}
+
+a {
+	color:                $color_action;
+
+	text-decoration:      underline;
+	text-decoration-skip: ink;
+}
+
+img {
+	@include max100;
+}
+
+.cta {
+	@include cta-style;
+}
+
+.h1, h1 {
+	@include h1;
+
+	color: $color_green_medium;
+}
+
+.h2, h2 {
+	@include h2;
+}
+
+.h3, h3 {
+	@include h3;
+}
+
+.h4, h4 {
+	@include h4;
+}
+
+hr {
+	@include separator();
+	display: block;
+	margin:  2rem auto;
+}
+
+.columns-50-50 {
+	display:         flex;
+	flex-flow:       row nowrap;
+	justify-content: space-between;
+
+	> :nth-child(1),
+	> :nth-child(2) {
+		flex-basis: 50%;
+	}
+}

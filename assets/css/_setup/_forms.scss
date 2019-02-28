@@ -1,0 +1,380 @@
+/**************************************************
+* STYLES DEFINITIONS
+**************************************************/
+
+@mixin button-reset {
+	padding:          0;
+	border:           none;
+	font:             inherit;
+	color:            inherit;
+	background-color: transparent;
+	cursor:           pointer;
+}
+
+@mixin input-style {
+	display:       inline-block;
+	margin:        0;
+
+	max-width:     100%;
+
+	@include font_default;
+	font-size:     1em;
+	line-height:   line_height_default();
+
+	padding:       .5em;
+
+	color:         $color_default;
+	background:    $color_kaki_lighter;
+
+	border:        1px solid $color_orange_dark;
+	border-radius: 0;
+
+	&:disabled {
+		color: #999999;
+	}
+
+	&:hover {
+	}
+
+	&:focus {
+		outline:    none;
+		box-shadow: 0 2px 0 0 rgba($color_orange_dark, 1);
+	}
+
+	&.error,
+	.error & {
+		box-shadow: 0 2px 0 0 rgba(darkred, 1);
+	}
+}
+
+@mixin submit-style {
+	display:          inline-block;
+	padding:          .5rem .8rem;
+
+	color:            white;
+	background-color: $color_orange_medium;
+	border:           0;
+	border-radius:    rem(5px);
+	text-decoration:  none;
+
+	@include font_title;
+
+	&:hover,
+	&:focus {
+		background-color: $color_orange_dark;
+	}
+
+	transition:       color .25s ease-in-out,
+					  background-color .15s ease-in-out;
+
+	&:disabled {
+		color:            #999999;
+		background-color: #cccccc;
+	}
+}
+
+.submit-style {
+	@include submit-style;
+}
+
+/**************************************************
+* STYLES ASSIGNATION
+**************************************************/
+
+input[type="checkbox"],
+input[type="radio"] {
+	outline: none;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="email"],
+input[type="number"],
+textarea,
+select {
+	@include input-style;
+}
+
+select {
+	padding-right:       rem(30px);
+
+	-webkit-appearance:  none;
+	-moz-appearance:     none;
+	appearance:          none;
+
+	$color: $color_default;
+	@import '../_assets/picto-select.svg';
+	background-repeat:   no-repeat;
+	background-position: right center;
+}
+
+select::-ms-expand {
+	display: none;
+}
+
+option {
+	font-size:    1rem;
+
+	border:       none;
+	margin-right: .56em;
+}
+
+textarea {
+	width:       100%;
+
+	font-size:   1rem;
+
+	line-height: line_height_default();
+	height:      line_height_default() * 5 * 1em;
+}
+
+button[type="button"],
+button[type="submit"],
+input[type="submit"] {
+	@include submit-style;
+}
+
+.grippie {
+	display: none;
+}
+
+/**************************************************
+* CHECKBOXES
+**************************************************/
+
+.checkbox-label {
+	position:     relative;
+	padding-left: rem(40px);
+
+	&::before {
+		content:    '';
+		position:   absolute;
+		left:       0;
+		top:        .5 * line_height_default() * 1em;
+		margin-top: rem(-15px);
+
+		@include picto-checkbox(32px);
+	}
+
+	input[type="checkbox"]:checked + & {
+		&::before {
+			@include picto-checkbox(32px, 1, false);
+		}
+	}
+
+	&:focus,
+	input[type="checkbox"]:focus + & {
+		&::before {
+			@include picto-checkbox(32px, 2, false);
+		}
+	}
+
+	input[type="checkbox"]:checked &:focus,
+	input[type="checkbox"]:checked:focus + & {
+		&::before {
+			@include picto-checkbox(32px, 3, false);
+		}
+	}
+}
+
+@mixin checkbox-label {
+	@extend .checkbox-label;
+}
+
+.form-row__checkbox {
+	label span {
+		@include checkbox-label;
+	}
+
+	input[type="checkbox"] {
+		position: absolute;
+		left:     -99999px;
+	}
+}
+
+/**************************************************
+* RADIOBOXES
+**************************************************/
+
+.radiobox-label {
+	position:     relative;
+	padding-left: rem(40px);
+
+	&::before {
+		content:    '';
+		position:   absolute;
+		left:       0;
+		top:        .5 * line_height_default() * 1em;
+		margin-top: rem(-15px);
+
+		@include picto-radiobox(32px);
+	}
+
+	input[type="radio"]:checked + & {
+		&::before {
+			@include picto-radiobox(32px, 1);
+		}
+	}
+
+	&:focus,
+	input[type="radio"]:focus + & {
+		&::before {
+			@include picto-radiobox(32px, 2);
+		}
+	}
+
+	input[type="radio"]:checked &:focus,
+	input[type="radio"]:checked:focus + & {
+		&::before {
+			@include picto-radiobox(32px, 3);
+		}
+	}
+}
+
+@mixin radiobox-label {
+	@extend .radiobox-label;
+}
+
+.form-row__radiobox {
+	label {
+		@include radiobox-label;
+	}
+
+	input[type="radio"] {
+		position: absolute;
+		left:     -99999px;
+	}
+}
+
+/**************************************************
+* FORM LAYOUT
+**************************************************/
+
+$form_label_width: (1/3) * 100%;
+
+.form-row {
+	@include medium-or-more {
+		display:         flex;
+		flex-flow:       row nowrap;
+		justify-content: stretch;
+	}
+
+	margin-bottom: rem(8px);
+
+	width:         100%;
+
+	label {
+		@include medium-or-more {
+			flex-shrink: 0;
+			flex-grow:   0;
+			width:       $form_label_width;
+		}
+
+		padding-top:   .5em;
+		padding-right: 1rem;
+
+		text-align:    right;
+	}
+
+	> :nth-child(2) {
+		flex-grow: 1;
+	}
+
+	input {
+		flex-shrink: 1;
+		width:       100%;
+	}
+}
+
+.form-row__field {
+}
+
+.form-row__checkbox {
+	@include medium-or-more {
+		padding-left: $form_label_width;
+
+		label {
+			width:      auto;
+			text-align: left;
+		}
+	}
+
+}
+
+.form-row__submit {
+	position:   relative;
+
+	margin-top: 1rem;
+	@include medium-or-more {
+		padding-left: $form_label_width;
+	}
+
+	[type="submit"] {
+		width:          100%;
+
+		text-transform: uppercase;
+	}
+
+	.ajax-loader {
+		position:  absolute;
+
+		top:       50%;
+		left:      100%;
+
+		transform: translate(.2rem, -50%);
+	}
+}
+
+/**************************************************
+* ERROR
+**************************************************/
+
+.error-container {
+	display:       none;
+
+	&[aria-hidden="false"] {
+		display: block;
+	}
+
+	margin:        .2rem 0 1rem;
+	padding:       .5rem;
+
+	border:        1px solid darkred;
+	border-radius: 2px;
+
+	color:         darkred;
+	background:    #fff0f0;
+
+	text-align:    left;
+	font-size:     rem(12px);
+
+	box-shadow:    0 0 10px rgba(black, 0.3);
+
+	//&:before {
+	//	$size: 11px;
+	//
+	//	content:          '';
+	//	position:         absolute;
+	//	left:             50%;
+	//	margin-left:      -$size;
+	//	bottom:           -2 * $size;
+	//
+	//	border:           $size solid transparent;
+	//	border-top-color: darkred;
+	//}
+	//&:after {
+	//	$size: 10px;
+	//
+	//	content:          '';
+	//	position:         absolute;
+	//	left:             50%;
+	//	margin-left:      -$size;
+	//	bottom:           -2 * $size;
+	//
+	//	border:           $size solid transparent;
+	//	border-top-color: #ffffff;
+	//}
+}
+

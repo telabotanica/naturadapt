@@ -1,0 +1,33 @@
+/**
+	Author: Maxime Cousinou
+ */
+/**************************************************
+ * RESET
+ *************************************************/
+@import "_lib/reset";
+@import "_lib/tools";
+@import "_lib/mediaqueries";
+/**************************************************
+* SETTINGS
+**************************************************/
+@import "_config/colors";
+@import "_config/fonts";
+@import "_config/layout";
+/**************************************************
+ * PICTOS
+ *************************************************/
+@import "_setup/pictos/picto-arrow";
+@import "_setup/pictos/picto-cross";
+@import "_setup/pictos/picto-burger";
+@import "_setup/pictos/picto-checkbox";
+@import "_setup/pictos/picto-radiobox";
+/**************************************************
+ * LAYOUT
+ *************************************************/
+@import "_setup/forms";
+@import "_setup/layout";
+@import "_setup/object-fit-image";
+
+/**************************************************
+ * COMPONENTS
+ *************************************************/

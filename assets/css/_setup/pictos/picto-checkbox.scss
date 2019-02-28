@@ -1,0 +1,15 @@
+/**************************************************
+ * CHECKBOX
+ **************************************************/
+
+.picto-checkbox {
+	@import '../../_assets/picto-checkbox.svg';
+}
+
+@mixin picto-checkbox($width: 32px, $sprite_number: 0, $extend: true) {
+	@if ($extend) {
+		@extend .picto-checkbox;
+	}
+
+	@include picto-set-size($width, 32px, 32px, 100px, 400px, $sprite_number);
+}

@@ -1,0 +1,8 @@
+/**************************************************
+ * BURGER
+ **************************************************/
+
+@mixin picto-burger($color: $color_default, $width: 20) {
+	background-image:    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='#{$width}' height='13' viewBox='0 0 #{$width} 13'%3E%3Cpath fill='%23#{str-slice(quote($color),2)}' d='M0 0h#{$width}v3h-#{$width}zM0 5h#{$width}v3h-#{$width}zM0 10h#{$width}v3h-#{$width}z'%3E%3C/path%3E%3C/svg%3E");
+	background-position: center center;
+}

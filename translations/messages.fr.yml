@@ -1,0 +1,32 @@
+# translations/messages.fr.yaml
+forms:
+  email:
+    label: "Votre email"
+    placeholder: "ex: bruce@wayne-entreprises.com"
+  password:
+    label: "Votre mot de passe"
+    placeholder: "Votre mot de passe"
+  name:
+    label: "Comment souhaitez-vous que l'on vous appelle ?"
+    placeholder: "ex: M. Wayne"
+  remember_me:
+    label: "Se souvenir de moi"
+
+security:
+  login:
+    title: "Connectez-vous"
+    button: "S'identifier"
+    link: "Connexion"
+  register:
+    title: "Créer votre compte"
+    button: "Valider"
+    link: "S'enregister"
+  logout:
+    link: "Déconnexion"
+  forgotten_password:
+    title: "Mot de passe oublié"
+    button: "Envoyer"
+    link: "Mot de passe oublié ?"
+  reset_password:
+    title: "Nouveau mot de passe"
+    button: "Modifier"

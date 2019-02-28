@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="400" viewBox="0 0 100 400">
+	<symbol id="a">
+		<circle r="15.5" cx="16" cy="16" stroke-width="1"></circle>
+	</symbol>
+	<symbol id="c">
+		<path d="M14.883 3.795l-7.525 7.708c-.623.638-1.647.626-2.286-.028L1.12 7.397c-.639-.654-.652-1.702-.029-2.34.623-.639 1.647-.626 2.286.028l2.8 2.888 6.391-6.547c.623-.639 1.647-.626 2.286.028s.652 1.702.029 2.341z"/>
+	</symbol>
+	<use xlink:href="#a" stroke="$color_grey_light" fill="white"/>
+	<use xlink:href="#a" y="100" stroke="$color_grey_light" fill="white"/>
+	<use xlink:href="#c" y="109" x="7" fill="$color_action"/>
+	<use xlink:href="#a" y="200" stroke="$color_action" fill="white"/>
+	<use xlink:href="#a" y="300" stroke="$color_action" fill="white"/>
+	<use xlink:href="#c" y="309" x="7" fill="$color_action"/>
+</svg>
