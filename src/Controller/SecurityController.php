@@ -23,7 +23,7 @@ class SecurityController extends AbstractController {
 		$error        = $authenticationUtils->getLastAuthenticationError ();
 		$lastUsername = $authenticationUtils->getLastUsername ();
 
-		return $this->render ( 'security/login.html.twig', [
+		return $this->render ( 'pages/user/login.html.twig', [
 				'error'         => $error,
 				'last_username' => $lastUsername,
 		] );
@@ -61,7 +61,7 @@ class SecurityController extends AbstractController {
 			return $this->redirectToRoute ( 'homepage' );
 		}
 
-		return $this->render ( 'security/register.html.twig' );
+		return $this->render ( 'pages/user/register.html.twig' );
 	}
 
 	/**
@@ -114,7 +114,7 @@ class SecurityController extends AbstractController {
 			return $this->redirectToRoute ( 'homepage' );
 		}
 
-		return $this->render ( 'security/forgotten-password.html.twig' );
+		return $this->render ( 'pages/user/forgotten-password.html.twig' );
 	}
 
 	/**
@@ -150,7 +150,7 @@ class SecurityController extends AbstractController {
 			return $this->redirectToRoute ( 'homepage' );
 		}
 		else {
-			return $this->render ( 'security/reset-password.html.twig', [ 'token' => $token ] );
+			return $this->render ( 'pages/user/reset-password.html.twig', [ 'token' => $token ] );
 		}
 	}
 }

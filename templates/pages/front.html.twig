@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<div class="content-container">
+		<section class="site-presentation">
+			<h1 class="small-title">Bienvenue sur {{ plateform.name }}</h1>
+
+			<p class="is-lead">Échangeons pour adapter la gestion des espaces naturels face au changement climatique</p>
+
+			<p>En savoir plus</p>
+		</section>
+		<section class="groups-list">
+			<ul>
+				{% for group in groups %}
+					<li>
+						{% include 'contents/group/group--teaser.html.twig' with {'group':group} %}
+					</li>
+				{% endfor %}
+			</ul>
+		</section>
+	</div>
+{% endblock %}

@@ -5,10 +5,10 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="groups_memberships")
- * @ORM\Entity(repositoryClass="App\Repository\GroupMembershipRepository")
+ * @ORM\Table(name="usergroups_memberships")
+ * @ORM\Entity(repositoryClass="App\Repository\UsergroupMembershipRepository")
  */
-class GroupMembership {
+class UsergroupMembership {
 	/**
 	 * @ORM\Id()
 	 * @ORM\GeneratedValue()
@@ -17,7 +17,7 @@ class GroupMembership {
 	private $id;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="groupMemberships")
+	 * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="usergroupMemberships")
 	 * @ORM\JoinColumn(nullable=false)
 	 */
 	private $user;
@@ -38,10 +38,10 @@ class GroupMembership {
 	private $notificationsSettings = [];
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="App\Entity\Group", inversedBy="members")
+	 * @ORM\ManyToOne(targetEntity="App\Entity\Usergroup", inversedBy="members")
 	 * @ORM\JoinColumn(nullable=false)
 	 */
-	private $grp;
+	private $usergroup;
 
 	public function getId (): ?int {
 		return $this->id;
@@ -87,12 +87,12 @@ class GroupMembership {
 		return $this;
 	}
 
-	public function getGroup (): ?Group {
-		return $this->grp;
+	public function getUsergroup (): ?Usergroup {
+		return $this->usergroup;
 	}
 
-	public function setGroup ( ?Group $group ): self {
-		$this->grp = $group;
+	public function setUsergroup ( ?Usergroup $usergroup ): self {
+		$this->usergroup = $usergroup;
 
 		return $this;
 	}

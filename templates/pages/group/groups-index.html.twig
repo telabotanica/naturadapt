@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<div class="content-container">
+		<section class="site-presentation">
+			<h1>Liste des groupes</h1>
+		</section>
+		<section class="groups-list">
+			<ul>
+				{% for group in groups %}
+					<li>
+						{% include 'contents/group/group--teaser.html.twig' with {'group':group} %}
+					</li>
+				{% endfor %}
+			</ul>
+		</section>
+	</div>
+{% endblock %}

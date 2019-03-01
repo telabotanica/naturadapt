@@ -20,7 +20,7 @@ security:
   register:
     title: "Créer votre compte"
     button: "Valider"
-    link: "S'enregister"
+    link: "Inscription"
   logout:
     link: "Déconnexion"
   forgotten_password:

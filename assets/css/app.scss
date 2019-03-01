@@ -27,7 +27,11 @@
 @import "_setup/forms";
 @import "_setup/layout";
 @import "_setup/object-fit-image";
-
 /**************************************************
  * COMPONENTS
  *************************************************/
+@import "layout/header";
+@import "layout/footer";
+@import "layout/main";
+@import "contents/front/front";
+@import "contents/group/group";

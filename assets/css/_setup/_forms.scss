@@ -24,9 +24,9 @@
 	padding:       .5em;
 
 	color:         $color_default;
-	background:    $color_kaki_lighter;
+	background:    $color_grey_light;
 
-	border:        1px solid $color_orange_dark;
+	border:        1px solid $color_orange_red;
 	border-radius: 0;
 
 	&:disabled {
@@ -38,7 +38,7 @@
 
 	&:focus {
 		outline:    none;
-		box-shadow: 0 2px 0 0 rgba($color_orange_dark, 1);
+		box-shadow: 0 2px 0 0 rgba($color_orange_red, 1);
 	}
 
 	&.error,
@@ -52,7 +52,7 @@
 	padding:          .5rem .8rem;
 
 	color:            white;
-	background-color: $color_orange_medium;
+	background-color: $color_orange_red;
 	border:           0;
 	border-radius:    rem(5px);
 	text-decoration:  none;
@@ -61,7 +61,7 @@
 
 	&:hover,
 	&:focus {
-		background-color: $color_orange_dark;
+		background-color: $color_orange_red;
 	}
 
 	transition:       color .25s ease-in-out,

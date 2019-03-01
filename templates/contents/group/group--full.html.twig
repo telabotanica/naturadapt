@@ -1,0 +1,26 @@
+<div class="group group__full">
+	<h1 class="group-name">{{ group.name }}</h1>
+	<div class="group-description">
+		{{ group.description }}
+	</div>
+	<div class="group-pages">
+		<h2>Pages</h2>
+		<ul>
+			{% for page in group.pages %}
+				<li>
+					{% include 'contents/page/page--teaser.html.twig' with {'page':page} %}
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
+	<div class="group-members">
+		<h2>Membres</h2>
+		<ul>
+			{% for member in group.members %}
+				<li>
+					{% include 'contents/user/user--teaser.html.twig' with {'user':member.user} %}
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
+</div>

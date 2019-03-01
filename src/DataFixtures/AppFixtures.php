@@ -3,9 +3,11 @@
 namespace App\DataFixtures;
 
 use App\Entity\Category;
-use App\Entity\Group;
-use App\Entity\GroupMembership;
+use App\Entity\Usergroup;
+use App\Entity\UsergroupMembership;
+use App\Entity\Page;
 use App\Entity\User;
+use App\Service\SlugGenerator;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker;
@@ -13,9 +15,11 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture {
 	private $passwordEncoder;
+	private $slugGenerator;
 
-	public function __construct ( UserPasswordEncoderInterface $passwordEncoder ) {
+	public function __construct ( UserPasswordEncoderInterface $passwordEncoder, SlugGenerator $slugGenerator ) {
 		$this->passwordEncoder = $passwordEncoder;
+		$this->slugGenerator   = $slugGenerator;
 	}
 
 	public function load ( ObjectManager $manager ) {
@@ -61,8 +65,10 @@ class AppFixtures extends Fixture {
 		 */
 		$groups = [];
 		for ( $i = 0; $i < 20; $i++ ) {
-			$group = new Group();
+			$group = new Usergroup();
 			$group->setName ( mb_convert_case ( $faker->word (), MB_CASE_TITLE ) );
+
+			$group->setSlug ( $this->slugGenerator->generateSlug ( $group->getName (), Usergroup::class, 'slug' ) );
 			$group->setDescription ( $faker->sentence ( 30 ) );
 			$group->setPresentation ( '<p>' . implode ( '</p><p>', $faker->paragraphs ( 10 ) ) . '</p>' );
 			$group->setVisibility ( empty( rand ( 0, 1 ) ) ? 'private' : 'public' );
@@ -72,8 +78,8 @@ class AppFixtures extends Fixture {
 			}
 
 			for ( $j = 0, $n = rand ( 3, 20 ); $j < $n; $j++ ) {
-				$membership = new GroupMembership();
-				$membership->setGroup ( $group );
+				$membership = new UsergroupMembership();
+				$membership->setUsergroup ( $group );
 				$membership->setUser ( $users[ rand ( 0, count ( $users ) - 1 ) ] );
 				$membership->setJoinedAt ( new \DateTime() );
 				$membership->setRole ( '' );
@@ -81,7 +87,23 @@ class AppFixtures extends Fixture {
 				$manager->persist ( $membership );
 			}
 
+			for ( $j = 0, $n = rand ( 3, 10 ); $j < $n; $j++ ) {
+				$page = new Page();
+				$page->setTitle ( $faker->sentence ( rand ( 3, 10 ) ) );
+				$page->setSlug ( $this->slugGenerator->generateSlug ( $page->getTitle () ) );
+
+				$page->setUsergroup ( $group );
+				$page->setAuthor ( $users[ rand ( 0, count ( $users ) - 1 ) ] );
+				$page->setBody ( '<p>' . implode ( '</p><p>', $faker->paragraphs ( rand ( 3, 10 ), FALSE ) ) . '</p>' );
+
+				$page->setCreatedAt ( new \DateTime() );
+
+				$manager->persist ( $page );
+			}
+
 			$manager->persist ( $group );
+			$manager->flush ();
+
 			$groups[] = $group;
 		}
 

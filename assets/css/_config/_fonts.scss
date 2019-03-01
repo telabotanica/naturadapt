@@ -3,50 +3,26 @@
 **************************************************/
 
 @mixin font_default {
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: "Open Sans", sans-serif;
 	font-weight: normal;
 	font-style:  normal;
 }
 
-@mixin font_default_light {
-	font-family: Arial, Helvetica, sans-serif;
-	font-weight: 300;
-	font-style:  normal;
-}
-
-@mixin font_default_medium {
-	font-family: Arial, Helvetica, sans-serif;
-	font-weight: 600;
-	font-style:  normal;
-}
-
 @mixin font_default_bold {
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: "Open Sans", sans-serif;
 	font-weight: 700;
 	font-style:  normal;
 }
 
 @mixin font_title {
-	font-family: Georgia, "Times New Roman", Times, serif;;
+	font-family: "Open Sans", sans-serif;
 	font-weight: normal;
 	font-style:  normal;
 }
 
-@mixin font_title_light {
-	font-family: Georgia, "Times New Roman", Times, serif;;
-	font-weight: 300;
-	font-style:  normal;
-}
-
-@mixin font_title_medium {
-	font-family: Georgia, "Times New Roman", Times, serif;;
-	font-weight: 600;
-	font-style:  normal;
-}
-
 @mixin font_title_bold {
-	font-family: Georgia, "Times New Roman", Times, serif;;
-	font-weight: bold;
+	font-family: "Open Sans", sans-serif;
+	font-weight: 700;
 	font-style:  normal;
 }
 
@@ -56,22 +32,78 @@
 
 @function font_size_default($size: 'small') {
 	@if $size == 'large' {
-		@return rem(16px);
+		@return rem(20px);
 	}
 
 	@return rem(16px);
 }
 
-@function font_size_small($size: 'small') {
-	@if $size == 'large' {
-		@return rem(13px);
-	}
-
-	@return rem(13px);
+@function line_height_default($size: 'small') {
+	@return (33 / 20);
 }
 
-@function line_height_default($size: 'small') {
-	@return 1.5;
+/**************************************************
+* TITLES
+**************************************************/
+
+@mixin h1-is-huge {
+	margin:    0 0 1rem;
+
+	@include font_title_bold;
+
+	font-size: rem(48px);
+
+	@include medium-or-more {
+		font-size: rem(60px);
+	}
+}
+
+@mixin h1 {
+	margin:    0 0 1rem;
+
+	@include font_title_bold;
+
+	font-size: rem(40px);
+
+	@include medium-or-more {
+		font-size: rem(50px);
+	}
+}
+
+@mixin h2 {
+	margin:    0 0 1rem;
+
+	@include font_title_bold;
+
+	font-size: rem(32px);
+
+	@include medium-or-more {
+		font-size: rem(40px);
+	}
+}
+
+@mixin h3 {
+	margin:    0 0 1rem;
+
+	@include font_title;
+
+	font-size: rem(24px);
+
+	@include medium-or-more {
+		font-size: rem(30px);
+	}
+}
+
+@mixin h4 {
+	margin:    0 0 1rem;
+
+	@include font_title;
+
+	font-size: font_size_default();
+
+	@include medium-or-more {
+		font-size: font_size_default('large');
+	}
 }
 
 /**************************************************
@@ -83,7 +115,7 @@
 	padding:          .5rem .8rem;
 
 	color:            white;
-	background-color: $color_green_light;
+	background-color: $color_lime_green;
 	border-radius:    rem(5px);
 	text-decoration:  none;
 
@@ -93,71 +125,6 @@
 
 	&:hover,
 	&:focus {
-		background-color: $color_green_bright;
-	}
-}
-
-/**************************************************
-* TITLES
-**************************************************/
-
-@mixin h1 {
-	margin:    0 0 .67em;
-
-	@include font_title;
-
-	font-size: rem(20px);
-
-	@include medium-or-more {
-		font-size: rem(28px);
-	}
-}
-
-@mixin h2 {
-	margin:    0 0 .67em;
-
-	@include font_title;
-
-	font-size: rem(18px);
-
-	@include medium-or-more {
-		font-size: rem(24px);
-	}
-}
-
-@mixin h3 {
-	margin:    0 0 1em;
-
-	@include font_title;
-
-	font-size: rem(18px);
-
-	@include medium-or-more {
-		font-size: rem(18px);
-	}
-}
-
-@mixin h4 {
-	margin:    0 0 1em;
-
-	@include font_title;
-
-	font-size: font_size_default();
-
-	@include medium-or-more {
-		font-size: font_size_default('large');
-	}
-}
-
-@mixin separator($color: currentColor) {
-	border:        0;
-	border-radius: 0;
-
-	width:         rem(80px);
-	border-top:    4px solid $color;
-
-	@include large-or-more {
-		width:      rem(120px);
-		border-top: 6px solid $color;
+		background-color: $color_lime_green;
 	}
 }

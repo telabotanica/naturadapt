@@ -29,12 +29,12 @@ class Category {
 	private $description;
 
 	/**
-	 * @ORM\ManyToMany(targetEntity="App\Entity\Group", mappedBy="categories")
+	 * @ORM\ManyToMany(targetEntity="App\Entity\Usergroup", mappedBy="categories")
 	 */
-	private $groups;
+	private $usergroups;
 
 	public function __construct () {
-		$this->groups = new ArrayCollection();
+		$this->usergroups = new ArrayCollection();
 	}
 
 	public function getId (): ?int {
@@ -62,25 +62,25 @@ class Category {
 	}
 
 	/**
-	 * @return Collection|Group[]
+	 * @return Collection|Usergroup[]
 	 */
-	public function getGroups (): Collection {
-		return $this->groups;
+	public function getUsergroups (): Collection {
+		return $this->usergroups;
 	}
 
-	public function addGroup ( Group $group ): self {
-		if ( !$this->groups->contains ( $group ) ) {
-			$this->groups[] = $group;
-			$group->addCategory ( $this );
+	public function addUsergroup ( Usergroup $usergroup ): self {
+		if ( !$this->usergroups->contains ( $usergroup ) ) {
+			$this->usergroups[] = $usergroup;
+			$usergroup->addCategory ( $this );
 		}
 
 		return $this;
 	}
 
-	public function removeGroup ( Group $group ): self {
-		if ( $this->groups->contains ( $group ) ) {
-			$this->groups->removeElement ( $group );
-			$group->removeCategory ( $this );
+	public function removeUsergroup ( Usergroup $usergroup ): self {
+		if ( $this->usergroups->contains ( $usergroup ) ) {
+			$this->usergroups->removeElement ( $usergroup );
+			$usergroup->removeCategory ( $this );
 		}
 
 		return $this;

@@ -1,0 +1,70 @@
+/**************************************************
+ * HEADER
+ *************************************************/
+
+.main-header {
+	position:        fixed;
+	top:             0;
+	right:           0;
+	left:            0;
+	display:         flex;
+	flex-flow:       row nowrap;
+	justify-content: space-between;
+
+	margin:          1rem;
+	font-size:       rem(14px);
+
+	a {
+		display: inline-block;
+		margin:  0;
+		padding: .4em 1.6em;
+	}
+}
+
+.main-header--logo {
+	a {
+		position:        relative;
+		padding-left:    3.6em;
+
+		&::before {
+			content:          '';
+			position:         absolute;
+			top:              0;
+			left:             0;
+
+			width:            2.6em;
+			height:           2.6em;
+
+			background-color: $color_dodger_blue;
+			border-radius:    .2em;
+		}
+
+		text-decoration: none;
+	}
+}
+
+.main-header--links {
+	display:         flex;
+	flex-flow:       row nowrap;
+	justify-content: flex-end;
+
+	@include clearulli;
+
+	li {
+		display: inline-block;
+	}
+
+	a {
+		@include font_default;
+		color:           $color_default;
+		text-decoration: none;
+
+		border:          1px solid transparent;
+		border-radius:   .2em;
+
+		&.connexion {
+			color:        $color_dodger_blue;
+			border-color: $color_dodger_blue;
+		}
+	}
+}

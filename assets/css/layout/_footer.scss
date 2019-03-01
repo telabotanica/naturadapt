@@ -1,0 +1,41 @@
+/**************************************************
+ * FOOTER
+ *************************************************/
+
+.main-footer {
+	margin:           rem(60px) 0 0;
+	padding:          1rem 0;
+
+	font-size:        rem(14px);
+	background-color: $color_grey_light;
+
+	@include clearulli;
+
+	.content-container {
+		display:   flex;
+		flex-flow: row nowrap;
+	}
+}
+
+.main-footer--logo {
+	width:   25%;
+	padding: 0 1rem;
+
+	p {
+		font-size: inherit;
+	}
+}
+
+.main-footer--menu {
+	width: 75%;
+
+	> ul {
+		display:   flex;
+		flex-flow: row nowrap;
+
+		> li {
+			width:   (1 / 3) * 100%;
+			padding: 0 1rem;
+		}
+	}
+}

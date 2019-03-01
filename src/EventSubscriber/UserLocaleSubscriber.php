@@ -17,9 +17,9 @@ class UserLocaleSubscriber implements EventSubscriberInterface {
 	private $defaultLocale;
 	private $session;
 
-	public function __construct ( SessionInterface $session, $defaultLocale = 'fr' ) {
-		$this->session       = $session;
+	public function __construct ( $defaultLocale, SessionInterface $session ) {
 		$this->defaultLocale = $defaultLocale;
+		$this->session       = $session;
 	}
 
 	public function onKernelRequest ( GetResponseEvent $event ) {

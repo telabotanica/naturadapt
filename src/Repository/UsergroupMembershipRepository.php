@@ -2,23 +2,23 @@
 
 namespace App\Repository;
 
-use App\Entity\User;
+use App\Entity\UsergroupMembership;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method User|null find( $id, $lockMode = NULL, $lockVersion = NULL )
- * @method User|null findOneBy( array $criteria, array $orderBy = NULL )
- * @method User[]    findAll()
- * @method User[]    findBy( array $criteria, array $orderBy = NULL, $limit = NULL, $offset = NULL )
+ * @method UsergroupMembership|null find( $id, $lockMode = NULL, $lockVersion = NULL )
+ * @method UsergroupMembership|null findOneBy( array $criteria, array $orderBy = NULL )
+ * @method UsergroupMembership[]    findAll()
+ * @method UsergroupMembership[]    findBy( array $criteria, array $orderBy = NULL, $limit = NULL, $offset = NULL )
  */
-class UserRepository extends ServiceEntityRepository {
+class UsergroupMembershipRepository extends ServiceEntityRepository {
 	public function __construct ( RegistryInterface $registry ) {
-		parent::__construct ( $registry, User::class );
+		parent::__construct ( $registry, UsergroupMembership::class );
 	}
 
 	// /**
-	//  * @return User[] Returns an array of User objects
+	//  * @return UsergroupMembership[] Returns an array of UsergroupMembership objects
 	//  */
 	/*
 	public function findByExampleField($value)
@@ -35,7 +35,7 @@ class UserRepository extends ServiceEntityRepository {
 	*/
 
 	/*
-	public function findOneBySomeField($value): ?User
+	public function findOneBySomeField($value): ?UsergroupMembership
 	{
 		return $this->createQueryBuilder('u')
 			->andWhere('u.exampleField = :val')

@@ -1,0 +1,19 @@
+<div class="page page__full">
+	<div class="page-introduction">
+		<div class="page-group"><a href="{{ path('group_index', {'slug': page.usergroup.slug}) }}">{{ page.usergroup.name }}</a></div>
+		<h1 class="page-title">{{ page.title }}</h1>
+	</div>
+	<div class="page-content">
+		<div>
+			<div class="page-author">
+				{{ page.author.name }}
+			</div>
+			<div>
+				{{ page.createdAt|localizeddate('short', 'none', app.request.locale) }}
+			</div>
+		</div>
+		<div class="page-body">
+			{{ page.body|raw }}
+		</div>
+	</div>
+</div>

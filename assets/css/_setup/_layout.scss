@@ -3,6 +3,10 @@
 **************************************************/
 
 body {
+	display:          flex;
+	flex-flow:        column nowrap;
+	min-height:       100vh;
+
 	@include font_default;
 
 	font-size:        font_size_default();
@@ -14,19 +18,12 @@ body {
 	line-height:      line_height_default();
 
 	color:            $color_default;
-	background-color: #f7f7f7;
+	background-color: $color_grey_lighter;
 }
 
 button,
 input {
 	line-height: line_height_default();
-}
-
-a {
-	color:                $color_action;
-
-	text-decoration:      underline;
-	text-decoration-skip: ink;
 }
 
 img {
@@ -37,28 +34,55 @@ img {
 	@include cta-style;
 }
 
-.h1, h1 {
-	@include h1;
+p a:not([class]) {
+	@include font_default_bold;
+	text-decoration:      underline;
+	text-decoration-skip: ink;
 
-	color: $color_green_medium;
+	color:                $color_action;
 }
 
-.h2, h2 {
+p, .p {
+	margin: 0 0 1rem;
+}
+
+.is-lead {
+	font-size:   (33 / 20) * 1em;
+	line-height: (47 / 33);
+}
+
+.is-big {
+	font-size:   (28 / 20) * 1em;
+	line-height: (44 / 28);
+}
+
+.is-medium {
+	font-size:   (23 / 20) * 1em;
+	line-height: (35 / 23);
+}
+
+.h1, h1:not([class]) {
+	@include h1;
+}
+
+.h2, h2:not([class]) {
 	@include h2;
 }
 
-.h3, h3 {
+.h3, h3:not([class]) {
 	@include h3;
 }
 
-.h4, h4 {
+.h4, h4:not([class]) {
 	@include h4;
 }
 
-hr {
-	@include separator();
-	display: block;
-	margin:  2rem auto;
+.small-title {
+	@include font_default;
+	font-size:      inherit;
+
+	color:          $color_grey_light;
+	text-transform: uppercase;
 }
 
 .columns-50-50 {
@@ -69,5 +93,33 @@ hr {
 	> :nth-child(1),
 	> :nth-child(2) {
 		flex-basis: 50%;
+	}
+}
+
+.columns-33-66 {
+	display:         flex;
+	flex-flow:       row nowrap;
+	justify-content: space-between;
+
+	> :nth-child(1) {
+		flex-basis: (1/3) * 100%;
+	}
+
+	> :nth-child(2) {
+		flex-basis: (2/3) * 100%;
+	}
+}
+
+.columns-66-33 {
+	display:         flex;
+	flex-flow:       row nowrap;
+	justify-content: space-between;
+
+	> :nth-child(1) {
+		flex-basis: (2/3) * 100%;
+	}
+
+	> :nth-child(2) {
+		flex-basis: (1/3) * 100%;
 	}
 }

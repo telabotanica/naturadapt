@@ -7,16 +7,21 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="groups")
- * @ORM\Entity(repositoryClass="App\Repository\GroupRepository")
+ * @ORM\Table(name="usergroups")
+ * @ORM\Entity(repositoryClass="App\Repository\UsergroupRepository")
  */
-class Group {
+class Usergroup {
 	/**
 	 * @ORM\Id()
 	 * @ORM\GeneratedValue()
 	 * @ORM\Column(type="integer")
 	 */
 	private $id;
+
+	/**
+	 * @ORM\Column(type="string", length=100, unique=true)
+	 */
+	private $slug;
 
 	/**
 	 * @ORM\Column(type="string", length=255)
@@ -44,19 +49,26 @@ class Group {
 	private $activeApps = [];
 
 	/**
-	 * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="groups")
-	 * @ORM\joinTable(name="groups_categories")
+	 * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="usergroups")
+	 * @ORM\JoinTable(name="usergroups_categories")
 	 */
 	private $categories;
 
 	/**
-	 * @ORM\OneToMany(targetEntity="App\Entity\GroupMembership", mappedBy="grp", orphanRemoval=true)
+	 * @ORM\OneToMany(targetEntity="App\Entity\UsergroupMembership", mappedBy="usergroup", orphanRemoval=true)
 	 */
 	private $members;
+
+	/**
+	 * @ORM\OneToMany(targetEntity="App\Entity\Page", mappedBy="usergroup", orphanRemoval=true)
+	 * @ORM\OrderBy({"title"="ASC"})
+	 */
+	private $pages;
 
 	public function __construct () {
 		$this->categories = new ArrayCollection();
 		$this->members    = new ArrayCollection();
+		$this->pages      = new ArrayCollection();
 	}
 
 	public function getId (): ?int {
@@ -137,13 +149,13 @@ class Group {
 	}
 
 	/**
-	 * @return Collection|GroupMembership[]
+	 * @return Collection|UsergroupMembership[]
 	 */
 	public function getMembers (): Collection {
 		return $this->members;
 	}
 
-	public function addMember ( GroupMembership $member ): self {
+	public function addMember ( UsergroupMembership $member ): self {
 		if ( !$this->members->contains ( $member ) ) {
 			$this->members[] = $member;
 			$member->setGroup ( $this );
@@ -152,7 +164,7 @@ class Group {
 		return $this;
 	}
 
-	public function removeMember ( GroupMembership $member ): self {
+	public function removeMember ( UsergroupMembership $member ): self {
 		if ( $this->members->contains ( $member ) ) {
 			$this->members->removeElement ( $member );
 			// set the owning side to null (unless already changed)
@@ -160,6 +172,44 @@ class Group {
 				$member->setGroup ( NULL );
 			}
 		}
+
+		return $this;
+	}
+
+	/**
+	 * @return Collection|Page[]
+	 */
+	public function getPages (): Collection {
+		return $this->pages;
+	}
+
+	public function addPage ( Page $usergroupPage ): self {
+		if ( !$this->pages->contains ( $usergroupPage ) ) {
+			$this->pages[] = $usergroupPage;
+			$usergroupPage->setUsergroup ( $this );
+		}
+
+		return $this;
+	}
+
+	public function removePage ( Page $usergroupPage ): self {
+		if ( $this->pages->contains ( $usergroupPage ) ) {
+			$this->pages->removeElement ( $usergroupPage );
+			// set the owning side to null (unless already changed)
+			if ( $usergroupPage->getUsergroup () === $this ) {
+				$usergroupPage->setUsergroup ( NULL );
+			}
+		}
+
+		return $this;
+	}
+
+	public function getSlug (): ?string {
+		return $this->slug;
+	}
+
+	public function setSlug ( string $slug ): self {
+		$this->slug = substr ( $slug, 0, 100 );
 
 		return $this;
 	}

@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Group;
+use App\Entity\Usergroup;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -17,10 +17,10 @@ class AppController extends AbstractController {
 		$user = $this->getUser ();
 
 		$groups = $this->getDoctrine ()
-					   ->getRepository ( Group::class )
-					   ->findAll (1);
+					   ->getRepository ( Usergroup::class )
+					   ->findAll ();
 
-		return $this->render ( 'app/front.html.twig', [
+		return $this->render ( 'pages/front.html.twig', [
 				'user'   => $user,
 				'groups' => $groups,
 		] );

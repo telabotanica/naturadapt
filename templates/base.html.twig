@@ -3,45 +3,28 @@
 
 <head>
 	<meta charset="utf-8"/>
-	<title>{% block title %}Welcome{% endblock %}</title>
+	<title>{% block title %}{{ plateform.name }}{% endblock %}</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	{% block stylesheets %}
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i" rel="stylesheet">
 		{{ encore_entry_link_tags('app') }}
 	{% endblock %}
 </head>
 
 <body>
 {% block header %}
-	<header class="main-header">
-		<div class="main-header--logo">
-			NaturAdapt
-		</div>
-		<div class="main-header--links">
-			<ul>
-				<li><a href="">Groupes</a></li>
-				<li><a href="">À propos de la plateforme</a></li>
-			</ul>
-		</div>
-		<div class="main-header--user">
-			{% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-				<a class="connexion" href="{{ path('app_login') }}">{{ 'security.login.link'|trans }}</a>
-			{% else %}
-				<a href="{{ path('app_logout') }}">{{ 'security.logout.link'|trans }}</a>
-			{% endif %}
-		</div>
-	</header>
+	{% include 'layout/header.html.twig' %}
 {% endblock %}
 
-{% for label, messages in app.flashes %}
-	{% for message in messages %}
-		<div class="flash-{{ label }}">
-			{{ message }}
-		</div>
-	{% endfor %}
-{% endfor %}
+<main>
+	{% include 'components/app-flashes.html.twig' %}
+	{% block body %}{% endblock %}
+</main>
 
-{% block body %}{% endblock %}
+{% block footer %}
+	{% include 'layout/footer.html.twig' %}
+{% endblock %}
 
 {% block javascripts %}
 	{{ encore_entry_script_tags('app') }}
