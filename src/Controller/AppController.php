@@ -14,13 +14,13 @@ class AppController extends AbstractController {
 		/**
 		 * @var $user \App\Entity\User
 		 */
-		$user = $this->getUser ();
+		$user = $this->getUser();
 
-		$groups = $this->getDoctrine ()
-					   ->getRepository ( Usergroup::class )
-					   ->findAll ();
+		$groups = $this->getDoctrine()
+					   ->getRepository( Usergroup::class )
+					   ->findAll();
 
-		return $this->render ( 'pages/front.html.twig', [
+		return $this->render( 'pages/front.html.twig', [
 				'user'   => $user,
 				'groups' => $groups,
 		] );

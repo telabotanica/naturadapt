@@ -23,4 +23,14 @@
 			{% endfor %}
 		</ul>
 	</div>
+	<div class="group-files">
+		<h2>Documents</h2>
+		<ul>
+			{% for file in group.files %}
+				<li>
+					{% include 'contents/file/file--teaser.html.twig' with {'file':file} %}
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
 </div>

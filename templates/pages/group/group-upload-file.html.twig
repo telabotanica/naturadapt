@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ group.name }} - {{ plateform.name }}{% endblock %}
+
+{% block body %}
+	<div class="content-container">
+		{% include 'components/upload-form.html.twig' with {'form':form} %}
+	</div>
+{% endblock %}

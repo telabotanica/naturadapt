@@ -1,0 +1,112 @@
+<?php
+
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Table(name="files")
+ * @ORM\Entity(repositoryClass="App\Repository\FileRepository")
+ */
+class File {
+	/**
+	 * @ORM\Id()
+	 * @ORM\GeneratedValue()
+	 * @ORM\Column(type="integer")
+	 */
+	private $id;
+
+	/**
+	 * @ORM\ManyToOne(targetEntity="App\Entity\User")
+	 */
+	private $user;
+
+	/**
+	 * @ORM\ManyToOne(targetEntity="App\Entity\Usergroup", inversedBy="files")
+	 */
+	private $usergroup;
+
+	/**
+	 * @ORM\Column(type="string", length=100)
+	 */
+	private $name;
+
+	/**
+	 * @ORM\Column(type="string", length=255)
+	 */
+	private $path;
+
+	/**
+	 * @ORM\Column(type="string", length=50, nullable=true)
+	 */
+	private $type;
+
+	/**
+	 * @ORM\Column(type="integer", nullable=true)
+	 */
+	private $size;
+
+	public function getId (): ?int {
+		return $this->id;
+	}
+
+	public function getUser (): ?User {
+		return $this->user;
+	}
+
+	public function setUser ( ?User $user ): self {
+		$this->user = $user;
+
+		return $this;
+	}
+
+	public function getUsergroup (): ?Usergroup {
+		return $this->usergroup;
+	}
+
+	public function setUsergroup ( ?Usergroup $usergroup ): self {
+		$this->usergroup = $usergroup;
+
+		return $this;
+	}
+
+	public function getName (): ?string {
+		return $this->name;
+	}
+
+	public function setName ( string $name ): self {
+		$this->name = $name;
+
+		return $this;
+	}
+
+	public function getPath (): ?string {
+		return $this->path;
+	}
+
+	public function setPath ( string $path ): self {
+		$this->path = $path;
+
+		return $this;
+	}
+
+	public function getType (): ?string {
+		return $this->type;
+	}
+
+	public function setType ( ?string $type ): self {
+		$this->type = $type;
+
+		return $this;
+	}
+
+	public function getSize (): ?int {
+		return $this->size;
+	}
+
+	public function setSize ( ?int $size ): self {
+		$this->size = $size;
+
+		return $this;
+	}
+}

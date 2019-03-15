@@ -65,10 +65,16 @@ class Usergroup {
 	 */
 	private $pages;
 
+	/**
+	 * @ORM\OneToMany(targetEntity="App\Entity\File", mappedBy="usergroup")
+	 */
+	private $files;
+
 	public function __construct () {
 		$this->categories = new ArrayCollection();
 		$this->members    = new ArrayCollection();
 		$this->pages      = new ArrayCollection();
+		$this->files      = new ArrayCollection();
 	}
 
 	public function getId (): ?int {
@@ -133,7 +139,7 @@ class Usergroup {
 	}
 
 	public function addCategory ( Category $category ): self {
-		if ( !$this->categories->contains ( $category ) ) {
+		if ( !$this->categories->contains( $category ) ) {
 			$this->categories[] = $category;
 		}
 
@@ -141,8 +147,8 @@ class Usergroup {
 	}
 
 	public function removeCategory ( Category $category ): self {
-		if ( $this->categories->contains ( $category ) ) {
-			$this->categories->removeElement ( $category );
+		if ( $this->categories->contains( $category ) ) {
+			$this->categories->removeElement( $category );
 		}
 
 		return $this;
@@ -156,20 +162,20 @@ class Usergroup {
 	}
 
 	public function addMember ( UsergroupMembership $member ): self {
-		if ( !$this->members->contains ( $member ) ) {
+		if ( !$this->members->contains( $member ) ) {
 			$this->members[] = $member;
-			$member->setGroup ( $this );
+			$member->setGroup( $this );
 		}
 
 		return $this;
 	}
 
 	public function removeMember ( UsergroupMembership $member ): self {
-		if ( $this->members->contains ( $member ) ) {
-			$this->members->removeElement ( $member );
+		if ( $this->members->contains( $member ) ) {
+			$this->members->removeElement( $member );
 			// set the owning side to null (unless already changed)
-			if ( $member->getGroup () === $this ) {
-				$member->setGroup ( NULL );
+			if ( $member->getGroup() === $this ) {
+				$member->setGroup( NULL );
 			}
 		}
 
@@ -184,20 +190,20 @@ class Usergroup {
 	}
 
 	public function addPage ( Page $usergroupPage ): self {
-		if ( !$this->pages->contains ( $usergroupPage ) ) {
+		if ( !$this->pages->contains( $usergroupPage ) ) {
 			$this->pages[] = $usergroupPage;
-			$usergroupPage->setUsergroup ( $this );
+			$usergroupPage->setUsergroup( $this );
 		}
 
 		return $this;
 	}
 
 	public function removePage ( Page $usergroupPage ): self {
-		if ( $this->pages->contains ( $usergroupPage ) ) {
-			$this->pages->removeElement ( $usergroupPage );
+		if ( $this->pages->contains( $usergroupPage ) ) {
+			$this->pages->removeElement( $usergroupPage );
 			// set the owning side to null (unless already changed)
-			if ( $usergroupPage->getUsergroup () === $this ) {
-				$usergroupPage->setUsergroup ( NULL );
+			if ( $usergroupPage->getUsergroup() === $this ) {
+				$usergroupPage->setUsergroup( NULL );
 			}
 		}
 
@@ -209,7 +215,35 @@ class Usergroup {
 	}
 
 	public function setSlug ( string $slug ): self {
-		$this->slug = substr ( $slug, 0, 100 );
+		$this->slug = substr( $slug, 0, 100 );
+
+		return $this;
+	}
+
+	/**
+	 * @return Collection|File[]
+	 */
+	public function getFiles (): Collection {
+		return $this->files;
+	}
+
+	public function addFile ( File $file ): self {
+		if ( !$this->files->contains( $file ) ) {
+			$this->files[] = $file;
+			$file->setUsergroup( $this );
+		}
+
+		return $this;
+	}
+
+	public function removeFile ( File $file ): self {
+		if ( $this->files->contains( $file ) ) {
+			$this->files->removeElement( $file );
+			// set the owning side to null (unless already changed)
+			if ( $file->getUsergroup() === $this ) {
+				$file->setUsergroup( NULL );
+			}
+		}
 
 		return $this;
 	}

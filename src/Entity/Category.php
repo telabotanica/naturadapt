@@ -69,18 +69,18 @@ class Category {
 	}
 
 	public function addUsergroup ( Usergroup $usergroup ): self {
-		if ( !$this->usergroups->contains ( $usergroup ) ) {
+		if ( !$this->usergroups->contains( $usergroup ) ) {
 			$this->usergroups[] = $usergroup;
-			$usergroup->addCategory ( $this );
+			$usergroup->addCategory( $this );
 		}
 
 		return $this;
 	}
 
 	public function removeUsergroup ( Usergroup $usergroup ): self {
-		if ( $this->usergroups->contains ( $usergroup ) ) {
-			$this->usergroups->removeElement ( $usergroup );
-			$usergroup->removeCategory ( $this );
+		if ( $this->usergroups->contains( $usergroup ) ) {
+			$this->usergroups->removeElement( $usergroup );
+			$usergroup->removeCategory( $this );
 		}
 
 		return $this;

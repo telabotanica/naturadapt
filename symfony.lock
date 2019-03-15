@@ -98,8 +98,17 @@
     "fzaninotto/faker": {
         "version": "v1.8.0"
     },
+    "gaufrette/local-adapter": {
+        "version": "v0.4.0"
+    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
+    },
+    "knplabs/gaufrette": {
+        "version": "v0.8.1"
+    },
+    "knplabs/knp-gaufrette-bundle": {
+        "version": "v0.5.3"
     },
     "monolog/monolog": {
         "version": "1.24.0"

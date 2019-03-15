@@ -62,7 +62,7 @@ class Page {
 	}
 
 	public function setSlug ( string $slug ): self {
-		$this->slug = substr ( $slug, 0, 100 );
+		$this->slug = substr( $slug, 0, 100 );
 
 		return $this;
 	}
@@ -72,7 +72,7 @@ class Page {
 	}
 
 	public function setTitle ( string $title ): self {
-		$this->title = substr ( $title, 0, 100 );
+		$this->title = substr( $title, 0, 100 );
 
 		return $this;
 	}

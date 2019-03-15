@@ -1,11 +1,9 @@
-{% if app.flashes %}
-	<div class="app-flashes">
-		{% for label, messages in app.flashes %}
-			{% for message in messages %}
-				<div class="flash-{{ label }}">
-					{{ message }}
-				</div>
-			{% endfor %}
+<div class="app-flashes">
+	{% for label, messages in app.flashes %}
+		{% for message in messages %}
+			<div class="flash-{{ label }}">
+				{{ message }}
+			</div>
 		{% endfor %}
-	</div>
-{% endif %}
+	{% endfor %}
+</div>

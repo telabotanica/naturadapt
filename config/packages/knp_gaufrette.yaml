@@ -1,0 +1,12 @@
+# config/packages/knp_gaufrette.yaml
+knp_gaufrette:
+    adapters:
+        localfiles:
+            local:
+                directory: /var/www/html/files
+
+    filesystems:
+        usergroupfiles:
+            adapter:    localfiles
+
+    stream_wrapper: ~

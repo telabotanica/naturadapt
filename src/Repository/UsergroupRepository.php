@@ -14,7 +14,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class UsergroupRepository extends ServiceEntityRepository {
 	public function __construct ( RegistryInterface $registry ) {
-		parent::__construct ( $registry, Usergroup::class );
+		parent::__construct( $registry, Usergroup::class );
 	}
 
 	// /**

@@ -125,7 +125,7 @@ class User implements UserInterface {
 		// guarantee every user at least has ROLE_USER
 		$roles[] = 'ROLE_USER';
 
-		return array_unique ( $roles );
+		return array_unique( $roles );
 	}
 
 	public function setRoles ( array $roles ): self {
@@ -270,20 +270,20 @@ class User implements UserInterface {
 	}
 
 	public function addUsergroupMembership ( UsergroupMembership $usergroupMembership ): self {
-		if ( !$this->usergroupMemberships->contains ( $usergroupMembership ) ) {
+		if ( !$this->usergroupMemberships->contains( $usergroupMembership ) ) {
 			$this->usergroupMemberships[] = $usergroupMembership;
-			$usergroupMembership->setUser ( $this );
+			$usergroupMembership->setUser( $this );
 		}
 
 		return $this;
 	}
 
 	public function removeUsergroupMembership ( UsergroupMembership $usergroupMembership ): self {
-		if ( $this->usergroupMemberships->contains ( $usergroupMembership ) ) {
-			$this->usergroupMemberships->removeElement ( $usergroupMembership );
+		if ( $this->usergroupMemberships->contains( $usergroupMembership ) ) {
+			$this->usergroupMemberships->removeElement( $usergroupMembership );
 			// set the owning side to null (unless already changed)
-			if ( $usergroupMembership->getUser () === $this ) {
-				$usergroupMembership->setUser ( NULL );
+			if ( $usergroupMembership->getUser() === $this ) {
+				$usergroupMembership->setUser( NULL );
 			}
 		}
 
