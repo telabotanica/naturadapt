@@ -1,0 +1,9 @@
+<div class="group-join--action">
+	{% if isMember %}
+		{{ 'group.is_member'|trans }}
+	{% elseif group.visibility == 'private' %}
+		<button>{{ 'group.join_button.private'|trans }}</button>
+	{% else %}
+		<button>{{ 'group.join_button.public'|trans }}</button>
+	{% endif %}
+</div>

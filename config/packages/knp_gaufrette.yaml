@@ -1,12 +1,19 @@
 # config/packages/knp_gaufrette.yaml
 knp_gaufrette:
     adapters:
-        localfiles:
+        userfiles:
             local:
-                directory: /var/www/html/files
+                directory: /var/www/html/files/users
+
+        usergroupfiles:
+            local:
+                directory: /var/www/html/files/groups
 
     filesystems:
+        userfiles:
+            adapter:    userfiles
+
         usergroupfiles:
-            adapter:    localfiles
+            adapter:    usergroupfiles
 
     stream_wrapper: ~

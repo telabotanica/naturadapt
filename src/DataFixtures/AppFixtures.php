@@ -40,10 +40,10 @@ class AppFixtures extends Fixture {
 			) );
 
 			$manager->persist( $user );
+			$manager->flush();
+
 			$users[] = $user;
 		}
-
-		$manager->flush();
 
 		/**
 		 * CATEGORIES
@@ -55,10 +55,10 @@ class AppFixtures extends Fixture {
 			$category->setDescription( $faker->sentence( 30 ) );
 
 			$manager->persist( $category );
+			$manager->flush();
+
 			$categories[] = $category;
 		}
-
-		$manager->flush();
 
 		/**
 		 * GROUPS
@@ -66,25 +66,36 @@ class AppFixtures extends Fixture {
 		$groups = [];
 		for ( $i = 0; $i < 20; $i++ ) {
 			$group = new Usergroup();
-			$group->setName( mb_convert_case( $faker->word(), MB_CASE_TITLE ) );
+			$group->setName( mb_convert_case( implode( ' ', $faker->words( rand( 1, 3 ) ) ), MB_CASE_TITLE ) );
 
 			$group->setSlug( $this->slugGenerator->generateSlug( $group->getName(), Usergroup::class, 'slug' ) );
 			$group->setDescription( $faker->sentence( 30 ) );
 			$group->setPresentation( '<p>' . implode( '</p><p>', $faker->paragraphs( 10 ) ) . '</p>' );
 			$group->setVisibility( empty( rand( 0, 1 ) ) ? 'private' : 'public' );
+			$group->setCreatedAt( new \DateTime() );
+
+			$manager->persist( $group );
+			$manager->flush();
 
 			for ( $j = 0, $n = rand( 1, 3 ); $j < $n; $j++ ) {
 				$group->addCategory( $categories[ rand( 0, count( $categories ) - 1 ) ] );
 			}
 
-			for ( $j = 0, $n = rand( 3, 20 ); $j < $n; $j++ ) {
-				$membership = new UsergroupMembership();
-				$membership->setUsergroup( $group );
-				$membership->setUser( $users[ rand( 0, count( $users ) - 1 ) ] );
-				$membership->setJoinedAt( new \DateTime() );
-				$membership->setRole( '' );
+			$groupUsers = [];
 
-				$manager->persist( $membership );
+			for ( $j = 0, $n = rand( 3, 20 ); $j < $n; $j++ ) {
+				$userId = rand( 0, count( $users ) - 1 );
+				if ( !in_array( $userId, $groupUsers ) ) {
+					$membership = new UsergroupMembership();
+					$membership->setUsergroup( $group );
+					$membership->setUser( $users[ $userId ] );
+					$membership->setJoinedAt( new \DateTime() );
+					$membership->setRole( '' );
+
+					$manager->persist( $membership );
+
+					$groupUsers[] = $userId;
+				}
 			}
 
 			for ( $j = 0, $n = rand( 3, 10 ); $j < $n; $j++ ) {
@@ -99,6 +110,7 @@ class AppFixtures extends Fixture {
 				$page->setCreatedAt( new \DateTime() );
 
 				$manager->persist( $page );
+				$manager->flush();
 			}
 
 			$manager->persist( $group );
@@ -106,7 +118,5 @@ class AppFixtures extends Fixture {
 
 			$groups[] = $group;
 		}
-
-		$manager->flush();
 	}
 }

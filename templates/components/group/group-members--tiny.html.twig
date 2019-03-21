@@ -1,0 +1,13 @@
+<div class="group-members group-members__tiny">
+	<ul>
+		{% for member in members %}
+			<li>
+				{% include 'contents/user/user--tiny.html.twig' with {'user':member.user} %}
+			</li>
+		{% endfor %}
+	</ul>
+	{% set count_plus = count - members|length %}
+	{% if count_plus > 0 %}
+		<div class="members-count">{{ count_plus }}</div>
+	{% endif %}
+</div>

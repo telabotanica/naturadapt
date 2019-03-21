@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
+use App\Entity\Usergroup;
 use App\Entity\UsergroupMembership;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -15,6 +17,38 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 class UsergroupMembershipRepository extends ServiceEntityRepository {
 	public function __construct ( RegistryInterface $registry ) {
 		parent::__construct( $registry, UsergroupMembership::class );
+	}
+
+	public function isMember ( ?User $user, Usergroup $group ): ?UsergroupMembership {
+		if ( empty( $user ) ) {
+			return NULL;
+		}
+
+		return $this->findOneBy( [ 'user' => $user, 'usergroup' => $group ] );
+	}
+
+	public function getMembers ( Usergroup $group, $limit = 0 ) {
+		$query = $this->createQueryBuilder( 'm' )
+					  ->innerJoin( 'm.user', 'u' )
+					  ->addSelect( 'u' )
+					  ->andWhere( 'm.usergroup = :group' )
+					  ->setParameter( 'group', $group );
+
+		if ( !empty( $limit ) ) {
+			$query->setMaxResults( $limit );
+		}
+
+		return $query->getQuery()
+					 ->getResult();
+	}
+
+	public function countMembers ( Usergroup $group ) {
+		return $this->createQueryBuilder( 'm' )
+					->select( 'COUNT(m.id)' )
+					->andWhere( 'm.usergroup = :group' )
+					->setParameter( 'group', $group )
+					->getQuery()
+					->getSingleScalarResult();
 	}
 
 	// /**

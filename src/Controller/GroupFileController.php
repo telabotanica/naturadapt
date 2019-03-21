@@ -18,11 +18,6 @@ class GroupFileController extends AbstractController {
 	 */
 	public function uploadFile ( $groupSlug, Request $request, ObjectManager $manager, UsergroupFileManager $fileManager ) {
 		/**
-		 * @var $user \App\Entity\User
-		 */
-		$user = $this->getUser();
-
-		/**
 		 * @var $group \App\Entity\Usergroup
 		 */
 		$group = $this->getDoctrine()
@@ -64,11 +59,6 @@ class GroupFileController extends AbstractController {
 	 * @Route("/groups/{groupSlug}/files/{fileSlug}", name="group_file_get")
 	 */
 	public function getFile ( $groupSlug, $fileSlug, UsergroupFileManager $fileManager ) {
-		/**
-		 * @var $user \App\Entity\User
-		 */
-		$user = $this->getUser();
-
 		/**
 		 * @var $group \App\Entity\Usergroup
 		 */

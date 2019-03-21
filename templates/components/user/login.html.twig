@@ -1,0 +1,27 @@
+<form method="post">
+	{% if error %}
+		<div class="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+	{% endif %}
+
+	<div class="form-row form-row__field">
+		<label for="login-form-email">{{ 'forms.email.label'|trans }}</label>
+		<input id="login-form-email" type="email" name="email" value="{{ last_username }}" placeholder="{{ 'forms.email.placeholder'|trans }}" required autofocus>
+	</div>
+	<div class="form-row form-row__field">
+		<label for="login-form-password">{{ 'forms.password.label'|trans }}</label>
+		<input id="login-form-password" type="password" name="password" placeholder="{{ 'forms.password.placeholder'|trans }}" required>
+	</div>
+	<div class="form-row form-row__checkbox">
+		<label>
+			<input type="checkbox" name="_remember_me"/>
+			<span>{{ 'forms.remember_me.label'|trans }}</span>
+		</label>
+	</div>
+	<div class="form-row form-row__submit">
+		<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+		<button type="submit">{{ 'security.login.button'|trans }}</button>
+	</div>
+	<div>
+		<a href="{{ path('app_forgotten_password') }}">{{ 'security.forgotten_password.link'|trans }}</a>
+	</div>
+</form>

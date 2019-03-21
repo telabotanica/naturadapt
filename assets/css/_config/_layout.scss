@@ -26,6 +26,37 @@
 }
 
 /**************************************************
+* CARDS
+**************************************************/
+
+@mixin card_shadow() {
+	color:            $color_default;
+	background-color: white;
+	box-shadow:       0 .6em 1em -.2em rgba($color_default, .25);
+}
+
+@mixin cards-container {
+	display:         flex;
+	flex-flow:       row wrap;
+	justify-content: flex-start;
+	align-items:     stretch;
+}
+
+@mixin card($n: 3) {
+	margin:      0 0 padding_vertical();
+	&:not(:nth-child(#{$n}n+#{$n})) {
+		margin-right: padding_horizontal();
+	}
+	flex-basis:  calc(#{(1 / $n) * 100%} - #{(($n - 1) / $n) * padding_horizontal()});
+	flex-grow:   0;
+	flex-shrink: 0;
+
+	overflow:    hidden;
+
+	@include card_shadow;
+}
+
+/**************************************************
 * HEADER
 **************************************************/
 

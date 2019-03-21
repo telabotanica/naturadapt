@@ -1,6 +1,17 @@
-<div class="group group__teaser">
-	<h2 class="group-name"><a href="{{ path('group_index', {'groupSlug': group.slug}) }}">{{ group.name }}</a></h2>
-	<div class="group-description">
-		{{ group.description }}
+<div class="group group__teaser" style="--color: {{ group.name|color }}">
+	<div class="group-illustration">
+
+	</div>
+	<div class="group-status">
+		<span class="group-visibility group-visibility__{{ group.visibility }}"><span>{{ ('group.status.' ~ group.visibility)|trans }}</span></span>
+	</div>
+	<div class="group-content">
+		<h2 class="group-name"><a href="{{ path('group_index', {'groupSlug': group.slug}) }}">{{ group.name }}</a></h2>
+
+		<div class="group-description">
+			{{ group.description }}
+		</div>
+
+		{{ render(controller( 'App\\Controller\\GroupMembersController::groupMembersTiny', {'groupSlug':group.slug} )) }}
 	</div>
 </div>

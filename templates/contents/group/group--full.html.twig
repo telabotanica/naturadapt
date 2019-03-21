@@ -1,36 +1,45 @@
-<div class="group group__full">
-	<h1 class="group-name">{{ group.name }}</h1>
-	<div class="group-description">
-		{{ group.description }}
+<div class="group group__full" style="--color: {{ group.name|color }}">
+	{% include 'components/group/group--full--header.html.twig' with {'group':group} %}
+
+	<div class="group-infos content-container">
+		<div class="group-description">
+			{{ group.description }}
+		</div>
+		<div class="group-join">
+			{{ render(controller( 'App\\Controller\\GroupMembersController::groupMemberJoinButton', {'groupSlug':group.slug} )) }}
+			{{ render(controller( 'App\\Controller\\GroupMembersController::groupMembersTiny', {'groupSlug':group.slug} )) }}
+		</div>
 	</div>
-	<div class="group-pages">
-		<h2>Pages</h2>
-		<ul>
-			{% for page in group.pages %}
-				<li>
-					{% include 'contents/page/page--teaser.html.twig' with {'page':page} %}
-				</li>
-			{% endfor %}
-		</ul>
-	</div>
-	<div class="group-members">
-		<h2>Membres</h2>
-		<ul>
-			{% for member in group.members %}
-				<li>
-					{% include 'contents/user/user--teaser.html.twig' with {'user':member.user} %}
-				</li>
-			{% endfor %}
-		</ul>
-	</div>
-	<div class="group-files">
-		<h2>Documents</h2>
-		<ul>
-			{% for file in group.files %}
-				<li>
-					{% include 'contents/file/file--teaser.html.twig' with {'file':file} %}
-				</li>
-			{% endfor %}
-		</ul>
+	<div class="group-apps content-container">
+		<div class="group-app group-app__pages">
+			<h2>{{ 'group.pages.title'|trans }}</h2>
+			<ul>
+				{% for page in group.pages %}
+					<li>
+						{% include 'contents/page/page--teaser.html.twig' with {'page':page} %}
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="group-app group-app__members">
+			<h2>{{ 'group.members.title'|trans }}</h2>
+			<ul>
+				{% for member in group.members %}
+					<li>
+						{% include 'contents/user/user--teaser.html.twig' with {'user':member.user} %}
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="group-app group-app__files">
+			<h2>{{ 'group.files.title'|trans }}</h2>
+			<ul>
+				{% for file in group.files %}
+					<li>
+						{% include 'contents/file/file--teaser.html.twig' with {'file':file} %}
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
 	</div>
 </div>

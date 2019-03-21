@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,15 +16,22 @@ class SecurityController extends AbstractController {
 	/**
 	 * @Route("/user/login", name="app_login")
 	 *
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
+	public function login () {
+		return $this->render( 'pages/user/login.html.twig' );
+	}
+
+	/**
 	 * @param \Symfony\Component\Security\Http\Authentication\AuthenticationUtils $authenticationUtils
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function login ( AuthenticationUtils $authenticationUtils ) {
+	public function loginForm ( AuthenticationUtils $authenticationUtils ) {
 		$error        = $authenticationUtils->getLastAuthenticationError();
 		$lastUsername = $authenticationUtils->getLastUsername();
 
-		return $this->render( 'pages/user/login.html.twig', [
+		return $this->render( 'components/user/login.html.twig', [
 				'error'         => $error,
 				'last_username' => $lastUsername,
 		] );
@@ -45,23 +53,31 @@ class SecurityController extends AbstractController {
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 * @throws \Exception
 	 */
-	public function register ( Request $request, UserPasswordEncoderInterface $passwordEncoder ) {
+	public function register ( Request $request, ObjectManager $manager, UserPasswordEncoderInterface $passwordEncoder ) {
+		$error = FALSE;
+
 		if ( $request->isMethod( 'POST' ) ) {
-			$em = $this->getDoctrine()->getManager();
+			$userRepository = $manager->getRepository( User::class );
 
-			$user = new User();
-			$user->setCreatedAt( new \DateTime() );
-			$user->setEmail( $request->request->get( 'email' ) );
-			$user->setPassword( $passwordEncoder->encodePassword( $user, $request->request->get( 'password' ) ) );
-			$user->setName( $request->request->get( 'name' ) );
-			$em->persist( $user );
+			if ( $userRepository->findOneBy( [ 'email' => $request->request->get( 'email' ) ] ) ) {
+				$error = 'errors.user.exists';
+			}
 
-			$em->flush();
+			if ( !$error ) {
+				$user = new User();
+				$user->setCreatedAt( new \DateTime() );
+				$user->setEmail( $request->request->get( 'email' ) );
+				$user->setPassword( $passwordEncoder->encodePassword( $user, $request->request->get( 'password' ) ) );
+				$user->setName( $request->request->get( 'name' ) );
+				$manager->persist( $user );
 
-			return $this->redirectToRoute( 'homepage' );
+				$manager->flush();
+
+				return $this->redirectToRoute( 'homepage' );
+			}
 		}
 
-		return $this->render( 'pages/user/register.html.twig' );
+		return $this->render( 'pages/user/register.html.twig', [ 'error' => $error ] );
 	}
 
 	/**
@@ -73,15 +89,13 @@ class SecurityController extends AbstractController {
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function forgottenPassword ( Request $request, \Swift_Mailer $mailer, TokenGeneratorInterface $tokenGenerator ) {
+	public function forgottenPassword ( Request $request, ObjectManager $manager, \Swift_Mailer $mailer, TokenGeneratorInterface $tokenGenerator ) {
 		if ( $request->isMethod( 'POST' ) ) {
-			$em = $this->getDoctrine()->getManager();
-
 			$email = $request->request->get( 'email' );
 			/**
 			 * @var $user User
 			 */
-			$user = $em->getRepository( User::class )->findOneByEmail( $email );
+			$user = $manager->getRepository( User::class )->findOneByEmail( $email );
 
 			if ( $user === NULL ) {
 				$this->addFlash( 'danger', 'Unknown email' );
@@ -93,7 +107,7 @@ class SecurityController extends AbstractController {
 
 			try {
 				$user->setResetToken( $token );
-				$em->flush();
+				$manager->flush();
 			} catch ( \Exception $e ) {
 				$this->addFlash( 'warning', $e->getMessage() );
 

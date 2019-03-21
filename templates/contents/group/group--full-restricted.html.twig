@@ -1,0 +1,19 @@
+<div class="group group__full" style="--color: {{ group.name|color }}">
+	{% include 'components/group/group--full--header.html.twig' with {'group':group} %}
+
+	<div class="group-infos content-container">
+		<div class="group-description">
+			{{ group.description }}
+		</div>
+		<div class="group-join">
+			{{ render(controller( 'App\\Controller\\GroupMembersController::groupMemberJoinButton', {'groupSlug':group.slug} )) }}
+			{{ render(controller( 'App\\Controller\\GroupMembersController::groupMembersTiny', {'groupSlug':group.slug} )) }}
+		</div>
+	</div>
+	<div class="content-container">
+		<div class="group-restricted">
+			<p class="group-restricted--title">{{ 'group.restricted.title'|trans }}</p>
+			<p>{{ 'group.restricted.body'|trans }}</p>
+		</div>
+	</div>
+</div>

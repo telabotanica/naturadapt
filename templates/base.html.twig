@@ -14,7 +14,7 @@
 
 <body>
 {% block header %}
-	{% include 'layout/header.html.twig' %}
+	{{ render(controller( 'App\\Controller\\AppController::header' )) }}
 {% endblock %}
 
 <main>

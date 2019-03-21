@@ -129,9 +129,13 @@ class User implements UserInterface {
 	}
 
 	public function setRoles ( array $roles ): self {
-		$this->roles = $roles;
+		$this->roles = array_unique( $roles );
 
 		return $this;
+	}
+
+	public function isAdmin (): ?bool {
+		return in_array( 'ROLE_ADMIN', $this->getRoles() );
 	}
 
 	/**

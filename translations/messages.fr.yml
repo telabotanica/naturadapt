@@ -1,32 +1,56 @@
 # translations/messages.fr.yaml
 forms:
-  email:
-    label: "Votre email"
-    placeholder: "ex: bruce@wayne-entreprises.com"
-  password:
-    label: "Votre mot de passe"
-    placeholder: "Votre mot de passe"
-  name:
-    label: "Comment souhaitez-vous que l'on vous appelle ?"
-    placeholder: "ex: M. Wayne"
-  remember_me:
-    label: "Se souvenir de moi"
+    email:
+        label: "Votre email"
+        placeholder: "ex: bruce@wayne-entreprises.com"
+    password:
+        label: "Votre mot de passe"
+        placeholder: "Votre mot de passe"
+    name:
+        label: "Comment souhaitez-vous que l'on vous appelle ?"
+        placeholder: "ex: M. Wayne"
+    remember_me:
+        label: "Se souvenir de moi"
+
+group:
+    status:
+        public: "Groupe public"
+        private: "Groupe privé"
+        created_at: "Créé le %s"
+    is_member: "Vous êtes membre de ce groupe"
+    join_button:
+        public: "Rejoindre le groupe"
+        private: "Demande d'inscription"
+    restricted:
+        title: "Ce groupe est privé"
+        body: "Votre demande d'inscription au groupe sera soumise à l'acceptation des administrateurs. Il peut ainsi se passer plusieurs jours avant que vous ne receviez votre invitation."
+    pages:
+        title: "Les pages"
+    members:
+        title: "Les membres"
+    files:
+        title: "Les documents"
 
 security:
-  login:
-    title: "Connectez-vous"
-    button: "S'identifier"
-    link: "Connexion"
-  register:
-    title: "Créer votre compte"
-    button: "Valider"
-    link: "Inscription"
-  logout:
-    link: "Déconnexion"
-  forgotten_password:
-    title: "Mot de passe oublié"
-    button: "Envoyer"
-    link: "Mot de passe oublié ?"
-  reset_password:
-    title: "Nouveau mot de passe"
-    button: "Modifier"
+    login:
+        title: "Connectez-vous"
+        button: "S'identifier"
+        link: "Connexion"
+    register:
+        title: "Créer votre compte"
+        button: "Valider"
+        link: "Inscription"
+    logout:
+        link: "Déconnexion"
+    forgotten_password:
+        title: "Mot de passe oublié"
+        button: "Envoyer"
+        link: "Mot de passe oublié ?"
+    reset_password:
+        title: "Nouveau mot de passe"
+        button: "Modifier"
+
+errors:
+    user:
+        exists: 'Cet utilisateur est déjà enregistré'
+

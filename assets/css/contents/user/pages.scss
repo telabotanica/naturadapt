@@ -1,0 +1,14 @@
+/**************************************************
+ * USER PAGES
+ *************************************************/
+
+.login-page {
+	@include cards-container;
+
+	.login-form,
+	.register-form {
+		@include card(2);
+
+		padding: padding_vertical() padding_horizontal();
+	}
+}

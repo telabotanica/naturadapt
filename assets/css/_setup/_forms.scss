@@ -24,7 +24,7 @@
 	padding:       .5em;
 
 	color:         $color_default;
-	background:    $color_grey_light;
+	background:    white;
 
 	border:        1px solid $color_orange_red;
 	border-radius: 0;
@@ -259,6 +259,7 @@ $form_label_width: (1/3) * 100%;
 		display:         flex;
 		flex-flow:       row nowrap;
 		justify-content: stretch;
+		align-items:     flex-start;
 	}
 
 	margin-bottom: rem(8px);

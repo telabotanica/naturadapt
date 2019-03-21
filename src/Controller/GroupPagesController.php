@@ -38,11 +38,6 @@ class GroupPagesController extends AbstractController {
 	 * @Route("/groups/{groupSlug}/pages/{pageSlug}", name="group_page_index")
 	 */
 	public function groupPage ( $groupSlug, $pageSlug ) {
-		/**
-		 * @var $user \App\Entity\User
-		 */
-		$user = $this->getUser();
-
 		$group = $this->getDoctrine()
 					  ->getRepository( Usergroup::class )
 					  ->findOneBy( [ 'slug' => $groupSlug ] );

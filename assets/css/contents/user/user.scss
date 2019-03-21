@@ -1,0 +1,12 @@
+/**************************************************
+ * USER
+ *************************************************/
+
+.user__tiny {
+	text-indent:      -99999px;
+
+	width:            line_height_default() * 1em;
+	background-color: $color_orange_red;
+	background-color: var(--color);
+	border-radius:    line_height_default() * .5em;
+}

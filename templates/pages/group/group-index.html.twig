@@ -3,9 +3,11 @@
 {% block title %}{{ group.name }} - {{ plateform.name }}{% endblock %}
 
 {% block body %}
-	<div class="content-container">
-		<section class="group-index">
+	<section class="group-index">
+		{% if userCanRead %}
 			{% include 'contents/group/group--full.html.twig' with {'group':group} %}
-		</section>
-	</div>
+		{% else %}
+			{% include 'contents/group/group--full-restricted.html.twig' with {'group':group} %}
+		{% endif %}
+	</section>
 {% endblock %}

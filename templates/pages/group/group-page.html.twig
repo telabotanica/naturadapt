@@ -3,9 +3,7 @@
 {% block title %}{{ page.title }} - {{ group.name }} - {{ plateform.name }}{% endblock %}
 
 {% block body %}
-	<div class="content-container">
-		<section class="page-index">
-			{% include 'contents/page/page--full.html.twig' with {'group':group, 'page':page} %}
-		</section>
-	</div>
+	<section class="page-index">
+		{% include 'contents/page/page--full.html.twig' with {'group':group, 'page':page} %}
+	</section>
 {% endblock %}

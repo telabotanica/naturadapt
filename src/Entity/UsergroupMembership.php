@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="usergroups_memberships")
+ * @ORM\Table(name="usergroups_memberships",uniqueConstraints={@ORM\UniqueConstraint(name="user_usergroup", columns={"user_id", "usergroup_id"})})
  * @ORM\Entity(repositoryClass="App\Repository\UsergroupMembershipRepository")
  */
 class UsergroupMembership {
@@ -23,6 +23,12 @@ class UsergroupMembership {
 	private $user;
 
 	/**
+	 * @ORM\ManyToOne(targetEntity="App\Entity\Usergroup", inversedBy="members")
+	 * @ORM\JoinColumn(nullable=false)
+	 */
+	private $usergroup;
+
+	/**
 	 * @ORM\Column(type="datetime")
 	 */
 	private $joinedAt;
@@ -36,12 +42,6 @@ class UsergroupMembership {
 	 * @ORM\Column(type="json", nullable=true)
 	 */
 	private $notificationsSettings = [];
-
-	/**
-	 * @ORM\ManyToOne(targetEntity="App\Entity\Usergroup", inversedBy="members")
-	 * @ORM\JoinColumn(nullable=false)
-	 */
-	private $usergroup;
 
 	public function getId (): ?int {
 		return $this->id;
