@@ -24,7 +24,7 @@ security:
             remember_me:
                 secret:   '%kernel.secret%'
                 lifetime: 2592000
-                
+
             # activate different ways to authenticate
 
             # http_basic: true
@@ -38,3 +38,4 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: '%env(SECURE_SCHEME)%' }
