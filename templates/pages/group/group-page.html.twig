@@ -4,6 +4,10 @@
 
 {% block body %}
 	<section class="page-index">
-		{% include 'contents/page/page--full.html.twig' with {'group':group, 'page':page} %}
+		{% if userCanRead %}
+			{% include 'contents/page/page--full.html.twig' with {'group':group, 'page':page} %}
+		{% else %}
+			{% include 'contents/page/page--full-restricted.html.twig' with {'group':group, 'page':page} %}
+		{% endif %}
 	</section>
 {% endblock %}

@@ -9,6 +9,7 @@ namespace App\Controller;
 
 use App\Entity\Usergroup;
 use App\Entity\Page;
+use App\Service\UserRightsManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -37,7 +38,7 @@ class GroupPagesController extends AbstractController {
 	/**
 	 * @Route("/groups/{groupSlug}/pages/{pageSlug}", name="group_page_index")
 	 */
-	public function groupPage ( $groupSlug, $pageSlug ) {
+	public function groupPage ( $groupSlug, $pageSlug, UserRightsManager $userRightsManager ) {
 		$group = $this->getDoctrine()
 					  ->getRepository( Usergroup::class )
 					  ->findOneBy( [ 'slug' => $groupSlug ] );
@@ -46,9 +47,12 @@ class GroupPagesController extends AbstractController {
 					 ->getRepository( Page::class )
 					 ->findOneBy( [ 'usergroup' => $group, 'slug' => $pageSlug ] );
 
+		$userCanRead = $userRightsManager->canReadGroup( $this->getUser(), $group );
+
 		return $this->render( 'pages/group/group-page.html.twig', [
-				'group' => $group,
-				'page'  => $page,
+				'userCanRead' => $userCanRead,
+				'group'       => $group,
+				'page'        => $page,
 		] );
 	}
 }

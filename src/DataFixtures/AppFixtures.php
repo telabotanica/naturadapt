@@ -38,6 +38,7 @@ class AppFixtures extends Fixture {
 					$user,
 					'test'
 			) );
+			$user->setRoles( [ 'ROLE_USER' ] );
 
 			$manager->persist( $user );
 			$manager->flush();

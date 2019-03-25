@@ -10,8 +10,12 @@
 	@return 1rem;
 }
 
+@function column_gap($size: 'small') {
+	@return rem(30px);
+}
+
 @function content_width() {
-	@return rem(960px);
+	@return rem(1002px);
 }
 
 // Content column
@@ -43,11 +47,11 @@
 }
 
 @mixin card($n: 3) {
-	margin:      0 0 padding_vertical();
+	margin:      0 0 column_gap();
 	&:not(:nth-child(#{$n}n+#{$n})) {
-		margin-right: padding_horizontal();
+		margin-right: column_gap();
 	}
-	flex-basis:  calc(#{(1 / $n) * 100%} - #{(($n - 1) / $n) * padding_horizontal()});
+	flex-basis:  calc(#{(1 / $n) * 100%} - #{(($n - 1) / $n) * column_gap()});
 	flex-grow:   0;
 	flex-shrink: 0;
 
