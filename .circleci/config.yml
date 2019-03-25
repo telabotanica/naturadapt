@@ -8,15 +8,18 @@ jobs:
     docker:
       # Specify the version you desire here
       - image: circleci/php:7.1-node-browsers
+        environment:
+          APP_ENV: test
+          APP_SECRET: 0116ea354117af2c822bb1aeb5d7d367
+          DATABASE_URL: mysql://root:@localhost:3306/circle_test
+          DATABASE_PREFIX: naturadapt_
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # Using the RAM variation mitigates I/O contention
       # for database intensive operations.
-      # - image: circleci/mysql:5.7-ram
-      #
-      # - image: redis:2.8.19
+      - image: circleci/mysql:5.7-ram
 
     steps:
       - checkout
@@ -49,8 +52,8 @@ jobs:
             - node_modules
 
       # prepare the database
-      - run: touch storage/testing.sqlite
-      - run: php artisan migrate --env=testing --database=sqlite_testing --force
+      - run: php bin/console doctrine:migrations:migrate
+      - run: php bin/console doctrine:fixtures:load -n
 
       # run tests with phpunit or codecept
       #- run: ./vendor/bin/phpunit
