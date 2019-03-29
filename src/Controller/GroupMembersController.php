@@ -11,6 +11,7 @@ use App\Entity\Usergroup;
 use App\Entity\Page;
 use App\Entity\UsergroupMembership;
 use App\Security\GroupVoter;
+use App\Security\UserVoter;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -62,6 +63,8 @@ class GroupMembersController extends AbstractController {
 						 ->findOneBy( [ 'slug' => $groupSlug ] );
 
 		$user = $this->getUser();
+
+		$this->denyAccessUnlessGranted( UserVoter::LOGGED );
 
 		$isMember = $manager->getRepository( UsergroupMembership::class )
 							->isMember( $user, $group );
