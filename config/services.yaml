@@ -6,6 +6,7 @@
 parameters:
     plateform:
         name: NaturAdapt
+        from: noreply@lmdlc.com
 
 services:
     # default configuration for services in *this* file

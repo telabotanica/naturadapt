@@ -12,6 +12,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
 class User implements UserInterface {
+	public const STATUS_DISABLED = 0;
+	public const STATUS_ACTIVE   = 1;
+	public const STATUS_PENDING  = 2;
+
+	public const ROLE_USER  = 'ROLE_USER';
+	public const ROLE_ADMIN = 'ROLE_ADMIN';
+
 	/**
 	 * @ORM\Id()
 	 * @ORM\GeneratedValue()
@@ -90,6 +97,11 @@ class User implements UserInterface {
 	 */
 	private $usergroupMemberships;
 
+	/**
+	 * @ORM\Column(type="smallint")
+	 */
+	private $status;
+
 	public function __construct () {
 		$this->usergroupMemberships = new ArrayCollection();
 	}
@@ -123,7 +135,7 @@ class User implements UserInterface {
 	public function getRoles (): array {
 		$roles = $this->roles;
 		// guarantee every user at least has ROLE_USER
-		$roles[] = 'ROLE_USER';
+		$roles[] = User::ROLE_USER;
 
 		return array_unique( $roles );
 	}
@@ -135,7 +147,7 @@ class User implements UserInterface {
 	}
 
 	public function isAdmin (): ?bool {
-		return in_array( 'ROLE_ADMIN', $this->getRoles() );
+		return in_array( User::ROLE_ADMIN, $this->getRoles() );
 	}
 
 	/**
@@ -290,6 +302,16 @@ class User implements UserInterface {
 				$usergroupMembership->setUser( NULL );
 			}
 		}
+
+		return $this;
+	}
+
+	public function getStatus (): ?int {
+		return $this->status;
+	}
+
+	public function setStatus ( int $status ): self {
+		$this->status = $status;
 
 		return $this;
 	}

@@ -160,7 +160,7 @@
 		padding-bottom: padding_vertical();
 		border-bottom:  1px solid $color_grey_lighter;
 
-		button {
+		a {
 			@include cta-style($color_dodger_blue);
 			width: 100%;
 		}

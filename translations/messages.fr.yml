@@ -30,6 +30,7 @@ group:
         title: "Les membres"
     files:
         title: "Les documents"
+    candidature_sent: "Votre demande a été transmise aux administrateurs du groupe."
 
 security:
     login:
@@ -50,7 +51,16 @@ security:
         title: "Nouveau mot de passe"
         button: "Modifier"
 
-errors:
-    user:
-        exists: 'Cet utilisateur est déjà enregistré'
-
+user:
+    exists: "Cet utilisateur est déjà enregistré."
+    unknown: "Cet utilisateur est inconnu."
+    inactive: "Cet utilisateur est désactivé."
+    not_activated: "Cet utilisateur n'a pas encore été activé."
+    activation_sent: "Un email d'activation vous a été envoyé. Regardez votre boite de reception."
+    activation_token_unknown: "Ce token est inconnu."
+    activation_already_active: "Cet utilisateur est déjà activé."
+    activation_impossible: "Impossible d'activer cet utilisateur."
+    activation_successful: "Utilisateur activé, vous pouvez désormais vous identifier."
+    password_sent: "Un email vous a été envoyé. Regardez votre boite de reception."
+    password_token_unknown: "Ce token est inconnu."
+    password_successful: "Mot de passe mis à jour, vous pouvez désormais vous identifier."

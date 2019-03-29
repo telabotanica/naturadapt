@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\EmailSender;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,15 +15,8 @@ use App\Entity\User;
 
 class SecurityController extends AbstractController {
 	/**
-	 * @Route("/user/login", name="app_login")
+	 * Login form can be embed in pages
 	 *
-	 * @return \Symfony\Component\HttpFoundation\Response
-	 */
-	public function login () {
-		return $this->render( 'pages/user/login.html.twig' );
-	}
-
-	/**
 	 * @param \Symfony\Component\Security\Http\Authentication\AuthenticationUtils $authenticationUtils
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
@@ -38,6 +32,15 @@ class SecurityController extends AbstractController {
 	}
 
 	/**
+	 * @Route("/user/login", name="app_login")
+	 *
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
+	public function loginPage () {
+		return $this->render( 'pages/user/login.html.twig' );
+	}
+
+	/**
 	 * @Route("/user/logout", name="app_logout")
 	 */
 	public function logout () {
@@ -47,20 +50,28 @@ class SecurityController extends AbstractController {
 	/**
 	 * @Route("/user/register", name="app_register")
 	 *
-	 * @param \Symfony\Component\HttpFoundation\Request                             $request
-	 * @param \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface $passwordEncoder
+	 * @param \Symfony\Component\HttpFoundation\Request                               $request
+	 * @param \App\Service\EmailSender                                                $mailer
+	 * @param \Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface $tokenGenerator
+	 * @param \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface   $passwordEncoder
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 * @throws \Exception
 	 */
-	public function register ( Request $request, ObjectManager $manager, UserPasswordEncoderInterface $passwordEncoder ) {
+	public function register (
+			Request $request,
+			ObjectManager $manager,
+			EmailSender $mailer,
+			TokenGeneratorInterface $tokenGenerator,
+			UserPasswordEncoderInterface $passwordEncoder
+	) {
 		$error = FALSE;
 
 		if ( $request->isMethod( 'POST' ) ) {
 			$userRepository = $manager->getRepository( User::class );
 
 			if ( $userRepository->findOneBy( [ 'email' => $request->request->get( 'email' ) ] ) ) {
-				$error = 'errors.user.exists';
+				$error = 'user.exists';
 			}
 
 			if ( !$error ) {
@@ -69,9 +80,27 @@ class SecurityController extends AbstractController {
 				$user->setEmail( $request->request->get( 'email' ) );
 				$user->setPassword( $passwordEncoder->encodePassword( $user, $request->request->get( 'password' ) ) );
 				$user->setName( $request->request->get( 'name' ) );
-				$manager->persist( $user );
+				$user->setRoles( [ User::ROLE_USER ] );
+				$user->setStatus( User::STATUS_PENDING );
 
+				$token = $tokenGenerator->generateToken();
+				$user->setResetToken( $token );
+
+				$manager->persist( $user );
 				$manager->flush();
+
+				$message = $this->renderView( 'emails/register-activation.html.twig', [
+						'url' => $this->generateUrl( 'app_activate', array ( 'token' => $token ), UrlGeneratorInterface::ABSOLUTE_URL ),
+				] );
+
+				$mailer->send(
+						$this->getParameter( 'plateform' )[ 'from' ],
+						$user->getEmail(),
+						$mailer->getSubjectFromTitle( $message ),
+						$message
+				);
+
+				$this->addFlash( 'notice', 'user.activation_sent' );
 
 				return $this->redirectToRoute( 'homepage' );
 			}
@@ -81,15 +110,63 @@ class SecurityController extends AbstractController {
 	}
 
 	/**
+	 * @Route("/user/activate/{token}", name="app_activate")
+	 *
+	 * @param \Symfony\Component\HttpFoundation\Request                             $request
+	 * @param string                                                                $token
+	 * @param \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface $passwordEncoder
+	 *
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+	 */
+	public function activate ( Request $request, string $token, ObjectManager $manager ) {
+		/**
+		 * @var $user User
+		 */
+		$user = $manager->getRepository( User::class )->findOneByResetToken( $token );
+
+		if ( $user === NULL ) {
+			$this->addFlash( 'danger', 'user.activation_token_unknown' );
+
+			return $this->redirectToRoute( 'homepage' );
+		}
+
+		if ( $user->getStatus() === User::STATUS_ACTIVE ) {
+			$this->addFlash( 'danger', 'user.activation_already_active' );
+
+			return $this->redirectToRoute( 'homepage' );
+		}
+
+		if ( $user->getStatus() !== User::STATUS_PENDING ) {
+			$this->addFlash( 'danger', 'user.activation_impossible' );
+
+			return $this->redirectToRoute( 'homepage' );
+		}
+
+		$user->setStatus( User::STATUS_ACTIVE );
+		$user->setResetToken( NULL );
+
+		$manager->flush();
+
+		$this->addFlash( 'notice', 'user.activation_successful' );
+
+		return $this->redirectToRoute( 'app_login' );
+	}
+
+	/**
 	 * @Route("/user/password", name="app_forgotten_password")
 	 *
 	 * @param \Symfony\Component\HttpFoundation\Request                               $request
-	 * @param \Swift_Mailer                                                           $mailer
+	 * @param \App\Service\EmailSender                                                $mailer
 	 * @param \Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface $tokenGenerator
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function forgottenPassword ( Request $request, ObjectManager $manager, \Swift_Mailer $mailer, TokenGeneratorInterface $tokenGenerator ) {
+	public function forgottenPassword (
+			Request $request,
+			ObjectManager $manager,
+			EmailSender $mailer,
+			TokenGeneratorInterface $tokenGenerator
+	) {
 		if ( $request->isMethod( 'POST' ) ) {
 			$email = $request->request->get( 'email' );
 			/**
@@ -98,7 +175,13 @@ class SecurityController extends AbstractController {
 			$user = $manager->getRepository( User::class )->findOneByEmail( $email );
 
 			if ( $user === NULL ) {
-				$this->addFlash( 'danger', 'Unknown email' );
+				$this->addFlash( 'danger', 'user.unknown' );
+
+				return $this->redirectToRoute( 'homepage' );
+			}
+
+			if ( $user->getStatus() !== User::STATUS_ACTIVE ) {
+				$this->addFlash( 'danger', 'user.inactive' );
 
 				return $this->redirectToRoute( 'homepage' );
 			}
@@ -114,16 +197,18 @@ class SecurityController extends AbstractController {
 				return $this->redirectToRoute( 'homepage' );
 			}
 
-			$url = $this->generateUrl( 'app_reset_password', array ( 'token' => $token ), UrlGeneratorInterface::ABSOLUTE_URL );
+			$message = $this->renderView( 'emails/forgotten-password.html.twig', [
+					'url' => $this->generateUrl( 'app_reset_password', array ( 'token' => $token ), UrlGeneratorInterface::ABSOLUTE_URL ),
+			] );
 
-			$message = ( new \Swift_Message( 'Forgot Password' ) )
-					->setFrom( 'noreply@naturadapt.org' )
-					->setTo( $user->getEmail() )
-					->setBody( "blablabla voici le token pour reseter votre mot de passe : " . $url, 'text/html' );
+			$mailer->send(
+					$this->getParameter( 'plateform' )[ 'from' ],
+					$user->getEmail(),
+					$mailer->getSubjectFromTitle( $message ),
+					$message
+			);
 
-			$mailer->send( $message );
-
-			$this->addFlash( 'notice', 'Email sent' );
+			$this->addFlash( 'notice', 'user.password_sent' );
 
 			return $this->redirectToRoute( 'homepage' );
 		}
@@ -140,28 +225,26 @@ class SecurityController extends AbstractController {
 	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
-	public function resetPassword ( Request $request, string $token, UserPasswordEncoderInterface $passwordEncoder ) {
+	public function resetPassword ( Request $request, string $token, ObjectManager $manager, UserPasswordEncoderInterface $passwordEncoder ) {
 		if ( $request->isMethod( 'POST' ) ) {
-			$em = $this->getDoctrine()->getManager();
-
 			/**
 			 * @var $user User
 			 */
-			$user = $em->getRepository( User::class )->findOneByResetToken( $token );
+			$user = $manager->getRepository( User::class )->findOneByResetToken( $token );
 
 			if ( $user === NULL ) {
-				$this->addFlash( 'danger', 'Unkown token' );
+				$this->addFlash( 'danger', 'user.password_token_unknown' );
 
 				return $this->redirectToRoute( 'homepage' );
 			}
 
-			$user->setResetToken( NULL );
 			$user->setPassword( $passwordEncoder->encodePassword( $user, $request->request->get( 'password' ) ) );
-			$em->flush();
+			$user->setResetToken( NULL );
+			$manager->flush();
 
-			$this->addFlash( 'notice', 'Password updated' );
+			$this->addFlash( 'notice', 'user.password_successful' );
 
-			return $this->redirectToRoute( 'homepage' );
+			return $this->redirectToRoute( 'app_login' );
 		}
 		else {
 			return $this->render( 'pages/user/reset-password.html.twig', [ 'token' => $token ] );

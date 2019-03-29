@@ -1,6 +1,6 @@
 <form method="post">
 	{% if error %}
-		<div class="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+		<div class="alert">{{ error.messageKey|trans }}</div>
 	{% endif %}
 
 	<div class="form-row form-row__field">

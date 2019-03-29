@@ -32,9 +32,19 @@ php bin/console doctrine:fixtures:load
 
 ## Toolbox
 
+Activate a user:
+```bash
+php bin/console user:activate <user-email>
+```
+
+Deactivate a user:
+```bash
+php bin/console user:deactivate <user-email>
+```
+
 Give ROLE_ADMIN to a user:
 ```bash
-php bin/console app:set-admin <user-email>
+php bin/console user:set-admin <user-email>
 ```
 
 ## FAQ

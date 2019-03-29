@@ -32,7 +32,8 @@
         "symfony/web-link": "4.2.*",
         "symfony/webpack-encore-bundle": "^1.0",
         "symfony/yaml": "4.2.*",
-        "twig/extensions": "^1.5"
+        "twig/extensions": "^1.5",
+        "wildbit/postmark-php": "^2.6"
     },
     "require-dev": {
         "symfony/debug-pack": "*",

@@ -20,9 +20,8 @@ class GroupFileController extends AbstractController {
 		/**
 		 * @var $group \App\Entity\Usergroup
 		 */
-		$group = $this->getDoctrine()
-					  ->getRepository( Usergroup::class )
-					  ->findOneBy( [ 'slug' => $groupSlug ] );
+		$group = $manager->getRepository( Usergroup::class )
+						 ->findOneBy( [ 'slug' => $groupSlug ] );
 
 		/**************************************************
 		 * UPLOAD
@@ -58,20 +57,18 @@ class GroupFileController extends AbstractController {
 	/**
 	 * @Route("/groups/{groupSlug}/files/{fileSlug}", name="group_file_get")
 	 */
-	public function getFile ( $groupSlug, $fileSlug, UsergroupFileManager $fileManager ) {
+	public function getFile ( $groupSlug, $fileSlug, ObjectManager $manager, UsergroupFileManager $fileManager ) {
 		/**
 		 * @var $group \App\Entity\Usergroup
 		 */
-		$group = $this->getDoctrine()
-					  ->getRepository( Usergroup::class )
-					  ->findOneBy( [ 'slug' => $groupSlug ] );
+		$group = $manager->getRepository( Usergroup::class )
+						 ->findOneBy( [ 'slug' => $groupSlug ] );
 
 		/**
 		 * @var $file \App\Entity\File
 		 */
-		$file = $this->getDoctrine()
-					 ->getRepository( File::class )
-					 ->findOneBy( [ 'usergroup' => $group, 'name' => $fileSlug ] );
+		$file = $manager->getRepository( File::class )
+						->findOneBy( [ 'usergroup' => $group, 'name' => $fileSlug ] );
 
 		return $fileManager->getUsergroupFile( $file );
 	}

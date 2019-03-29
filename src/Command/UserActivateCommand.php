@@ -16,8 +16,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class UserAdminCommand extends Command {
-	protected static $defaultName = 'user:set-admin';
+class UserActivateCommand extends Command {
+	protected static $defaultName = 'user:activate';
 
 	private $manager;
 
@@ -29,8 +29,8 @@ class UserAdminCommand extends Command {
 
 	protected function configure () {
 		$this
-				->setDescription( 'Set User as ROLE_ADMIN' )
-				->setHelp( 'Set User as ROLE_ADMIN' );
+				->setDescription( 'Set User as active' )
+				->setHelp( 'Set User as active' );
 
 		$this
 				->addArgument( 'username', InputArgument::REQUIRED, 'The username of the user.' );
@@ -55,10 +55,10 @@ class UserAdminCommand extends Command {
 			return;
 		}
 
-		$user->setRoles( array_merge( $user->getRoles(), [ User::ROLE_ADMIN ] ) );
+		$user->setStatus( User::STATUS_ACTIVE );
 		$manager->persist( $user );
 		$manager->flush();
 
-		$output->writeln( sprintf( 'User %s updated, has roles %s', $user->getName(), implode( ', ', $user->getRoles() ) ) );
+		$output->writeln( sprintf( 'User %s is now active', $user->getName() ) );
 	}
 }

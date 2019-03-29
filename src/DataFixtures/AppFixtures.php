@@ -38,7 +38,8 @@ class AppFixtures extends Fixture {
 					$user,
 					'test'
 			) );
-			$user->setRoles( [ 'ROLE_USER' ] );
+			$user->setRoles( [ User::ROLE_USER ] );
+			$user->setStatus( User::STATUS_ACTIVE );
 
 			$manager->persist( $user );
 			$manager->flush();
@@ -72,7 +73,7 @@ class AppFixtures extends Fixture {
 			$group->setSlug( $this->slugGenerator->generateSlug( $group->getName(), Usergroup::class, 'slug' ) );
 			$group->setDescription( $faker->sentence( 30 ) );
 			$group->setPresentation( '<p>' . implode( '</p><p>', $faker->paragraphs( 10 ) ) . '</p>' );
-			$group->setVisibility( empty( rand( 0, 1 ) ) ? 'private' : 'public' );
+			$group->setVisibility( empty( rand( 0, 1 ) ) ? Usergroup::PRIVATE : Usergroup::PUBLIC );
 			$group->setCreatedAt( new \DateTime() );
 
 			$manager->persist( $group );

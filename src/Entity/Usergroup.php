@@ -11,6 +11,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\UsergroupRepository")
  */
 class Usergroup {
+	public const PUBLIC  = 'public';
+	public const PRIVATE = 'private';
+
 	/**
 	 * @ORM\Id()
 	 * @ORM\GeneratedValue()
@@ -70,198 +73,196 @@ class Usergroup {
 	 */
 	private $files;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
+	/**
+	 * @ORM\Column(type="datetime")
+	 */
+	private $createdAt;
 
 	public function __construct () {
-         		$this->categories = new ArrayCollection();
-         		$this->members    = new ArrayCollection();
-         		$this->pages      = new ArrayCollection();
-         		$this->files      = new ArrayCollection();
-         	}
+		$this->categories = new ArrayCollection();
+		$this->members    = new ArrayCollection();
+		$this->pages      = new ArrayCollection();
+		$this->files      = new ArrayCollection();
+	}
 
 	public function getId (): ?int {
-         		return $this->id;
-         	}
+		return $this->id;
+	}
 
 	public function getName (): ?string {
-         		return $this->name;
-         	}
+		return $this->name;
+	}
 
 	public function setName ( string $name ): self {
-         		$this->name = $name;
-         
-         		return $this;
-         	}
+		$this->name = $name;
+
+		return $this;
+	}
 
 	public function getDescription (): ?string {
-         		return $this->description;
-         	}
+		return $this->description;
+	}
 
 	public function setDescription ( string $description ): self {
-         		$this->description = $description;
-         
-         		return $this;
-         	}
+		$this->description = $description;
+
+		return $this;
+	}
 
 	public function getPresentation (): ?string {
-         		return $this->presentation;
-         	}
+		return $this->presentation;
+	}
 
 	public function setPresentation ( string $presentation ): self {
-         		$this->presentation = $presentation;
-         
-         		return $this;
-         	}
+		$this->presentation = $presentation;
+
+		return $this;
+	}
 
 	public function getVisibility (): ?string {
-         		return $this->visibility;
-         	}
+		return $this->visibility;
+	}
 
 	public function setVisibility ( string $visibility ): self {
-         		$this->visibility = $visibility;
-         
-         		return $this;
-         	}
+		$this->visibility = $visibility;
+
+		return $this;
+	}
 
 	public function getActiveApps (): ?array {
-         		return $this->activeApps;
-         	}
+		return $this->activeApps;
+	}
 
 	public function setActiveApps ( array $activeApps ): self {
-         		$this->activeApps = $activeApps;
-         
-         		return $this;
-         	}
+		$this->activeApps = $activeApps;
+
+		return $this;
+	}
 
 	/**
 	 * @return Collection|Category[]
 	 */
 	public function getCategories (): Collection {
-         		return $this->categories;
-         	}
+		return $this->categories;
+	}
 
 	public function addCategory ( Category $category ): self {
-         		if ( !$this->categories->contains( $category ) ) {
-         			$this->categories[] = $category;
-         		}
-         
-         		return $this;
-         	}
+		if ( !$this->categories->contains( $category ) ) {
+			$this->categories[] = $category;
+		}
+
+		return $this;
+	}
 
 	public function removeCategory ( Category $category ): self {
-         		if ( $this->categories->contains( $category ) ) {
-         			$this->categories->removeElement( $category );
-         		}
-         
-         		return $this;
-         	}
+		if ( $this->categories->contains( $category ) ) {
+			$this->categories->removeElement( $category );
+		}
+
+		return $this;
+	}
 
 	/**
 	 * @return Collection|UsergroupMembership[]
 	 */
 	public function getMembers (): Collection {
-         		return $this->members;
-         	}
+		return $this->members;
+	}
 
 	public function addMember ( UsergroupMembership $member ): self {
-         		if ( !$this->members->contains( $member ) ) {
-         			$this->members[] = $member;
-         			$member->setGroup( $this );
-         		}
-         
-         		return $this;
-         	}
+		if ( !$this->members->contains( $member ) ) {
+			$this->members[] = $member;
+			$member->setGroup( $this );
+		}
+
+		return $this;
+	}
 
 	public function removeMember ( UsergroupMembership $member ): self {
-         		if ( $this->members->contains( $member ) ) {
-         			$this->members->removeElement( $member );
-         			// set the owning side to null (unless already changed)
-         			if ( $member->getGroup() === $this ) {
-         				$member->setGroup( NULL );
-         			}
-         		}
-         
-         		return $this;
-         	}
+		if ( $this->members->contains( $member ) ) {
+			$this->members->removeElement( $member );
+			// set the owning side to null (unless already changed)
+			if ( $member->getGroup() === $this ) {
+				$member->setGroup( NULL );
+			}
+		}
+
+		return $this;
+	}
 
 	/**
 	 * @return Collection|Page[]
 	 */
 	public function getPages (): Collection {
-         		return $this->pages;
-         	}
+		return $this->pages;
+	}
 
 	public function addPage ( Page $usergroupPage ): self {
-         		if ( !$this->pages->contains( $usergroupPage ) ) {
-         			$this->pages[] = $usergroupPage;
-         			$usergroupPage->setUsergroup( $this );
-         		}
-         
-         		return $this;
-         	}
+		if ( !$this->pages->contains( $usergroupPage ) ) {
+			$this->pages[] = $usergroupPage;
+			$usergroupPage->setUsergroup( $this );
+		}
+
+		return $this;
+	}
 
 	public function removePage ( Page $usergroupPage ): self {
-         		if ( $this->pages->contains( $usergroupPage ) ) {
-         			$this->pages->removeElement( $usergroupPage );
-         			// set the owning side to null (unless already changed)
-         			if ( $usergroupPage->getUsergroup() === $this ) {
-         				$usergroupPage->setUsergroup( NULL );
-         			}
-         		}
-         
-         		return $this;
-         	}
+		if ( $this->pages->contains( $usergroupPage ) ) {
+			$this->pages->removeElement( $usergroupPage );
+			// set the owning side to null (unless already changed)
+			if ( $usergroupPage->getUsergroup() === $this ) {
+				$usergroupPage->setUsergroup( NULL );
+			}
+		}
+
+		return $this;
+	}
 
 	public function getSlug (): ?string {
-         		return $this->slug;
-         	}
+		return $this->slug;
+	}
 
 	public function setSlug ( string $slug ): self {
-         		$this->slug = substr( $slug, 0, 100 );
-         
-         		return $this;
-         	}
+		$this->slug = substr( $slug, 0, 100 );
+
+		return $this;
+	}
 
 	/**
 	 * @return Collection|File[]
 	 */
 	public function getFiles (): Collection {
-         		return $this->files;
-         	}
+		return $this->files;
+	}
 
 	public function addFile ( File $file ): self {
-         		if ( !$this->files->contains( $file ) ) {
-         			$this->files[] = $file;
-         			$file->setUsergroup( $this );
-         		}
-         
-         		return $this;
-         	}
+		if ( !$this->files->contains( $file ) ) {
+			$this->files[] = $file;
+			$file->setUsergroup( $this );
+		}
+
+		return $this;
+	}
 
 	public function removeFile ( File $file ): self {
-         		if ( $this->files->contains( $file ) ) {
-         			$this->files->removeElement( $file );
-         			// set the owning side to null (unless already changed)
-         			if ( $file->getUsergroup() === $this ) {
-         				$file->setUsergroup( NULL );
-         			}
-         		}
-         
-         		return $this;
-         	}
+		if ( $this->files->contains( $file ) ) {
+			$this->files->removeElement( $file );
+			// set the owning side to null (unless already changed)
+			if ( $file->getUsergroup() === $this ) {
+				$file->setUsergroup( NULL );
+			}
+		}
 
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
+		return $this;
+	}
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
+	public function getCreatedAt (): ?\DateTimeInterface {
+		return $this->createdAt;
+	}
 
-        return $this;
-    }
+	public function setCreatedAt ( \DateTimeInterface $createdAt ): self {
+		$this->createdAt = $createdAt;
+
+		return $this;
+	}
 }
