@@ -8,9 +8,9 @@ composer install
 ```
 
 Copy .env to .env.local and change the settings, particulary:
-- APP_ENV
-- DATABASE_URL
-- DATABASE_PREFIX
+- ```APP_ENV```
+- ```DATABASE_URL```
+- ```DATABASE_PREFIX```
 
 If necessary, create the DB:
 ```bash
@@ -36,3 +36,15 @@ Give ROLE_ADMIN to a user:
 ```bash
 php bin/console app:set-admin <user-email>
 ```
+
+## FAQ
+
+### How to force https ?
+
+Edit your .env and a ```SECURE_SCHEME``` variable with ```https```
+
+### How to handle proxies ?
+
+You can add ```TRUSTED_PROXIES``` to your .env.
+ 
+Or you can add a ```TRUST_ALL=1``` to always forward the ```HEADER_X_FORWARDED_*``` headers, as mentionned on https://symfony.com/doc/current/deployment/proxies.html.
