@@ -33,7 +33,8 @@
         "symfony/webpack-encore-bundle": "^1.0",
         "symfony/yaml": "4.2.*",
         "twig/extensions": "^1.5",
-        "wildbit/postmark-php": "^2.6"
+        "wildbit/postmark-php": "^2.6",
+        "wildbit/swiftmailer-postmark": "^3.0"
     },
     "require-dev": {
         "symfony/browser-kit": "4.2.*",

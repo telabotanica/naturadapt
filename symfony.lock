@@ -476,6 +476,9 @@
     "wildbit/postmark-php": {
         "version": "2.6.0"
     },
+    "wildbit/swiftmailer-postmark": {
+        "version": "3.0.2"
+    },
     "zendframework/zend-code": {
         "version": "3.3.1"
     },

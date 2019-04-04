@@ -7,14 +7,18 @@
 
 namespace App\Service;
 
+use Postmark\Transport;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+
 class EmailSender {
 	/**
 	 * @var \Swift_Mailer
 	 */
 	private $mailer;
 
-	public function __construct ( \Swift_Mailer $mailer ) {
-		$this->mailer = $mailer;
+	public function __construct ( \Swift_Mailer $mailer, ParameterBagInterface $params ) {
+		$transport    = new Transport( $params->get( 'postmark' )[ 'server_token' ] );
+		$this->mailer = new \Swift_Mailer( $transport );
 	}
 
 	public function send ( $from, $to, $subject, $message ) {

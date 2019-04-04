@@ -6,7 +6,10 @@
 parameters:
     plateform:
         name: NaturAdapt
-        from: noreply@lmdlc.com
+        from: '%env(string:POSTMARK_SENDER)%'
+    postmark:
+        server_token: '%env(string:POSTMARK_SERVER_TOKEN)%'
+        sender_signature: '%env(string:POSTMARK_SENDER)%'
 
 services:
     # default configuration for services in *this* file
