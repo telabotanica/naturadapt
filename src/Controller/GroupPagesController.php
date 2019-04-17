@@ -7,8 +7,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Usergroup;
 use App\Entity\Page;
+use App\Entity\Usergroup;
 use App\Security\GroupVoter;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

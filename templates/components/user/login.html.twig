@@ -1,4 +1,4 @@
-<form method="post" action="{{ path('app_login') }}">
+<form method="post" action="{{ path('user_login') }}">
 	<div class="form-rows">
 		<div class="form-row form-row__field">
 			<label for="login-form-email">{{ 'forms.email.label'|trans }}</label>
@@ -18,6 +18,6 @@
 	<div class="form-row form-row__submit">
 		<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 		<button type="submit">{{ 'security.login.button'|trans }}</button>
-		<a href="{{ path('app_forgotten_password') }}">{{ 'security.forgotten_password.link'|trans }}</a>
+		<a href="{{ path('user_forgotten_password') }}">{{ 'security.forgotten_password.link'|trans }}</a>
 	</div>
 </form>

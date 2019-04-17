@@ -8,7 +8,6 @@
 namespace App\Controller;
 
 use App\Entity\Usergroup;
-use App\Entity\Page;
 use App\Entity\UsergroupMembership;
 use App\Security\GroupVoter;
 use App\Security\UserVoter;

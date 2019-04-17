@@ -9,7 +9,6 @@ namespace App\Service;
 
 use App\Entity\File;
 use App\Entity\User;
-use App\Entity\Usergroup;
 use Doctrine\Common\Persistence\ObjectManager;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;

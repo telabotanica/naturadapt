@@ -3,10 +3,10 @@
 namespace App\DataFixtures;
 
 use App\Entity\Category;
-use App\Entity\Usergroup;
-use App\Entity\UsergroupMembership;
 use App\Entity\Page;
 use App\Entity\User;
+use App\Entity\Usergroup;
+use App\Entity\UsergroupMembership;
 use App\Service\SlugGenerator;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;

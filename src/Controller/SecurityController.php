@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Service\EmailSender;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,10 +13,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use App\Entity\User;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 class SecurityController extends AbstractController {
@@ -45,7 +45,7 @@ class SecurityController extends AbstractController {
 	}
 
 	/**
-	 * @Route("/user/login", name="app_login")
+	 * @Route("/user/login", name="user_login")
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
@@ -54,14 +54,14 @@ class SecurityController extends AbstractController {
 	}
 
 	/**
-	 * @Route("/user/logout", name="app_logout")
+	 * @Route("/user/logout", name="user_logout")
 	 */
 	public function logout () {
 		return $this->redirectToRoute( 'homepage' );
 	}
 
 	/**
-	 * @Route("/user/register", name="app_register")
+	 * @Route("/user/register", name="user_register")
 	 *
 	 * @param \Symfony\Component\HttpFoundation\Request                               $request
 	 * @param \App\Service\EmailSender                                                $mailer
@@ -84,7 +84,7 @@ class SecurityController extends AbstractController {
 			if ( $userRepository->findOneBy( [ 'email' => $request->request->get( 'email' ) ] ) ) {
 				$this->addFlash( 'error', 'user.exists' );
 
-				return $this->redirectToRoute( 'app_login' );
+				return $this->redirectToRoute( 'user_login' );
 			}
 
 			$user = new User();
@@ -104,7 +104,7 @@ class SecurityController extends AbstractController {
 			$manager->flush();
 
 			$message = $this->renderView( 'emails/register-activation.html.twig', [
-					'url' => $this->generateUrl( 'app_activate', array ( 'token' => $token ), UrlGeneratorInterface::ABSOLUTE_URL ),
+					'url' => $this->generateUrl( 'user_activate', array ( 'token' => $token ), UrlGeneratorInterface::ABSOLUTE_URL ),
 			] );
 
 			$mailer->send(
@@ -119,11 +119,11 @@ class SecurityController extends AbstractController {
 			return $this->redirectToRoute( 'homepage' );
 		}
 
-		return $this->redirectToRoute( 'app_login' );
+		return $this->redirectToRoute( 'user_login' );
 	}
 
 	/**
-	 * @Route("/user/activate/{token}", name="app_activate")
+	 * @Route("/user/activate/{token}", name="user_activate")
 	 *
 	 * @param \Symfony\Component\HttpFoundation\Request                             $request
 	 * @param string                                                                $token
@@ -179,11 +179,11 @@ class SecurityController extends AbstractController {
 
 		$this->addFlash( 'notice', 'user.activation_successful' );
 
-		return $this->redirectToRoute( 'app_profile_create' );
+		return $this->redirectToRoute( 'user_profile_create' );
 	}
 
 	/**
-	 * @Route("/user/profile/create", name="app_profile_create")
+	 * @Route("/user/profile/create", name="user_profile_create")
 	 *
 	 * @param \Symfony\Component\HttpFoundation\Request                             $request
 	 * @param \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface $passwordEncoder
@@ -198,7 +198,7 @@ class SecurityController extends AbstractController {
 	}
 
 	/**
-	 * @Route("/user/password", name="app_forgotten_password")
+	 * @Route("/user/password", name="user_forgotten_password")
 	 *
 	 * @param \Symfony\Component\HttpFoundation\Request                               $request
 	 * @param \App\Service\EmailSender                                                $mailer
@@ -243,7 +243,7 @@ class SecurityController extends AbstractController {
 			}
 
 			$message = $this->renderView( 'emails/forgotten-password.html.twig', [
-					'url' => $this->generateUrl( 'app_reset_password', array ( 'token' => $token ), UrlGeneratorInterface::ABSOLUTE_URL ),
+					'url' => $this->generateUrl( 'user_reset_password', array ( 'token' => $token ), UrlGeneratorInterface::ABSOLUTE_URL ),
 			] );
 
 			$mailer->send(
@@ -262,7 +262,7 @@ class SecurityController extends AbstractController {
 	}
 
 	/**
-	 * @Route("/user/password/reset/{token}", name="app_reset_password")
+	 * @Route("/user/password/reset/{token}", name="user_reset_password")
 	 *
 	 * @param \Symfony\Component\HttpFoundation\Request                             $request
 	 * @param string                                                                $token
@@ -294,7 +294,7 @@ class SecurityController extends AbstractController {
 
 			$this->addFlash( 'notice', 'user.password_successful' );
 
-			return $this->redirectToRoute( 'app_login' );
+			return $this->redirectToRoute( 'user_login' );
 		}
 		else {
 			return $this->render( 'pages/user/reset-password.html.twig', [ 'token' => $token ] );

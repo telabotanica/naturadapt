@@ -8,8 +8,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -35,7 +35,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator {
 	}
 
 	public function supports ( Request $request ) {
-		return ( $request->attributes->get( '_route' ) === 'app_login' )
+		return ( $request->attributes->get( '_route' ) === 'user_login' )
 			   && $request->isMethod( 'POST' )
 			   && $request->request->has( 'email' )
 			   && $request->request->has( 'password' )
@@ -87,6 +87,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator {
 	}
 
 	protected function getLoginUrl () {
-		return $this->router->generate( 'app_login' );
+		return $this->router->generate( 'user_login' );
 	}
 }
