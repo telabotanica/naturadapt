@@ -67,8 +67,8 @@
 	padding:          .5rem .8rem;
 
 	color:            white;
-	background-color: $color_orange_red;
-	border:           0;
+	background-color: $color_dodger_blue;
+	border:           1px solid $color_dodger_blue;
 	border-radius:    rem(5px);
 	text-decoration:  none;
 
@@ -76,7 +76,8 @@
 
 	&:hover,
 	&:focus {
-		background-color: $color_orange_red;
+		color:            $color_dodger_blue;
+		background-color: white;
 	}
 
 	transition:       color .25s ease-in-out,
