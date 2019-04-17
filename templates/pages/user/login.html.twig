@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-	{% set loginForm = render(controller( 'App\\Controller\\SecurityController::loginForm' )) %}
+	{% set loginForm = render(controller( 'App\\Controller\\UserController::loginForm' )) %}
 	<div class="user-page user-page__login">
 		<div class="user-page--header main-presentation">
 			<div class="content-container">
@@ -10,16 +10,16 @@
 		</div>
 		<div class="user-page--content content-container">
 			<section class="login-form">
-				<h1 class="h3">{{ 'security.login.title'|trans }}</h1>
+				<h1 class="h3">{{ 'pages.user.login.title'|trans }}</h1>
 
-				<p>{{ 'security.login.subtitle'|trans }}</p>
+				<p>{{ 'pages.user.login.subtitle'|trans }}</p>
 
 				{{ loginForm|raw }}
 			</section>
 			<section class="register-form">
-				<h1 class="h3">{{ 'security.register.title'|trans }}</h1>
+				<h1 class="h3">{{ 'pages.user.register.title'|trans }}</h1>
 
-				<p>{{ 'security.register.subtitle'|trans }}</p>
+				<p>{{ 'pages.user.register.subtitle'|trans }}</p>
 
 				{% include 'components/user/register.html.twig' %}
 			</section>

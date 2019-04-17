@@ -7,63 +7,76 @@ forms:
         label: "Mot de passe"
         placeholder: "Entrez votre mot de passe ici…"
     name:
-        label: "Comment souhaitez-vous que l'on vous appelle ?"
-        placeholder: "ex: M. Wayne"
-    remember_me:
-        label: "Se souvenir de moi"
+        label: "Votre nom complet"
+        placeholder: "Entrez votre prénom et votre nom…"
+    display_name:
+        label: "Comment faut-il vous appeler ?"
+        placeholder: "Entrez, au choix, votre prénom, votre nom, un pseudo…"
+    avatar:
+        label: "Image de profil"
+        button: "Parcourir"
+        hint: "Format JPG ou PNG, 500 ko maximum"
 
-group:
-    status:
-        public: "Groupe public"
-        private: "Groupe privé"
-        created_at: "Créé le %s"
-    is_member: "Vous êtes membre de ce groupe"
-    join_button:
-        public: "Rejoindre le groupe"
-        private: "Demande d'inscription"
-    restricted:
-        title: "Ce groupe est privé"
-        body: "Votre demande d'inscription au groupe sera soumise à l'acceptation des administrateurs. Il peut ainsi se passer plusieurs jours avant que vous ne receviez votre invitation."
-    pages:
-        title: "Les pages"
-    members:
-        title: "Les membres"
-    files:
-        title: "Les documents"
-    candidature_sent: "Votre demande a été transmise aux administrateurs du groupe."
+pages:
+    user:
+        login:
+            title: "Connectez-vous"
+            subtitle: "Si vous avez déjà un compte"
+            button: "Se connecter"
+            link: "Connexion"
+        register:
+            title: "Créer votre compte"
+            subtitle: "Si c'est votre première visite"
+            button: "S'inscrire"
+            link: "Inscription"
+        logout:
+            link: "Déconnexion"
+        forgotten_password:
+            title: "Mot de passe oublié"
+            button: "Envoyer"
+            link: "Mot de passe oublié ?"
+        reset_password:
+            title: "Nouveau mot de passe"
+            button: "Modifier"
+        profile_create:
+            title: "Créez votre profil"
+            introduction: "Il permettra de vous trouver dans l'annuaire des membres et sera consultable par les autres membres de la communauté."
+            button: "Créer votre profil"
 
-security:
-    login:
-        title: "Connectez-vous"
-        subtitle: "Si vous avez déjà un compte"
-        button: "Se connecter"
-        link: "Connexion"
-    register:
-        title: "Créer votre compte"
-        subtitle: "Si c'est votre première visite"
-        button: "S'inscrire"
-        link: "Inscription"
-    logout:
-        link: "Déconnexion"
-    forgotten_password:
-        title: "Mot de passe oublié"
-        button: "Envoyer"
-        link: "Mot de passe oublié ?"
-    reset_password:
-        title: "Nouveau mot de passe"
-        button: "Modifier"
+    group:
+        status:
+            public: "Groupe public"
+            private: "Groupe privé"
+            created_at: "Créé le %s"
+        is_member: "Vous êtes membre de ce groupe"
+        join_button:
+            public: "Rejoindre le groupe"
+            private: "Demande d'inscription"
+        restricted:
+            title: "Ce groupe est privé"
+            body: "Votre demande d'inscription au groupe sera soumise à l'acceptation des administrateurs. Il peut ainsi se passer plusieurs jours avant que vous ne receviez votre invitation."
+        pages:
+            title: "Les pages"
+        members:
+            title: "Les membres"
+        files:
+            title: "Les documents"
 
-user:
-    invalid_credentials: "Mot de passe incorrect"
-    exists: "Cet utilisateur est déjà enregistré."
-    unknown: "Cet utilisateur est inconnu."
-    inactive: "Cet utilisateur est désactivé."
-    not_activated: "Cet utilisateur n'a pas encore été activé."
-    activation_sent: "Un email d'activation vous a été envoyé. Regardez votre boite de reception."
-    activation_token_unknown: "Ce token est inconnu."
-    activation_already_active: "Cet utilisateur est déjà activé."
-    activation_impossible: "Impossible d'activer cet utilisateur."
-    activation_successful: "<strong>Merci d'avoir confirmé votre adresse e-mail</strong><br> Pour commencer, complétez le profil ci-dessous."
-    password_sent: "Un email vous a été envoyé. Regardez votre boite de reception."
-    password_token_unknown: "Ce token est inconnu."
-    password_successful: "Mot de passe mis à jour, vous pouvez désormais vous identifier."
+messages:
+    user:
+        invalid_credentials: "Mot de passe incorrect"
+        exists: "Cet utilisateur est déjà enregistré."
+        unknown: "Cet utilisateur est inconnu."
+        inactive: "Cet utilisateur est désactivé."
+        not_activated: "Cet utilisateur n'a pas encore été activé."
+        activation_sent: "Un email d'activation vous a été envoyé. Regardez votre boite de reception."
+        activation_token_unknown: "Ce token est inconnu."
+        activation_already_active: "Cet utilisateur est déjà activé."
+        activation_impossible: "Impossible d'activer cet utilisateur."
+        activation_successful: "<strong>Merci d'avoir confirmé votre adresse e-mail</strong><br> Pour commencer, complétez le profil ci-dessous."
+        password_sent: "Un email vous a été envoyé. Regardez votre boite de reception."
+        password_token_unknown: "Ce token est inconnu."
+        password_successful: "Mot de passe mis à jour, vous pouvez désormais vous identifier."
+
+    group:
+        candidature_sent: "Votre demande a été transmise aux administrateurs du groupe."

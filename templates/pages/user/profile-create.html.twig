@@ -8,8 +8,31 @@
 			</div>
 		</div>
 		<div class="user-page--content content-container">
-			<section class="profile-form">
-				Create your profile
+			<section class="profile-form narrow">
+				<h1 class="h3">{{ 'pages.user.profile_create.title'|trans }}</h1>
+				<p>{{ 'pages.user.profile_create.introduction'|trans }}</p>
+
+				{{ form_start(form) }}
+				<div class="form-rows">
+					<div class="form-row form-row__field">
+						{{ form_label(form.name, 'forms.name.label') }}
+						{{ form_widget(form.name, {'attr': {'placeholder': 'forms.name.placeholder'}}) }}
+					</div>
+					<div class="form-row form-row__field">
+						{{ form_label(form.displayname, 'forms.display_name.label') }}
+						{{ form_widget(form.displayname, {'attr': {'placeholder': 'forms.display_name.placeholder'}}) }}
+					</div>
+					<div class="form-row form-row__file">
+						{{ form_label(form.avatarfile, 'forms.avatar.label') }}
+						<div class="hint">{{ 'forms.avatar.hint'|trans }}</div>
+						{{ form_widget(form.avatarfile) }}
+						{{ form_label(form.avatarfile, 'forms.avatar.button', {'label_attr': {'class': 'submit-style'}}) }}
+					</div>
+				</div>
+				<div class="form-row form-row__submit">
+					{{ form_widget(form.submit, {'label': 'pages.user.profile_create.button'}) }}
+				</div>
+				{{ form_end(form) }}
 			</section>
 		</div>
 	</div>

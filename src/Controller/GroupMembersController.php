@@ -86,7 +86,7 @@ class GroupMembersController extends AbstractController {
 		}
 
 		// TODO
-		$this->addFlash( 'notice', 'group.candidature_sent' );
+		$this->addFlash( 'notice', 'messages.group.candidature_sent' );
 
 		return $this->redirectToRoute( 'group_index', [ 'groupSlug' => $groupSlug ] );
 	}

@@ -59,6 +59,6 @@ class UserActivateCommand extends Command {
 		$manager->persist( $user );
 		$manager->flush();
 
-		$output->writeln( sprintf( 'User %s is now active', $user->getName() ) );
+		$output->writeln( sprintf( 'User %s is now active', $user->getDisplayName() ) );
 	}
 }

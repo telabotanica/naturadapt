@@ -14,11 +14,11 @@ class UserChecker implements UserCheckerInterface {
 		}
 
 		if ( $user->getStatus() === User::STATUS_DISABLED ) {
-			throw new CustomUserMessageAuthenticationException( 'user.inactive' );
+			throw new CustomUserMessageAuthenticationException( 'messages.user.inactive' );
 		}
 
 		if ( $user->getStatus() === User::STATUS_PENDING ) {
-			throw new CustomUserMessageAuthenticationException( 'user.not_activated' );
+			throw new CustomUserMessageAuthenticationException( 'messages.user.not_activated' );
 		}
 	}
 

@@ -10,7 +10,7 @@ namespace App\Tests\Controller;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class SecurityControllerTest extends WebTestCase {
-	public function testLogin () {
+	public function testLoginPageIsValid () {
 		$client = static::createClient();
 
 		$crawler = $client->request( 'GET', '/user/login' );

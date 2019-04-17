@@ -5,8 +5,8 @@
 
 		<h1 class="h1 group-name">{{ group.name }}</h1>
 		<div class="group-status">
-			<span class="group-visibility group-visibility__{{ group.visibility }}"><span>{{ ('group.status.' ~ group.visibility)|trans }}</span></span>
-			<span class="group-date">{{ 'group.status.created_at'|trans|format(group.createdAt|localizeddate('long', 'none', app.request.locale)) }}</span>
+			<span class="group-visibility group-visibility__{{ group.visibility }}"><span>{{ ('pages.group.status.' ~ group.visibility)|trans }}</span></span>
+			<span class="group-date">{{ 'pages.group.status.created_at'|trans|format(group.createdAt|localizeddate('long', 'none', app.request.locale)) }}</span>
 		</div>
 	</div>
 </div>

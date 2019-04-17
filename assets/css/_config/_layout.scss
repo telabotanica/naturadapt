@@ -3,11 +3,19 @@
 **************************************************/
 
 @function padding_horizontal($size: 'small') {
-	@return 1rem;
+	@if $size == 'large' {
+		@return rem(30px);
+	}
+
+	@return rem(16px);
 }
 
 @function padding_vertical($size: 'small') {
-	@return 1rem;
+	@if $size == 'large' {
+		@return rem(30px);
+	}
+
+	@return rem(16px);
 }
 
 @function column_gap($size: 'small') {

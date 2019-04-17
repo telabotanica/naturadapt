@@ -10,7 +10,7 @@ namespace App\Tests\Controller;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class AppControllerTest extends WebTestCase {
-	public function testFront () {
+	public function testFrontPageIsValid () {
 		$client = static::createClient();
 
 		$crawler = $client->request( 'GET', '/' );
@@ -29,7 +29,7 @@ class AppControllerTest extends WebTestCase {
 
 		$this->assertGreaterThan(
 				0,
-				$crawler->filter( 'section.groups-list .group__teaser' )->count(),
+				$crawler->filter( '.groups-list .group__teaser' )->count(),
 				'Assert frontpage contains groups list with groups'
 		);
 	}

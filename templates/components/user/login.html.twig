@@ -8,16 +8,11 @@
 			<label for="login-form-password">{{ 'forms.password.label'|trans }}</label>
 			<input id="login-form-password" type="password" name="password" placeholder="{{ 'forms.password.placeholder'|trans }}" required>
 		</div>
-		<div class="form-row form-row__checkbox">
-			<label>
-				<input type="checkbox" name="_remember_me"/>
-				<span>{{ 'forms.remember_me.label'|trans }}</span>
-			</label>
-		</div>
 	</div>
 	<div class="form-row form-row__submit">
 		<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-		<button type="submit">{{ 'security.login.button'|trans }}</button>
-		<a href="{{ path('user_forgotten_password') }}">{{ 'security.forgotten_password.link'|trans }}</a>
+		<input type="hidden" name="_remember_me" value="1">
+		<button type="submit">{{ 'pages.user.login.button'|trans }}</button>
+		<a href="{{ path('user_forgotten_password') }}">{{ 'pages.user.forgotten_password.link'|trans }}</a>
 	</div>
 </form>

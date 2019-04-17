@@ -93,6 +93,11 @@ p a:not([class]) {
 	text-transform: uppercase;
 }
 
+.narrow {
+	margin: 0 auto;
+	width:  80%;
+}
+
 .columns-50-50 {
 	display:         flex;
 	flex-flow:       row nowrap;

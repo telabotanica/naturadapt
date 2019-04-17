@@ -59,6 +59,6 @@ class UserDeactivateCommand extends Command {
 		$manager->persist( $user );
 		$manager->flush();
 
-		$output->writeln( sprintf( 'User %s is now deactivated', $user->getName() ) );
+		$output->writeln( sprintf( 'User %s is now deactivated', $user->getDisplayName() ) );
 	}
 }

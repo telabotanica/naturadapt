@@ -13,7 +13,8 @@
 
 @mixin label-style {
 	display:     inline-block;
-	margin:      0;
+	margin:      0 0 .5em;
+	padding:     0;
 
 	max-width:   100%;
 
@@ -21,22 +22,19 @@
 	font-size:   1em;
 	line-height: line_height_default();
 
-	padding:     0 0 .5em;
-
 	color:       $color_default;
 }
 
 @mixin input-style {
 	display:       inline-block;
 	margin:        0;
+	padding:       .5em .8em;
 
 	max-width:     100%;
 
 	@include font_default;
 	font-size:     1em;
 	line-height:   line_height_default();
-
-	padding:       .5em .8em;
 
 	color:         $color_default;
 	background:    white;
@@ -65,6 +63,8 @@
 @mixin submit-style {
 	display:          inline-block;
 	padding:          .5rem .8rem;
+
+	text-align:       center;
 
 	color:            white;
 	background-color: $color_dodger_blue;
@@ -277,12 +277,31 @@ $form_label_width: (1/3) * 100%;
 	flex-flow:     column nowrap;
 	align-items:   stretch;
 
-	label {
+	label:not(.submit-style) {
 		@include label-style;
+	}
+
+	.hint {
+		margin: 0 0 .5em;
+
+		color:  $color_grey_light;
 	}
 }
 
 .form-row__field {
+}
+
+.form-row__file {
+	position: relative;
+
+	input[type="file"] {
+		position: absolute;
+		opacity:  0;
+	}
+
+	label.submit-style {
+		align-self: flex-start;
+	}
 }
 
 .form-row__checkbox {
@@ -298,7 +317,18 @@ $form_label_width: (1/3) * 100%;
 
 	[type="submit"] {
 		display:      inline-block;
-		width:        30%;
+		min-width:    30%;
 		margin-right: 2rem;
+	}
+
+	a:not(#_o) {
+		color:           $color_dodger_blue;
+
+		text-decoration: none;
+
+		&:focus,
+		&:hover {
+			text-decoration: underline;
+		}
 	}
 }

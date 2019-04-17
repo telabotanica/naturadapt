@@ -68,7 +68,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator {
 		$user = $this->entityManager->getRepository( User::class )->findOneBy( [ 'email' => $credentials[ 'email' ] ] );
 
 		if ( $user === NULL ) {
-			throw new CustomUserMessageAuthenticationException( 'user.unknown' );
+			throw new CustomUserMessageAuthenticationException( 'messages.user.unknown' );
 		}
 
 		return $user;
@@ -83,7 +83,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator {
 			return new RedirectResponse( $targetPath );
 		}
 
-		return new RedirectResponse( $this->router->generate( 'homepage' ) );
+		return new RedirectResponse( $this->router->generate( 'user_dashboard' ) );
 	}
 
 	protected function getLoginUrl () {

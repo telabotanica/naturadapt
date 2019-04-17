@@ -43,9 +43,14 @@ class User implements UserInterface {
 	private $password;
 
 	/**
-	 * @ORM\Column(type="string", length=100)
+	 * @ORM\Column(type="string", length=100, nullable=true)
 	 */
 	private $name;
+
+	/**
+	 * @ORM\Column(type="string", length=100, nullable=true)
+	 */
+	private $displayName;
 
 	/**
 	 * @ORM\Column(type="string", length=100, nullable=true)
@@ -110,6 +115,43 @@ class User implements UserInterface {
 		return $this->id;
 	}
 
+	/**
+	 * A visual identifier that represents this user.
+	 *
+	 * @see UserInterface
+	 */
+	public function getUsername (): string {
+		return (string) $this->getDisplayName();
+	}
+
+	public function getDisplayName (): ?string {
+		if ( !empty( $this->displayName ) ) {
+			return $this->displayName;
+		}
+
+		if ( !empty( $this->getName() ) ) {
+			return $this->getName();
+		}
+
+		return mb_convert_case( explode( '@', $this->getEmail() )[ 0 ], MB_CASE_TITLE );
+	}
+
+	public function setDisplayName ( ?string $displayName ): self {
+		$this->displayName = $displayName;
+
+		return $this;
+	}
+
+	public function getName (): ?string {
+		return $this->name;
+	}
+
+	public function setName ( string $name ): self {
+		$this->name = $name;
+
+		return $this;
+	}
+
 	public function getEmail (): ?string {
 		return $this->email;
 	}
@@ -120,13 +162,8 @@ class User implements UserInterface {
 		return $this;
 	}
 
-	/**
-	 * A visual identifier that represents this user.
-	 *
-	 * @see UserInterface
-	 */
-	public function getUsername (): string {
-		return (string) $this->email;
+	public function isAdmin (): ?bool {
+		return in_array( User::ROLE_ADMIN, $this->getRoles() );
 	}
 
 	/**
@@ -144,10 +181,6 @@ class User implements UserInterface {
 		$this->roles = array_unique( $roles );
 
 		return $this;
-	}
-
-	public function isAdmin (): ?bool {
-		return in_array( User::ROLE_ADMIN, $this->getRoles() );
 	}
 
 	/**
@@ -176,16 +209,6 @@ class User implements UserInterface {
 	public function eraseCredentials () {
 		// If you store any temporary, sensitive data on the user, clear it here
 		// $this->plainPassword = null;
-	}
-
-	public function getName (): ?string {
-		return $this->name;
-	}
-
-	public function setName ( string $name ): self {
-		$this->name = $name;
-
-		return $this;
 	}
 
 	public function getLocation (): ?string {

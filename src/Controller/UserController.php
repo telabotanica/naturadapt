@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserProfileType;
 use App\Service\EmailSender;
+use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +21,7 @@ use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
-class SecurityController extends AbstractController {
+class UserController extends AbstractController {
 	/**
 	 * Login form can be embed in pages
 	 *
@@ -33,7 +36,7 @@ class SecurityController extends AbstractController {
 		if ( !empty( $error ) ) {
 			$key = $error->getMessageKey();
 			if ( $key === 'Invalid credentials.' ) {
-				$key = 'user.invalid_credentials';
+				$key = 'messages.user.invalid_credentials';
 			}
 
 			$this->addFlash( 'error', $key );
@@ -64,6 +67,7 @@ class SecurityController extends AbstractController {
 	 * @Route("/user/register", name="user_register")
 	 *
 	 * @param \Symfony\Component\HttpFoundation\Request                               $request
+	 * @param \Doctrine\Common\Persistence\ObjectManager                              $manager
 	 * @param \App\Service\EmailSender                                                $mailer
 	 * @param \Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface $tokenGenerator
 	 * @param \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface   $passwordEncoder
@@ -82,18 +86,15 @@ class SecurityController extends AbstractController {
 			$userRepository = $manager->getRepository( User::class );
 
 			if ( $userRepository->findOneBy( [ 'email' => $request->request->get( 'email' ) ] ) ) {
-				$this->addFlash( 'error', 'user.exists' );
+				$this->addFlash( 'error', 'messages.user.exists' );
 
 				return $this->redirectToRoute( 'user_login' );
 			}
 
 			$user = new User();
-			$user->setCreatedAt( new \DateTime() );
+			$user->setCreatedAt( new DateTime() );
 			$user->setEmail( $request->request->get( 'email' ) );
 			$user->setPassword( $passwordEncoder->encodePassword( $user, $request->request->get( 'password' ) ) );
-			// Default name
-			$user->setName( mb_convert_case( explode( '@', $request->request->get( 'email' ) )[ 0 ], MB_CASE_TITLE ) );
-
 			$user->setRoles( [ User::ROLE_USER ] );
 			$user->setStatus( User::STATUS_PENDING );
 
@@ -114,7 +115,7 @@ class SecurityController extends AbstractController {
 					$message
 			);
 
-			$this->addFlash( 'notice', 'user.activation_sent' );
+			$this->addFlash( 'notice', 'messages.user.activation_sent' );
 
 			return $this->redirectToRoute( 'homepage' );
 		}
@@ -125,9 +126,12 @@ class SecurityController extends AbstractController {
 	/**
 	 * @Route("/user/activate/{token}", name="user_activate")
 	 *
-	 * @param \Symfony\Component\HttpFoundation\Request                             $request
-	 * @param string                                                                $token
-	 * @param \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface $passwordEncoder
+	 * @param \Symfony\Component\HttpFoundation\Request                                           $request
+	 * @param string                                                                              $token
+	 * @param \Doctrine\Common\Persistence\ObjectManager                                          $manager
+	 * @param \Symfony\Component\HttpFoundation\Session\SessionInterface                          $session
+	 * @param \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $tokenStorage
+	 * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface                         $eventDispatcher
 	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
@@ -145,19 +149,19 @@ class SecurityController extends AbstractController {
 		$user = $manager->getRepository( User::class )->findOneByResetToken( $token );
 
 		if ( $user === NULL ) {
-			$this->addFlash( 'error', 'user.activation_token_unknown' );
+			$this->addFlash( 'error', 'messages.user.activation_token_unknown' );
 
 			return $this->redirectToRoute( 'homepage' );
 		}
 
 		if ( $user->getStatus() === User::STATUS_ACTIVE ) {
-			$this->addFlash( 'notice', 'user.activation_already_active' );
+			$this->addFlash( 'notice', 'messages.user.activation_already_active' );
 
 			return $this->redirectToRoute( 'homepage' );
 		}
 
 		if ( $user->getStatus() !== User::STATUS_PENDING ) {
-			$this->addFlash( 'warning', 'user.activation_impossible' );
+			$this->addFlash( 'warning', 'messages.user.activation_impossible' );
 
 			return $this->redirectToRoute( 'homepage' );
 		}
@@ -177,30 +181,16 @@ class SecurityController extends AbstractController {
 
 		// Redirect to profile
 
-		$this->addFlash( 'notice', 'user.activation_successful' );
+		$this->addFlash( 'notice', 'messages.user.activation_successful' );
 
 		return $this->redirectToRoute( 'user_profile_create' );
-	}
-
-	/**
-	 * @Route("/user/profile/create", name="user_profile_create")
-	 *
-	 * @param \Symfony\Component\HttpFoundation\Request                             $request
-	 * @param \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface $passwordEncoder
-	 *
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-	 */
-	public function profileCreate (
-			Request $request,
-			ObjectManager $manager
-	) {
-		return $this->render( 'pages/user/profile-create.html.twig' );
 	}
 
 	/**
 	 * @Route("/user/password", name="user_forgotten_password")
 	 *
 	 * @param \Symfony\Component\HttpFoundation\Request                               $request
+	 * @param \Doctrine\Common\Persistence\ObjectManager                              $manager
 	 * @param \App\Service\EmailSender                                                $mailer
 	 * @param \Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface $tokenGenerator
 	 *
@@ -220,13 +210,13 @@ class SecurityController extends AbstractController {
 			$user = $manager->getRepository( User::class )->findOneByEmail( $email );
 
 			if ( $user === NULL ) {
-				$this->addFlash( 'warning', 'user.unknown' );
+				$this->addFlash( 'warning', 'messages.user.unknown' );
 
 				return $this->redirectToRoute( 'homepage' );
 			}
 
 			if ( $user->getStatus() !== User::STATUS_ACTIVE ) {
-				$this->addFlash( 'error', 'user.inactive' );
+				$this->addFlash( 'error', 'messages.user.inactive' );
 
 				return $this->redirectToRoute( 'homepage' );
 			}
@@ -236,7 +226,7 @@ class SecurityController extends AbstractController {
 			try {
 				$user->setResetToken( $token );
 				$manager->flush();
-			} catch ( \Exception $e ) {
+			} catch ( Exception $e ) {
 				$this->addFlash( 'warning', $e->getMessage() );
 
 				return $this->redirectToRoute( 'homepage' );
@@ -253,7 +243,7 @@ class SecurityController extends AbstractController {
 					$message
 			);
 
-			$this->addFlash( 'notice', 'user.password_sent' );
+			$this->addFlash( 'notice', 'messages.user.password_sent' );
 
 			return $this->redirectToRoute( 'homepage' );
 		}
@@ -266,6 +256,7 @@ class SecurityController extends AbstractController {
 	 *
 	 * @param \Symfony\Component\HttpFoundation\Request                             $request
 	 * @param string                                                                $token
+	 * @param \Doctrine\Common\Persistence\ObjectManager                            $manager
 	 * @param \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface $passwordEncoder
 	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
@@ -283,7 +274,7 @@ class SecurityController extends AbstractController {
 			$user = $manager->getRepository( User::class )->findOneByResetToken( $token );
 
 			if ( $user === NULL ) {
-				$this->addFlash( 'error', 'user.password_token_unknown' );
+				$this->addFlash( 'error', 'messages.user.password_token_unknown' );
 
 				return $this->redirectToRoute( 'homepage' );
 			}
@@ -292,12 +283,86 @@ class SecurityController extends AbstractController {
 			$user->setResetToken( NULL );
 			$manager->flush();
 
-			$this->addFlash( 'notice', 'user.password_successful' );
+			$this->addFlash( 'notice', 'messages.user.password_successful' );
 
 			return $this->redirectToRoute( 'user_login' );
 		}
 		else {
 			return $this->render( 'pages/user/reset-password.html.twig', [ 'token' => $token ] );
 		}
+	}
+
+	/**
+	 * @Route("/user/dashboard", name="user_dashboard")
+	 *
+	 * @param \Symfony\Component\HttpFoundation\Request  $request
+	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 *
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+	 */
+	public function dashboard (
+			Request $request,
+			ObjectManager $manager
+	) {
+		/**
+		 * @var User $user
+		 */
+		$user = $this->getUser();
+
+		if ( empty( $user->getName() ) ) {
+			return $this->redirectToRoute( 'user_profile_create' );
+		}
+
+		return $this->render( 'pages/user/dashboard.html.twig' );
+	}
+
+	/**
+	 * @Route("/user/profile/create", name="user_profile_create")
+	 *
+	 * @param \Symfony\Component\HttpFoundation\Request  $request
+	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 *
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+	 */
+	public function profileCreate (
+			Request $request,
+			ObjectManager $manager
+	) {
+		/**
+		 * @var User $user
+		 */
+		$user = $this->getUser();
+		$form = $this->createForm( UserProfileType::class, $user );
+
+		$form->handleRequest( $request );
+
+		if ( $form->isSubmitted() && $form->isValid() ) {
+			/**
+			 * @var User $submittedUser
+			 */
+			$submittedUser = $form->getData();
+
+			$user->setName( trim( $submittedUser->getName() ) );
+			$user->setDisplayName( trim( $submittedUser->getDisplayName() ) );
+
+			$manager->flush();
+		}
+
+		return $this->render( 'pages/user/profile-create.html.twig', [ 'form' => $form->createView() ] );
+	}
+
+	/**
+	 * @Route("/user/profile/edit", name="user_profile_edit")
+	 *
+	 * @param \Symfony\Component\HttpFoundation\Request  $request
+	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 *
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+	 */
+	public function profileEdit (
+			Request $request,
+			ObjectManager $manager
+	) {
+		return $this->render( 'pages/user/profile-edit.html.twig' );
 	}
 }

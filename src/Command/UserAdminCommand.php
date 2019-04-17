@@ -59,6 +59,6 @@ class UserAdminCommand extends Command {
 		$manager->persist( $user );
 		$manager->flush();
 
-		$output->writeln( sprintf( 'User %s updated, has roles %s', $user->getName(), implode( ', ', $user->getRoles() ) ) );
+		$output->writeln( sprintf( 'User %s updated, has roles %s', $user->getDisplayName(), implode( ', ', $user->getRoles() ) ) );
 	}
 }

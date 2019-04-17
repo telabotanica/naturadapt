@@ -32,7 +32,10 @@ class AppFixtures extends Fixture {
 		for ( $i = 0; $i < 20; $i++ ) {
 			$user = new User();
 			$user->setCreatedAt( new \DateTime() );
-			$user->setName( $faker->firstName() . ' ' . $faker->lastName() );
+			$name = $faker->firstName() . ' ' . $faker->lastName();
+			$user->setName( $name );
+			$user->setDisplayName( $name );
+
 			$user->setEmail( sprintf( 'test-%d@test.com', $i ) );
 			$user->setPassword( $this->passwordEncoder->encodePassword(
 					$user,

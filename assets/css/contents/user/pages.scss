@@ -9,7 +9,11 @@
 	.register-form {
 		@include card(2);
 
-		padding:         padding_vertical() padding_horizontal();
+		padding:         padding_vertical('small') padding_horizontal('small');
+
+		@include large-or-more {
+			padding: padding_vertical('large') padding_horizontal('large');
+		}
 
 		display:         flex;
 		flex-flow:       column nowrap;
@@ -26,5 +30,17 @@
 				flex-grow: 1;
 			}
 		}
+	}
+}
+
+.user-page__profile-create {
+	.profile-form {
+		padding: padding_vertical('small') padding_horizontal('small');
+
+		@include large-or-more {
+			padding: padding_vertical('large') padding_horizontal('large');
+		}
+
+		@include card_shadow;
 	}
 }
