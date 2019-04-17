@@ -18,8 +18,9 @@
 {% endblock %}
 
 <main>
-	{% include 'components/app-flashes.html.twig' %}
-	{% block body %}{% endblock %}
+	{% block body %}
+		{% include 'components/app-flashes.html.twig' %}
+	{% endblock %}
 </main>
 
 {% block footer %}

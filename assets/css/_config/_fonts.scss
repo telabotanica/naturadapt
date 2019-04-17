@@ -32,7 +32,7 @@
 
 @function font_size_default($size: 'small') {
 	@if $size == 'large' {
-		@return rem(20px);
+		@return rem(16px);
 	}
 
 	@return rem(16px);

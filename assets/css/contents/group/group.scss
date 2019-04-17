@@ -104,8 +104,11 @@
 .group__full {
 	.group-header {
 		position:       relative;
-		padding-top:    rem(150px);
-		padding-bottom: rem(150px);
+		padding-bottom: first_content_padding('small');
+
+		@include large-or-more {
+			padding-bottom: first_content_padding('large');
+		}
 
 		overflow:       hidden;
 	}

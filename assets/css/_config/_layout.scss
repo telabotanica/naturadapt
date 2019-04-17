@@ -64,10 +64,10 @@
 * HEADER
 **************************************************/
 
-@function header_height($size: 'small') {
+@function first_content_padding($size: 'small') {
 	@if $size == 'large' {
-		@return rem(77px);
+		@return rem(150px);
 	}
 
-	@return rem(.5 * 118px);
+	@return rem(100px);
 }

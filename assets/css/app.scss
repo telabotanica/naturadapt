@@ -22,13 +22,17 @@
 @import "_setup/pictos/picto-checkbox";
 @import "_setup/pictos/picto-radiobox";
 /**************************************************
- * LAYOUT
+ * SETUP
  *************************************************/
 @import "_setup/forms";
 @import "_setup/layout";
 @import "_setup/object-fit-image";
 /**************************************************
  * COMPONENTS
+ *************************************************/
+@import "components/app-flashes";
+/**************************************************
+ * CONTENTS
  *************************************************/
 @import "layout/header";
 @import "layout/footer";

@@ -3,5 +3,18 @@
  *************************************************/
 
 main {
-	flex-grow:   1;
+	flex-grow: 1;
+}
+
+.main-presentation {
+	padding-top: first_content_padding('small');
+
+	@include large-or-more {
+		padding-top: first_content_padding('large');
+	}
+
+	&.narrow {
+		margin: 0 auto;
+		width:  80%;
+	}
 }

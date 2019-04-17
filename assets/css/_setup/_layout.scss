@@ -78,8 +78,10 @@ p, .p {
 }
 
 .small-title {
+	margin:         0 0 1rem;
+
 	@include font_default;
-	font-size:      inherit;
+	font-size:      rem(14px);
 
 	color:          $color_grey_light;
 	text-transform: uppercase;

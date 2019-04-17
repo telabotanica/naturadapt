@@ -5,13 +5,18 @@ namespace App\Controller;
 use App\Service\EmailSender;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Entity\User;
+use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 class SecurityController extends AbstractController {
 	/**
@@ -25,8 +30,16 @@ class SecurityController extends AbstractController {
 		$error        = $authenticationUtils->getLastAuthenticationError();
 		$lastUsername = $authenticationUtils->getLastUsername();
 
+		if ( !empty( $error ) ) {
+			$key = $error->getMessageKey();
+			if ( $key === 'Invalid credentials.' ) {
+				$key = 'user.invalid_credentials';
+			}
+
+			$this->addFlash( 'error', $key );
+		}
+
 		return $this->render( 'components/user/login.html.twig', [
-				'error'         => $error,
 				'last_username' => $lastUsername,
 		] );
 	}
@@ -65,48 +78,48 @@ class SecurityController extends AbstractController {
 			TokenGeneratorInterface $tokenGenerator,
 			UserPasswordEncoderInterface $passwordEncoder
 	) {
-		$error = FALSE;
-
-		if ( $request->isMethod( 'POST' ) ) {
+		if ( $request->isMethod( 'POST' ) && ( $request->request->get( 'action' ) === 'register' ) ) {
 			$userRepository = $manager->getRepository( User::class );
 
 			if ( $userRepository->findOneBy( [ 'email' => $request->request->get( 'email' ) ] ) ) {
-				$error = 'user.exists';
+				$this->addFlash( 'error', 'user.exists' );
+
+				return $this->redirectToRoute( 'app_login' );
 			}
 
-			if ( !$error ) {
-				$user = new User();
-				$user->setCreatedAt( new \DateTime() );
-				$user->setEmail( $request->request->get( 'email' ) );
-				$user->setPassword( $passwordEncoder->encodePassword( $user, $request->request->get( 'password' ) ) );
-				$user->setName( $request->request->get( 'name' ) );
-				$user->setRoles( [ User::ROLE_USER ] );
-				$user->setStatus( User::STATUS_PENDING );
+			$user = new User();
+			$user->setCreatedAt( new \DateTime() );
+			$user->setEmail( $request->request->get( 'email' ) );
+			$user->setPassword( $passwordEncoder->encodePassword( $user, $request->request->get( 'password' ) ) );
+			// Default name
+			$user->setName( mb_convert_case( explode( '@', $request->request->get( 'email' ) )[ 0 ], MB_CASE_TITLE ) );
 
-				$token = $tokenGenerator->generateToken();
-				$user->setResetToken( $token );
+			$user->setRoles( [ User::ROLE_USER ] );
+			$user->setStatus( User::STATUS_PENDING );
 
-				$manager->persist( $user );
-				$manager->flush();
+			$token = $tokenGenerator->generateToken();
+			$user->setResetToken( $token );
 
-				$message = $this->renderView( 'emails/register-activation.html.twig', [
-						'url' => $this->generateUrl( 'app_activate', array ( 'token' => $token ), UrlGeneratorInterface::ABSOLUTE_URL ),
-				] );
+			$manager->persist( $user );
+			$manager->flush();
 
-				$mailer->send(
-						$this->getParameter( 'plateform' )[ 'from' ],
-						$user->getEmail(),
-						$mailer->getSubjectFromTitle( $message ),
-						$message
-				);
+			$message = $this->renderView( 'emails/register-activation.html.twig', [
+					'url' => $this->generateUrl( 'app_activate', array ( 'token' => $token ), UrlGeneratorInterface::ABSOLUTE_URL ),
+			] );
 
-				$this->addFlash( 'notice', 'user.activation_sent' );
+			$mailer->send(
+					$this->getParameter( 'plateform' )[ 'from' ],
+					$user->getEmail(),
+					$mailer->getSubjectFromTitle( $message ),
+					$message
+			);
 
-				return $this->redirectToRoute( 'homepage' );
-			}
+			$this->addFlash( 'notice', 'user.activation_sent' );
+
+			return $this->redirectToRoute( 'homepage' );
 		}
 
-		return $this->render( 'pages/user/register.html.twig', [ 'error' => $error ] );
+		return $this->redirectToRoute( 'app_login' );
 	}
 
 	/**
@@ -118,38 +131,70 @@ class SecurityController extends AbstractController {
 	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
-	public function activate ( Request $request, string $token, ObjectManager $manager ) {
+	public function activate (
+			Request $request,
+			string $token,
+			ObjectManager $manager,
+			SessionInterface $session,
+			TokenStorageInterface $tokenStorage,
+			EventDispatcherInterface $eventDispatcher
+	) {
 		/**
 		 * @var $user User
 		 */
 		$user = $manager->getRepository( User::class )->findOneByResetToken( $token );
 
 		if ( $user === NULL ) {
-			$this->addFlash( 'danger', 'user.activation_token_unknown' );
+			$this->addFlash( 'error', 'user.activation_token_unknown' );
 
 			return $this->redirectToRoute( 'homepage' );
 		}
 
 		if ( $user->getStatus() === User::STATUS_ACTIVE ) {
-			$this->addFlash( 'danger', 'user.activation_already_active' );
+			$this->addFlash( 'notice', 'user.activation_already_active' );
 
 			return $this->redirectToRoute( 'homepage' );
 		}
 
 		if ( $user->getStatus() !== User::STATUS_PENDING ) {
-			$this->addFlash( 'danger', 'user.activation_impossible' );
+			$this->addFlash( 'warning', 'user.activation_impossible' );
 
 			return $this->redirectToRoute( 'homepage' );
 		}
 
-		$user->setStatus( User::STATUS_ACTIVE );
 		$user->setResetToken( NULL );
+		$user->setStatus( User::STATUS_ACTIVE );
 
 		$manager->flush();
 
+		// Manual login
+
+		$token = new UsernamePasswordToken( $user, NULL, 'main', $user->getRoles() );
+		$tokenStorage->setToken( $token );
+		$session->set( '_security_main', serialize( $token ) );
+		$event = new InteractiveLoginEvent( $request, $token );
+		$eventDispatcher->dispatch( 'security.interactive_login', $event );
+
+		// Redirect to profile
+
 		$this->addFlash( 'notice', 'user.activation_successful' );
 
-		return $this->redirectToRoute( 'app_login' );
+		return $this->redirectToRoute( 'app_profile_create' );
+	}
+
+	/**
+	 * @Route("/user/profile/create", name="app_profile_create")
+	 *
+	 * @param \Symfony\Component\HttpFoundation\Request                             $request
+	 * @param \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface $passwordEncoder
+	 *
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+	 */
+	public function profileCreate (
+			Request $request,
+			ObjectManager $manager
+	) {
+		return $this->render( 'pages/user/profile-create.html.twig' );
 	}
 
 	/**
@@ -175,13 +220,13 @@ class SecurityController extends AbstractController {
 			$user = $manager->getRepository( User::class )->findOneByEmail( $email );
 
 			if ( $user === NULL ) {
-				$this->addFlash( 'danger', 'user.unknown' );
+				$this->addFlash( 'warning', 'user.unknown' );
 
 				return $this->redirectToRoute( 'homepage' );
 			}
 
 			if ( $user->getStatus() !== User::STATUS_ACTIVE ) {
-				$this->addFlash( 'danger', 'user.inactive' );
+				$this->addFlash( 'error', 'user.inactive' );
 
 				return $this->redirectToRoute( 'homepage' );
 			}
@@ -225,7 +270,12 @@ class SecurityController extends AbstractController {
 	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
-	public function resetPassword ( Request $request, string $token, ObjectManager $manager, UserPasswordEncoderInterface $passwordEncoder ) {
+	public function resetPassword (
+			Request $request,
+			string $token,
+			ObjectManager $manager,
+			UserPasswordEncoderInterface $passwordEncoder
+	) {
 		if ( $request->isMethod( 'POST' ) ) {
 			/**
 			 * @var $user User
@@ -233,7 +283,7 @@ class SecurityController extends AbstractController {
 			$user = $manager->getRepository( User::class )->findOneByResetToken( $token );
 
 			if ( $user === NULL ) {
-				$this->addFlash( 'danger', 'user.password_token_unknown' );
+				$this->addFlash( 'error', 'user.password_token_unknown' );
 
 				return $this->redirectToRoute( 'homepage' );
 			}

@@ -1,11 +1,11 @@
 # translations/messages.fr.yaml
 forms:
     email:
-        label: "Votre email"
-        placeholder: "ex: bruce@wayne-entreprises.com"
+        label: "Adresse e-mail"
+        placeholder: "Entrez votre adresse e-mail ici…"
     password:
-        label: "Votre mot de passe"
-        placeholder: "Votre mot de passe"
+        label: "Mot de passe"
+        placeholder: "Entrez votre mot de passe ici…"
     name:
         label: "Comment souhaitez-vous que l'on vous appelle ?"
         placeholder: "ex: M. Wayne"
@@ -35,23 +35,26 @@ group:
 security:
     login:
         title: "Connectez-vous"
-        button: "S'identifier"
+        subtitle: "Si vous avez déjà un compte"
+        button: "Se connecter"
         link: "Connexion"
     register:
         title: "Créer votre compte"
-        button: "Valider"
+        subtitle: "Si c'est votre première visite"
+        button: "S'inscrire"
         link: "Inscription"
     logout:
         link: "Déconnexion"
     forgotten_password:
         title: "Mot de passe oublié"
         button: "Envoyer"
-        link: "Mot de passe oublié ?"
+        link: "Mot de passe oublié ?"
     reset_password:
         title: "Nouveau mot de passe"
         button: "Modifier"
 
 user:
+    invalid_credentials: "Mot de passe incorrect"
     exists: "Cet utilisateur est déjà enregistré."
     unknown: "Cet utilisateur est inconnu."
     inactive: "Cet utilisateur est désactivé."
@@ -60,7 +63,7 @@ user:
     activation_token_unknown: "Ce token est inconnu."
     activation_already_active: "Cet utilisateur est déjà activé."
     activation_impossible: "Impossible d'activer cet utilisateur."
-    activation_successful: "Utilisateur activé, vous pouvez désormais vous identifier."
+    activation_successful: "<strong>Merci d'avoir confirmé votre adresse e-mail</strong><br> Pour commencer, complétez le profil ci-dessous."
     password_sent: "Un email vous a été envoyé. Regardez votre boite de reception."
     password_token_unknown: "Ce token est inconnu."
     password_successful: "Mot de passe mis à jour, vous pouvez désormais vous identifier."

@@ -1,10 +1,12 @@
 <div class="page page__full" style="--color: {{ page.usergroup.name|color }}">
-	<div class="page-header">
-		<div class="page-illustration">
-
-		</div>
+	<div class="page-header main-presentation">
+		<div class="page-illustration"></div>
 		<div class="content-container">
-			<div class="page-group"><a href="{{ path('group_index', {'groupSlug': page.usergroup.slug}) }}">{{ page.usergroup.name }}</a></div>
+			{% include 'components/app-flashes.html.twig' %}
+
+			<div class="page-group">
+				<a href="{{ path('group_index', {'groupSlug': page.usergroup.slug}) }}" class="small-title">{{ page.usergroup.name }}</a>
+			</div>
 			<h1 class="h1 page-title">{{ page.title }}</h1>
 		</div>
 	</div>

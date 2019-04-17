@@ -1,5 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-	{% include 'components/user/register.html.twig' with {'error':error} %}
+	<div class="user-page user-page__register">
+		<div class="user-page--header main-presentation">
+			<div class="content-container">
+				{% include 'components/app-flashes.html.twig' %}
+			</div>
+		</div>
+		<div class="user-page--content content-container">
+			<section class="register-form">
+				{% include 'components/user/register.html.twig' %}
+			</section>
+		</div>
+	</div>
 {% endblock %}

@@ -2,7 +2,9 @@
 
 {% block body %}
 	<div class="content-container">
-		<section class="site-presentation">
+		<section class="main-presentation narrow">
+			{% include 'components/app-flashes.html.twig' %}
+
 			<h1 class="small-title">Bienvenue sur {{ plateform.name }}</h1>
 
 			<p class="is-lead">Échangeons pour adapter la gestion des espaces naturels face au changement climatique</p>

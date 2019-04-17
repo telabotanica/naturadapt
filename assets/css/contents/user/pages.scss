@@ -2,13 +2,29 @@
  * USER PAGES
  *************************************************/
 
-.login-page {
+.user-page__login .user-page--content {
 	@include cards-container;
 
 	.login-form,
 	.register-form {
 		@include card(2);
 
-		padding: padding_vertical() padding_horizontal();
+		padding:         padding_vertical() padding_horizontal();
+
+		display:         flex;
+		flex-flow:       column nowrap;
+		justify-content: stretch;
+		align-items:     stretch;
+
+		form {
+			flex-grow: 1;
+
+			display:   flex;
+			flex-flow: column nowrap;
+
+			.form-rows {
+				flex-grow: 1;
+			}
+		}
 	}
 }

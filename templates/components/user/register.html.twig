@@ -1,21 +1,16 @@
 <form method="post" action="{{ path('app_register') }}">
-	{% if (error is defined) and error %}
-		<div class="alert">{{ error|trans }}</div>
-	{% endif %}
-
-	<div class="form-row form-row__field">
-		<label for="register-form-name">{{ 'forms.name.label'|trans }}</label>
-		<input id="register-form-name" type="text" name="name" placeholder="{{ 'forms.name.placeholder'|trans }}" required autofocus>
-	</div>
-	<div class="form-row form-row__field">
-		<label for="register-form-email">{{ 'forms.email.label'|trans }}</label>
-		<input id="register-form-email" type="email" name="email" placeholder="{{ 'forms.email.placeholder'|trans }}" required autofocus>
-	</div>
-	<div class="form-row form-row__field">
-		<label for="register-form-password">{{ 'forms.password.label'|trans }}</label>
-		<input id="register-form-password" type="password" name="password" placeholder="{{ 'forms.password.placeholder'|trans }}" required>
+	<div class="form-rows">
+		<div class="form-row form-row__field">
+			<label for="register-form-email">{{ 'forms.email.label'|trans }}</label>
+			<input id="register-form-email" type="email" name="email" placeholder="{{ 'forms.email.placeholder'|trans }}" required autofocus>
+		</div>
+		<div class="form-row form-row__field">
+			<label for="register-form-password">{{ 'forms.password.label'|trans }}</label>
+			<input id="register-form-password" type="password" name="password" placeholder="{{ 'forms.password.placeholder'|trans }}" required>
+		</div>
 	</div>
 	<div class="form-row form-row__submit">
+		<input type="hidden" name="action" value="register">
 		<button type="submit">{{ 'security.register.button'|trans }}</button>
 	</div>
 </form>
