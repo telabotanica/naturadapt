@@ -19,15 +19,4 @@ class AppController extends AbstractController {
 				'groups' => $groups,
 		] );
 	}
-
-	public function header () {
-		/**
-		 * @var $user \App\Entity\User
-		 */
-		$user = $this->getUser();
-
-		return $this->render( 'layout/header.html.twig', [
-				'user' => $user,
-		] );
-	}
 }
