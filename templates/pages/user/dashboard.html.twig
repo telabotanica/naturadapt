@@ -11,6 +11,21 @@
 			<div class="small-title">{{ 'pages.user.dashboard.welcome'|trans }}</div>
 			<div class="h2">{{ 'pages.user.dashboard.hello'|trans|format(app.user.displayName) }}</div>
 			<div class="h3">{{ 'pages.user.dashboard.slogan'|trans|format(plateform.name) }}</div>
+			<div class="columns-33-66">
+				<div>
+					<div class="small-title">{{ 'pages.user.dashboard.my_groups'|trans }}</div>
+					<ul>
+						{% for membership in app.user.usergroupMemberships %}
+							<li>
+								{% include 'contents/group/group--in-list.html.twig' with {'group': membership.usergroup} %}
+							</li>
+						{% endfor %}
+					</ul>
+				</div>
+				<div>
+
+				</div>
+			</div>
 		</div>
 	</div>
 {% endblock %}

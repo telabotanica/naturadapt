@@ -73,6 +73,7 @@ pages:
             welcome: "Bienvenue"
             hello: "Bonjour %s,"
             slogan: "Voici l'activité récente de %s et de vos groupes."
+            my_groups: "Mes groupes"
 
     group:
         status:

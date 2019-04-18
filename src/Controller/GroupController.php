@@ -44,6 +44,10 @@ class GroupController extends AbstractController {
 
 	/**
 	 * @Route("/groups/{groupSlug}/edit", name="group_edit")
+	 * @param                                            $groupSlug
+	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 *
+	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function groupEdit ( $groupSlug, ObjectManager $manager ) {
 		$group = $manager->getRepository( Usergroup::class )
