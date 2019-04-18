@@ -19,6 +19,9 @@ class User implements UserInterface {
 	public const ROLE_USER  = 'ROLE_USER';
 	public const ROLE_ADMIN = 'ROLE_ADMIN';
 
+	public const TYPE_PRIVATE       = 'private';
+	public const TYPE_PROFESSIONNAL = 'professional';
+
 	/**
 	 * @ORM\Id()
 	 * @ORM\GeneratedValue()
@@ -43,6 +46,11 @@ class User implements UserInterface {
 	private $password;
 
 	/**
+	 * @ORM\Column(type="smallint")
+	 */
+	private $status;
+
+	/**
 	 * @ORM\Column(type="string", length=100, nullable=true)
 	 */
 	private $name;
@@ -55,17 +63,32 @@ class User implements UserInterface {
 	/**
 	 * @ORM\Column(type="string", length=100, nullable=true)
 	 */
-	private $location;
+	private $avatar;
 
 	/**
-	 * @ORM\Column(type="text", nullable=true)
+	 * @ORM\Column(type="string", length=10, nullable=true)
 	 */
-	private $presentation;
+	private $zipcode;
 
 	/**
 	 * @ORM\Column(type="string", length=100, nullable=true)
 	 */
-	private $avatar;
+	private $city;
+
+	/**
+	 * @ORM\Column(type="string", length=100, nullable=true)
+	 */
+	private $country;
+
+	/**
+	 * @ORM\Column(type="text", length=64, nullable=true)
+	 */
+	private $presentation;
+
+	/**
+	 * @ORM\Column(type="text", nullable=true)
+	 */
+	private $bio;
 
 	/**
 	 * @ORM\Column(type="string", length=100, nullable=true)
@@ -103,12 +126,24 @@ class User implements UserInterface {
 	private $usergroupMemberships;
 
 	/**
-	 * @ORM\Column(type="smallint")
+	 * @ORM\Column(type="string", length=20, nullable=true)
 	 */
-	private $status;
+	private $inscriptionType;
+
+	/**
+	 * @ORM\Column(type="string", length=100, nullable=true)
+	 */
+	private $site;
+
+	/**
+	 * @ORM\ManyToMany(targetEntity="App\Entity\Skill")
+	 * @ORM\JoinTable(name="users_skills")
+	 */
+	private $skills;
 
 	public function __construct () {
 		$this->usergroupMemberships = new ArrayCollection();
+		$this->skills               = new ArrayCollection();
 	}
 
 	public function getId (): ?int {
@@ -124,6 +159,10 @@ class User implements UserInterface {
 		return (string) $this->getDisplayName();
 	}
 
+	/****************************************
+	 * FIELDS
+	 ****************************************/
+
 	public function getDisplayName (): ?string {
 		if ( !empty( $this->displayName ) ) {
 			return $this->displayName;
@@ -137,7 +176,7 @@ class User implements UserInterface {
 	}
 
 	public function setDisplayName ( ?string $displayName ): self {
-		$this->displayName = $displayName;
+		$this->displayName = trim( $displayName );
 
 		return $this;
 	}
@@ -147,7 +186,7 @@ class User implements UserInterface {
 	}
 
 	public function setName ( string $name ): self {
-		$this->name = $name;
+		$this->name = mb_convert_case( trim( $name ), MB_CASE_TITLE );
 
 		return $this;
 	}
@@ -157,7 +196,7 @@ class User implements UserInterface {
 	}
 
 	public function setEmail ( string $email ): self {
-		$this->email = $email;
+		$this->email = mb_convert_case( trim( $email ), MB_CASE_LOWER );
 
 		return $this;
 	}
@@ -211,12 +250,12 @@ class User implements UserInterface {
 		// $this->plainPassword = null;
 	}
 
-	public function getLocation (): ?string {
-		return $this->location;
+	public function getAvatar (): ?string {
+		return $this->avatar;
 	}
 
-	public function setLocation ( ?string $location ): self {
-		$this->location = $location;
+	public function setAvatar ( ?string $avatar ): self {
+		$this->avatar = $avatar;
 
 		return $this;
 	}
@@ -226,17 +265,7 @@ class User implements UserInterface {
 	}
 
 	public function setPresentation ( ?string $presentation ): self {
-		$this->presentation = $presentation;
-
-		return $this;
-	}
-
-	public function getAvatar (): ?string {
-		return $this->avatar;
-	}
-
-	public function setAvatar ( ?string $avatar ): self {
-		$this->avatar = $avatar;
+		$this->presentation = trim( $presentation );
 
 		return $this;
 	}
@@ -335,6 +364,89 @@ class User implements UserInterface {
 
 	public function setStatus ( int $status ): self {
 		$this->status = $status;
+
+		return $this;
+	}
+
+	public function getCity (): ?string {
+		return $this->city;
+	}
+
+	public function setCity ( ?string $city ): self {
+		$this->city = mb_convert_case( trim( $city ), MB_CASE_TITLE );
+
+		return $this;
+	}
+
+	public function getZipcode (): ?string {
+		return $this->zipcode;
+	}
+
+	public function setZipcode ( ?string $zipcode ): self {
+		$this->zipcode = trim( $zipcode );
+
+		return $this;
+	}
+
+	public function getCountry (): ?string {
+		return $this->country;
+	}
+
+	public function setCountry ( ?string $country ): self {
+		$this->country = mb_convert_case( trim( $country ), MB_CASE_UPPER );
+
+		return $this;
+	}
+
+	public function getBio (): ?string {
+		return $this->bio;
+	}
+
+	public function setBio ( ?string $bio ): self {
+		$this->bio = trim( $bio );
+
+		return $this;
+	}
+
+	public function getInscriptionType (): ?string {
+		return $this->inscriptionType;
+	}
+
+	public function setInscriptionType ( ?string $inscriptionType ): self {
+		$this->inscriptionType = $inscriptionType;
+
+		return $this;
+	}
+
+	public function getSite (): ?string {
+		return $this->site;
+	}
+
+	public function setSite ( ?string $site ): self {
+		$this->site = trim( $site );
+
+		return $this;
+	}
+
+	/**
+	 * @return Collection|Skill[]
+	 */
+	public function getSkills (): Collection {
+		return $this->skills;
+	}
+
+	public function addSkill ( Skill $skill ): self {
+		if ( !$this->skills->contains( $skill ) ) {
+			$this->skills[] = $skill;
+		}
+
+		return $this;
+	}
+
+	public function removeSkill ( Skill $skill ): self {
+		if ( $this->skills->contains( $skill ) ) {
+			$this->skills->removeElement( $skill );
+		}
 
 		return $this;
 	}

@@ -43,4 +43,18 @@
 
 		@include card_shadow;
 	}
+
+	.columns-66-33 > :nth-child(1) {
+		padding-right: column_gap();
+	}
+}
+
+.user-page__dashboard .user-page--content {
+	.h2 {
+		margin-bottom: 0;
+	}
+
+	.h3 {
+		color: $color_grey_light;
+	}
 }

@@ -342,10 +342,23 @@ class UserController extends AbstractController {
 			 */
 			$submittedUser = $form->getData();
 
-			$user->setName( trim( $submittedUser->getName() ) );
-			$user->setDisplayName( trim( $submittedUser->getDisplayName() ) );
+			$user->setName( $submittedUser->getName() );
+			$user->setDisplayName( $submittedUser->getDisplayName() );
+
+			$user->setCity( $submittedUser->getCity() );
+			$user->setZipcode( $submittedUser->getZipcode() );
+			$user->setCountry( $submittedUser->getCountry() );
+
+			$user->setPresentation( $submittedUser->getPresentation() );
+			$user->setBio( $submittedUser->getBio() );
+			$user->setInscriptionType( $submittedUser->getInscriptionType() );
+			$user->setSite( $submittedUser->getSite() );
 
 			$manager->flush();
+
+			$this->addFlash( 'notice', 'messages.user.profile_created' );
+
+			return $this->redirectToRoute( 'user_dashboard' );
 		}
 
 		return $this->render( 'pages/user/profile-create.html.twig', [ 'form' => $form->createView() ] );

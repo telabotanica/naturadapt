@@ -6,10 +6,10 @@
 	@import '../../_assets/picto-radiobox.svg';
 }
 
-@mixin picto-radiobox($width: 32px, $sprite_number: 0, $extend: true) {
+@mixin picto-radiobox($sprite_number: 0, $extend: true, $width: 20px) {
 	@if ($extend) {
 		@extend .picto-radiobox;
 	}
 
-	@include picto-set-size($width, 32px, 32px, 100px, 400px, $sprite_number);
+	@include picto-set-size($width, 20px, 20px, 100px, 400px, $sprite_number);
 }

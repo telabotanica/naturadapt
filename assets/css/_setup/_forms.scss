@@ -171,26 +171,26 @@ input[type="submit"] {
 		top:        .5 * line_height_default() * 1em;
 		margin-top: rem(-15px);
 
-		@include picto-checkbox(32px);
+		@include picto-checkbox();
 	}
 
 	input[type="checkbox"]:checked + & {
 		&::before {
-			@include picto-checkbox(32px, 1, false);
+			@include picto-checkbox(1, false);
 		}
 	}
 
 	&:focus,
 	input[type="checkbox"]:focus + & {
 		&::before {
-			@include picto-checkbox(32px, 2, false);
+			@include picto-checkbox(2, false);
 		}
 	}
 
 	input[type="checkbox"]:checked &:focus,
 	input[type="checkbox"]:checked:focus + & {
 		&::before {
-			@include picto-checkbox(32px, 3, false);
+			@include picto-checkbox(3, false);
 		}
 	}
 }
@@ -200,7 +200,9 @@ input[type="submit"] {
 }
 
 .form-row__checkbox {
-	label span {
+	label {
+		display: block;
+
 		@include checkbox-label;
 	}
 
@@ -216,35 +218,35 @@ input[type="submit"] {
 
 .radiobox-label {
 	position:     relative;
-	padding-left: rem(40px);
+	padding-left: rem(30px);
 
 	&::before {
 		content:    '';
 		position:   absolute;
 		left:       0;
-		top:        .5 * line_height_default() * 1em;
-		margin-top: rem(-15px);
+		top:        1.1em;
+		margin-top: rem(-14px);
 
-		@include picto-radiobox(32px);
+		@include picto-radiobox();
 	}
 
 	input[type="radio"]:checked + & {
 		&::before {
-			@include picto-radiobox(32px, 1);
+			@include picto-radiobox(1, false);
 		}
 	}
 
 	&:focus,
 	input[type="radio"]:focus + & {
 		&::before {
-			@include picto-radiobox(32px, 2);
+			@include picto-radiobox(2, false);
 		}
 	}
 
 	input[type="radio"]:checked &:focus,
 	input[type="radio"]:checked:focus + & {
 		&::before {
-			@include picto-radiobox(32px, 3);
+			@include picto-radiobox(3, false);
 		}
 	}
 }
@@ -253,14 +255,20 @@ input[type="submit"] {
 	@extend .radiobox-label;
 }
 
-.form-row__radiobox {
+.form-row__radiobox,
+.form-row__radioboxes:not(#_o) {
 	label {
+		display: block;
+
 		@include radiobox-label;
 	}
 
 	input[type="radio"] {
 		position: absolute;
-		left:     -99999px;
+		width:    0;
+		height:   0;
+		opacity:  0;
+		overflow: hidden;
 	}
 }
 
@@ -281,11 +289,24 @@ $form_label_width: (1/3) * 100%;
 		@include label-style;
 	}
 
+	label.required {
+		&::after {
+			content:     '*';
+			margin-left: .31em;
+		}
+	}
+
 	.hint {
 		margin: 0 0 .5em;
 
 		color:  $color_grey_light;
 	}
+}
+
+.form-row__mandatory {
+	margin-bottom: .5em;
+
+	color:         $color_dodger_blue;
 }
 
 .form-row__field {
