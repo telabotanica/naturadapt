@@ -21,9 +21,9 @@ jobs:
       # for database intensive operations.
       - image: circleci/mysql:5.7-ram
 
-    branches:
-      only:
-        - setup-ci
+    # branches:
+    #   only:
+    #     - master
 
     steps:
       - checkout
