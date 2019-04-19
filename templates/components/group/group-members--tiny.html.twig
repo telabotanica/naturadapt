@@ -1,12 +1,13 @@
+{% set maxVisibleUsers = 5 %}
 <div class="group-members group-members__tiny">
 	<ul>
-		{% for member in members %}
+		{% for member in members|slice(0, maxVisibleUsers) %}
 			<li>
 				{% include 'contents/user/user--tiny.html.twig' with {'user':member.user} %}
 			</li>
 		{% endfor %}
 	</ul>
-	{% set count_plus = count - members|length %}
+	{% set count_plus = members|length - maxVisibleUsers %}
 	{% if count_plus > 0 %}
 		<div class="members-count">{{ count_plus }}</div>
 	{% endif %}

@@ -11,10 +11,8 @@ use App\Entity\File;
 use App\Entity\User;
 use Doctrine\Common\Persistence\ObjectManager;
 use Psr\Container\ContainerInterface;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class UserFileManager {
 	private $manager;

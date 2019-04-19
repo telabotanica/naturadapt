@@ -17,6 +17,17 @@ class UsergroupRepository extends ServiceEntityRepository {
 		parent::__construct( $registry, Usergroup::class );
 	}
 
+	public function getGroupsWithMembers () {
+		return $this->createQueryBuilder( 'ug' )
+					->leftJoin( 'ug.members', 'm' )
+					->addSelect( 'm' )
+					->leftJoin( 'm.user', 'u' )
+					->addSelect( 'u' )
+					->orderBy( 'ug.createdAt', 'ASC' )
+					->getQuery()
+					->getResult();
+	}
+
 	// /**
 	//  * @return Usergroup[] Returns an array of Usergroup objects
 	//  */

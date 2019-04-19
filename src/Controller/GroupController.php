@@ -24,7 +24,7 @@ class GroupController extends AbstractController {
 	 */
 	public function groupsIndex ( ObjectManager $manager ) {
 		$groups = $manager->getRepository( Usergroup::class )
-						  ->findAll();
+						  ->getGroupsWithMembers();
 
 		return $this->render( 'pages/group/groups-index.html.twig', [
 				'groups' => $groups,

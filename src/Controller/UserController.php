@@ -149,7 +149,7 @@ class UserController extends AbstractController {
 		/**
 		 * @var $user User
 		 */
-		$user = $manager->getRepository( User::class )->findOneByResetToken( $token );
+		$user = $manager->getRepository( User::class )->findOneBy( [ 'resetToken' => $token ] );
 
 		if ( $user === NULL ) {
 			$this->addFlash( 'error', 'messages.user.activation_token_unknown' );
@@ -210,7 +210,7 @@ class UserController extends AbstractController {
 			/**
 			 * @var $user User
 			 */
-			$user = $manager->getRepository( User::class )->findOneByEmail( $email );
+			$user = $manager->getRepository( User::class )->findOneBy( [ 'email' => $email ] );
 
 			if ( $user === NULL ) {
 				$this->addFlash( 'warning', 'messages.user.unknown' );
@@ -274,7 +274,7 @@ class UserController extends AbstractController {
 			/**
 			 * @var $user User
 			 */
-			$user = $manager->getRepository( User::class )->findOneByResetToken( $token );
+			$user = $manager->getRepository( User::class )->findOneBy( [ 'resetToken' => $token ] );
 
 			if ( $user === NULL ) {
 				$this->addFlash( 'error', 'messages.user.password_token_unknown' );

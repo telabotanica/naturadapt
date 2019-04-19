@@ -23,22 +23,6 @@ class GroupMembersController extends AbstractController {
 		return '#TODO';
 	}
 
-	public function groupMembersTiny ( $groupSlug, ObjectManager $manager ) {
-		$group = $manager->getRepository( Usergroup::class )
-						 ->findOneBy( [ 'slug' => $groupSlug ] );
-
-		$members = $manager->getRepository( UsergroupMembership::class )
-						   ->getMembers( $group, 5 );
-
-		$count = $manager->getRepository( UsergroupMembership::class )
-						 ->countMembers( $group );
-
-		return $this->render( 'components/group/group-members--tiny.html.twig', [
-				'members' => $members,
-				'count'   => $count,
-		] );
-	}
-
 	public function groupMemberJoinButton ( $groupSlug, ObjectManager $manager ) {
 		$group = $manager->getRepository( Usergroup::class )
 						 ->findOneBy( [ 'slug' => $groupSlug ] );

@@ -13,7 +13,7 @@ class AppController extends AbstractController {
 	 */
 	public function index ( ObjectManager $manager ) {
 		$groups = $manager->getRepository( Usergroup::class )
-						  ->findAll();
+						  ->getGroupsWithMembers();
 
 		return $this->render( 'pages/front.html.twig', [
 				'groups' => $groups,

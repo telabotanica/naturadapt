@@ -12,6 +12,6 @@
 			{{ group.description }}
 		</div>
 
-		{{ render(controller( 'App\\Controller\\GroupMembersController::groupMembersTiny', {'groupSlug':group.slug} )) }}
+		{% include 'components/group/group-members--tiny.html.twig' with {'members':group.members} %}
 	</div>
 </div>
