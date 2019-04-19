@@ -57,8 +57,8 @@ jobs:
             - node_modules
 
       # prepare the database
-      - run: php bin/console doctrine:migrations:migrate
-      - run: php bin/console doctrine:fixtures:load -n
+      - run: php bin/console doctrine:migrations:migrate --no-interaction
+      - run: php bin/console doctrine:fixtures:load --no-interaction
 
       # run tests with phpunit or codecept
       - run: ./bin/phpunit
