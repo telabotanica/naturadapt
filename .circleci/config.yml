@@ -60,6 +60,9 @@ jobs:
       - run: php bin/console doctrine:migrations:migrate --no-interaction
       - run: php bin/console doctrine:fixtures:load --no-interaction
 
+      # run webpack
+      - run: npm run build
+
       # run tests with phpunit or codecept
       - run: ./bin/phpunit
       # - run: ./vendor/bin/codecept build
