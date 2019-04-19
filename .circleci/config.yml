@@ -1,0 +1,73 @@
+# PHP CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-php/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # Specify the version you desire here
+      - image: circleci/php:7.1-node-browsers
+        environment:
+          APP_ENV: test
+          APP_SECRET: 0116ea354117af2c822bb1aeb5d7d367
+          DATABASE_URL: mysql://root:@127.0.0.1:3306/circle_test
+          DATABASE_PREFIX: naturadapt_
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # Using the RAM variation mitigates I/O contention
+      # for database intensive operations.
+      - image: circleci/mysql:5.7-ram
+
+    branches:
+      only:
+        - setup-ci
+
+    steps:
+      - checkout
+
+      - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
+      # - run: sudo docker-php-ext-install zip
+      - run: sudo docker-php-ext-install pdo_mysql
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            # "composer.lock" can be used if it is committed to the repo
+            - v1-dependencies-{{ checksum "composer.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run: composer install -n --prefer-dist
+
+      - save_cache:
+          key: v1-dependencies-{{ checksum "composer.json" }}
+          paths:
+            - ./vendor
+      - restore_cache:
+          keys:
+            - node-v1-{{ checksum "package.json" }}
+            - node-v1-
+      - run: yarn install
+      - save_cache:
+          key: node-v1-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+
+      # prepare the database
+      - run: php bin/console doctrine:migrations:migrate --no-interaction
+      - run: php bin/console doctrine:fixtures:load --no-interaction
+
+      # run webpack
+      - run: npm run build
+
+      # run tests with phpunit or codecept
+      - run: ./bin/phpunit
+      # - run: ./vendor/bin/codecept build
+      # - run: ./vendor/bin/codecept run
+
+      # upload artifacts
+      - store_artifacts:
+          path: ./var/log/test.log
