@@ -17,7 +17,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class UserAdminCommand extends Command {
-	protected static $defaultName = 'app:set-admin';
+	protected static $defaultName = 'user:set-admin';
 
 	private $manager;
 
@@ -55,10 +55,10 @@ class UserAdminCommand extends Command {
 			return;
 		}
 
-		$user->setRoles( array_merge( $user->getRoles(), [ 'ROLE_ADMIN' ] ) );
+		$user->setRoles( array_merge( $user->getRoles(), [ User::ROLE_ADMIN ] ) );
 		$manager->persist( $user );
 		$manager->flush();
 
-		$output->writeln( sprintf( 'User %s updated, has roles %s', $user->getName(), implode( ', ', $user->getRoles() ) ) );
+		$output->writeln( sprintf( 'User %s updated, has roles %s', $user->getDisplayName(), implode( ', ', $user->getRoles() ) ) );
 	}
 }

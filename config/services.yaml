@@ -6,6 +6,10 @@
 parameters:
     plateform:
         name: NaturAdapt
+        from: '%env(string:POSTMARK_SENDER)%'
+    postmark:
+        server_token: '%env(string:POSTMARK_SERVER_TOKEN)%'
+        sender_signature: '%env(string:POSTMARK_SENDER)%'
 
 services:
     # default configuration for services in *this* file
@@ -35,3 +39,8 @@ services:
 
     App\EventSubscriber\UserLocaleSubscriber:
         arguments: ['%kernel.default_locale%']
+
+    postmark:
+        class: \Postmark\Transport
+        arguments:
+            - '%env(string:POSTMARK_SERVER_TOKEN)%'

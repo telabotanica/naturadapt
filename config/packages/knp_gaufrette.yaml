@@ -3,11 +3,11 @@ knp_gaufrette:
     adapters:
         userfiles:
             local:
-                directory: /var/www/html/files/users
+                directory: '%kernel.project_dir%/var/files/users'
 
         usergroupfiles:
             local:
-                directory: /var/www/html/files/groups
+                directory: '%kernel.project_dir%/var/files/groups'
 
     filesystems:
         userfiles:

@@ -1,9 +1,9 @@
 <div class="group-join--action">
 	{% if isMember %}
-		{{ 'group.is_member'|trans }}
+		{{ 'pages.group.is_member'|trans }}
 	{% elseif group.visibility == 'private' %}
-		<button>{{ 'group.join_button.private'|trans }}</button>
+		<a href="{{ path('group_member_new', {'groupSlug': group.slug}) }}">{{ 'pages.group.join_button.private'|trans }}</a>
 	{% else %}
-		<button>{{ 'group.join_button.public'|trans }}</button>
+		<a href="{{ path('group_member_new', {'groupSlug': group.slug}) }}">{{ 'pages.group.join_button.public'|trans }}</a>
 	{% endif %}
 </div>

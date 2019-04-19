@@ -10,7 +10,7 @@
 
 @mixin font_default_bold {
 	font-family: "Open Sans", sans-serif;
-	font-weight: 700;
+	font-weight: 600;
 	font-style:  normal;
 }
 
@@ -22,7 +22,7 @@
 
 @mixin font_title_bold {
 	font-family: "Open Sans", sans-serif;
-	font-weight: 700;
+	font-weight: 600;
 	font-style:  normal;
 }
 
@@ -32,7 +32,7 @@
 
 @function font_size_default($size: 'small') {
 	@if $size == 'large' {
-		@return rem(20px);
+		@return rem(16px);
 	}
 
 	@return rem(16px);
@@ -113,6 +113,8 @@
 @mixin cta-style($color: $color_lime_green) {
 	display:          inline-block;
 	padding:          .5rem .8rem;
+
+	text-align:       center;
 
 	color:            white;
 	background-color: $color;

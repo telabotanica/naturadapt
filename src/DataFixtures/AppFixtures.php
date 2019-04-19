@@ -3,10 +3,10 @@
 namespace App\DataFixtures;
 
 use App\Entity\Category;
-use App\Entity\Usergroup;
-use App\Entity\UsergroupMembership;
 use App\Entity\Page;
 use App\Entity\User;
+use App\Entity\Usergroup;
+use App\Entity\UsergroupMembership;
 use App\Service\SlugGenerator;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -32,13 +32,17 @@ class AppFixtures extends Fixture {
 		for ( $i = 0; $i < 20; $i++ ) {
 			$user = new User();
 			$user->setCreatedAt( new \DateTime() );
-			$user->setName( $faker->firstName() . ' ' . $faker->lastName() );
+			$name = $faker->firstName() . ' ' . $faker->lastName();
+			$user->setName( $name );
+			$user->setDisplayName( $name );
+
 			$user->setEmail( sprintf( 'test-%d@test.com', $i ) );
 			$user->setPassword( $this->passwordEncoder->encodePassword(
 					$user,
 					'test'
 			) );
-			$user->setRoles( [ 'ROLE_USER' ] );
+			$user->setRoles( [ User::ROLE_USER ] );
+			$user->setStatus( User::STATUS_ACTIVE );
 
 			$manager->persist( $user );
 			$manager->flush();
@@ -72,7 +76,7 @@ class AppFixtures extends Fixture {
 			$group->setSlug( $this->slugGenerator->generateSlug( $group->getName(), Usergroup::class, 'slug' ) );
 			$group->setDescription( $faker->sentence( 30 ) );
 			$group->setPresentation( '<p>' . implode( '</p><p>', $faker->paragraphs( 10 ) ) . '</p>' );
-			$group->setVisibility( empty( rand( 0, 1 ) ) ? 'private' : 'public' );
+			$group->setVisibility( empty( rand( 0, 1 ) ) ? Usergroup::PRIVATE : Usergroup::PUBLIC );
 			$group->setCreatedAt( new \DateTime() );
 
 			$manager->persist( $group );

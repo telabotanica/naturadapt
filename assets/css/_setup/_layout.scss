@@ -34,16 +34,22 @@ img {
 	@include cta-style;
 }
 
-p a:not([class]) {
-	@include font_default_bold;
+a:not([class]) {
+	color:                inherit;
 	text-decoration:      underline;
 	text-decoration-skip: ink;
-
-	color:                $color_action;
 }
 
-p, .p {
+p {
+	margin: 0;
+}
+
+p:not([class]):not(:last-child), .p {
 	margin: 0 0 1rem;
+}
+
+p a:not([class]) {
+	color: $color_action;
 }
 
 .is-lead {
@@ -78,11 +84,18 @@ p, .p {
 }
 
 .small-title {
+	margin:         0 0 1rem;
+
 	@include font_default;
-	font-size:      inherit;
+	font-size:      rem(14px);
 
 	color:          $color_grey_light;
 	text-transform: uppercase;
+}
+
+.narrow {
+	margin: 0 auto;
+	width:  80%;
 }
 
 .columns-50-50 {

@@ -1,5 +1,8 @@
 monolog:
     handlers:
+        clever_logs:
+            type:     error_log
+            level:    warning
         main:
             type: fingers_crossed
             action_level: error

@@ -1,4 +1,9 @@
+# Database migrations
 ./bin/console doctrine:migrations:migrate
-./bin/console doctrine:fixtures:load -n
+
+# Fixtures
+./bin/console doctrine:fixtures:load --no-interaction
+
+# Front-End
 npm install
 npm run build

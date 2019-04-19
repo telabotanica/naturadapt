@@ -3,11 +3,19 @@
 **************************************************/
 
 @function padding_horizontal($size: 'small') {
-	@return 1rem;
+	@if $size == 'large' {
+		@return rem(30px);
+	}
+
+	@return rem(16px);
 }
 
 @function padding_vertical($size: 'small') {
-	@return 1rem;
+	@if $size == 'large' {
+		@return rem(30px);
+	}
+
+	@return rem(16px);
 }
 
 @function column_gap($size: 'small') {
@@ -64,10 +72,10 @@
 * HEADER
 **************************************************/
 
-@function header_height($size: 'small') {
+@function first_content_padding($size: 'small') {
 	@if $size == 'large' {
-		@return rem(77px);
+		@return rem(150px);
 	}
 
-	@return rem(.5 * 118px);
+	@return rem(100px);
 }

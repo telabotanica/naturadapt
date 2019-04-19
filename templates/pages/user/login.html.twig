@@ -1,15 +1,25 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-	<div class="content-container">
-		<div class="login-page">
+	{% set loginForm = render(controller( 'App\\Controller\\UserController::loginForm' )) %}
+	<div class="user-page user-page__login">
+		<div class="user-page--header main-presentation">
+			<div class="content-container">
+				{% include 'components/app-flashes.html.twig' %}
+			</div>
+		</div>
+		<div class="user-page--content content-container">
 			<section class="login-form">
-				<h3>{{ 'security.login.title'|trans }}</h3>
+				<h1 class="h3">{{ 'pages.user.login.title'|trans }}</h1>
 
-				{{ render(controller( 'App\\Controller\\SecurityController::loginForm' )) }}
+				<p>{{ 'pages.user.login.subtitle'|trans }}</p>
+
+				{{ loginForm|raw }}
 			</section>
 			<section class="register-form">
-				<h3>{{ 'security.register.title'|trans }}</h3>
+				<h1 class="h3">{{ 'pages.user.register.title'|trans }}</h1>
+
+				<p>{{ 'pages.user.register.subtitle'|trans }}</p>
 
 				{% include 'components/user/register.html.twig' %}
 			</section>

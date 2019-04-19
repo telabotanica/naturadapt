@@ -101,6 +101,15 @@
     "gaufrette/local-adapter": {
         "version": "v0.4.0"
     },
+    "guzzlehttp/guzzle": {
+        "version": "6.3.3"
+    },
+    "guzzlehttp/promises": {
+        "version": "v1.3.1"
+    },
+    "guzzlehttp/psr7": {
+        "version": "1.5.2"
+    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
@@ -134,6 +143,9 @@
     "psr/container": {
         "version": "1.0.0"
     },
+    "psr/http-message": {
+        "version": "1.0.1"
+    },
     "psr/link": {
         "version": "1.0.0"
     },
@@ -142,6 +154,9 @@
     },
     "psr/simple-cache": {
         "version": "1.0.1"
+    },
+    "ralouphie/getallheaders": {
+        "version": "2.0.5"
     },
     "sensio/framework-extra-bundle": {
         "version": "5.2",
@@ -457,6 +472,12 @@
     },
     "webmozart/assert": {
         "version": "1.4.0"
+    },
+    "wildbit/postmark-php": {
+        "version": "2.6.0"
+    },
+    "wildbit/swiftmailer-postmark": {
+        "version": "3.0.2"
     },
     "zendframework/zend-code": {
         "version": "3.3.1"

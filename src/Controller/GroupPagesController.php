@@ -7,9 +7,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Usergroup;
 use App\Entity\Page;
-use App\Service\UserRightsManager;
+use App\Entity\Usergroup;
+use App\Security\GroupVoter;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -38,16 +39,14 @@ class GroupPagesController extends AbstractController {
 	/**
 	 * @Route("/groups/{groupSlug}/pages/{pageSlug}", name="group_page_index")
 	 */
-	public function groupPage ( $groupSlug, $pageSlug, UserRightsManager $userRightsManager ) {
-		$group = $this->getDoctrine()
-					  ->getRepository( Usergroup::class )
-					  ->findOneBy( [ 'slug' => $groupSlug ] );
+	public function groupPage ( $groupSlug, $pageSlug, ObjectManager $manager ) {
+		$group = $manager->getRepository( Usergroup::class )
+						 ->findOneBy( [ 'slug' => $groupSlug ] );
 
-		$page = $this->getDoctrine()
-					 ->getRepository( Page::class )
-					 ->findOneBy( [ 'usergroup' => $group, 'slug' => $pageSlug ] );
+		$page = $manager->getRepository( Page::class )
+						->findOneBy( [ 'usergroup' => $group, 'slug' => $pageSlug ] );
 
-		$userCanRead = $userRightsManager->canReadGroup( $this->getUser(), $group );
+		$userCanRead = $this->isGranted( GroupVoter::READ, $group );
 
 		return $this->render( 'pages/group/group-page.html.twig', [
 				'userCanRead' => $userCanRead,

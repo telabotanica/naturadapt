@@ -1,0 +1,29 @@
+/**************************************************
+* APP FLASHES
+**************************************************/
+
+.app-flashes {
+	margin-bottom: rem(50px);
+
+	.flash {
+		margin-bottom:    1rem;
+		padding:          padding_vertical() rem(50px);
+
+		color:            $color_default;
+		background-color: white;
+		border:           1px solid $color_default;
+		border-radius:    rem(3px);
+	}
+
+	.flash__notice {
+		border-color: $color_lime_green;
+	}
+
+	.flash__warning {
+		border-color: $color_orange;
+	}
+
+	.flash__error {
+		border-color: $color_orange_red;
+	}
+}

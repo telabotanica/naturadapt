@@ -8,9 +8,10 @@
 namespace App\Controller;
 
 use App\Entity\Usergroup;
-use App\Entity\Page;
-use App\Service\UserRightsManager;
+use App\Security\GroupVoter;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class GroupController extends AbstractController {
@@ -21,10 +22,9 @@ class GroupController extends AbstractController {
 	/**
 	 * @Route("/groups", name="groups_index")
 	 */
-	public function groupsIndex () {
-		$groups = $this->getDoctrine()
-					   ->getRepository( Usergroup::class )
-					   ->findAll();
+	public function groupsIndex ( ObjectManager $manager ) {
+		$groups = $manager->getRepository( Usergroup::class )
+						  ->getGroupsWithMembers();
 
 		return $this->render( 'pages/group/groups-index.html.twig', [
 				'groups' => $groups,
@@ -44,20 +44,33 @@ class GroupController extends AbstractController {
 
 	/**
 	 * @Route("/groups/{groupSlug}/edit", name="group_edit")
+	 * @param                                            $groupSlug
+	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 *
+	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function groupEdit ( $groupSlug ) {
-		return '#TODO';
+	public function groupEdit ( $groupSlug, ObjectManager $manager ) {
+		$group = $manager->getRepository( Usergroup::class )
+						 ->findOneBy( [ 'slug' => $groupSlug ] );
+
+		$this->denyAccessUnlessGranted( GroupVoter::EDIT, $group );
+
+		return new Response( '#TODO' );
 	}
 
 	/**
 	 * @Route("/groups/{groupSlug}", name="group_index")
+	 * @param                                            $groupSlug
+	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 *
+	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function groupIndex ( $groupSlug, UserRightsManager $userRightsManager ) {
-		$group = $this->getDoctrine()
-					  ->getRepository( Usergroup::class )
-					  ->findOneBy( [ 'slug' => $groupSlug ] );
+	public function groupIndex ( $groupSlug, ObjectManager $manager ) {
+		$group = $manager->getRepository( Usergroup::class )
+						 ->findOneBy( [ 'slug' => $groupSlug ] );
 
-		$userCanRead = $userRightsManager->canReadGroup( $this->getUser(), $group );
+		$userCanRead = $this->isGranted( GroupVoter::READ, $group );
+		$userCanEdit = $this->isGranted( GroupVoter::EDIT, $group );
 
 		return $this->render( 'pages/group/group-index.html.twig', [
 				'userCanRead' => $userCanRead,

@@ -1,9 +1,14 @@
-<div class="app-flashes">
-	{% for label, messages in app.flashes %}
-		{% for message in messages %}
-			<div class="flash-{{ label }}">
-				{{ message }}
+{% set flashes = app.flashes %}
+{% if flashes is not empty %}
+	<div class="app-flashes">
+		{% for label, messages in flashes %}
+			<div class="app-flashes__{{ label }}">
+				{% for message in messages %}
+					<div class="flash flash__{{ label }}">
+						{{ message|trans|raw }}
+					</div>
+				{% endfor %}
 			</div>
 		{% endfor %}
-	{% endfor %}
-</div>
+	</div>
+{% endif %}

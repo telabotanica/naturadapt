@@ -22,6 +22,11 @@ if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? $_ENV['TRUSTED_HOSTS'] ?? false
 
 $kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
 $request = Request::createFromGlobals();
+
+if ($_SERVER[ 'TRUST_ALL' ] ?? $_ENV[ 'TRUST_ALL' ] ?? FALSE) {
+	Request::setTrustedProxies( [ '127.0.0.1', $request->server->get( 'REMOTE_ADDR' ) ], Request::HEADER_X_FORWARDED_ALL ^ Request::HEADER_X_FORWARDED_HOST );
+}
+
 $response = $kernel->handle($request);
 $response->send();
 $kernel->terminate($request, $response);

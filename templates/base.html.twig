@@ -7,19 +7,20 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	{% block stylesheets %}
-		<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i" rel="stylesheet">
 		{{ encore_entry_link_tags('app') }}
 	{% endblock %}
 </head>
 
 <body>
 {% block header %}
-	{{ render(controller( 'App\\Controller\\AppController::header' )) }}
+	{% include 'layout/header.html.twig' %}
 {% endblock %}
 
 <main>
-	{% include 'components/app-flashes.html.twig' %}
-	{% block body %}{% endblock %}
+	{% block body %}
+		{% include 'components/app-flashes.html.twig' %}
+	{% endblock %}
 </main>
 
 {% block footer %}
