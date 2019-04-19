@@ -21,6 +21,10 @@ jobs:
       # for database intensive operations.
       - image: circleci/mysql:5.7-ram
 
+    branches:
+      only:
+        - setup-ci
+
     steps:
       - checkout
 
@@ -56,6 +60,6 @@ jobs:
       - run: php bin/console doctrine:fixtures:load -n
 
       # run tests with phpunit or codecept
-      #- run: ./vendor/bin/phpunit
-      - run: ./vendor/bin/codecept build
-      - run: ./vendor/bin/codecept run
+      - run: ./bin/phpunit
+      # - run: ./vendor/bin/codecept build
+      # - run: ./vendor/bin/codecept run
