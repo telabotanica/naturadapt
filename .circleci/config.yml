@@ -11,7 +11,7 @@ jobs:
         environment:
           APP_ENV: test
           APP_SECRET: 0116ea354117af2c822bb1aeb5d7d367
-          DATABASE_URL: mysql://root:@localhost:3306/circle_test
+          DATABASE_URL: mysql://root:@127.0.0.1:3306/circle_test
           DATABASE_PREFIX: naturadapt_
 
       # Specify service dependencies here if necessary
@@ -31,7 +31,6 @@ jobs:
       - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
       - run: sudo docker-php-ext-install zip
       - run: sudo docker-php-ext-install pdo_mysql
-      - run: sudo docker-php-ext-enable pdo_mysql
 
       # Download and cache dependencies
       - restore_cache:
