@@ -26,10 +26,17 @@
 						{{ form_widget(form.displayname, {'attr': {'placeholder': 'forms.display_name.placeholder'}}) }}
 					</div>
 					<div class="form-row form-row__file">
-						{{ form_label(form.avatarfile, 'forms.avatar.label') }}
-						<div class="hint">{{ 'forms.avatar.hint'|trans }}</div>
-						{{ form_widget(form.avatarfile) }}
-						{{ form_label(form.avatarfile, 'forms.avatar.button', {'label_attr': {'class': 'submit-style'}}) }}
+						<div class="file-preview">
+							<div class="file-preview--img">
+								<img src="{{ path('member_avatar', {'user_id': app.user.id}) }}" alt="">
+							</div>
+							<div class="file-preview--content">
+								{{ form_label(form.avatarfile, 'forms.avatar.label') }}
+								<div class="hint">{{ 'forms.avatar.hint'|trans }}</div>
+								{{ form_widget(form.avatarfile) }}
+								{{ form_label(form.avatarfile, 'forms.avatar.button', {'label_attr': {'class': 'submit-style'}}) }}
+							</div>
+						</div>
 					</div>
 					<div class="columns-66-33">
 						<div class="form-row form-row__field">

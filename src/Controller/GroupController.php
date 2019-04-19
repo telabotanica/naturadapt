@@ -60,6 +60,10 @@ class GroupController extends AbstractController {
 
 	/**
 	 * @Route("/groups/{groupSlug}", name="group_index")
+	 * @param                                            $groupSlug
+	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 *
+	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function groupIndex ( $groupSlug, ObjectManager $manager ) {
 		$group = $manager->getRepository( Usergroup::class )

@@ -1,3 +1,8 @@
 <div class="user user__tiny" title="{{ user.displayName }}" style="--color: {{ user.displayName|color }}">
+	{% if (user.avatar is defined) and user.avatar %}
+		<div class="user--avatar">
+			<img src="{{ path('member_avatar', {'user_id': user.id}) }}" alt="">
+		</div>
+	{% endif %}
 	{{ user.displayName }}
 </div>

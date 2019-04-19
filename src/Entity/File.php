@@ -9,6 +9,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\FileRepository")
  */
 class File {
+	public const USER_FILES      = 'userfiles';
+	public const USERGROUP_FILES = 'usergroupfiles';
+
 	/**
 	 * @ORM\Id()
 	 * @ORM\GeneratedValue()
@@ -25,6 +28,11 @@ class File {
 	 * @ORM\ManyToOne(targetEntity="App\Entity\Usergroup", inversedBy="files")
 	 */
 	private $usergroup;
+
+	/**
+	 * @ORM\Column(type="string", length=32)
+	 */
+	private $filesystem;
 
 	/**
 	 * @ORM\Column(type="string", length=100)
@@ -106,6 +114,16 @@ class File {
 
 	public function setSize ( ?int $size ): self {
 		$this->size = $size;
+
+		return $this;
+	}
+
+	public function getFilesystem (): ?string {
+		return $this->filesystem;
+	}
+
+	public function setFilesystem ( string $filesystem ): self {
+		$this->filesystem = $filesystem;
 
 		return $this;
 	}

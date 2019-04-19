@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\File;
 use App\Entity\User;
 use App\Form\UserProfileType;
+use App\Security\UserVoter;
 use App\Service\EmailSender;
+use App\Service\FileManager;
 use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
 use Exception;
@@ -304,6 +307,8 @@ class UserController extends AbstractController {
 			Request $request,
 			ObjectManager $manager
 	) {
+		$this->denyAccessUnlessGranted( UserVoter::LOGGED );
+
 		/**
 		 * @var User $user
 		 */
@@ -321,13 +326,17 @@ class UserController extends AbstractController {
 	 *
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
 	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \App\Service\FileManager                   $fileManager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function profileCreate (
 			Request $request,
-			ObjectManager $manager
+			ObjectManager $manager,
+			FileManager $fileManager
 	) {
+		$this->denyAccessUnlessGranted( UserVoter::LOGGED );
+
 		/**
 		 * @var User $user
 		 */
@@ -354,6 +363,22 @@ class UserController extends AbstractController {
 			$user->setInscriptionType( $submittedUser->getInscriptionType() );
 			$user->setSite( $submittedUser->getSite() );
 
+			// Avatar
+			$uploadFile = $form->get( 'avatarfile' )->getData();
+
+			if ( !empty( $uploadFile ) ) {
+				/**
+				 * @var \App\Service\UserFileManager $userFileManager
+				 */
+				$userFileManager = $fileManager->getManager( File::USER_FILES );
+				$file            = $userFileManager->createFromUploadedFile( $uploadFile, $user );
+
+				$manager->persist( $file );
+
+				$user->setAvatar( $file );
+			}
+			// --
+
 			$manager->flush();
 
 			$this->addFlash( 'notice', 'messages.user.profile_created' );
@@ -376,6 +401,8 @@ class UserController extends AbstractController {
 			Request $request,
 			ObjectManager $manager
 	) {
+		$this->denyAccessUnlessGranted( UserVoter::LOGGED );
+
 		return $this->render( 'pages/user/profile-edit.html.twig' );
 	}
 }

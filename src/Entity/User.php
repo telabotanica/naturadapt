@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -61,7 +62,7 @@ class User implements UserInterface {
 	private $displayName;
 
 	/**
-	 * @ORM\Column(type="string", length=100, nullable=true)
+	 * @ORM\OneToOne(targetEntity="App\Entity\File", cascade={"persist", "remove"})
 	 */
 	private $avatar;
 
@@ -96,6 +97,22 @@ class User implements UserInterface {
 	private $profileVisibility;
 
 	/**
+	 * @ORM\Column(type="string", length=20, nullable=true)
+	 */
+	private $inscriptionType;
+
+	/**
+	 * @ORM\Column(type="string", length=100, nullable=true)
+	 */
+	private $site;
+
+	/**
+	 * @ORM\ManyToMany(targetEntity="App\Entity\Skill")
+	 * @ORM\JoinTable(name="users_skills")
+	 */
+	private $skills;
+
+	/**
 	 * @ORM\Column(type="string", length=100, nullable=true)
 	 */
 	private $locale;
@@ -124,22 +141,6 @@ class User implements UserInterface {
 	 * @ORM\OneToMany(targetEntity="App\Entity\UsergroupMembership", mappedBy="user", orphanRemoval=true)
 	 */
 	private $usergroupMemberships;
-
-	/**
-	 * @ORM\Column(type="string", length=20, nullable=true)
-	 */
-	private $inscriptionType;
-
-	/**
-	 * @ORM\Column(type="string", length=100, nullable=true)
-	 */
-	private $site;
-
-	/**
-	 * @ORM\ManyToMany(targetEntity="App\Entity\Skill")
-	 * @ORM\JoinTable(name="users_skills")
-	 */
-	private $skills;
 
 	public function __construct () {
 		$this->usergroupMemberships = new ArrayCollection();
@@ -250,16 +251,6 @@ class User implements UserInterface {
 		// $this->plainPassword = null;
 	}
 
-	public function getAvatar (): ?string {
-		return $this->avatar;
-	}
-
-	public function setAvatar ( ?string $avatar ): self {
-		$this->avatar = $avatar;
-
-		return $this;
-	}
-
 	public function getPresentation (): ?string {
 		return $this->presentation;
 	}
@@ -300,21 +291,21 @@ class User implements UserInterface {
 		return $this;
 	}
 
-	public function getCreatedAt (): ?\DateTimeInterface {
+	public function getCreatedAt (): ?DateTimeInterface {
 		return $this->createdAt;
 	}
 
-	public function setCreatedAt ( \DateTimeInterface $createdAt ): self {
+	public function setCreatedAt ( DateTimeInterface $createdAt ): self {
 		$this->createdAt = $createdAt;
 
 		return $this;
 	}
 
-	public function getSeenAt (): ?\DateTimeInterface {
+	public function getSeenAt (): ?DateTimeInterface {
 		return $this->seenAt;
 	}
 
-	public function setSeenAt ( ?\DateTimeInterface $seenAt ): self {
+	public function setSeenAt ( ?DateTimeInterface $seenAt ): self {
 		$this->seenAt = $seenAt;
 
 		return $this;
@@ -447,6 +438,16 @@ class User implements UserInterface {
 		if ( $this->skills->contains( $skill ) ) {
 			$this->skills->removeElement( $skill );
 		}
+
+		return $this;
+	}
+
+	public function getAvatar (): ?File {
+		return $this->avatar;
+	}
+
+	public function setAvatar ( ?File $avatar ): self {
+		$this->avatar = $avatar;
 
 		return $this;
 	}

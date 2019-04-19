@@ -29,7 +29,21 @@ class UserFileManager {
 		$this->filesystem = $container->get( 'gaufrette.userfiles_filesystem' );
 	}
 
-	public function moveUploadedFile ( UploadedFile $file, User $group ) {
+	public function createFromUploadedFile ( UploadedFile $uploadedFile, User $user ) {
+		$filename = $this->moveUploadedFile( $uploadedFile, $user );
+
+		$file = new File();
+		$file->setFilesystem( File::USER_FILES );
+		$file->setUser( $user );
+		$file->setName( $uploadedFile->getClientOriginalName() );
+		$file->setPath( $filename );
+		$file->setType( $uploadedFile->getMimeType() );
+		$file->setSize( $uploadedFile->getSize() );
+
+		return $file;
+	}
+
+	public function moveUploadedFile ( UploadedFile $file, User $user ) {
 		$filename  = pathinfo( $file->getClientOriginalName(), PATHINFO_FILENAME );
 		$extension = $file->guessExtension();
 
@@ -37,32 +51,15 @@ class UserFileManager {
 			$n = 1;
 			do {
 				$basename = $filename . ( $n > 1 ? '-' . $n : '' ) . '.' . $extension;
-				$fullname = 'group-' . $group->getId() . '/' . $basename;
+				$fullname = 'user-' . $user->getId() . '/' . $basename;
 				$n++;
 			} while ( $this->filesystem->getAdapter()->exists( $fullname ) );
 
 			$this->filesystem->write( $fullname, file_get_contents( $file->getRealPath() ) );
 
-			return $basename;
+			return File::USER_FILES . '/' . $fullname;
 		} catch ( FileException $e ) {
 			return FALSE;
 		}
-	}
-
-	public function getUsergroupFile ( File $file ) {
-		$filename = $file->getName();
-		$filepath = $file->getPath();
-		$filetype = $file->getType();
-
-		$fileStream = sprintf( 'gaufrette://usergroupfiles/%s', 'group-' . $file->getUsergroup()->getId() . '/' . $filepath );
-
-		$response = new BinaryFileResponse( $fileStream );
-		$response->headers->set( 'Content-Type', $filetype );
-		$response->setContentDisposition(
-				ResponseHeaderBag::DISPOSITION_INLINE,
-				$filename
-		);
-
-		return $response;
 	}
 }

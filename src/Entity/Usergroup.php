@@ -172,7 +172,7 @@ class Usergroup {
 	public function addMember ( UsergroupMembership $member ): self {
 		if ( !$this->members->contains( $member ) ) {
 			$this->members[] = $member;
-			$member->setGroup( $this );
+			$member->setUsergroup( $this );
 		}
 
 		return $this;
@@ -182,8 +182,8 @@ class Usergroup {
 		if ( $this->members->contains( $member ) ) {
 			$this->members->removeElement( $member );
 			// set the owning side to null (unless already changed)
-			if ( $member->getGroup() === $this ) {
-				$member->setGroup( NULL );
+			if ( $member->getUsergroup() === $this ) {
+				$member->setUsergroup( NULL );
 			}
 		}
 
