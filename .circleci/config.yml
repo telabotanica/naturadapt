@@ -67,4 +67,4 @@ jobs:
 
       # upload artifacts
       - store_artifacts:
-          path: /var/log/test.log
+          path: ./var/log/test.log
