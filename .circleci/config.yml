@@ -64,3 +64,7 @@ jobs:
       - run: ./bin/phpunit
       # - run: ./vendor/bin/codecept build
       # - run: ./vendor/bin/codecept run
+
+      # upload artifacts
+      - store_artifacts:
+          path: /var/log/test.log
