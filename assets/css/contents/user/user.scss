@@ -4,16 +4,24 @@
 
 .user__tiny {
 	position:         relative;
+	display:          inline-block;
+	vertical-align:   top;
 
-	font-size:        0;
+	width:            line_height_default() * 1em;
+	height:           line_height_default() * 1em;
 	overflow:         hidden;
-
-	width:            line_height_default() * 1rem;
-	height:           line_height_default() * 1rem;
 
 	background-color: $color_orange_red;
 	background-color: var(--color);
-	border-radius:    line_height_default() * .5rem;
+	border-radius:    line_height_default() * .5em;
+
+	.user--name {
+		position:  absolute;
+		width:     0;
+		height:    0;
+		overflow:  hidden;
+		font-size: 0;
+	}
 
 	.user--avatar {
 		position: absolute;

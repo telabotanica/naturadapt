@@ -4,5 +4,5 @@
 			<img src="{{ path('member_avatar', {'user_id': user.id}) }}" alt="">
 		</div>
 	{% endif %}
-	{{ user.displayName }}
+	<span class="user--name">{{ user.displayName }}</span>
 </div>
