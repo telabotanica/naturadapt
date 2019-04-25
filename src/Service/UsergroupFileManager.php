@@ -29,7 +29,7 @@ class UsergroupFileManager {
 	}
 
 	public function createFromUploadedFile ( UploadedFile $uploadedFile, User $user, Usergroup $group ) {
-		$filename = $this->moveUploadedFile( $file, $group );
+		$filename = $this->moveUploadedFile( $uploadedFile, $group );
 
 		$file = new File();
 		$file->setFilesystem( File::USERGROUP_FILES );
