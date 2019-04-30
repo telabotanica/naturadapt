@@ -27,6 +27,10 @@ class UserFileManager {
 		$this->filesystem = $container->get( 'gaufrette.userfiles_filesystem' );
 	}
 
+	public function getFileSystem () {
+		return $this->filesystem;
+	}
+
 	public function createFromUploadedFile ( UploadedFile $uploadedFile, User $user ) {
 		$filename = $this->moveUploadedFile( $uploadedFile, $user );
 
@@ -55,7 +59,7 @@ class UserFileManager {
 
 			$this->filesystem->write( $fullname, file_get_contents( $file->getRealPath() ) );
 
-			return File::USER_FILES . '/' . $fullname;
+			return $fullname;
 		} catch ( FileException $e ) {
 			return FALSE;
 		}

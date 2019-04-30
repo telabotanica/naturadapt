@@ -28,6 +28,10 @@ class UsergroupFileManager {
 		$this->filesystem = $container->get( 'gaufrette.usergroupfiles_filesystem' );
 	}
 
+	public function getFileSystem () {
+		return $this->filesystem;
+	}
+
 	public function createFromUploadedFile ( UploadedFile $uploadedFile, User $user, Usergroup $group ) {
 		$filename = $this->moveUploadedFile( $uploadedFile, $group );
 
@@ -57,7 +61,7 @@ class UsergroupFileManager {
 
 			$this->filesystem->write( $fullname, file_get_contents( $file->getRealPath() ) );
 
-			return File::USERGROUP_FILES . '/' . $fullname;
+			return $fullname;
 		} catch ( FileException $e ) {
 			return FALSE;
 		}
