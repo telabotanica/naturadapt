@@ -39,6 +39,9 @@ forms:
         labels:
             private: "Inscription à titre personnel"
             professional: "Inscription à titre professionnel"
+    skills:
+        label: "Vos compétences"
+        hint: "Sélectionnez dans la liste proposée les compétences que vous souhaitez partager"
     site:
         label: "Votre site naturel"
         hint: "Parce que vous y travaillez, vous y habitez ou simplement si vous êtes particlièrement attaché·e à un site naturel en particulier"

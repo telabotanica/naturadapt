@@ -361,6 +361,7 @@ class UserController extends AbstractController {
 			$user->setPresentation( $submittedUser->getPresentation() );
 			$user->setBio( $submittedUser->getBio() );
 			$user->setInscriptionType( $submittedUser->getInscriptionType() );
+			$user->setSkills( $submittedUser->getSkills() );
 			$user->setSite( $submittedUser->getSite() );
 
 			// Avatar

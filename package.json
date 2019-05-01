@@ -1,6 +1,7 @@
 {
 	"devDependencies": {
 		"@symfony/webpack-encore": "^0.22.0",
+		"awesomplete":             "^1.1.4",
 		"core-js":                 "^3.0.1",
 		"mf-js":                   "^2.0.3",
 		"node-sass":               "^4.11.0",

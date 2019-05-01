@@ -426,6 +426,16 @@ class User implements UserInterface {
 		return $this->skills;
 	}
 
+	public function setSkills ( Collection $skills ) {
+		$this->skills = new ArrayCollection();
+
+		foreach ( $skills as $skill ) {
+			$this->addSkill( $skill );
+		}
+
+		return $this;
+	}
+
 	public function addSkill ( Skill $skill ): self {
 		if ( !$this->skills->contains( $skill ) ) {
 			$this->skills[] = $skill;

@@ -54,6 +54,11 @@
 		border-color: $color_grey_medium;
 	}
 
+	&:focus-within {
+		outline:      none;
+		border-color: $color_grey_medium;
+	}
+
 	&.error,
 	.error & {
 		border-color: $color_orange_red;
@@ -162,14 +167,14 @@ input[type="submit"] {
 
 .checkbox-label {
 	position:     relative;
-	padding-left: rem(40px);
+	padding-left: rem(30px);
 
 	&::before {
 		content:    '';
 		position:   absolute;
 		left:       0;
-		top:        .5 * line_height_default() * 1em;
-		margin-top: rem(-15px);
+		top:        1.1em;
+		margin-top: rem(-13px);
 
 		@include picto-checkbox();
 	}
@@ -199,7 +204,8 @@ input[type="submit"] {
 	@extend .checkbox-label;
 }
 
-.form-row__checkbox {
+.form-row__checkbox,
+.form-row__checkboxes:not(#_o) {
 	label {
 		display: block;
 
@@ -208,7 +214,10 @@ input[type="submit"] {
 
 	input[type="checkbox"] {
 		position: absolute;
-		left:     -99999px;
+		width:    0;
+		height:   0;
+		opacity:  0;
+		overflow: hidden;
 	}
 }
 
@@ -225,7 +234,7 @@ input[type="submit"] {
 		position:   absolute;
 		left:       0;
 		top:        1.1em;
-		margin-top: rem(-14px);
+		margin-top: rem(-13px);
 
 		@include picto-radiobox();
 	}

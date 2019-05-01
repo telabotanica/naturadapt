@@ -1,0 +1,87 @@
+/**************************************************
+* AUTOCOMPLETE TAGS
+**************************************************/
+
+.checkboxes-autocomplete[data-autocomplete="true"] {
+	input[tabIndex="-1"],
+	label[aria-hidden="true"] {
+		position:   absolute;
+		margin:     0;
+		padding:    0;
+		width:      0;
+		height:     0;
+		overflow:   hidden;
+		visibility: hidden;
+	}
+}
+
+.autocomplete-tags {
+	@include input-style;
+
+	display:         flex;
+	flex-flow:       row nowrap;
+	justify-content: stretch;
+
+	.tags {
+		display:   flex;
+		flex-flow: row nowrap;
+	}
+
+	.tag {
+		display:          flex;
+		flex-flow:        row nowrap;
+		align-items:      center;
+
+		margin-right:     .5em;
+		padding-left:     1em;
+		padding-right:    1em;
+		font-size:        rem(10px);
+
+		color:            $color_action;
+		background-color: lighten($color_action, 50);
+		border-radius:    2em;
+
+		button {
+			position:      relative;
+			@include button-reset;
+			margin-left:   .5em;
+
+			width:         1em;
+			height:        1em;
+			border:        1px solid $color_action;
+			border-radius: .5em;
+
+			&::before,
+			&::after {
+				content:    '';
+				position:   absolute;
+				top:        50%;
+				left:       50%;
+				width:      80%;
+				height:     0;
+				border-top: 1px solid $color_action;
+			}
+
+			&::before {
+				transform: translate(-50%, -50%) rotate(45deg);
+			}
+
+			&::after {
+				transform: translate(-50%, -50%) rotate(-45deg);
+			}
+		}
+	}
+
+	.awesomplete {
+		flex-grow: 1;
+
+		input {
+			margin:  0;
+			padding: 0;
+			width:   100%;
+			border:  0;
+			outline: none;
+		}
+	}
+}
+

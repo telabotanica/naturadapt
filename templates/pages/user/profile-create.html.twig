@@ -69,6 +69,13 @@
 						</div>
 					</div>
 					<div class="form-row form-row__field">
+						{{ form_label(form.skills, 'forms.skills.label') }}
+						<div class="hint">{{ 'forms.skills.hint'|trans }}</div>
+						<div class="form-row__checkboxes checkboxes-autocomplete">
+							{{ form_widget(form.skills) }}
+						</div>
+					</div>
+					<div class="form-row form-row__field">
 						{{ form_label(form.site, 'forms.site.label') }}
 						<div class="hint">{{ 'forms.site.hint'|trans }}</div>
 						{{ form_widget(form.site, {'attr': {'placeholder': 'forms.site.placeholder'}}) }}

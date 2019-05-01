@@ -7,7 +7,10 @@
 
 namespace App\Form;
 
+use App\Entity\Skill;
 use App\Entity\User;
+use App\Repository\SkillRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -53,6 +56,18 @@ class UserProfileType extends AbstractType {
 								'forms.inscription_type.labels.' . User::TYPE_PRIVATE       => User::TYPE_PRIVATE,
 								'forms.inscription_type.labels.' . User::TYPE_PROFESSIONNAL => User::TYPE_PROFESSIONNAL,
 						],
+				] )
+				->add( 'skills', EntityType::class, [
+						'class'                     => Skill::class,
+						'required'                  => FALSE,
+						'expanded'                  => TRUE,
+						'multiple'                  => TRUE,
+						'query_builder'             => function ( SkillRepository $repository ) {
+							return $repository->createQueryBuilder( 'u' )
+											  ->orderBy( 'u.slug', 'ASC' );
+						},
+						'choice_translation_domain' => 'skills',
+						'choice_label'              => 'slug',
 				] )
 				->add( 'site', TextType::class, [ 'required' => FALSE ] )
 				->add( 'submit', SubmitType::class );
