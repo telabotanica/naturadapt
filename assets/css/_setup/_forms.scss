@@ -31,6 +31,7 @@
 	padding:       .5em .8em;
 
 	max-width:     100%;
+	height:        auto;
 
 	@include font_default;
 	font-size:     1em;
@@ -151,7 +152,7 @@ textarea {
 	height:      line_height_default() * 5 * 1em;
 }
 
-button[type="button"],
+button[type="button"]:not([class]),
 button[type="submit"],
 input[type="submit"] {
 	@include submit-style;
