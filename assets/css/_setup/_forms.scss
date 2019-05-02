@@ -129,7 +129,7 @@ select {
 	$color: $color_default;
 	@import '../_assets/picto-select.svg';
 	background-repeat:   no-repeat;
-	background-position: right center;
+	background-position: right rem(10px) center;
 }
 
 select::-ms-expand {
