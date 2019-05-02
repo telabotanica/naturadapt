@@ -35,7 +35,7 @@ ready( () => Array.from( document.querySelectorAll( '.checkboxes-autocomplete' )
 
 	// Enable autocomplete
 
-	const autocomplete = new Awesomplete( input, { list: list } );
+	const autocomplete = new Awesomplete( input, { list: list, minChars: 1 } );
 
 	// Add tag from a given value
 
