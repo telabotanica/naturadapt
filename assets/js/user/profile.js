@@ -15,12 +15,17 @@ function get_places( element ) {
 }
 
 ready( () => {
-	Array.from( document.querySelectorAll( '[name="user_profile[city]"]' ) ).forEach( ( input ) => {
+	Array.from( document.querySelectorAll( '[name="user_profile"]' ) ).forEach( ( form ) => {
+		const input = form.querySelector( '[name="user_profile[city]"]' );
+
 		get_places( input ).then( ( autocomplete ) => autocomplete.on( 'change', ( e ) => {
 			console.log( e.suggestion );
 
-			document.querySelector( '[name="user_profile[zipcode]"]' ).value = e.suggestion.postcode || '';
-			document.querySelector( '[name="user_profile[country]"]' ).value = e.suggestion.countryCode.toUpperCase() || '';
+			form.querySelector( '[name="user_profile[zipcode]"]' ).value = e.suggestion.postcode || '';
+			form.querySelector( '[name="user_profile[country]"]' ).value = e.suggestion.countryCode.toUpperCase() || '';
+
+			form.querySelector( '[name="user_profile[latitude]"]' ).value  = e.suggestion.latlng.lat || '';
+			form.querySelector( '[name="user_profile[longitude]"]' ).value = e.suggestion.latlng.lng || '';
 		} ) );
 	} );
 } );

@@ -357,6 +357,8 @@ class UserController extends AbstractController {
 			$user->setCity( $submittedUser->getCity() );
 			$user->setZipcode( $submittedUser->getZipcode() );
 			$user->setCountry( $submittedUser->getCountry() );
+			$user->setLatitude( $submittedUser->getLatitude() );
+			$user->setLongitude( $submittedUser->getLongitude() );
 
 			$user->setPresentation( $submittedUser->getPresentation() );
 			$user->setBio( $submittedUser->getBio() );

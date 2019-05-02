@@ -15,6 +15,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -40,6 +41,12 @@ class UserProfileType extends AbstractType {
 						'required' => FALSE,
 				] )
 				->add( 'country', CountryType::class, [
+						'required' => FALSE,
+				] )
+				->add( 'latitude', HiddenType::class, [
+						'required' => FALSE,
+				] )
+				->add( 'longitude', HiddenType::class, [
 						'required' => FALSE,
 				] )
 				->add( 'presentation', TextType::class, [
