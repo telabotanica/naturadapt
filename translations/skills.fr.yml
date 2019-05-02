@@ -1,7 +1,7 @@
 # translations/skills.fr.yaml
 botany: "botanique"
-bryology "bryologie"
-mycology "mycologie"
+bryology: "bryologie"
+mycology: "mycologie"
 lichenology: "lichénologie"
 entomology: "entomologie"
 mammalogy: "mammalogie"
