@@ -1,4 +1,5 @@
 # translations/skills.fr.yaml
 botany: "Botanique (végétaux)"
-bryology: "Briologie"
-mycology: "Mycologie"
+bryology: "Briologie (champignons)"
+mycology: "Mycologie (mousses)"
+# TODO: COMPLETE
