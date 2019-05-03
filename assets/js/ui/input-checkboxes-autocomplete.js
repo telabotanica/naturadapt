@@ -1,6 +1,5 @@
 import ready from 'mf-js/modules/dom/ready';
-import Awesomplete from 'awesomplete';
-import 'awesomplete/awesomplete.css';
+import autocomplete from 'autocomplete.js';
 
 ready( () => Array.from( document.querySelectorAll( '.checkboxes-autocomplete' ) ).forEach( ( element ) => {
 	const checkboxes = Array.from( element.querySelectorAll( 'input[type="checkbox"]' ) );
@@ -22,7 +21,7 @@ ready( () => Array.from( document.querySelectorAll( '.checkboxes-autocomplete' )
 
 	// Create elements
 
-	const wrapper     = document.createElement( 'div' );
+	const wrapper     = document.createElement( 'label' );
 	wrapper.className = 'autocomplete-tags';
 	element.appendChild( wrapper );
 
@@ -31,11 +30,41 @@ ready( () => Array.from( document.querySelectorAll( '.checkboxes-autocomplete' )
 	wrapper.appendChild( tags );
 
 	const input = document.createElement( 'input' );
+	input.id    = 'input-' + Math.floor( 1000000 * Math.random() );
+	wrapper.setAttribute( 'for', input.id );
 	wrapper.appendChild( input );
 
 	// Enable autocomplete
 
-	const autocomplete = new Awesomplete( input, { list: list, minChars: 1 } );
+	const autocompleteComponent = autocomplete( input, { hint: false, clearOnSelected: true }, [
+		{
+			source:     ( query, callback ) => {
+				const keys = query
+					.split( ' ' )
+					.filter( ( key ) => key.length > 0 );
+
+				const results = list
+					.map( ( item ) => {
+						const r = Object.assign( { suggestion: item.label, match: 0 }, item );
+
+						keys.forEach( ( key ) => {
+							if ( r.label.includes( key ) ) {
+								r.suggestion = r.suggestion.replace( key, `<em>${key}</em>` );
+								r.match++;
+							}
+						} );
+
+						return r;
+					} )
+					.filter( ( item ) => item.match > 0 );
+
+				callback( results );
+			},
+			displayKey: ( item ) => item.label,
+			templates:  {
+				suggestion: ( item ) => item.suggestion,
+			}
+		} ] );
 
 	// Add tag from a given value
 
@@ -79,17 +108,5 @@ ready( () => Array.from( document.querySelectorAll( '.checkboxes-autocomplete' )
 
 	// Add Tags on autocomplete
 
-	input.addEventListener( 'awesomplete-select', ( e ) => {
-		e.preventDefault();
-
-		addTag( e.text.value );
-
-		// Clear input
-		input.value = '';
-
-		// Close popin
-		autocomplete.close();
-	} );
-
-	//
+	autocompleteComponent.on( 'autocomplete:selected', ( e, suggestion, dataset, context ) => addTag( suggestion.value ) );
 } ) );
