@@ -62,7 +62,7 @@
 	<div class="form-row form-row__field">
 		{{ form_label(form.siteName, 'forms.site.label') }}
 		<div class="hint">{{ 'forms.site.hint'|trans }}</div>
-		{{ form_widget(form.siteName, {'attr': {'placeholder': 'forms.site.placeholder'}}) }}
+		{{ form_widget(form.siteName, {'attr': {'placeholder': 'forms.site.placeholder', 'data-query': path('search_site', {'query':'query'})}}) }}
 	</div>
 </div>
 <div class="form-row form-row__submit">

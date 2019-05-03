@@ -6,6 +6,7 @@
 	margin-bottom: rem(50px);
 
 	.flash {
+		position:         relative;
 		margin-bottom:    1rem;
 		padding:          padding_vertical() rem(50px);
 
@@ -13,10 +14,36 @@
 		background-color: white;
 		border:           1px solid $color_default;
 		border-radius:    rem(3px);
+
+		&::before {
+			content:  '';
+			position: absolute;
+			width:    2rem;
+			height:   2rem;
+			top:      .8rem;
+			left:     .6rem;
+		}
 	}
 
 	.flash__notice {
 		border-color: $color_lime_green;
+
+		&::before {
+			background-color: $color_lime_green;
+			border-radius:    50%;
+		}
+
+		&::after {
+			content:       '';
+			position:      absolute;
+			width:         1.2rem;
+			height:        0.6rem;
+			top:           1.3rem;
+			left:          1rem;
+			border-left:   3px solid white;
+			border-bottom: 3px solid white;
+			transform:     rotate(-45deg);
+		}
 	}
 
 	.flash__warning {
