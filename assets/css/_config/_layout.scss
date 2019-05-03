@@ -41,10 +41,14 @@
 * CARDS
 **************************************************/
 
+@mixin shadow() {
+	box-shadow: 0 .6em 1em -.2em rgba($color_default, .25);
+}
+
 @mixin card_shadow() {
 	color:            $color_default;
 	background-color: white;
-	box-shadow:       0 .6em 1em -.2em rgba($color_default, .25);
+	@include shadow;
 }
 
 @mixin cards-container {

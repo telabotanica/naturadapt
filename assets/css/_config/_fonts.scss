@@ -110,24 +110,44 @@
 * LINKS
 **************************************************/
 
-@mixin cta-style($color: $color_lime_green) {
-	display:          inline-block;
-	padding:          .5rem .8rem;
+@mixin cta-style($color: $color_action, $inverted: false, $background: rgba(white, 0)) {
+	display:         inline-block;
+	padding:         .5rem .8rem;
 
-	text-align:       center;
+	text-align:      center;
 
-	color:            white;
-	background-color: $color;
-	border:           0;
-	border-radius:    rem(5px);
-	text-decoration:  none;
+	border:          1px solid $color;
+	border-radius:   rem(5px);
+	text-decoration: none;
 
 	@include font_title;
 
-	transition:       background-color .15s ease-in-out;
+	@if $inverted {
+		color:            $color;
+		background-color: $background;
 
-	&:hover,
-	&:focus {
+		&:hover,
+		&:focus {
+			color:            white;
+			background-color: $color;
+		}
+	} @else {
+		color:            white;
 		background-color: $color;
+
+		&:hover,
+		&:focus {
+			color:            $color;
+			background-color: white;
+		}
+	}
+
+	transition:      color .25s ease-in-out,
+					 background-color .15s ease-in-out,
+					 border-color .15s ease-in-out;
+
+	&:disabled {
+		color:            #999999;
+		background-color: #cccccc;
 	}
 }
