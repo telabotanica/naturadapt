@@ -9,11 +9,11 @@
 
 	width:            line_height_default() * 1em;
 	height:           line_height_default() * 1em;
+	border-radius:    50%;
 	overflow:         hidden;
 
 	background-color: $color_orange_red;
 	background-color: var(--color);
-	border-radius:    line_height_default() * .5em;
 
 	.user--name {
 		position:  absolute;

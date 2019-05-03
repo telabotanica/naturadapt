@@ -18,23 +18,22 @@
 .autocomplete-tags {
 	@include input-style;
 
-	display:         flex;
-	flex-flow:       row nowrap;
-	justify-content: stretch;
-
-	.tags {
-		display:   flex;
-		flex-flow: row nowrap;
-	}
+	padding-bottom: 0;
+	display:        block;
+	@include clearfloat;
 
 	.tag {
+		float:            left;
+
 		display:          flex;
 		flex-flow:        row nowrap;
 		align-items:      center;
 
+		white-space:      nowrap;
+
 		margin-right:     .5em;
-		padding-left:     1em;
-		padding-right:    1em;
+		margin-bottom:    .5rem;
+		padding:          .5em 1em;
 		font-size:        rem(10px);
 
 		color:            $color_action;
@@ -72,8 +71,10 @@
 		}
 	}
 
-	.awesomplete {
-		flex-grow: 1;
+	.awesomplete,
+	.algolia-autocomplete {
+		float:         left;
+		margin-bottom: .5rem;
 
 		input {
 			margin:  0;
@@ -85,3 +86,31 @@
 	}
 }
 
+.algolia-autocomplete {
+	.aa-input, .aa-hint {
+		width: 100%;
+	}
+
+	.aa-hint {
+		color: #999;
+	}
+
+	.aa-dropdown-menu {
+		width:            100%;
+		background-color: white;
+		border:           1px solid $color_grey_light;
+
+		.aa-suggestion {
+			cursor:  pointer;
+			padding: rem(5px) rem(4px);
+		}
+
+		.aa-suggestion.aa-cursor {
+			background-color: #B2D7FF;
+		}
+
+		.aa-suggestion em {
+			@include font_default_bold;
+		}
+	}
+}

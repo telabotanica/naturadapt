@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\File;
+use App\Entity\Site;
 use App\Entity\User;
 use App\Form\UserProfileType;
 use App\Security\UserVoter;
@@ -321,16 +322,9 @@ class UserController extends AbstractController {
 		return $this->render( 'pages/user/dashboard.html.twig' );
 	}
 
-	/**
-	 * @Route("/user/profile/create", name="user_profile_create")
-	 *
-	 * @param \Symfony\Component\HttpFoundation\Request  $request
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
-	 * @param \App\Service\FileManager                   $fileManager
-	 *
-	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-	 */
-	public function profileCreate (
+	protected function profileCreateEdit (
+			$template,
+			$confirmation,
 			Request $request,
 			ObjectManager $manager,
 			FileManager $fileManager
@@ -364,7 +358,16 @@ class UserController extends AbstractController {
 			$user->setBio( $submittedUser->getBio() );
 			$user->setInscriptionType( $submittedUser->getInscriptionType() );
 			$user->setSkills( $submittedUser->getSkills() );
-			$user->setSite( $submittedUser->getSite() );
+
+			$siteName = trim( $form->get( 'siteName' )->getData() );
+			$site     = $manager->getRepository( Site::class )->findOneBy( [ 'name' => $siteName ] );
+			if ( !$site ) {
+				$site = new Site();
+				$site->setName( $siteName );
+
+				$manager->persist( $site );
+			}
+			$user->setSite( $site );
 
 			// Avatar
 			$uploadFile = $form->get( 'avatarfile' )->getData();
@@ -384,12 +387,41 @@ class UserController extends AbstractController {
 
 			$manager->flush();
 
-			$this->addFlash( 'notice', 'messages.user.profile_created' );
+			$this->addFlash( 'notice', $confirmation );
 
 			return $this->redirectToRoute( 'user_dashboard' );
 		}
+		else {
+			$site = $user->getSite();
+			if ( $site ) {
+				$form->get( 'siteName' )->setData( $site->getName() );
+			}
+		}
 
-		return $this->render( 'pages/user/profile-create.html.twig', [ 'form' => $form->createView() ] );
+		return $this->render( $template, [ 'form' => $form->createView() ] );
+	}
+
+	/**
+	 * @Route("/user/profile/create", name="user_profile_create")
+	 *
+	 * @param \Symfony\Component\HttpFoundation\Request  $request
+	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \App\Service\FileManager                   $fileManager
+	 *
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+	 */
+	public function profileCreate (
+			Request $request,
+			ObjectManager $manager,
+			FileManager $fileManager
+	) {
+		return $this->profileCreateEdit(
+				'pages/user/profile-create.html.twig',
+				'messages.user.profile_created',
+				$request,
+				$manager,
+				$fileManager
+		);
 	}
 
 	/**
@@ -397,15 +429,21 @@ class UserController extends AbstractController {
 	 *
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
 	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \App\Service\FileManager                   $fileManager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function profileEdit (
 			Request $request,
-			ObjectManager $manager
+			ObjectManager $manager,
+			FileManager $fileManager
 	) {
-		$this->denyAccessUnlessGranted( UserVoter::LOGGED );
-
-		return $this->render( 'pages/user/profile-edit.html.twig' );
+		return $this->profileCreateEdit(
+				'pages/user/profile-edit.html.twig',
+				'messages.user.profile_updated',
+				$request,
+				$manager,
+				$fileManager
+		);
 	}
 }

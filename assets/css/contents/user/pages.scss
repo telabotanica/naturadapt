@@ -33,7 +33,8 @@
 	}
 }
 
-.user-page__profile-create {
+.user-page__profile-create,
+.user-page__profile-edit {
 	.profile-form {
 		padding: padding_vertical('small') padding_horizontal('small');
 

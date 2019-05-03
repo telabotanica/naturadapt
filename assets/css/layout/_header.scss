@@ -48,7 +48,9 @@
 	display:         flex;
 	flex-flow:       row nowrap;
 	justify-content: flex-end;
+}
 
+.main-header--pages {
 	@include clearulli;
 
 	li {
@@ -67,5 +69,67 @@
 			color:        $color_dodger_blue;
 			border-color: $color_dodger_blue;
 		}
+	}
+}
+
+.main-header--user {
+	position: relative;
+
+	.connexion {
+		@include cta-style($color_action, true);
+	}
+
+	.user__tiny {
+		vertical-align: middle;
+		width:          rem(40px);
+		height:         rem(40px);
+
+		@include shadow;
+	}
+
+	.links {
+		position:   absolute;
+		top:        calc(100% + 1rem);
+		right:      0;
+
+		max-height: 0;
+		transition: max-height .5s ease-in-out;
+		overflow:   hidden;
+		@include shadow;
+
+		ul {
+			margin:           0;
+			padding:          .5rem;
+
+			background-color: white;
+			border-radius:    2px;
+
+			li {
+				&:not(:first-child) {
+					border-top: 1px solid $color_grey_lighter;
+				}
+			}
+
+			a {
+				display:         block;
+				padding:         .5rem .8rem;
+
+				text-decoration: none;
+
+				&:hover,
+				&:focus {
+					color:            white;
+					background-color: $color_action;
+				}
+			}
+		}
+	}
+
+	&:hover .links {
+		max-height: 100vh;
+	}
+
+	&:focus-within .links {
+		max-height: 100vh;
 	}
 }

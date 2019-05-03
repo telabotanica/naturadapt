@@ -4,12 +4,17 @@
 	<div class="user-page user-page__profile-edit">
 		<div class="user-page--header main-presentation">
 			<div class="content-container">
-				{% include 'components/app-flashes.html.twig' %}
+				<div class="narrow">
+					{% include 'components/app-flashes.html.twig' %}
+				</div>
 			</div>
 		</div>
 		<div class="user-page--content content-container">
-			<section class="profile-form">
-				Edit your profile
+			<section class="profile-form narrow">
+				<h1 class="h3">{{ 'pages.user.profile_edit.title'|trans }}</h1>
+				<p>{{ 'pages.user.profile_edit.introduction'|trans }}</p>
+
+				{% include 'components/user/profile-form.html.twig' with ({'form':form, 'form_submit':'pages.user.profile_edit.button'}) %}
 			</section>
 		</div>
 	</div>

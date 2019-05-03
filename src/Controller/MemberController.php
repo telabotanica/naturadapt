@@ -10,9 +10,9 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Service\FileManager;
 use Doctrine\Common\Persistence\ObjectManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class MemberController extends AbstractController {
 	/**************************************************
