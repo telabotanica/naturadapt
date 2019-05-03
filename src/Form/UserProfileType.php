@@ -77,7 +77,10 @@ class UserProfileType extends AbstractType {
 						'choice_translation_domain' => 'skills',
 						'choice_label'              => 'slug',
 				] )
-				->add( 'site', TextType::class, [ 'required' => FALSE ] )
+				->add( 'siteName', TextType::class, [
+						'required' => FALSE,
+						'mapped'   => FALSE,
+				] )
 				->add( 'submit', SubmitType::class );
 	}
 

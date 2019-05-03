@@ -72,6 +72,10 @@ pages:
             title: "Créez votre profil"
             introduction: "Il permettra de vous trouver dans l’annuaire des membres et sera consultable par les autres membres de la communauté."
             button: "Créer votre profil"
+        profile_edit:
+            title: "Modifiez votre profil"
+            introduction: "Il permet de vous trouver dans l’annuaire des membres et est consultable par les autres membres de la communauté."
+            button: "Enregistrer les modifications"
         dashboard:
             welcome: "Bienvenue"
             hello: "Bonjour %s,"
