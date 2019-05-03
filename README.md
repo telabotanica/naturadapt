@@ -56,5 +56,5 @@ Edit your .env and a ```SECURE_SCHEME``` variable with ```https```
 ### How to handle proxies ?
 
 You can add ```TRUSTED_PROXIES``` to your .env.
- 
+
 Or you can add a ```TRUST_ALL=1``` to always forward the ```HEADER_X_FORWARDED_*``` headers, as mentionned on https://symfony.com/doc/current/deployment/proxies.html.
