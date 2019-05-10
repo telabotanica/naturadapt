@@ -104,3 +104,17 @@
 		color: $color_grey_light;
 	}
 }
+
+/**************************************************
+ * MEMBERS PAGES
+ *************************************************/
+
+.filters {
+	@include card;
+
+	padding: padding_vertical('small') padding_horizontal('small');
+
+	@include large-or-more {
+		padding: padding_vertical('large') padding_horizontal('large');
+	}
+}

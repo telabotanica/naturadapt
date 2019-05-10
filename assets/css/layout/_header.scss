@@ -14,18 +14,14 @@
 
 	margin:          1rem;
 	font-size:       rem(14px);
-
-	a {
-		display: inline-block;
-		margin:  0;
-		padding: .4em 1.6em;
-	}
 }
 
 .main-header--logo {
 	a {
 		position:        relative;
-		padding-left:    3.6em;
+		display:         inline-block;
+		margin:          0;
+		padding:         .4em 1.6em .4em 3.6em;
 
 		&::before {
 			content:          '';
@@ -58,6 +54,10 @@
 	}
 
 	a {
+		display:         inline-block;
+		margin:          0;
+		padding:         .4em 1.6em;
+
 		@include font_default;
 		color:           $color_default;
 		text-decoration: none;

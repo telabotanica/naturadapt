@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Orx;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -15,6 +17,125 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 class UserRepository extends ServiceEntityRepository {
 	public function __construct ( RegistryInterface $registry ) {
 		parent::__construct( $registry, User::class );
+	}
+
+	public function getCountries () {
+		return $this->createQueryBuilder( 'u' )
+					->select( 'u.country' )
+					->andWhere( 'u.country IS NOT NULL' )
+					->distinct()
+					->orderBy( 'u.country', 'ASC' )
+					->getQuery()
+					->getResult();
+	}
+
+	/**************************************************
+	 * SEARCH
+	 *************************************************
+	 *
+	 * @param \Doctrine\ORM\QueryBuilder $qb
+	 * @param array                      $filters
+	 */
+
+	protected function searchAddOption ( QueryBuilder &$qb, $filters = [] ) {
+		$i = 1;
+
+		/**
+		 * QUERY
+		 */
+		if ( !empty( $filters[ 'query' ] ) ) {
+			$words = array_filter( explode( ' ', $filters[ 'query' ] ), function ( $word ) {
+				return !empty( $word );
+			} );
+
+			foreach ( $words as $word ) {
+				$var = 'word' . ( $i++ );
+				$qb->andWhere( $qb->expr()->orX(
+						$qb->expr()->like( 'u.name', ':' . $var ),
+						$qb->expr()->like( 'u.displayName', ':' . $var ),
+						$qb->expr()->like( 'u.presentation', ':' . $var ),
+						$qb->expr()->like( 'u.bio', ':' . $var )
+				) )
+				   ->setParameter( $var, '%' . $word . '%' );
+			}
+		}
+
+		/**
+		 * COUNTRY
+		 */
+		if ( !empty( $filters[ 'country' ] ) ) {
+			if ( !is_array( $filters[ 'country' ] ) ) {
+				$filters[ 'country' ] = [ $filters[ 'country' ] ];
+			}
+
+			$query = [];
+			foreach ( $filters[ 'country' ] as $country ) {
+				$var     = 'country' . ( $i++ );
+				$query[] = $qb->expr()->eq( 'u.country', ':' . $var );
+				$qb->setParameter( $var, $country );
+			}
+			$qb->andWhere( new Orx( $query ) );
+		}
+
+		/**
+		 * INSCRIPTION TYPE
+		 */
+		if ( !empty( $filters[ 'inscriptionType' ] ) ) {
+			if ( !is_array( $filters[ 'inscriptionType' ] ) ) {
+				$filters[ 'inscriptionType' ] = [ $filters[ 'inscriptionType' ] ];
+			}
+
+			$query = [];
+			foreach ( $filters[ 'inscriptionType' ] as $inscriptionType ) {
+				$var     = 'inscriptionType' . ( $i++ );
+				$query[] = $qb->expr()->eq( 'u.inscriptionType', ':' . $var );
+				$qb->setParameter( $var, $inscriptionType );
+			}
+			$qb->andWhere( new Orx( $query ) );
+		}
+
+		/**
+		 * SKILLS
+		 */
+		if ( !empty( $filters[ 'skills' ] ) ) {
+			if ( !is_array( $filters[ 'skills' ] ) ) {
+				$filters[ 'skills' ] = [ $filters[ 'skills' ] ];
+			}
+
+			$qb->innerJoin( 'u.skills', 's' );
+
+			$query = [];
+			foreach ( $filters[ 'skills' ] as $skill ) {
+				$var     = 'skill' . ( $i++ );
+				$query[] = $qb->expr()->eq( 's.id', ':' . $var );
+				$qb->setParameter( $var, $skill );
+			}
+			$qb->andWhere( new Orx( $query ) );
+		}
+	}
+
+	public function searchCount ( $filters, $options = [] ) {
+		$qb = $this->createQueryBuilder( 'u' );
+		$qb->select( 'COUNT(u)' );
+
+		$this->searchAddOption( $qb, $filters );
+
+		return $qb->getQuery()
+				  ->getSingleScalarResult();
+	}
+
+	public function search ( $filters, $options = [] ) {
+		$options = array_merge( [ 'page' => 0, 'limit' => 20 ], $options );
+
+		$qb = $this->createQueryBuilder( 'u' );
+
+		$this->searchAddOption( $qb, $filters );
+
+		return $qb->orderBy( 'u.createdAt', 'DESC' )
+				  ->setFirstResult( $options[ 'limit' ] * $options[ 'page' ] )
+				  ->setMaxResults( $options[ 'limit' ] )
+				  ->getQuery()
+				  ->getResult();
 	}
 
 	// /**

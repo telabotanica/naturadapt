@@ -102,6 +102,23 @@ pages:
         files:
             title: "Les documents"
 
+    member:
+        list:
+            title: "Annuaire des membres"
+            filters:
+                title: "Filtres"
+                country:
+                    label: "Pays"
+                inscription_type:
+                    labels:
+                        private: "Grand public"
+                        professional: "Professionnel"
+                skills:
+                    label: "Compétences"
+            query:
+                placeholder: "Chercher un membre par nom, pseudo, bio…"
+            search: "Filtrer"
+
 messages:
     user:
         invalid_credentials: "Mot de passe incorrect"

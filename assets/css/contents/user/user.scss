@@ -39,3 +39,77 @@
 		}
 	}
 }
+
+/**************************************************
+ * USER LIST
+ *************************************************/
+
+.member-page__list {
+	[type="search"] {
+		border-color: white;
+		@include card_shadow;
+	}
+
+	.columns-33-66 {
+		align-items: flex-start;
+	}
+}
+
+.members-list {
+	@include clearulli(true);
+
+	li {
+		border-bottom: 1px solid $color_grey_light;
+	}
+}
+
+.user__in-list {
+	display:         flex;
+	flex-flow:       row nowrap;
+	align-items:     center;
+
+	padding:         rem(16px) rem(23px);
+
+	color:           inherit;
+	text-decoration: none;
+
+	transition:      background-color .1s ease-in;
+
+	&:focus,
+	&:hover {
+		background-color: rgba($color_grey_light, .5);
+	}
+
+	.user--avatar {
+		width:            rem(50px);
+		height:           rem(50px);
+		border-radius:    50%;
+
+		background-color: $color_orange_red;
+		background-color: var(--color);
+
+		img {
+			display:       block;
+			width:         100%;
+			height:        100%;
+			border-radius: 50%;
+		}
+	}
+
+	.user--infos {
+		padding:     0 rem(20px);
+
+		width:       rem(215px);
+
+		line-height: 1.3;
+	}
+
+	.user--name {
+		@include font_default_bold;
+	}
+
+	.user--presentation {
+		font-size: (12 / 16) * 1em;
+		color:     $color_grey_light;
+	}
+}

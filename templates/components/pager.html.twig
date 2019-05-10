@@ -1,0 +1,25 @@
+{% if (pager is defined) and (pager.last > 0) %}
+	{% set side = 2 %}
+	{% set iMin = max(pager.page - side, 0) %}
+	{% set iMax = min(pager.page + side, pager.last) %}
+	{% if pager.base_url is defined %}
+		{% set base_url = pager.base_url %}
+	{% else %}
+		{% set base_url = '?' %}
+	{% endif %}
+	<div class="pager">
+		<ul>
+			{% if iMin > 0 %}
+				{% set i = 0 %}
+				<li class="first"><a href="{{ base_url }}page={{ i }}" class="{{ i == pager.page ? 'selected' : '' }}">{{ i + 1 }}</a></li>
+			{% endif %}
+			{% for i in iMin..iMax %}
+				<li><a href="{{ base_url }}page={{ i }}" class="{{ i == pager.page ? 'selected' : '' }}">{{ i + 1 }}</a></li>
+			{% endfor %}
+			{% if iMax < pager.last %}
+				{% set i = pager.last %}
+				<li class="last"><a href="{{ base_url }}page={{ i }}" class="{{ i == pager.page ? 'selected' : '' }}">{{ i + 1 }}</a></li>
+			{% endif %}
+		</ul>
+	</div>
+{% endif %}

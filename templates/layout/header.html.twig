@@ -13,7 +13,7 @@
 			{% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 				<a class="connexion" href="{{ path('user_login') }}">{{ 'pages.user.login.link'|trans }}</a>
 			{% else %}
-				{% include 'contents/user/user--tiny.html.twig' with {'user':app.user} %}
+				<a href="{{ path('user_dashboard') }}">{% include 'contents/user/user--tiny.html.twig' with {'user':app.user} %}</a>
 				<div class="links">
 					<ul>
 						<li><a href="{{ path('user_profile_edit') }}">{{ 'pages.user.profile_edit.link'|trans }}</a></li>

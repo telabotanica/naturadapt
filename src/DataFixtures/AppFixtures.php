@@ -11,6 +11,7 @@ use App\Service\SlugGenerator;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker;
+use Symfony\Component\Intl\Intl;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture {
@@ -23,13 +24,17 @@ class AppFixtures extends Fixture {
 	}
 
 	public function load ( ObjectManager $manager ) {
-		$faker = Faker\Factory::create( 'fr_FR' );
+		$countries        = [ 'fr_FR', 'en_GB', 'es_ES', 'en_US', 'de_DE' ];
+		$inscriptionTypes = [ User::TYPE_PRIVATE, User::TYPE_PROFESSIONNAL, NULL ];
 
 		/**
 		 * USERS
 		 */
 		$users = [];
-		for ( $i = 0; $i < 20; $i++ ) {
+		for ( $i = 0; $i < 100; $i++ ) {
+			$country = $countries[ rand( 0, count( $countries ) - 1 ) ];
+			$faker   = Faker\Factory::create( $country );
+
 			$user = new User();
 			$user->setCreatedAt( new \DateTime() );
 			$name = $faker->firstName() . ' ' . $faker->lastName();
@@ -44,11 +49,16 @@ class AppFixtures extends Fixture {
 			$user->setRoles( [ User::ROLE_USER ] );
 			$user->setStatus( User::STATUS_ACTIVE );
 
+			$user->setCountry( substr( $country, 3, 2 ) );
+			$user->setInscriptionType( $inscriptionTypes[ rand( 0, count( $inscriptionTypes ) - 1 ) ] );
+
 			$manager->persist( $user );
 			$manager->flush();
 
 			$users[] = $user;
 		}
+
+		$faker = Faker\Factory::create( 'fr_FR' );
 
 		/**
 		 * CATEGORIES

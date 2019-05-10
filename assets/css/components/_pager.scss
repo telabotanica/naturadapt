@@ -1,0 +1,38 @@
+/**************************************************
+* PAGER
+**************************************************/
+
+.pager {
+	padding: column_gap();
+
+	@include clearulli();
+
+	ul {
+		display:         flex;
+		flex-flow:       row nowrap;
+		justify-content: flex-end;
+	}
+
+	li:not(:first-child) {
+		margin-left: rem(7px);
+	}
+
+	li.first {
+		margin-right: rem(15px);
+	}
+
+	li.last {
+		margin-left: rem(7px + 15px);
+	}
+
+	a {
+		@include cta-style($color_action, true);
+
+		&.selected {
+			color:            white;
+			background-color: $color_action;
+		}
+
+		min-width: rem(42px);
+	}
+}
