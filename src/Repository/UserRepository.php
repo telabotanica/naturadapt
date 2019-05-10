@@ -40,6 +40,8 @@ class UserRepository extends ServiceEntityRepository {
 	protected function searchAddOption ( QueryBuilder &$qb, $filters = [] ) {
 		$i = 1;
 
+		$qb->andWhere( $qb->expr()->eq( 'u.status', User::STATUS_ACTIVE ) );
+
 		/**
 		 * QUERY
 		 */
