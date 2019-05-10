@@ -136,6 +136,8 @@ class MemberController extends AbstractController {
 	) {
 		$user = $manager->getRepository( User::class )
 						->findOneById( $user_id );
+
+		return $this->render( 'pages/member/view.html.twig', [ 'user' => $user ] );
 	}
 
 	/**

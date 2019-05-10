@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<div class="member-page member-page__view">
+		<div class="member-page--header main-presentation">
+			<div class="content-container">
+				{% include 'components/app-flashes.html.twig' %}
+			</div>
+		</div>
+		<div class="member-page--content content-container">
+			<div class="h2">{{ user.displayName }}</div>
+		</div>
+	</div>
+{% endblock %}
