@@ -22,6 +22,24 @@ Create the tables:
 php bin/console doctrine:migrations:migrate
 ```
 
+## Inserting default data
+
+The plateform uses data like taxonomies to be fully functionnal. Default data can be inserted via PHP commands.
+
+### Skills
+
+Default skills are defined as slugs in the Command _src/Command/ImportSkillsCommand.php_
+
+To import default Skills, run
+```bash
+php bin/console import:skills
+```
+
+Eventually, additionnal skills can be directly in the database.
+
+Skills translations in the differents languages are managed via Symfony translations via the specific _skills_ domain.
+ex: _translations/skills.fr.yml_
+
 ## Fixtures
 
 Fill the plateform with _Lorem Ipsum_:
