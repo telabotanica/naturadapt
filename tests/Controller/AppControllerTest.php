@@ -33,4 +33,41 @@ class AppControllerTest extends WebTestCase {
 				'Assert frontpage contains groups list with groups'
 		);
 	}
+
+	public function testMembersPageIsValid () {
+		$client = static::createClient();
+
+		$crawler = $client->request( 'GET', '/members' );
+
+		$this->assertEquals(
+				200,
+				$client->getResponse()->getStatusCode(),
+				'Assert members page is StatusCode 200'
+		);
+
+		$this->assertGreaterThan(
+				0,
+				$crawler->filter( '.members-list .user' )->count(),
+				'Assert members page contains members list with users'
+		);
+	}
+
+	public function testMemberPageIsValid () {
+		$client = static::createClient();
+
+		$crawler = $client->request( 'GET', '/members' );
+
+		$link = $crawler
+				->filter( '.members-list a.user' )// find all links with the text "Greet"
+				->eq( 1 )// select the second link in the list
+				->link();
+
+		$crawler = $client->click( $link );
+
+		$this->assertEquals(
+				200,
+				$client->getResponse()->getStatusCode(),
+				'Assert member page is StatusCode 200'
+		);
+	}
 }
