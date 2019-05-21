@@ -70,25 +70,21 @@ class GroupVoter extends Voter {
 					return FALSE;
 				}
 
-				$membership = $this->manager->getRepository( UsergroupMembership::class )->isMember( $user, $group );
-
-				return !empty( $membership );
+				return $this->manager->getRepository( UsergroupMembership::class )->isMember( $user, $group );
 
 			case self::EDIT:
 				if ( !$user instanceof User ) {
 					return FALSE;
 				}
 
-				$membership = $this->manager->getRepository( UsergroupMembership::class )->isMember( $user, $group );
-
-				return !empty( $membership );
+				return $this->manager->getRepository( UsergroupMembership::class )->isMember( $user, $group );
 
 			case self::JOIN:
 				if ( !$user instanceof User ) {
 					return FALSE;
 				}
 
-				$membership = $this->manager->getRepository( UsergroupMembership::class )->isMember( $user, $group );
+				$membership = $this->manager->getRepository( UsergroupMembership::class )->getMembership( $user, $group );
 
 				if ( !empty( $membership ) ) {
 					return FALSE;

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Usergroup;
+use App\Entity\UsergroupMembership;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -18,14 +19,17 @@ class UsergroupRepository extends ServiceEntityRepository {
 	}
 
 	public function getGroupsWithMembers () {
-		return $this->createQueryBuilder( 'ug' )
-					->leftJoin( 'ug.members', 'm' )
-					->addSelect( 'm' )
-					->leftJoin( 'm.user', 'u' )
-					->addSelect( 'u' )
-					->orderBy( 'ug.createdAt', 'ASC' )
-					->getQuery()
-					->getResult();
+		$qb = $this->createQueryBuilder( 'ug' );
+
+		return $qb->leftJoin( 'ug.members', 'm' )
+				  ->addSelect( 'm' )
+				  ->andWhere( $qb->expr()->like( 'm.status', '?1' ) )
+				  ->setParameter( 1, UsergroupMembership::STATUS_MEMBER )
+				  ->leftJoin( 'm.user', 'u' )
+				  ->addSelect( 'u' )
+				  ->orderBy( 'ug.createdAt', 'ASC' )
+				  ->getQuery()
+				  ->getResult();
 	}
 
 	// /**

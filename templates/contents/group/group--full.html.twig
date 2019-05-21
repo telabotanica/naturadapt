@@ -6,7 +6,7 @@
 			{{ group.description }}
 		</div>
 		<div class="group-join">
-			{{ render(controller( 'App\\Controller\\GroupMembersController::groupMemberJoinButton', {'groupSlug':group.slug} )) }}
+			{% include 'components/group/group-join-button.html.twig' with {'group':group} %}
 			{% include 'components/group/group-members--tiny.html.twig' with {'members':group.members} %}
 		</div>
 	</div>

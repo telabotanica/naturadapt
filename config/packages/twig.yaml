@@ -4,3 +4,4 @@ twig:
     strict_variables: '%kernel.debug%'
     globals:
         plateform: '%plateform%'
+        user_group_relation: '@App\Service\UserGroupRelation'

@@ -101,11 +101,20 @@ class AppFixtures extends Fixture {
 			for ( $j = 0, $n = rand( 3, 20 ); $j < $n; $j++ ) {
 				$userId = rand( 0, count( $users ) - 1 );
 				if ( !in_array( $userId, $groupUsers ) ) {
+
 					$membership = new UsergroupMembership();
 					$membership->setUsergroup( $group );
 					$membership->setUser( $users[ $userId ] );
 					$membership->setJoinedAt( new \DateTime() );
-					$membership->setRole( '' );
+
+					if ( $j < 1 ) {
+						$membership->setRole( UsergroupMembership::ROLE_ADMIN );
+						$membership->setStatus( UsergroupMembership::STATUS_MEMBER );
+					}
+					else {
+						$membership->setRole( UsergroupMembership::ROLE_USER );
+						$membership->setStatus( UsergroupMembership::STATUS_MEMBER );
+					}
 
 					$manager->persist( $membership );
 

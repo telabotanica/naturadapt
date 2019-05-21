@@ -89,6 +89,8 @@ pages:
             private: "Groupe privé"
             created_at: "Créé le %s"
         is_member: "Vous êtes membre de ce groupe"
+        is_banned: "Vous avez été banni de ce groupe"
+        is_pending: "Votre demande d’inscription est en attente"
         join_button:
             public: "Rejoindre le groupe"
             private: "Demande d’inscription"
@@ -138,4 +140,6 @@ messages:
         profile_updated: "Votre profil a été mis à jour"
 
     group:
+        joined: "Vous avez rejoint ce groupe."
         candidature_sent: "Votre demande a été transmise aux administrateurs du groupe."
+        user_banned: "Vous avez été banni de ce groupe."

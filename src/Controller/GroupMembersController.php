@@ -23,21 +23,6 @@ class GroupMembersController extends AbstractController {
 		return '#TODO';
 	}
 
-	public function groupMemberJoinButton ( $groupSlug, ObjectManager $manager ) {
-		$group = $manager->getRepository( Usergroup::class )
-						 ->findOneBy( [ 'slug' => $groupSlug ] );
-
-		$user = $this->getUser();
-
-		$isMember = $manager->getRepository( UsergroupMembership::class )
-							->isMember( $user, $group );
-
-		return $this->render( 'components/group/group-join-button.html.twig', [
-				'group'    => $group,
-				'isMember' => $isMember,
-		] );
-	}
-
 	/**
 	 * @Route("/groups/{groupSlug}/members/new", name="group_member_new")
 	 */
@@ -49,28 +34,36 @@ class GroupMembersController extends AbstractController {
 
 		$this->denyAccessUnlessGranted( UserVoter::LOGGED );
 
-		$isMember = $manager->getRepository( UsergroupMembership::class )
-							->isMember( $user, $group );
+		$membership = $manager->getRepository( UsergroupMembership::class )
+							  ->getMembership( $user, $group );
 
-		if ( $isMember ) {
+		if ( !empty( $membership ) ) {
+			if ( $membership->getStatus() === UsergroupMembership::STATUS_BANNED ) {
+				$this->addFlash( 'messages.group.user_banned' );
+			}
+
 			return $this->redirectToRoute( 'group_index', [ 'groupSlug' => $groupSlug ] );
 		}
+
+		$membership = new UsergroupMembership();
+		$membership->setUsergroup( $group );
+		$membership->setUser( $user );
+		$membership->setRole( UsergroupMembership::ROLE_USER );
+		$membership->setJoinedAt( new \DateTime() );
 
 		if ( $this->isGranted( GroupVoter::JOIN, $group ) ) {
-			$membership = new UsergroupMembership();
-			$membership->setUsergroup( $group );
-			$membership->setUser( $user );
-			$membership->setJoinedAt( new \DateTime() );
-			$membership->setRole( '' );
+			$membership->setStatus( UsergroupMembership::STATUS_MEMBER );
 
-			$manager->persist( $membership );
-			$manager->flush();
+			$this->addFlash( 'notice', 'messages.group.joined' );
+		}
+		else {
+			$membership->setStatus( UsergroupMembership::STATUS_PENDING );
 
-			return $this->redirectToRoute( 'group_index', [ 'groupSlug' => $groupSlug ] );
+			$this->addFlash( 'notice', 'messages.group.candidature_sent' );
 		}
 
-		// TODO
-		$this->addFlash( 'notice', 'messages.group.candidature_sent' );
+		$manager->persist( $membership );
+		$manager->flush();
 
 		return $this->redirectToRoute( 'group_index', [ 'groupSlug' => $groupSlug ] );
 	}

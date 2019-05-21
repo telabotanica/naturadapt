@@ -19,12 +19,30 @@ class UsergroupMembershipRepository extends ServiceEntityRepository {
 		parent::__construct( $registry, UsergroupMembership::class );
 	}
 
-	public function isMember ( ?User $user, Usergroup $group ): ?UsergroupMembership {
+	public function getMembership ( ?User $user, Usergroup $group ): ?UsergroupMembership {
 		if ( empty( $user ) ) {
 			return NULL;
 		}
 
 		return $this->findOneBy( [ 'user' => $user, 'usergroup' => $group ] );
+	}
+
+	public function isMember ( ?User $user, Usergroup $group ): bool {
+		$membership = $this->getMembership( $user, $group );
+
+		return !empty( $membership ) && ( $membership->getStatus() === UsergroupMembership::STATUS_MEMBER );
+	}
+
+	public function isBanned ( ?User $user, Usergroup $group ): bool {
+		$membership = $this->getMembership( $user, $group );
+
+		return !empty( $membership ) && ( $membership->getStatus() === UsergroupMembership::STATUS_BANNED );
+	}
+
+	public function isPending ( ?User $user, Usergroup $group ): bool {
+		$membership = $this->getMembership( $user, $group );
+
+		return !empty( $membership ) && ( $membership->getStatus() === UsergroupMembership::STATUS_PENDING );
 	}
 
 	public function getMembers ( Usergroup $group, $limit = 0 ) {

@@ -23,7 +23,8 @@
 			{{ page.body|raw }}
 		</div>
 		<div class="page-group">
-			{{ render(controller( 'App\\Controller\\GroupMembersController::groupMemberJoinButton', {'groupSlug':page.usergroup.slug} )) }}
+			{% include 'components/group/group-join-button.html.twig' with {'group':page.usergroup} %}
+			
 			<ul>
 				{% for page in page.usergroup.pages %}
 					<li>

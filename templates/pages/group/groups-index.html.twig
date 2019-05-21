@@ -2,8 +2,14 @@
 
 {% block body %}
 	<div class="content-container">
-		<section class="main-presentation">
-			<h1>Liste des groupes</h1>
+		<section class="main-presentation narrow">
+			{% include 'components/app-flashes.html.twig' %}
+
+			<h1 class="small-title">Bienvenue sur {{ plateform.name }}</h1>
+
+			<p class="is-lead">Échangeons pour adapter la gestion des espaces naturels face au changement climatique</p>
+
+			<p>En savoir plus</p>
 		</section>
 		<section class="groups-list">
 			<ul>
