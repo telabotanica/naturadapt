@@ -13,3 +13,20 @@ main {
 		padding-top: first_content_padding('large');
 	}
 }
+
+.items-list {
+	@include clearulli(true);
+
+	> li {
+		border-bottom: 1px solid $color_grey_lighter;
+
+		> a {
+			display:         flex;
+
+			padding:         rem(15px) 0;
+
+			color:           inherit;
+			text-decoration: none;
+		}
+	}
+}

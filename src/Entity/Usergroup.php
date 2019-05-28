@@ -165,8 +165,10 @@ class Usergroup {
 	/**
 	 * @return Collection|UsergroupMembership[]
 	 */
-	public function getMembers (): Collection {
-		return $this->members;
+	public function getMembers ( $status = UsergroupMembership::STATUS_MEMBER ): Collection {
+		return $this->members->filter( function ( UsergroupMembership $membership ) use ( $status ) {
+			return $membership->getStatus() === $status;
+		} );
 	}
 
 	public function addMember ( UsergroupMembership $member ): self {

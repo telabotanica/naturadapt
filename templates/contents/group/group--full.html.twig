@@ -1,3 +1,4 @@
+{% set isAdmin = user_group_relation.isAdmin(app.user, group) %}
 <div class="group group__full" style="--color: {{ group.name|color }}">
 	{% include 'contents/group/partials/group--full--header.html.twig' with {'group':group} %}
 
@@ -13,17 +14,17 @@
 	<div class="group-apps content-container">
 		<div class="group-app group-app__pages">
 			<h2>{{ 'pages.group.pages.title'|trans }}</h2>
-			<ul>
+			<ul class="items-list">
 				{% for page in group.pages %}
 					<li>
-						{% include 'contents/page/page--in-list.html.twig' with {'page':page} %}
+						{% include 'contents/page/page--teaser.html.twig' with {'page':page} %}
 					</li>
 				{% endfor %}
 			</ul>
 		</div>
 		<div class="group-app group-app__members">
 			<h2>{{ 'pages.group.members.title'|trans }}</h2>
-			<ul>
+			<ul class="items-list">
 				{% for member in group.members %}
 					<li>
 						{% include 'contents/user/user--teaser.html.twig' with {'user':member.user} %}
@@ -31,6 +32,34 @@
 				{% endfor %}
 			</ul>
 		</div>
+		{% if isAdmin %}
+			{% set members_pending = group.members('pending') %}
+			{% if members_pending is not empty %}
+				<div class="group-app group-app__members group-app__members-pending">
+					<h2>{{ 'pages.group.members_pending.title'|trans }}</h2>
+					<ul class="items-list">
+						{% for member in members_pending %}
+							<li>
+								{% include 'contents/user/user--teaser.html.twig' with {'user':member.user} %}
+							</li>
+						{% endfor %}
+					</ul>
+				</div>
+			{% endif %}
+			{% set members_banned = group.members('banned') %}
+			{% if members_banned is not empty %}
+				<div class="group-app group-app__members group-app__members-banned">
+					<h2>{{ 'pages.group.members_banned.title'|trans }}</h2>
+					<ul class="items-list">
+						{% for member in members_banned %}
+							<li>
+								{% include 'contents/user/user--teaser.html.twig' with {'user':member.user} %}
+							</li>
+						{% endfor %}
+					</ul>
+				</div>
+			{% endif %}
+		{% endif %}
 		<div class="group-app group-app__files">
 			<h2>{{ 'pages.group.files.title'|trans }}</h2>
 			<ul>

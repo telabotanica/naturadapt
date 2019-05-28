@@ -4,26 +4,26 @@
 
 @function padding_horizontal($size: 'small') {
 	@if $size == 'large' {
-		@return rem(30px);
+		@return rem(20px);
 	}
 
-	@return rem(16px);
+	@return rem(20px);
 }
 
 @function padding_vertical($size: 'small') {
 	@if $size == 'large' {
-		@return rem(30px);
+		@return rem(20px);
 	}
 
-	@return rem(16px);
+	@return rem(20px);
 }
 
 @function column_gap($size: 'small') {
-	@return rem(30px);
+	@return rem(50px);
 }
 
 @function content_width() {
-	@return rem(1002px);
+	@return rem((3 * 292 + 2 * 50) * 1px);
 }
 
 // Content column
@@ -64,8 +64,6 @@
 		margin-right: column_gap();
 	}
 	flex-basis:  calc(#{(1 / $n) * 100%} - #{(($n - 1) / $n) * column_gap()});
-	flex-grow:   0;
-	flex-shrink: 0;
 
 	overflow:    hidden;
 

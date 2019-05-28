@@ -1,0 +1,9 @@
+<div class="user--avatar">
+	{% if (user.avatar is defined) and user.avatar %}
+		<img src="{{ user.avatar.path | imagine_filter('avatar') }}" alt="">
+	{% else %}
+		<svg>
+			<use xlink:href="#user"/>
+		</svg>
+	{% endif %}
+</div>

@@ -1,11 +1,5 @@
 <a href="{{ path('member', {'user_id':user.id}) }}" class="user user__in-list" title="{{ user.displayName }}" style="--color: {{ user.displayName|color }}">
-	<div class="user--avatar">
-		{% if (user.avatar is defined) and user.avatar %}
-			<img src="{{ user.avatar.path | imagine_filter('avatar') }}" alt="">
-		{% else %}
-			<img src="{{ path('member_default_avatar') }}" alt="">
-		{% endif %}
-	</div>
+	{% include 'contents/user/partials/user--avatar.html.twig' with{'user':user} %}
 	<div class="user--infos">
 		<div class="user--name">{{ user.displayName }}</div>
 		<div class="user--presentation">{{ user.presentation }}</div>

@@ -98,11 +98,15 @@ pages:
             title: "Ce groupe est privé"
             body: "Votre demande d’inscription au groupe sera soumise à l’acceptation des administrateurs. Il peut ainsi se passer plusieurs jours avant que vous ne receviez votre invitation."
         pages:
-            title: "Les pages"
+            title: "Pages"
         members:
-            title: "Les membres"
+            title: "Membres"
+        members_pending:
+            title: "En attente de validation"
+        members_banned:
+            title: "Bannis"
         files:
-            title: "Les documents"
+            title: "Documents"
 
     member:
         list:

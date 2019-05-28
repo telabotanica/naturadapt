@@ -21,6 +21,21 @@ class UserGroupRelation {
 		$this->manager = $manager;
 	}
 
+	public function isAdmin ( ?User $user, Usergroup $group ) {
+		if ( !$user ) {
+			return FALSE;
+		}
+
+		if ( $user->isAdmin() ) {
+			return TRUE;
+		}
+
+		$membdership = $this->manager->getRepository( UsergroupMembership::class )
+									 ->getMembership( $user, $group );
+
+		return $membdership->getRole() === UsergroupMembership::ROLE_ADMIN;
+	}
+
 	public function isMember ( ?User $user, Usergroup $group ) {
 		return $this->manager->getRepository( UsergroupMembership::class )
 							 ->isMember( $user, $group );

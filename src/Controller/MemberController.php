@@ -165,19 +165,6 @@ class MemberController extends AbstractController {
 			}
 		}
 
-		return $this->defaultAvatar();
-	}
-
-	/**
-	 * @Route("/members/default/avatar", name="member_default_avatar")
-	 *
-	 * @return \Symfony\Component\HttpFoundation\BinaryFileResponse|\Symfony\Component\HttpFoundation\Response
-	 */
-	public function defaultAvatar () {
-		return new Response(
-				'<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 -1 16 16"><path fill="rgba(0,0,0,.1)" d="M9 11.041v-0.825c1.102-0.621 2-2.168 2-3.716 0-2.485 0-4.5-3-4.5s-3 2.015-3 4.5c0 1.548 0.898 3.095 2 3.716v0.825c-3.392 0.277-6 1.944-6 3.959h14c0-2.015-2.608-3.682-6-3.959z"></path></svg>',
-				Response::HTTP_OK,
-				[ 'content-type' => 'image/svg+xml' ]
-		);
+		throw $this->createNotFoundException( 'User does not have an avatar' );
 	}
 }

@@ -1,19 +1,35 @@
 /**************************************************
- * USER
+ * USER COMPONENTS
  *************************************************/
 
-.user__tiny {
-	position:         relative;
-	display:          inline-block;
-	vertical-align:   top;
-
-	width:            line_height_default() * 1em;
-	height:           line_height_default() * 1em;
+.user--avatar {
 	border-radius:    50%;
 	overflow:         hidden;
 
 	background-color: $color_orange_red;
 	background-color: var(--color);
+
+	img,
+	svg {
+		display: block;
+		width:   100%;
+		height:  100%;
+	}
+}
+
+/**************************************************
+ * USER TINY (simple avatar)
+ *************************************************/
+
+.user__tiny {
+	position:       relative;
+	display:        inline-block;
+	vertical-align: top;
+
+	width:          line_height_default() * 1em;
+	height:         line_height_default() * 1em;
+	border-radius:  50%;
+	overflow:       hidden;
 
 	.user--name {
 		position:  absolute;
@@ -29,14 +45,36 @@
 		right:    0;
 		bottom:   0;
 		left:     0;
+	}
+}
 
-		img {
-			display:         block;
-			width:           100%;
-			height:          100%;
-			object-fit:      cover;
-			object-position: center center;
-		}
+/**************************************************
+ * USER TEASER (avatar + name + presentation)
+ *************************************************/
+
+.user__teaser {
+	display:         flex;
+	flex-flow:       row nowrap;
+	justify-content: flex-start;
+	align-items:     center;
+
+	.user--avatar {
+		width:        rem(40px);
+		height:       rem(40px);
+		margin-right: 1rem;
+	}
+
+	.user--infos {
+		flex-grow: 1;
+	}
+
+	.user--name {
+		font-size: (14 / 16) * 1em;
+	}
+
+	.user--presentation {
+		font-size: (12 / 16) * 1em;
+		color:     $color_grey_light;
 	}
 }
 
@@ -52,14 +90,6 @@
 
 	.columns-33-66 {
 		align-items: flex-start;
-	}
-}
-
-.members-list {
-	@include clearulli(true);
-
-	li {
-		border-bottom: 1px solid $color_grey_light;
 	}
 }
 
@@ -81,19 +111,8 @@
 	}
 
 	.user--avatar {
-		width:            rem(50px);
-		height:           rem(50px);
-		border-radius:    50%;
-
-		background-color: $color_orange_red;
-		background-color: var(--color);
-
-		img {
-			display:       block;
-			width:         100%;
-			height:        100%;
-			border-radius: 50%;
-		}
+		width:  rem(50px);
+		height: rem(50px);
 	}
 
 	.user--infos {

@@ -38,7 +38,7 @@
 					<div class="form-row form-row__field">
 						{{ form_widget(form.query, {'attr': {'placeholder': 'pages.member.list.query.placeholder'}}) }}
 					</div>
-					<ul class="members-list">
+					<ul class="items-list">
 						{% for member in members %}
 							<li>
 								{% include 'contents/user/user--in-list.html.twig' with {'user':member} %}

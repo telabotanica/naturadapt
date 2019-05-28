@@ -8,14 +8,7 @@
 			</div>
 		</div>
 		<div class="member-page--content content-container">
-			<div class="user--avatar">
-				{% if (user.avatar is defined) and user.avatar %}
-					<img src="{{ user.avatar.path | imagine_filter('avatar') }}" alt="">
-				{% else %}
-					<img src="{{ path('member_default_avatar') }}" alt="">
-				{% endif %}
-			</div>
-			<h1 class="h2">{{ user.displayName }}</h1>
+			{% include 'contents/user/user--profile.html.twig' %}
 		</div>
 	</div>
 {% endblock %}

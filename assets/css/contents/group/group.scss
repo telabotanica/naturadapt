@@ -92,6 +92,33 @@
 		}
 	}
 
+	.group-membership {
+		position:         relative;
+		top:              .05em;
+		margin-left:      .31em;
+		display:          inline-block;
+		vertical-align:   baseline;
+		width:            .8em;
+		height:           .8em;
+		background-color: $color_action;
+		border-radius:    50%;
+
+		overflow:         hidden;
+		color:            transparent;
+
+		&::after {
+			content:       '';
+			width:         60%;
+			height:        40%;
+			border-left:   3px solid white;
+			border-bottom: 3px solid white;
+			position:      absolute;
+			top:           45%;
+			left:          50%;
+			transform:     translate(-50%, -50%) rotate(-45deg);
+		}
+	}
+
 	.group-description {
 		flex-grow: 1;
 	}
@@ -187,11 +214,7 @@
 
 			@include font_default_bold;
 
-			font-size:   font_size_default();
-
-			@include large-or-more {
-				font-size: font_size_default('large');
-			}
+			font-size:   rem(20px);
 
 			line-height: line_height_default();
 		}

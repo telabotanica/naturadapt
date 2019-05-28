@@ -1,0 +1,6 @@
+<div class="user user__full" style="--color: {{ user.displayName|color }}">
+	{% include 'contents/user/partials/user--avatar.html.twig' with{'user':user} %}
+
+	<h1 class="user--name">{{ user.displayName }}</h1>
+	<div class="user--presentation">{{ user.presentation }}</div>
+</div>

@@ -11,12 +11,19 @@
 	display:         flex;
 	flex-flow:       row nowrap;
 	justify-content: space-between;
+	align-items:     center;
 
-	margin:          1rem;
+	margin:          0;
+	padding:         0 column_gap();
+
 	font-size:       rem(14px);
 }
 
 .main-header--logo {
+	order:   2;
+
+	padding: 1rem;
+
 	a {
 		position:        relative;
 		display:         inline-block;
@@ -40,23 +47,26 @@
 	}
 }
 
-.main-header--links {
-	display:         flex;
-	flex-flow:       row nowrap;
-	justify-content: flex-end;
-}
-
 .main-header--pages {
+	order:      1;
+	flex-basis: 50%;
+
+	padding:    padding_vertical() 0;
+
 	@include clearulli;
 
 	li {
 		display: inline-block;
+
+		&:not(:first-child) {
+			margin-left: rem(30px);
+		}
 	}
 
 	a {
 		display:         inline-block;
 		margin:          0;
-		padding:         .4em 1.6em;
+		padding:         .4em 0;
 
 		@include font_default;
 		color:           $color_default;
@@ -73,7 +83,17 @@
 }
 
 .main-header--user {
+	order:      3;
+	flex-basis: 50%;
+
+	padding:    padding_vertical() 0;
+
+	text-align: right;
+}
+
+.main-header--user-menu {
 	position: relative;
+	display:  inline-block;
 
 	.connexion {
 		@include cta-style($color_action, true);
