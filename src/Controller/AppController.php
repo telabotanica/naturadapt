@@ -2,8 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Usergroup;
-use Doctrine\Common\Persistence\ObjectManager;
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -11,12 +10,11 @@ class AppController extends AbstractController {
 	/**
 	 * @Route("/", name="homepage")
 	 */
-	public function index ( ObjectManager $manager ) {
-		$groups = $manager->getRepository( Usergroup::class )
-						  ->getGroupsWithMembers();
+	public function index () {
+		if ( $this->isGranted( User::ROLE_USER ) ) {
+			return $this->redirectToRoute( 'user_dashboard', [], 302 );
+		}
 
-		return $this->render( 'pages/front.html.twig', [
-				'groups' => $groups,
-		] );
+		return $this->forward( 'App\Controller\GroupController::groupsIndex', [] );
 	}
 }
