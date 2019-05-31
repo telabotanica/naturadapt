@@ -1,9 +1,4 @@
 <?php
-/**
- * User: Maxime Cousinou
- * Date: 2019-05-03
- * Time: 10:45
- */
 
 namespace App\Controller;
 

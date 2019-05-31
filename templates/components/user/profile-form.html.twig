@@ -2,12 +2,12 @@
 <div class="form-row__mandatory">{{ 'forms.mandatory'|trans }}</div>
 <div class="form-rows">
 	<div class="form-row form-row__field">
-		{{ form_label(form.name, 'forms.name.label') }}
-		{{ form_widget(form.name, {'attr': {'placeholder': 'forms.name.placeholder'}}) }}
+		{{ form_label(form.name, 'forms.user.name.label') }}
+		{{ form_widget(form.name, {'attr': {'placeholder': 'forms.user.name.placeholder'}}) }}
 	</div>
 	<div class="form-row form-row__field">
-		{{ form_label(form.displayname, 'forms.display_name.label') }}
-		{{ form_widget(form.displayname, {'attr': {'placeholder': 'forms.display_name.placeholder'}}) }}
+		{{ form_label(form.displayname, 'forms.user.display_name.label') }}
+		{{ form_widget(form.displayname, {'attr': {'placeholder': 'forms.user.display_name.placeholder'}}) }}
 	</div>
 	<div class="form-row form-row__file">
 		<div class="file-preview">
@@ -15,54 +15,54 @@
 				<img src="{{ path('member_avatar', {'user_id': app.user.id}) }}" alt="">
 			</div>
 			<div class="file-preview--content">
-				{{ form_label(form.avatarfile, 'forms.avatar.label') }}
-				<div class="hint">{{ 'forms.avatar.hint'|trans }}</div>
+				{{ form_label(form.avatarfile, 'forms.user.avatar.label') }}
+				<div class="hint">{{ 'forms.user.avatar.hint'|trans }}</div>
 				{{ form_widget(form.avatarfile) }}
-				{{ form_label(form.avatarfile, 'forms.avatar.button', {'label_attr': {'class': 'submit-style'}}) }}
+				{{ form_label(form.avatarfile, 'forms.user.avatar.button', {'label_attr': {'class': 'submit-style'}}) }}
 			</div>
 		</div>
 	</div>
 	<div class="columns-66-33">
 		<div class="form-row form-row__field">
-			{{ form_label(form.city, 'forms.city.label') }}
-			{{ form_widget(form.city, {'attr': {'placeholder': 'forms.city.placeholder'}}) }}
+			{{ form_label(form.city, 'forms.user.city.label') }}
+			{{ form_widget(form.city, {'attr': {'placeholder': 'forms.user.city.placeholder'}}) }}
 		</div>
 		<div class="form-row form-row__field">
-			{{ form_label(form.zipcode, 'forms.zipcode.label') }}
-			{{ form_widget(form.zipcode, {'attr': {'placeholder': 'forms.zipcode.placeholder'}}) }}
+			{{ form_label(form.zipcode, 'forms.user.zipcode.label') }}
+			{{ form_widget(form.zipcode, {'attr': {'placeholder': 'forms.user.zipcode.placeholder'}}) }}
 		</div>
 	</div>
 	<div class="form-row form-row__field">
-		{{ form_label(form.country, 'forms.country.label') }}
-		{{ form_widget(form.country, {'attr': {'placeholder': 'forms.country.placeholder'}}) }}
+		{{ form_label(form.country, 'forms.user.country.label') }}
+		{{ form_widget(form.country, {'attr': {'placeholder': 'forms.user.country.placeholder'}}) }}
 	</div>
 	<div class="form-row form-row__field">
-		{{ form_label(form.presentation, 'forms.presentation.label') }}
-		<div class="hint">{{ 'forms.presentation.hint'|trans }}</div>
-		{{ form_widget(form.presentation, {'attr': {'placeholder': 'forms.presentation.placeholder'}}) }}
+		{{ form_label(form.presentation, 'forms.user.presentation.label') }}
+		<div class="hint">{{ 'forms.user.presentation.hint'|trans }}</div>
+		{{ form_widget(form.presentation, {'attr': {'placeholder': 'forms.user.presentation.placeholder'}}) }}
 	</div>
 	<div class="form-row form-row__field">
-		{{ form_label(form.bio, 'forms.bio.label') }}
-		<div class="hint">{{ 'forms.bio.hint'|trans }}</div>
-		{{ form_widget(form.bio, {'attr': {'placeholder': 'forms.bio.placeholder'}}) }}
+		{{ form_label(form.bio, 'forms.user.bio.label') }}
+		<div class="hint">{{ 'forms.user.bio.hint'|trans }}</div>
+		{{ form_widget(form.bio, {'attr': {'placeholder': 'forms.user.bio.placeholder'}}) }}
 	</div>
 	<div class="form-row form-row__field">
-		{{ form_label(form.inscriptionType, 'forms.inscription_type.label') }}
+		{{ form_label(form.inscriptionType, 'forms.user.inscription_type.label') }}
 		<div class="form-row__radioboxes">
 			{{ form_widget(form.inscriptionType) }}
 		</div>
 	</div>
 	<div class="form-row form-row__field">
-		{{ form_label(form.skills, 'forms.skills.label') }}
-		<div class="hint">{{ 'forms.skills.hint'|trans }}</div>
+		{{ form_label(form.skills, 'forms.user.skills.label') }}
+		<div class="hint">{{ 'forms.user.skills.hint'|trans }}</div>
 		<div class="form-row__checkboxes checkboxes-autocomplete">
 			{{ form_widget(form.skills) }}
 		</div>
 	</div>
 	<div class="form-row form-row__field">
-		{{ form_label(form.siteName, 'forms.site.label') }}
-		<div class="hint">{{ 'forms.site.hint'|trans }}</div>
-		{{ form_widget(form.siteName, {'attr': {'placeholder': 'forms.site.placeholder', 'data-query': path('search_site', {'query':'query'})}}) }}
+		{{ form_label(form.siteName, 'forms.user.site.label') }}
+		<div class="hint">{{ 'forms.user.site.hint'|trans }}</div>
+		{{ form_widget(form.siteName, {'attr': {'placeholder': 'forms.user.site.placeholder', 'data-query': path('search_site', {'query':'query'})}}) }}
 	</div>
 </div>
 <div class="form-row form-row__submit">

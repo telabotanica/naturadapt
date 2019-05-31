@@ -1,9 +1,4 @@
 <?php
-/**
- * User: Maxime Cousinou
- * Date: 2019-03-14
- * Time: 15:07
- */
 
 namespace App\Service;
 

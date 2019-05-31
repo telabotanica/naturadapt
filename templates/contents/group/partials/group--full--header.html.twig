@@ -8,5 +8,9 @@
 			<span class="group-visibility group-visibility__{{ group.visibility }}"><span>{{ ('pages.group.status.' ~ group.visibility)|trans }}</span></span>
 			<span class="group-date">{{ 'pages.group.status.created_at'|trans|format(group.createdAt|localizeddate('long', 'none', app.request.locale)) }}</span>
 		</div>
+
+		{% if is_granted(constant('App\\Security\\GroupVoter::EDIT'), group) %}
+			<a class="admin admin__edit" href="{{ path('group_edit', {'groupSlug':group.slug}) }}"><span>{{ 'pages.group.group_edit.link'|trans }}</span></a>
+		{% endif %}
 	</div>
 </div>

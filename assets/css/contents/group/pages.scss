@@ -1,0 +1,19 @@
+/**************************************************
+ * GROUP PAGES
+ *************************************************/
+
+.group-page__edit {
+	.group-form {
+		padding: padding_vertical('small') padding_horizontal('small');
+
+		@include large-or-more {
+			padding: padding_vertical('large') padding_horizontal('large');
+		}
+
+		@include card_shadow;
+	}
+
+	.form-row__file {
+		margin-top: rem(27px);
+	}
+}

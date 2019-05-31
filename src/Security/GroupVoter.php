@@ -1,9 +1,4 @@
 <?php
-/**
- * User: Maxime Cousinou
- * Date: 2019-03-29
- * Time: 12:43
- */
 
 namespace App\Security;
 
@@ -15,10 +10,10 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class GroupVoter extends Voter {
-	const READ   = 'read';
-	const CREATE = 'create';
-	const EDIT   = 'edit';
-	const JOIN   = 'join';
+	const CREATE = 'group:create';
+	const READ   = 'group:read';
+	const EDIT   = 'group:edit';
+	const JOIN   = 'group:join';
 
 	/**
 	 * @var \Doctrine\Common\Persistence\ObjectManager
@@ -34,15 +29,11 @@ class GroupVoter extends Voter {
 			return TRUE;
 		}
 
-		if ( !in_array( $attribute, [ self::READ, self::EDIT, self::JOIN ] ) ) {
-			return FALSE;
+		if ( in_array( $attribute, [ self::READ, self::EDIT, self::JOIN ] ) && ( $subject instanceof Usergroup ) ) {
+			return TRUE;
 		}
 
-		if ( !$subject instanceof Usergroup ) {
-			return FALSE;
-		}
-
-		return TRUE;
+		return FALSE;
 	}
 
 	protected function voteOnAttribute ( $attribute, $subject, TokenInterface $token ) {

@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<div class="group-page group-page__edit">
+		<div class="group-page--header main-presentation">
+			<div class="content-container">
+				<div class="narrow">
+					{% include 'components/app-flashes.html.twig' %}
+				</div>
+			</div>
+		</div>
+		<div class="group-page--content content-container">
+			<section class="group-form narrow">
+				<h1 class="h3">{{ 'pages.group.group_create.title'|trans }}</h1>
+
+				{% include 'components/group/group-form.html.twig' with ({'form':form, 'form_submit':'pages.group.group_create.button'}) %}
+			</section>
+		</div>
+	</div>
+{% endblock %}

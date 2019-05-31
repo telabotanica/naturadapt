@@ -1,51 +1,69 @@
 # translations/messages.fr.yaml
 forms:
     mandatory: "Champs obligatoires *"
-    email:
-        label: "Adresse e-mail"
-        placeholder: "Entrez votre adresse e-mail ici…"
-    password:
-        label: "Mot de passe"
-        placeholder: "Entrez votre mot de passe ici…"
-    name:
-        label: "Votre nom complet"
-        placeholder: "Entrez votre prénom et votre nom…"
-    display_name:
-        label: "Comment faut-il vous appeler ?"
-        placeholder: "Entrez, au choix, votre prénom, votre nom, un pseudo…"
-    avatar:
-        label: "Image de profil"
-        button: "Parcourir"
-        hint: "Format JPG ou PNG, 500 ko maximum"
-    city:
-        label: "Ville"
-        placeholder: "Entrez votre Ville…"
-    zipcode:
-        label: "Code Postal"
-        placeholder: "Entrez votre Code Postal…"
-    country:
-        label: "Pays"
-        placeholder: "Entrez votre Pays…"
-    presentation:
-        label: "Présentez-vous en deux mots"
-        hint: "Limité à 32 caractères (sera affiché sous votre nom)"
-        placeholder: "Exemple: Botaniste…"
-    bio:
-        label: "Biographie"
-        hint: "Précisez ce que vous faites dans la vie, ce que vous recherchez sur la plateforme… (sera affiché sur votre profil)"
-        placeholder: "Dites nous en plus sur vous…"
-    inscription_type:
-        label: "Type d’inscription"
-        labels:
-            private: "Inscription à titre personnel"
-            professional: "Inscription à titre professionnel"
-    skills:
-        label: "Vos compétences"
-        hint: "Sélectionnez dans la liste proposée les compétences que vous souhaitez partager"
-    site:
-        label: "Votre site naturel"
-        hint: "Parce que vous y travaillez, vous y habitez ou simplement si vous êtes particlièrement attaché·e à un site naturel en particulier"
-        placeholder: "Exemple: Chaîne des puys…"
+    user:
+        email:
+            label: "Adresse e-mail"
+            placeholder: "Entrez votre adresse e-mail ici…"
+        password:
+            label: "Mot de passe"
+            placeholder: "Entrez votre mot de passe ici…"
+        name:
+            label: "Votre nom complet"
+            placeholder: "Entrez votre prénom et votre nom…"
+        display_name:
+            label: "Comment faut-il vous appeler ?"
+            placeholder: "Entrez, au choix, votre prénom, votre nom, un pseudo…"
+        avatar:
+            label: "Image de profil"
+            button: "Parcourir"
+            hint: "Format JPG ou PNG, 500 ko maximum"
+        city:
+            label: "Ville"
+            placeholder: "Entrez votre Ville…"
+        zipcode:
+            label: "Code Postal"
+            placeholder: "Entrez votre Code Postal…"
+        country:
+            label: "Pays"
+            placeholder: "Entrez votre Pays…"
+        presentation:
+            label: "Présentez-vous en deux mots"
+            hint: "Limité à 32 caractères (sera affiché sous votre nom)"
+            placeholder: "Exemple: Botaniste…"
+        bio:
+            label: "Biographie"
+            hint: "Précisez ce que vous faites dans la vie, ce que vous recherchez sur la plateforme… (sera affiché sur votre profil)"
+            placeholder: "Dites nous en plus sur vous…"
+        inscription_type:
+            label: "Type d’inscription"
+            labels:
+                private: "Inscription à titre personnel"
+                professional: "Inscription à titre professionnel"
+        skills:
+            label: "Vos compétences"
+            hint: "Sélectionnez dans la liste proposée les compétences que vous souhaitez partager"
+        site:
+            label: "Votre site naturel"
+            hint: "Parce que vous y travaillez, vous y habitez ou simplement si vous êtes particlièrement attaché·e à un site naturel en particulier"
+            placeholder: "Exemple: Chaîne des puys…"
+
+    group:
+        name:
+            label: "Nom du groupe"
+            placeholder: "ex: Colloque du 11 février"
+        slug:
+            label: "Identifiant"
+            placeholder: "Sera généré automatiquement"
+        visibility:
+            label: "Visibilité"
+            placeholder: ""
+        description:
+            label: "Description"
+            placeholder: ""
+        presentation:
+            label: "Présentation"
+            placeholder: "Présentation du groupe, ses objectifs..."
 
 pages:
     user:
@@ -84,6 +102,14 @@ pages:
             my_groups: "Mes groupes"
 
     group:
+        group_create:
+            title: "Création d’un groupe"
+            link: "Créer un groupe"
+            button: "Créer le groupe"
+        group_edit:
+            title: "Édition du groupe <em>%s</em>"
+            link: "Modifier"
+            button: "Enregistrer les modifications"
         status:
             public: "Groupe public"
             private: "Groupe privé"
@@ -147,3 +173,5 @@ messages:
         joined: "Vous avez rejoint ce groupe."
         candidature_sent: "Votre demande a été transmise aux administrateurs du groupe."
         user_banned: "Vous avez été banni de ce groupe."
+        group_created: "Le groupe a été créé"
+        group_updated: "Les informations du groupe ont été mises à jour"

@@ -1,9 +1,4 @@
 <?php
-/**
- * User: Maxime Cousinou
- * Date: 2019-03-29
- * Time: 12:43
- */
 
 namespace App\Security;
 
@@ -12,15 +7,15 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class UserVoter extends Voter {
-	const LOGGED   = 'logged';
-	const REGISTER = 'register';
+	const LOGGED   = 'user:logged';
+	const REGISTER = 'user:register';
 
 	protected function supports ( $attribute, $subject ) {
-		if ( !in_array( $attribute, [ self::LOGGED, self::REGISTER ] ) ) {
-			return FALSE;
+		if ( in_array( $attribute, [ self::LOGGED, self::REGISTER ] ) ) {
+			return TRUE;
 		}
 
-		return TRUE;
+		return FALSE;
 	}
 
 	protected function voteOnAttribute ( $attribute, $subject, TokenInterface $token ) {

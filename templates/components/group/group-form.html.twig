@@ -1,0 +1,26 @@
+{{ form_start(form) }}
+<div class="form-row__mandatory">{{ 'forms.mandatory'|trans }}</div>
+<div class="form-rows">
+	<div class="form-row form-row__field">
+		{{ form_label(form.name, 'forms.group.name.label') }}
+		{{ form_widget(form.name, {'attr': {'placeholder': 'forms.group.name.placeholder'}}) }}
+	</div>
+	<div class="form-row form-row__field">
+		{{ form_label(form.visibility, 'forms.group.visibility.label') }}
+		<div class="form-row__radioboxes">
+			{{ form_widget(form.visibility) }}
+		</div>
+	</div>
+	<div class="form-row form-row__field">
+		{{ form_label(form.description, 'forms.group.description.label') }}
+		{{ form_widget(form.description, {'attr': {'placeholder': 'forms.group.description.placeholder'}}) }}
+	</div>
+	<div class="form-row form-row__field">
+		{{ form_label(form.presentation, 'forms.group.presentation.label') }}
+		{{ form_widget(form.presentation, {'attr': {'placeholder': 'forms.group.presentation.placeholder'}}) }}
+	</div>
+</div>
+<div class="form-row form-row__submit">
+	{{ form_widget(form.submit, {'label': form_submit}) }}
+</div>
+{{ form_end(form) }}

@@ -1,9 +1,4 @@
 <?php
-/**
- * User: Maxime Cousinou
- * Date: 2019-04-17
- * Time: 18:04
- */
 
 namespace App\Form;
 
@@ -61,8 +56,8 @@ class UserProfileType extends AbstractType {
 						'multiple'    => FALSE,
 						'placeholder' => FALSE,
 						'choices'     => [
-								'forms.inscription_type.labels.' . User::TYPE_PRIVATE       => User::TYPE_PRIVATE,
-								'forms.inscription_type.labels.' . User::TYPE_PROFESSIONNAL => User::TYPE_PROFESSIONNAL,
+								'forms.user.inscription_type.labels.' . User::TYPE_PRIVATE       => User::TYPE_PRIVATE,
+								'forms.user.inscription_type.labels.' . User::TYPE_PROFESSIONNAL => User::TYPE_PROFESSIONNAL,
 						],
 				] )
 				->add( 'skills', EntityType::class, [

@@ -340,25 +340,7 @@ class UserController extends AbstractController {
 		$form->handleRequest( $request );
 
 		if ( $form->isSubmitted() && $form->isValid() ) {
-			/**
-			 * @var User $submittedUser
-			 */
-			$submittedUser = $form->getData();
-
-			$user->setName( $submittedUser->getName() );
-			$user->setDisplayName( $submittedUser->getDisplayName() );
-
-			$user->setCity( $submittedUser->getCity() );
-			$user->setZipcode( $submittedUser->getZipcode() );
-			$user->setCountry( $submittedUser->getCountry() );
-			$user->setLatitude( $submittedUser->getLatitude() );
-			$user->setLongitude( $submittedUser->getLongitude() );
-
-			$user->setPresentation( $submittedUser->getPresentation() );
-			$user->setBio( $submittedUser->getBio() );
-			$user->setInscriptionType( $submittedUser->getInscriptionType() );
-			$user->setSkills( $submittedUser->getSkills() );
-
+			// Site
 			$siteName = trim( $form->get( 'siteName' )->getData() );
 			$site     = $manager->getRepository( Site::class )->findOneBy( [ 'name' => $siteName ] );
 			if ( !$site ) {
