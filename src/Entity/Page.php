@@ -53,6 +53,11 @@ class Page {
 	 */
 	private $editedAt;
 
+	/**
+	 * @ORM\Column(type="boolean", nullable=true)
+	 */
+	private $editionRestricted;
+
 	public function getId (): ?int {
 		return $this->id;
 	}
@@ -123,6 +128,16 @@ class Page {
 
 	public function setUsergroup ( ?Usergroup $usergroup ): self {
 		$this->usergroup = $usergroup;
+
+		return $this;
+	}
+
+	public function getEditionRestricted (): ?bool {
+		return !empty( $this->editionRestricted );
+	}
+
+	public function setEditionRestricted ( ?bool $editionRestricted ): self {
+		$this->editionRestricted = $editionRestricted;
 
 		return $this;
 	}

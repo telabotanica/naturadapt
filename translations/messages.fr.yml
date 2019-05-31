@@ -65,6 +65,14 @@ forms:
             label: "Présentation"
             placeholder: "Présentation du groupe, ses objectifs..."
 
+    page:
+        title:
+            label: "Titre de page"
+            placeholder: "ex: Présentation"
+        body:
+            label: "Contenu de la page"
+            placeholder: ""
+
 pages:
     user:
         login:
@@ -134,6 +142,16 @@ pages:
         files:
             title: "Documents"
 
+    page:
+        page_create:
+            title: "Création d’une page"
+            link: "Créer une page"
+            button: "Créer la page"
+        page_edit:
+            title: "Édition de la page"
+            link: "Modifier"
+            button: "Enregistrer les modifications"
+
     member:
         list:
             title: "Annuaire des membres"
@@ -176,3 +194,9 @@ messages:
         group_created: "Le groupe a été créé"
         group_updated: "Les informations du groupe ont été mises à jour"
         group_deleted: "Le groupe a été supprimé"
+
+    page:
+        page_created: "La page a été créée"
+        page_updated: "La page a été mise à jour"
+        page_deleted: "La page a été supprimée"
+

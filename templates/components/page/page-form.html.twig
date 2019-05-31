@@ -1,0 +1,16 @@
+{{ form_start(form) }}
+<div class="form-row__mandatory">{{ 'forms.mandatory'|trans }}</div>
+<div class="form-rows">
+	<div class="form-row form-row__field">
+		{{ form_label(form.title, 'forms.page.title.label') }}
+		{{ form_widget(form.title, {'attr': {'placeholder': 'forms.page.title.placeholder'}}) }}
+	</div>
+	<div class="form-row form-row__field">
+		{{ form_label(form.body, 'forms.page.body.label') }}
+		{{ form_widget(form.body, {'attr': {'placeholder': 'forms.page.body.placeholder'}}) }}
+	</div>
+</div>
+<div class="form-row form-row__submit">
+	{{ form_widget(form.submit, {'label': form_submit}) }}
+</div>
+{{ form_end(form) }}

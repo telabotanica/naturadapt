@@ -14,6 +14,7 @@ class GroupVoter extends Voter {
 	const READ   = 'group:read';
 	const EDIT   = 'group:edit';
 	const JOIN   = 'group:join';
+	const ADMIN  = 'group:admin';
 	const DELETE = 'group:delete';
 
 	/**
@@ -88,6 +89,7 @@ class GroupVoter extends Voter {
 
 				return FALSE;
 
+			case self::ADMIN:
 			case self::DELETE:
 				$membership = $this->manager->getRepository( UsergroupMembership::class )
 											->getMembership( $user, $group );

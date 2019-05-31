@@ -14,6 +14,7 @@ class GroupPageVoter extends Voter {
 	const CREATE = 'group:page:create';
 	const READ   = 'group:page:read';
 	const EDIT   = 'group:page:edit';
+	const DELETE = 'group:page:delete';
 
 	/**
 	 * @var \Doctrine\Common\Persistence\ObjectManager
@@ -35,7 +36,7 @@ class GroupPageVoter extends Voter {
 			return TRUE;
 		}
 
-		if ( in_array( $attribute, [ self::READ, self::EDIT ] ) && ( $subject instanceof Page ) ) {
+		if ( in_array( $attribute, [ self::READ, self::EDIT, self::DELETE ] ) && ( $subject instanceof Page ) ) {
 			return TRUE;
 		}
 
@@ -72,7 +73,19 @@ class GroupPageVoter extends Voter {
 				 */
 				$page = $subject;
 
+				if ( $page->getEditionRestricted() ) {
+					return $this->security->isGranted( GroupVoter::ADMIN, $page->getUsergroup() );
+				}
+
 				return $this->security->isGranted( GroupVoter::EDIT, $page->getUsergroup() );
+
+			case self::DELETE:
+				/**
+				 * @var \App\Entity\Page $page
+				 */
+				$page = $subject;
+
+				return $this->security->isGranted( GroupVoter::ADMIN, $page->getUsergroup() );
 		}
 
 		throw new \LogicException( 'This code should not be reached!' );
