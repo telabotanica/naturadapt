@@ -342,14 +342,19 @@ class UserController extends AbstractController {
 		if ( $form->isSubmitted() && $form->isValid() ) {
 			// Site
 			$siteName = trim( $form->get( 'siteName' )->getData() );
-			$site     = $manager->getRepository( Site::class )->findOneBy( [ 'name' => $siteName ] );
-			if ( !$site ) {
-				$site = new Site();
-				$site->setName( $siteName );
+			if ( !empty( $siteName ) ) {
+				$site = $manager->getRepository( Site::class )->findOneBy( [ 'name' => $siteName ] );
+				if ( !$site ) {
+					$site = new Site();
+					$site->setName( $siteName );
 
-				$manager->persist( $site );
+					$manager->persist( $site );
+				}
+				$user->setSite( $site );
 			}
-			$user->setSite( $site );
+			else {
+				$user->setSite( NULL );
+			}
 
 			// Avatar
 			$uploadFile = $form->get( 'avatarfile' )->getData();
