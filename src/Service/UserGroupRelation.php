@@ -30,10 +30,10 @@ class UserGroupRelation {
 			return TRUE;
 		}
 
-		$membdership = $this->manager->getRepository( UsergroupMembership::class )
-									 ->getMembership( $user, $group );
+		$membership = $this->manager->getRepository( UsergroupMembership::class )
+									->getMembership( $user, $group );
 
-		return $membdership->getRole() === UsergroupMembership::ROLE_ADMIN;
+		return !empty( $membership ) && ( $membership->getRole() === UsergroupMembership::ROLE_ADMIN );
 	}
 
 	public function isMember ( ?User $user, Usergroup $group ) {
