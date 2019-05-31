@@ -60,15 +60,17 @@
 				</div>
 			{% endif %}
 		{% endif %}
-		<div class="group-app group-app__files">
-			<h2>{{ 'pages.group.files.title'|trans }}</h2>
-			<ul>
-				{% for file in group.files %}
-					<li>
-						{% include 'contents/file/file--teaser.html.twig' with {'file':file} %}
-					</li>
-				{% endfor %}
-			</ul>
-		</div>
+		{% if group.files is not empty %}
+			<div class="group-app group-app__files">
+				<h2>{{ 'pages.group.files.title'|trans }}</h2>
+				<ul>
+					{% for file in group.files %}
+						<li>
+							{% include 'contents/file/file--teaser.html.twig' with {'file':file} %}
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+		{% endif %}
 	</div>
 </div>
