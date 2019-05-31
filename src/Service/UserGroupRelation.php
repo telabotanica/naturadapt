@@ -22,7 +22,7 @@ class UserGroupRelation {
 	}
 
 	public function isAdmin ( ?User $user, Usergroup $group ) {
-		if ( !$user ) {
+		if ( empty( $user ) || !( $user instanceof User ) ) {
 			return FALSE;
 		}
 
