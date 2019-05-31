@@ -175,3 +175,4 @@ messages:
         user_banned: "Vous avez été banni de ce groupe."
         group_created: "Le groupe a été créé"
         group_updated: "Les informations du groupe ont été mises à jour"
+        group_deleted: "Le groupe a été supprimé"

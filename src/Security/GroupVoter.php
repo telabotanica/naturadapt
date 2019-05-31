@@ -14,6 +14,7 @@ class GroupVoter extends Voter {
 	const READ   = 'group:read';
 	const EDIT   = 'group:edit';
 	const JOIN   = 'group:join';
+	const DELETE = 'group:delete';
 
 	/**
 	 * @var \Doctrine\Common\Persistence\ObjectManager
@@ -29,7 +30,7 @@ class GroupVoter extends Voter {
 			return TRUE;
 		}
 
-		if ( in_array( $attribute, [ self::READ, self::EDIT, self::JOIN ] ) && ( $subject instanceof Usergroup ) ) {
+		if ( in_array( $attribute, [ self::READ, self::EDIT, self::JOIN, self::DELETE ] ) && ( $subject instanceof Usergroup ) ) {
 			return TRUE;
 		}
 
@@ -86,6 +87,12 @@ class GroupVoter extends Voter {
 				}
 
 				return FALSE;
+
+			case self::DELETE:
+				$membership = $this->manager->getRepository( UsergroupMembership::class )
+											->getMembership( $user, $group );
+
+				return !empty( $membership ) && ( $membership->getRole() === UsergroupMembership::ROLE_ADMIN );
 		}
 
 		throw new \LogicException( 'This code should not be reached!' );

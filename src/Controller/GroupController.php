@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Usergroup;
 use App\Entity\UsergroupMembership;
 use App\Form\UsergroupType;
@@ -92,6 +93,20 @@ class GroupController extends AbstractController {
 	}
 
 	/**
+	 * @Route("/groups/{groupSlug}", name="group_index")
+	 * @param                                            $groupSlug
+	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 *
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
+	public function groupIndex ( $groupSlug, ObjectManager $manager ) {
+		$group = $manager->getRepository( Usergroup::class )
+						 ->findOneBy( [ 'slug' => $groupSlug ] );
+
+		return $this->render( 'pages/group/group-index.html.twig', [ 'group' => $group ] );
+	}
+
+	/**
 	 * @Route("/groups/{groupSlug}/edit", name="group_edit")
 	 * @param                                            $groupSlug
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
@@ -131,16 +146,29 @@ class GroupController extends AbstractController {
 	}
 
 	/**
-	 * @Route("/groups/{groupSlug}", name="group_index")
+	 * @Route("/groups/{groupSlug}/delete", name="group_delete")
 	 * @param                                            $groupSlug
 	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function groupIndex ( $groupSlug, ObjectManager $manager ) {
+	public function groupDelete (
+			$groupSlug,
+			ObjectManager $manager
+	) {
+		/**
+		 * @var \App\Entity\Usergroup $group
+		 */
 		$group = $manager->getRepository( Usergroup::class )
 						 ->findOneBy( [ 'slug' => $groupSlug ] );
 
-		return $this->render( 'pages/group/group-index.html.twig', [ 'group' => $group ] );
+		$this->denyAccessUnlessGranted( GroupVoter::DELETE, $group );
+
+		$manager->remove( $group );
+		$manager->flush();
+
+		$this->addFlash( 'notice', 'messages.group.group_deleted' );
+
+		return $this->redirectToRoute( 'groups_index' );
 	}
 }
