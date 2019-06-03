@@ -19,6 +19,6 @@
 		"build": "encore production --progress"
 	},
 	"dependencies": {
-		"tar": "^4.4.8"
+		"tar": "^4.4.9"
 	}
 }
