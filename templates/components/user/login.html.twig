@@ -1,12 +1,12 @@
 <form method="post" action="{{ path('user_login') }}">
 	<div class="form-rows">
 		<div class="form-row form-row__field">
-			<label for="login-form-email">{{ 'forms.email.label'|trans }}</label>
-			<input id="login-form-email" type="email" name="email" value="{{ last_username }}" placeholder="{{ 'forms.email.placeholder'|trans }}" required autofocus>
+			<label for="login-form-email">{{ 'forms.user.email.label'|trans }}</label>
+			<input id="login-form-email" type="email" name="email" value="{{ last_username }}" placeholder="{{ 'forms.user.email.placeholder'|trans }}" required autofocus>
 		</div>
 		<div class="form-row form-row__field">
-			<label for="login-form-password">{{ 'forms.password.label'|trans }}</label>
-			<input id="login-form-password" type="password" name="password" placeholder="{{ 'forms.password.placeholder'|trans }}" required>
+			<label for="login-form-password">{{ 'forms.user.password.label'|trans }}</label>
+			<input id="login-form-password" type="password" name="password" placeholder="{{ 'forms.user.password.placeholder'|trans }}" required>
 		</div>
 	</div>
 	<div class="form-row form-row__submit">
