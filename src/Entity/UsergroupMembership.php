@@ -16,6 +16,8 @@ class UsergroupMembership {
 	const STATUS_MEMBER  = 'member';
 	const STATUS_BANNED  = 'banned';
 
+	const STATUS_ALL = 'all';
+
 	/**
 	 * @ORM\Id()
 	 * @ORM\GeneratedValue()

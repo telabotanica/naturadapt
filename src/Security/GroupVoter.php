@@ -31,7 +31,7 @@ class GroupVoter extends Voter {
 			return TRUE;
 		}
 
-		if ( in_array( $attribute, [ self::READ, self::EDIT, self::JOIN, self::DELETE ] ) && ( $subject instanceof Usergroup ) ) {
+		if ( in_array( $attribute, [ self::READ, self::JOIN, self::EDIT, self::ADMIN, self::DELETE ] ) && ( $subject instanceof Usergroup ) ) {
 			return TRUE;
 		}
 
@@ -65,13 +65,6 @@ class GroupVoter extends Voter {
 
 				return $this->manager->getRepository( UsergroupMembership::class )->isMember( $user, $group );
 
-			case self::EDIT:
-				if ( !$user instanceof User ) {
-					return FALSE;
-				}
-
-				return $this->manager->getRepository( UsergroupMembership::class )->isMember( $user, $group );
-
 			case self::JOIN:
 				if ( !$user instanceof User ) {
 					return FALSE;
@@ -89,8 +82,13 @@ class GroupVoter extends Voter {
 
 				return FALSE;
 
+			case self::EDIT:
 			case self::ADMIN:
 			case self::DELETE:
+				if ( !$user instanceof User ) {
+					return FALSE;
+				}
+
 				$membership = $this->manager->getRepository( UsergroupMembership::class )
 											->getMembership( $user, $group );
 

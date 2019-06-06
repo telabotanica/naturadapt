@@ -48,6 +48,8 @@ class GroupController extends AbstractController {
 			ObjectManager $manager,
 			SlugGenerator $slugGenerator
 	) {
+		$this->denyAccessUnlessGranted( GroupVoter::CREATE );
+
 		/**
 		 * @var \App\Entity\User $user
 		 */
@@ -57,8 +59,6 @@ class GroupController extends AbstractController {
 		 * @var \App\Entity\Usergroup $group
 		 */
 		$group = new Usergroup();
-
-		$this->denyAccessUnlessGranted( GroupVoter::CREATE );
 
 		$form = $this->createForm( UsergroupType::class, $group );
 

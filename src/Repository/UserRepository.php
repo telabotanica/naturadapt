@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Entity\UsergroupMembership;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr\Orx;
 use Doctrine\ORM\QueryBuilder;
@@ -19,14 +20,32 @@ class UserRepository extends ServiceEntityRepository {
 		parent::__construct( $registry, User::class );
 	}
 
-	public function getCountries () {
-		return $this->createQueryBuilder( 'u' )
-					->select( 'u.country' )
-					->andWhere( 'u.country IS NOT NULL' )
-					->distinct()
-					->orderBy( 'u.country', 'ASC' )
-					->getQuery()
-					->getResult();
+	public function getCountries ( $filters = [] ) {
+		$qb = $this->createQueryBuilder( 'u' );
+
+		$i = 1;
+
+		/**
+		 * GROUP
+		 */
+		if ( !empty( $filters[ 'group' ] ) ) {
+			$qb->innerJoin( 'u.usergroupMemberships', 'g' );
+
+			/**
+			 * @var \App\Entity\Usergroup $group
+			 */
+			$group = $filters[ 'group' ];
+			$var   = 'group' . ( $i++ );
+			$qb->andWhere( $qb->expr()->eq( 'g.usergroup', ':' . $var ) );
+			$qb->setParameter( $var, $group );
+		}
+
+		return $qb->select( 'u.country' )
+				  ->andWhere( 'u.country IS NOT NULL' )
+				  ->distinct()
+				  ->orderBy( 'u.country', 'ASC' )
+				  ->getQuery()
+				  ->getResult();
 	}
 
 	/**************************************************
@@ -41,6 +60,32 @@ class UserRepository extends ServiceEntityRepository {
 		$i = 1;
 
 		$qb->andWhere( $qb->expr()->eq( 'u.status', User::STATUS_ACTIVE ) );
+
+		/**
+		 * GROUP
+		 */
+		if ( !empty( $filters[ 'group' ] ) ) {
+			$qb->innerJoin( 'u.usergroupMemberships', 'g' );
+
+			/**
+			 * @var \App\Entity\Usergroup $group
+			 */
+			$group = $filters[ 'group' ];
+			$var   = 'group' . ( $i++ );
+			$qb->andWhere( $qb->expr()->eq( 'g.usergroup', ':' . $var ) );
+			$qb->setParameter( $var, $group );
+
+			if ( empty( $filters[ 'status' ] ) ) {
+				$var = 'group' . ( $i++ );
+				$qb->andWhere( $qb->expr()->like( 'g.status', ':' . $var ) );
+				$qb->setParameter( $var, UsergroupMembership::STATUS_MEMBER );
+			}
+			else if ( $filters[ 'status' ] !== UsergroupMembership::STATUS_ALL ) {
+				$var = 'group' . ( $i++ );
+				$qb->andWhere( $qb->expr()->like( 'g.status', ':' . $var ) );
+				$qb->setParameter( $var, $filters[ 'status' ] );
+			}
+		}
 
 		/**
 		 * QUERY
@@ -132,6 +177,17 @@ class UserRepository extends ServiceEntityRepository {
 		$qb = $this->createQueryBuilder( 'u' );
 
 		$this->searchAddOption( $qb, $filters );
+
+		/**
+		 * GROUP
+		 */
+		if ( !empty( $filters[ 'group' ] ) ) {
+			if ( !empty( $filters[ 'status' ] ) && ( $filters[ 'status' ] === UsergroupMembership::STATUS_ALL ) ) {
+				$qb->orderBy( 'g.status', 'DESC' );
+			}
+
+			$qb->orderBy( 'g.joinedAt', 'DESC' );
+		}
 
 		return $qb->orderBy( 'u.createdAt', 'DESC' )
 				  ->setFirstResult( $options[ 'limit' ] * $options[ 'page' ] )

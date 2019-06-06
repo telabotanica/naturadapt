@@ -6,16 +6,67 @@ use App\Entity\Usergroup;
 use App\Entity\UsergroupMembership;
 use App\Security\GroupVoter;
 use App\Security\UserVoter;
+use App\Service\UsergroupMembersManager;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class GroupMembersController extends AbstractController {
 	/**
 	 * @Route("/groups/{groupSlug}/members", name="group_members_index")
+	 * @param                                            $groupSlug
+	 * @param \Symfony\Component\HttpFoundation\Request  $request
+	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \App\Service\UsergroupMembersManager       $usergroupMembersManager
+	 *
+	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function groupMembers ( $groupSlug ) {
-		return '#TODO';
+	public function groupMembers (
+			$groupSlug,
+			Request $request,
+			ObjectManager $manager,
+			UsergroupMembersManager $usergroupMembersManager
+	) {
+		$group = $manager->getRepository( Usergroup::class )
+						 ->findOneBy( [ 'slug' => $groupSlug ] );
+
+		$this->denyAccessUnlessGranted( GroupVoter::READ, $group );
+
+		$page     = $request->query->get( 'page', 0 );
+		$per_page = 10;
+
+		$filters = $request->query->get( 'form', [] );
+
+		if ( $this->isGranted( GroupVoter::ADMIN, $group ) ) {
+			$dataFilters = array_merge( $filters, [ 'group' => $group, 'status' => UsergroupMembership::STATUS_ALL ] );
+		}
+		else {
+			$dataFilters = array_merge( $filters, [ 'group' => $group ] );
+		}
+
+		$data = $usergroupMembersManager->getFormAndMembers(
+				$dataFilters,
+				[ 'page' => $page, 'per_page' => $per_page ]
+		);
+
+		foreach ( $filters as $key => $value ) {
+			if ( $value == '' || $value == [] ) {
+				unset( $filters[ $key ] );
+			}
+		}
+		unset( $filters[ '_token' ] );
+		unset( $filters[ 'submit' ] );
+
+		return $this->render( 'pages/member/list.html.twig', [
+				'form'    => $data[ 'form' ]->createView(),
+				'members' => $data[ 'members' ],
+				'pager'   => [
+						'base_url' => $request->getPathInfo() . '?' . http_build_query( [ 'form' => $filters ] ) . '&',
+						'page'     => $page,
+						'last'     => ceil( $data[ 'total' ] / $per_page ) - 1,
+				],
+		] );
 	}
 
 	/**
