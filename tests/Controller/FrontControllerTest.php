@@ -26,7 +26,7 @@ class FrontControllerTest extends WebTestCase {
 
 		$this->assertGreaterThan(
 				0,
-				$crawler->filter( '.main-header--user a.connexion' )->count(),
+				$crawler->filter( '.header--user a.connexion' )->count(),
 				'Assert header contains a Connexion link'
 		);
 	}

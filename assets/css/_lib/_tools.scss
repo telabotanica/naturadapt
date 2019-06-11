@@ -108,3 +108,16 @@ $base_font_size: 16px !default;
 	background-size:     ($sheet_width * ($width / $picto_width)) ($sheet_height * ($width / $picto_width));
 	background-position: 0 (-$sprite_offset * $sprite_number * ($width / $picto_width));
 }
+
+/**************************************************
+ * VISUALLY HIDDEN
+ **************************************************/
+
+@mixin visually-hidden {
+	position: absolute !important;
+	width:    1px;
+	height:   1px;
+	overflow: hidden;
+	opacity:  0;
+	clip:     rect(1px, 1px, 1px, 1px);
+}

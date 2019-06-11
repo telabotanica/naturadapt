@@ -1,4 +1,8 @@
 # translations/messages.fr.yaml
+ui:
+    menu: "Menu"
+    see_all: "Voir tout"
+
 forms:
     mandatory: "Champs obligatoires *"
     user:
@@ -99,16 +103,18 @@ pages:
             introduction: "Il permettra de vous trouver dans l’annuaire des membres et sera consultable par les autres membres de la communauté."
             button: "Créer votre profil"
         profile_edit:
-            title: "Modifiez votre profil"
-            introduction: "Il permet de vous trouver dans l’annuaire des membres et est consultable par les autres membres de la communauté."
-            button: "Enregistrer les modifications"
+            title: "Profil"
+            introduction: "Ici, vous pouvez modifier les informations de votre profil."
+            view: "Voir mon profil"
+            button: "Sauvegarder les modifications"
             link: "Mon profil"
         dashboard:
             welcome: "Bienvenue"
             hello: "Bonjour %s,"
             slogan: "Voici l'activité récente de %s et de vos groupes."
             my_groups: "Mes groupes"
-
+        profile:
+            title: "Profil"
     group:
         group_create:
             title: "Création d’un groupe"

@@ -1,21 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-	<div class="user-page user-page__profile-edit">
-		<div class="user-page--header main-presentation">
-			<div class="content-container">
-				<div class="narrow">
-					{% include 'components/app-flashes.html.twig' %}
-				</div>
+{% block main %}
+	<section class="main main__user-page main__user-page__profile">
+		<div class="main--content content-container">
+			<div class="thin">
+				{% include 'components/app-flashes.html.twig' %}
+
+				<section class="profile-header">
+					{% include 'contents/user/user--profile.html.twig' with{'user':user} %}
+				</section>
+
+				<section class="profile-form">
+					<h1 class="h2">{{ 'pages.user.profile_edit.title'|trans }}</h1>
+
+					<p class="hint">{{ 'pages.user.profile_edit.introduction'|trans }}</p>
+
+					{% include 'components/user/profile-form.html.twig' with ({'form':form, 'form_submit':'pages.user.profile_edit.button', 'view':true, 'user':user}) %}
+				</section>
 			</div>
 		</div>
-		<div class="user-page--content content-container">
-			<section class="profile-form narrow">
-				<h1 class="h3">{{ 'pages.user.profile_edit.title'|trans }}</h1>
-				<p>{{ 'pages.user.profile_edit.introduction'|trans }}</p>
-
-				{% include 'components/user/profile-form.html.twig' with ({'form':form, 'form_submit':'pages.user.profile_edit.button'}) %}
-			</section>
-		</div>
-	</div>
+	</section>
 {% endblock %}

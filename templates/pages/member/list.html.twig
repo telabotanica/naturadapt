@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
+{% block main %}
 	<div class="member-page member-page__list">
-		<div class="member-page--header main-presentation">
+		<div class="member-page--header main--header">
 			<div class="content-container">
 				{% include 'components/app-flashes.html.twig' %}
 			</div>
@@ -10,7 +10,7 @@
 		<div class="member-page--content content-container">
 			<div class="h2">{{ 'pages.member.list.title'|trans }}</div>
 			{{ form_start(form) }}
-			<div class="columns-33-66">
+			<div class="columns__33-66">
 				<div class="filters">
 					<div class="small-title">{{ 'pages.member.list.filters.title'|trans }}</div>
 					<div class="form-row form-row__field">

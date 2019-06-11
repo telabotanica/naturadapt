@@ -1,16 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-	<div class="user-page user-page__register">
-		<div class="user-page--header main-presentation">
-			<div class="content-container">
+{% block main %}
+	<section class="main main__user-page main__user-page__register">
+		<div class="main--header">
+			<div class="main--header--content content-container">
 				{% include 'components/app-flashes.html.twig' %}
 			</div>
 		</div>
-		<div class="user-page--content content-container">
+		<div class="main--content content-container">
 			<section class="register-form">
 				{% include 'components/user/register.html.twig' %}
 			</section>
 		</div>
-	</div>
+	</section>
 {% endblock %}

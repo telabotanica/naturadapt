@@ -3,17 +3,24 @@
  *************************************************/
 
 .user--avatar {
+	display:          flex;
 	border-radius:    50%;
 	overflow:         hidden;
 
 	background-color: $color_orange_red;
 	background-color: var(--color);
 
-	img,
-	svg {
+	img {
 		display: block;
 		width:   100%;
 		height:  100%;
+	}
+
+	svg {
+		display: block;
+		margin:  auto;
+		width:   60%;
+		height:  60%;
 	}
 }
 
@@ -79,6 +86,40 @@
 }
 
 /**************************************************
+ * USER PROFILE
+ *************************************************/
+
+.user__profile {
+	display:         flex;
+	flex-flow:       row nowrap;
+	justify-content: flex-start;
+	align-items:     center;
+
+	margin-bottom:   column_gap();
+
+	.user--avatar {
+		width: rem(150px);
+
+		@include medium-or-more {
+			margin-right: column_gap();
+		}
+	}
+
+	.small-title {
+		color: $color_grey_neutral;
+	}
+
+	.user--name {
+	}
+
+	.user--presentation {
+		@include font_default_bold;
+
+		color: $color_grey_neutral;
+	}
+}
+
+/**************************************************
  * USER LIST
  *************************************************/
 
@@ -86,10 +127,6 @@
 	[type="search"] {
 		border-color: white;
 		@include card_shadow;
-	}
-
-	.columns-33-66 {
-		align-items: flex-start;
 	}
 }
 

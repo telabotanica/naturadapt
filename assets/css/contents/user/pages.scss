@@ -2,12 +2,11 @@
  * USER PAGES
  *************************************************/
 
-.user-page__login .user-page--content {
-	@include cards-container;
-
+.main__user-page__login {
 	.login-form,
 	.register-form {
-		@include card(2);
+		@include columns_item(1/2);
+		@include card_shadow();
 
 		padding:         padding_vertical('small') padding_horizontal('small');
 
@@ -33,16 +32,27 @@
 	}
 }
 
-.user-page__profile-create,
-.user-page__profile-edit {
-	.profile-form {
+.main__user-page__password {
+	form {
+		@include card_shadow;
+
 		padding: padding_vertical('small') padding_horizontal('small');
 
 		@include large-or-more {
 			padding: padding_vertical('large') padding_horizontal('large');
 		}
+	}
+}
 
+.main__user-page__profile {
+	.profile-form {
 		@include card_shadow;
+
+		padding: padding_vertical('small') padding_horizontal('small');
+
+		@include large-or-more {
+			padding: padding_vertical('large') padding_horizontal('large');
+		}
 	}
 
 	.form-row__file {
@@ -89,10 +99,6 @@
 			flex-grow:     1;
 		}
 	}
-
-	.columns-66-33 > :nth-child(1) {
-		padding-right: column_gap();
-	}
 }
 
 .user-page__dashboard .user-page--content {
@@ -110,7 +116,7 @@
  *************************************************/
 
 .filters {
-	@include card;
+	@include card_shadow();
 
 	padding: padding_vertical('small') padding_horizontal('small');
 

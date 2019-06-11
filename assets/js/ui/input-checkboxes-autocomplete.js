@@ -88,9 +88,10 @@ ready( () => Array.from( document.querySelectorAll( '.checkboxes-autocomplete' )
 		name.innerHTML = list.filter( ( item ) => item.value == value ).pop().label;
 		tag.appendChild( name );
 
-		const closeButton = document.createElement( 'button' );
-		closeButton.type  = 'button';
-		closeButton.title = 'remove';
+		const closeButton     = document.createElement( 'button' );
+		closeButton.type      = 'button';
+		closeButton.title     = 'remove';
+		closeButton.className = 'remove';
 		closeButton.addEventListener( 'click', ( e ) => {
 			matchingCheckboxes.forEach( ( checkbox ) => checkbox.checked = false );
 			tags.removeChild( tag );

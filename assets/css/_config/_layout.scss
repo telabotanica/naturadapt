@@ -23,14 +23,17 @@
 }
 
 @function content_width() {
-	@return rem((3 * 292 + 2 * 50) * 1px);
+	@return rem((3 * 292 + 2 * 50 + 2 * 20) * 1px);
 }
 
 // Content column
 @mixin content-container {
-	margin-left:  auto;
-	margin-right: auto;
-	max-width:    content_width();
+	margin-left:   auto;
+	margin-right:  auto;
+	max-width:     content_width();
+
+	padding-left:  padding_horizontal();
+	padding-right: padding_horizontal();
 }
 
 .content-container {
@@ -38,46 +41,38 @@
 }
 
 /**************************************************
+* COLUMNS
+**************************************************/
+
+@mixin columns {
+	@include medium-or-more {
+		display:         flex;
+		flex-flow:       row wrap;
+		justify-content: space-between;
+		align-items:     stretch;
+	}
+}
+
+@mixin columns_item($n: 1/3, $bottom_gap: true) {
+	@if $bottom_gap {
+		margin-bottom: column_gap();
+	}
+
+	@include medium-or-more {
+		flex-basis: calc(#{$n * 100%} - #{(1 - $n) * column_gap() });
+	}
+}
+
+/**************************************************
 * CARDS
 **************************************************/
 
 @mixin shadow() {
-	box-shadow: 0 .6em 1em -.2em rgba($color_default, .25);
+	box-shadow: 0 .05rem .2rem rgba($color_default, .25);
 }
 
 @mixin card_shadow() {
 	color:            $color_default;
 	background-color: white;
 	@include shadow;
-}
-
-@mixin cards-container {
-	display:         flex;
-	flex-flow:       row wrap;
-	justify-content: flex-start;
-	align-items:     stretch;
-}
-
-@mixin card($n: 3) {
-	margin:      0 0 column_gap();
-	&:not(:nth-child(#{$n}n+#{$n})) {
-		margin-right: column_gap();
-	}
-	flex-basis:  calc(#{(1 / $n) * 100%} - #{(($n - 1) / $n) * column_gap()});
-
-	overflow:    hidden;
-
-	@include card_shadow;
-}
-
-/**************************************************
-* HEADER
-**************************************************/
-
-@function first_content_padding($size: 'small') {
-	@if $size == 'large' {
-		@return rem(150px);
-	}
-
-	@return rem(100px);
 }

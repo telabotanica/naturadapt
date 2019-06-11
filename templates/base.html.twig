@@ -20,8 +20,20 @@
 {% endblock %}
 
 <main>
-	{% block body %}
-		{% include 'components/app-flashes.html.twig' %}
+	{% block main %}
+		<section class="main">
+			<div class="main--header">
+				<div class="main--header--image">
+					<!-- Hero image here -->
+				</div>
+				<div class="main--header--content content-container">
+					{% include 'components/app-flashes.html.twig' %}
+				</div>
+			</div>
+			<div class="main--content content-container">
+				<!-- Page content here -->
+			</div>
+		</section>
 	{% endblock %}
 </main>
 

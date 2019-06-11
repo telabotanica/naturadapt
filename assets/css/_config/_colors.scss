@@ -2,7 +2,9 @@
 * SETTINGS
 **************************************************/
 
-$color_grey_medium: #1e1b2e;
+$color_grey_dark: #1e1b2e;
+$color_grey_medium: #333333;
+$color_grey_neutral: #646568;
 $color_grey_light: #a6adc6;
 $color_grey_lighter: #f5f7f6;
 
@@ -13,5 +15,5 @@ $color_orange_red: #e95a06;
 $color_orange: #f59701;
 $color_gold_yellow: #fed102;
 
-$color_default: $color_grey_medium;
-$color_action: $color_dodger_blue;
+$color_default: black;
+$color_action: #2fb67d;

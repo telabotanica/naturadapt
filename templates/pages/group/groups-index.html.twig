@@ -1,24 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-	<div class="content-container">
-		<section class="main-presentation narrow">
-			{% include 'components/app-flashes.html.twig' %}
+{% block main %}
+	<section class="main main__groups-index">
+		<div class="main--header">
+			<div class="main--header--image">
+				<img src="{{ asset('media/layout/front-hero.jpg') }}" alt="">
+			</div>
+			<div class="main--header--content content-container">
+				{% include 'components/app-flashes.html.twig' %}
 
-			<h1 class="small-title">Bienvenue sur {{ plateform.name }}</h1>
+				<div class="narrow">
+					<h1 class="small-title">Bienvenue sur {{ plateform.name }}</h1>
 
-			<p class="is-lead">Échangeons pour adapter la gestion des espaces naturels face au changement climatique</p>
+					<p class="h1">Échangeons pour adapter la gestion des espaces naturels face au changement climatique</p>
 
-			<p>En savoir plus</p>
-		</section>
-		<section class="groups-list">
-			<ul>
-				{% for group in groups %}
-					<li>
-						{% include 'contents/group/group--teaser.html.twig' with {'group':group} %}
-					</li>
-				{% endfor %}
-			</ul>
-		</section>
-	</div>
+					<p><a class="cta__white" href="{{ path('homepage') }}">En savoir plus</a></p>
+				</div>
+			</div>
+		</div>
+		<div class="main--content content-container">
+			<section class="groups-list">
+				<ul>
+					{% for group in groups %}
+						<li>
+							{% include 'contents/group/group--teaser.html.twig' with {'group':group} %}
+						</li>
+					{% endfor %}
+				</ul>
+			</section>
+		</div>
+	</section>
 {% endblock %}

@@ -1,21 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-	<div class="user-page user-page__profile-create">
-		<div class="user-page--header main-presentation">
-			<div class="content-container">
-				<div class="narrow">
-					{% include 'components/app-flashes.html.twig' %}
-				</div>
+{% block main %}
+	<section class="main main__user-page main__user-page__profile">
+		<div class="main--content content-container">
+			<div class="thin">
+				{% include 'components/app-flashes.html.twig' %}
+
+				<section class="profile-form">
+					<h1 class="h2">{{ 'pages.user.profile_create.title'|trans }}</h1>
+
+					<p class="hint">{{ 'pages.user.profile_create.introduction'|trans }}</p>
+
+					{% include 'components/user/profile-form.html.twig' with ({'form':form, 'form_submit':'pages.user.profile_create.button'}) %}
+				</section>
 			</div>
 		</div>
-		<div class="user-page--content content-container">
-			<section class="profile-form narrow">
-				<h1 class="h3">{{ 'pages.user.profile_create.title'|trans }}</h1>
-				<p>{{ 'pages.user.profile_create.introduction'|trans }}</p>
-
-				{% include 'components/user/profile-form.html.twig' with ({'form':form, 'form_submit':'pages.user.profile_create.button'}) %}
-			</section>
-		</div>
-	</div>
+	</section>
 {% endblock %}

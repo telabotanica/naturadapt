@@ -6,13 +6,59 @@ main {
 	flex-grow: 1;
 }
 
-.main-presentation {
-	padding-top: first_content_padding('small');
+.main {
 
-	@include large-or-more {
-		padding-top: first_content_padding('large');
+}
+
+.main--header {
+	position:         relative;
+	display:          flex;
+
+	min-height:       (237 / 375) * 100vw;
+
+	@include medium-or-more {
+		min-height: rem(500px);
+	}
+
+	color:            white;
+	background-color: black;
+}
+
+.main--header--image {
+	position: absolute;
+	top:      0;
+	right:    0;
+	bottom:   0;
+	left:     0;
+
+	img {
+		display:    block;
+		width:      100%;
+		height:     100%;
+		object-fit: cover;
 	}
 }
+
+.main--header--content {
+	position:       relative;
+	margin-top:     auto;
+	margin-bottom:  auto;
+
+	padding-top:    rem(50px);
+	padding-bottom: rem(50px);
+}
+
+.main--content {
+	padding-top: rem(40px);
+
+	@include medium-or-more {
+		padding-top: rem(80px);
+	}
+}
+
+/**************************************************
+ * COMMON COMPONENTS
+ *************************************************/
 
 .items-list {
 	@include clearulli(true);

@@ -6,7 +6,6 @@ use App\Entity\Page;
 use App\Entity\Usergroup;
 use App\Form\PageType;
 use App\Security\GroupPageVoter;
-use App\Security\GroupVoter;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +17,7 @@ class GroupPagesController extends AbstractController {
 	 * @Route("/groups/{groupSlug}/pages", name="group_pages_index")
 	 */
 	public function groupPages ( $groupSlug ) {
-		return '#TODO';
+		return new Response( "#TODO" );
 	}
 
 	/**

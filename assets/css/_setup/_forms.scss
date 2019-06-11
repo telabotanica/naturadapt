@@ -13,13 +13,13 @@
 
 @mixin label-style {
 	display:     inline-block;
-	margin:      0 0 .5em;
+	margin:      0 0 .5rem;
 	padding:     0;
 
 	max-width:   100%;
 
-	@include font_default_bold;
-	font-size:   1em;
+	@include font_default;
+	font-size:   1rem;
 	line-height: line_height_default();
 
 	color:       $color_default;
@@ -28,20 +28,28 @@
 @mixin input-style {
 	display:       inline-block;
 	margin:        0;
-	padding:       .5em .8em;
 
 	max-width:     100%;
 	height:        auto;
 
 	@include font_default;
-	font-size:     1em;
-	line-height:   line_height_default();
+	font-size:     rem(16px);
+	$line-height: 1.3;
+
+	line-height:   $line-height;
+	padding:       em(.5 * (30px - 2px - $line-height * 16px), 16px) 1.5em;
+	min-height:    rem(30px);
+
+	@include medium-or-more {
+		padding:    em(.5 * (40px - 2px - $line-height * 16px), 16px) 1.5em;
+		min-height: rem(40px);
+	}
 
 	color:         $color_default;
 	background:    white;
 
 	border:        1px solid $color_grey_light;
-	border-radius: 3px;
+	border-radius: 0;
 
 	&:disabled {
 		color: #999999;
@@ -67,36 +75,15 @@
 }
 
 @mixin submit-style {
-	display:          inline-block;
-	padding:          .5rem .8rem;
-
-	text-align:       center;
-
-	color:            white;
-	background-color: $color_dodger_blue;
-	border:           1px solid $color_dodger_blue;
-	border-radius:    rem(5px);
-	text-decoration:  none;
-
-	@include font_title;
-
-	&:hover,
-	&:focus {
-		color:            $color_dodger_blue;
-		background-color: white;
-	}
-
-	transition:       color .25s ease-in-out,
-					  background-color .15s ease-in-out;
-
-	&:disabled {
-		color:            #999999;
-		background-color: #cccccc;
-	}
+	@include cta-style;
 }
 
 .submit-style {
 	@include submit-style;
+
+	&.submit-style__inverted {
+		@include cta-style($color_action, true);
+	}
 }
 
 /**************************************************
@@ -208,9 +195,10 @@ input[type="submit"] {
 .form-row__checkbox,
 .form-row__checkboxes:not(#_o) {
 	label:not(.autocomplete-tags) {
-		display: block;
+		display:        block;
 
 		@include checkbox-label;
+		padding-bottom: 0;
 	}
 
 	input[type="checkbox"] {
@@ -289,7 +277,7 @@ input[type="submit"] {
 $form_label_width: (1/3) * 100%;
 
 .form-row {
-	margin-bottom: rem(20px);
+	margin-bottom: rem(26px);
 
 	display:       flex;
 	flex-flow:     column nowrap;
@@ -307,16 +295,24 @@ $form_label_width: (1/3) * 100%;
 	}
 
 	.hint {
-		margin: 0 0 .5em;
+		margin: 0 0 .4rem;
+	}
 
-		color:  $color_grey_light;
+	label + .hint {
+		margin-top: -.4rem;
 	}
 }
 
 .form-row__mandatory {
-	margin-bottom: .5em;
+	margin-bottom: 1rem;
 
-	color:         $color_dodger_blue;
+	font-size:     rem(13px);
+
+	@include medium-or-more {
+		font-size: rem(14px);
+	}
+
+	color:         $color_action;
 }
 
 .form-row__field {
@@ -352,9 +348,14 @@ $form_label_width: (1/3) * 100%;
 		margin-right: 2rem;
 	}
 
-	a:not(#_o) {
-		color:           $color_dodger_blue;
+	a:not([class]) {
+		font-size:       rem(14px);
 
+		@include medium-or-more {
+			font-size: rem(16px);
+		}
+
+		color:           $color_dodger_blue;
 		text-decoration: none;
 
 		&:focus,

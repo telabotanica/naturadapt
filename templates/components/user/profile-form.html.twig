@@ -18,11 +18,11 @@
 				{{ form_label(form.avatarfile, 'forms.user.avatar.label') }}
 				<div class="hint">{{ 'forms.user.avatar.hint'|trans }}</div>
 				{{ form_widget(form.avatarfile) }}
-				{{ form_label(form.avatarfile, 'forms.user.avatar.button', {'label_attr': {'class': 'submit-style'}}) }}
+				{{ form_label(form.avatarfile, 'forms.user.avatar.button', {'label_attr': {'class': 'submit-style submit-style__inverted'}}) }}
 			</div>
 		</div>
 	</div>
-	<div class="columns-66-33">
+	<div class="columns__66-33">
 		<div class="form-row form-row__field">
 			{{ form_label(form.city, 'forms.user.city.label') }}
 			{{ form_widget(form.city, {'attr': {'placeholder': 'forms.user.city.placeholder'}}) }}
@@ -66,6 +66,9 @@
 	</div>
 </div>
 <div class="form-row form-row__submit">
+	{% if view is defined and view and user is defined %}
+		<a class="cta__inverted" href="{{ path('member', {'user_id':user.id}) }}">{{ 'pages.user.profile_edit.view'|trans }}</a>
+	{% endif %}
 	{{ form_widget(form.submit, {'label': form_submit}) }}
 </div>
 {{ form_end(form) }}

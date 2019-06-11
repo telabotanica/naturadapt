@@ -2,40 +2,84 @@
  * FOOTER
  *************************************************/
 
-.main-footer {
-	margin:           rem(60px) 0 0;
-	padding:          1rem 0;
+.footer {
+	margin:           rem(80px) 0 0;
 
-	font-size:        rem(14px);
-	background-color: $color_grey_light;
+	font-size:        rem(16px);
+
+	color:            $color_grey_dark;
+	background-color: white;
 
 	@include clearulli;
 
 	.content-container {
-		display:   flex;
-		flex-flow: row nowrap;
-	}
-}
+		@include columns;
 
-.main-footer--logo {
-	width:   25%;
-	padding: 0 1rem;
+		padding: rem(40px) rem(50px);
 
-	p {
-		font-size: inherit;
-	}
-}
-
-.main-footer--menu {
-	width: 75%;
-
-	> ul {
-		display:   flex;
-		flex-flow: row nowrap;
-
-		> li {
-			width:   (1 / 3) * 100%;
-			padding: 0 1rem;
+		@include medium-or-more {
+			padding: rem(100px) padding_horizontal();
 		}
 	}
+}
+
+.footer--logo {
+	@include columns_item(1 / 4);
+	margin-bottom: 0;
+}
+
+.footer--menu {
+	@include columns_item(3 / 4);
+	margin-bottom: 0;
+
+	> ul {
+		@include columns;
+
+		> li {
+			@include columns_item(1 / 3);
+
+			@include medium-or-more {
+				margin-bottom: 0;
+			}
+		}
+	}
+
+	span,
+	a {
+		display: block;
+		padding: .7em 0;
+	}
+
+	a {
+		text-decoration: none;
+
+		&:focus,
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
+	span {
+		@include font_default_bold;
+	}
+}
+
+.project-sponsor-logo {
+	margin-top:  rem(32px);
+
+	&::before {
+		margin:           0 1em 1em 0;
+
+		content:          '';
+		display:          block;
+		float:            left;
+		width:            rem(58px);
+		height:           rem(38px);
+		border-radius:    rem(5px);
+		background-color: #0d3f97;
+	}
+
+	font-size:   rem(10px);
+	line-height: (13 / 10);
+	color:       #9b9b9b;
 }

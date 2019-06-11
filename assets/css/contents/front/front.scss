@@ -2,6 +2,65 @@
 * FRONT PAGE
 **************************************************/
 
-.front-page--header {
-	padding-bottom: padding_vertical();
+.main__front-page {
+	.main--header--image {
+		opacity: .6;
+	}
+
+	.main--content section:not(:first-child) {
+		margin-top: rem(80px);
+	}
+
+	.main--content section:not(:last-child) {
+		margin-bottom: rem(80px);
+	}
+}
+
+.front-page--columns {
+	@include small-or-less {
+		img {
+			width: 100%;
+		}
+	}
+}
+
+.front-page--focus {
+	padding:          rem(30px) padding_horizontal();
+
+	text-align:       center;
+	background-color: white;
+
+	font-size:        rem(22px);
+	line-height:      (26 / 22);
+
+	@include medium-or-more {
+		margin-left:  rem(160px);
+		margin-right: rem(160px);
+		padding:      rem(30px) rem(60px);
+	}
+}
+
+.front-page--objective {
+	@include small-or-less {
+		text-align: center;
+
+		svg {
+			max-width:     rem(145px);
+			max-height:    rem(145px);
+
+			margin-bottom: padding_vertical();
+		}
+	}
+
+	@include medium-or-more {
+		display:         flex;
+		justify-content: space-between;
+		align-items:     center;
+
+		svg {
+			flex-shrink:  0;
+			flex-grow:    0;
+			margin-right: rem(30px);
+		}
+	}
 }

@@ -18,7 +18,7 @@
 .autocomplete-tags {
 	@include input-style;
 
-	padding-bottom: 0;
+	padding-bottom: 0 !important;
 	display:        block;
 	@include clearfloat;
 

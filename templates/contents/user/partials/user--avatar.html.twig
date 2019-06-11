@@ -1,8 +1,11 @@
 <div class="user--avatar">
+	{% if filter is not defined %}
+		{% set filter = 'avatar' %}
+	{% endif %}
 	{% if (user.avatar is defined) and user.avatar %}
-		<img src="{{ user.avatar.path | imagine_filter('avatar') }}" alt="">
+		<img src="{{ user.avatar.path | imagine_filter(filter) }}" alt="">
 	{% else %}
-		<svg>
+		<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" viewBox="0 0 16 16">
 			<use xlink:href="#user"/>
 		</svg>
 	{% endif %}

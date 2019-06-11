@@ -13,9 +13,12 @@
 	</div>
 	<div class="group-apps content-container">
 		<div class="group-app group-app__pages">
-			<h2>{{ 'pages.group.pages.title'|trans }}</h2>
+			<h2>
+				<a href="{{ path('group_pages_index', {'groupSlug':group.slug}) }}">{{ 'pages.group.pages.title'|trans }}</a>
+				<a href="{{ path('group_pages_index', {'groupSlug':group.slug}) }}">{{ 'ui.see_all'|trans }}</a>
+			</h2>
 			<ul class="items-list">
-				{% for page in group.pages %}
+				{% for page in group.pages|slice(0, 5) %}
 					<li>
 						{% include 'contents/page/page--teaser.html.twig' with {'page':page} %}
 					</li>
@@ -23,46 +26,24 @@
 			</ul>
 		</div>
 		<div class="group-app group-app__members">
-			<h2>{{ 'pages.group.members.title'|trans }}</h2>
+			<h2>
+				<a href="{{ path('group_members_index', {'groupSlug':group.slug}) }}">{{ 'pages.group.members.title'|trans }}</a>
+				<a href="{{ path('group_members_index', {'groupSlug':group.slug}) }}">{{ 'ui.see_all'|trans }}</a>
+			</h2>
 			<ul class="items-list">
-				{% for member in group.members %}
+				{% for member in group.members|slice(0, 5) %}
 					<li>
 						{% include 'contents/user/user--teaser.html.twig' with {'user':member.user} %}
 					</li>
 				{% endfor %}
 			</ul>
 		</div>
-		{% if isAdmin %}
-			{% set members_pending = group.members('pending') %}
-			{% if members_pending is not empty %}
-				<div class="group-app group-app__members group-app__members-pending">
-					<h2>{{ 'pages.group.members_pending.title'|trans }}</h2>
-					<ul class="items-list">
-						{% for member in members_pending %}
-							<li>
-								{% include 'contents/user/user--teaser.html.twig' with {'user':member.user} %}
-							</li>
-						{% endfor %}
-					</ul>
-				</div>
-			{% endif %}
-			{% set members_banned = group.members('banned') %}
-			{% if members_banned is not empty %}
-				<div class="group-app group-app__members group-app__members-banned">
-					<h2>{{ 'pages.group.members_banned.title'|trans }}</h2>
-					<ul class="items-list">
-						{% for member in members_banned %}
-							<li>
-								{% include 'contents/user/user--teaser.html.twig' with {'user':member.user} %}
-							</li>
-						{% endfor %}
-					</ul>
-				</div>
-			{% endif %}
-		{% endif %}
 		{% if group.files is not empty %}
 			<div class="group-app group-app__files">
-				<h2>{{ 'pages.group.files.title'|trans }}</h2>
+				<h2>
+					<a href="{{ path('group_files_index', {'groupSlug':group.slug}) }}">{{ 'pages.group.files.title'|trans }}</a>
+					<a href="{{ path('group_files_index', {'groupSlug':group.slug}) }}">{{ 'ui.see_all'|trans }}</a>
+				</h2>
 				<ul>
 					{% for file in group.files %}
 						<li>

@@ -1,21 +1,30 @@
-<header class="main-header">
-	<div class="main-header--logo">
+<header class="header">
+	<div class="header--logo">
 		{% if is_granted('ROLE_USER') %}
-			<a href="{{ path('user_dashboard') }}">{{ plateform.name }}</a>
+			{% set link = path('user_dashboard') %}
 		{% else %}
-			<a href="{{ path('homepage') }}">{{ plateform.name }}</a>
+			{% set link = path('homepage') %}
 		{% endif %}
+		<a href="{{ link }}">
+			<img src="{{ asset('media/layout/logo-naturadapt__98x60.png') }}" alt="{{ plateform.name }}"
+				 srcset="{{ asset('media/layout/logo-naturadapt__196x120.png') }} 2x">
+		</a>
 	</div>
-	<div class="main-header--pages">
+	<div class="header--pages">
+		<input type="checkbox" id="menu-trigger">
+		<label for="menu-trigger">
+			<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="17" height="13" viewBox="0 0 17 13"><use xlink:href="#menu"/></svg>
+			<span>{{ 'ui.menu'|trans }}</span>
+		</label>
 		<ul>
-			<li><a href="">À propos du projet</a></li>
+			<li><a href="{{ path('homepage') }}">À propos du projet</a></li>
 			<li><a href="{{ path('groups_index') }}">Groupes</a></li>
 			<li><a href="">Ressources</a></li>
 		</ul>
 	</div>
-	<div class="main-header--user">
+	<div class="header--user">
 		{% if is_granted('ROLE_USER') %}
-			<div class="main-header--user-menu">
+			<div class="header--user-menu">
 				<a href="{{ path('user_dashboard') }}">{% include 'contents/user/user--tiny.html.twig' with {'user':app.user} %}</a>
 				<div class="links">
 					<ul>
@@ -25,7 +34,7 @@
 				</div>
 			</div>
 		{% else %}
-			<a class="connexion" href="{{ path('user_login') }}">{{ 'pages.user.login.link'|trans }}</a>
+			<a class="cta connexion" href="{{ path('user_login') }}">{{ 'pages.user.login.link'|trans }}</a>
 		{% endif %}
 	</div>
 </header>

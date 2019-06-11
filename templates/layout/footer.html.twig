@@ -1,10 +1,15 @@
-<footer class="main-footer">
+<footer class="footer">
 	<div class="content-container">
-		<div class="main-footer--logo">
-			<p>{{ plateform.name }}</p>
-			<p>Projet ayant bénéficié du soutien financier du programme LIFE.</p>
+		<div class="footer--logo">
+			<p class="plateform-logo"><img src="{{ asset('media/layout/logo-naturadapt__139x85.png') }}" alt="{{ plateform.name }}"
+										   srcset="{{ asset('media/layout/logo-naturadapt__278x170.png') }} 2x"></p>
+			<p class="project-sponsor-logo">
+				Projet ayant bénéficié<br>
+				du soutien financier du<br>
+				programme LIFE.
+			</p>
 		</div>
-		<div class="main-footer--menu">
+		<div class="footer--menu">
 			<ul>
 				<li>
 					<span>Menu</span>

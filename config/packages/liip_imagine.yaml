@@ -16,3 +16,9 @@ liip_imagine:
             quality: 75
             filters:
                 thumbnail: { size: [52, 52], mode: outbound }
+        profile:
+            data_loader: userfiles
+            cache: ~
+            quality: 75
+            filters:
+                thumbnail: { size: [150, 150], mode: outbound }

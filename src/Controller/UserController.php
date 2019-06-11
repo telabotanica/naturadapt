@@ -252,7 +252,7 @@ class UserController extends AbstractController {
 			return $this->redirectToRoute( 'homepage' );
 		}
 
-		return $this->render( 'pages/user/forgotten-password.html.twig' );
+		return $this->render( 'pages/user/password-forgotten.html.twig' );
 	}
 
 	/**
@@ -292,7 +292,7 @@ class UserController extends AbstractController {
 			return $this->redirectToRoute( 'user_login' );
 		}
 		else {
-			return $this->render( 'pages/user/reset-password.html.twig', [ 'token' => $token ] );
+			return $this->render( 'pages/user/password-reset.html.twig', [ 'token' => $token ] );
 		}
 	}
 
@@ -385,7 +385,7 @@ class UserController extends AbstractController {
 			}
 		}
 
-		return $this->render( $template, [ 'form' => $form->createView() ] );
+		return $this->render( $template, [ 'form' => $form->createView(), 'user' => $user ] );
 	}
 
 	/**

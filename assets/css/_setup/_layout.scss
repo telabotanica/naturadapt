@@ -10,12 +10,12 @@ body {
 	@include font_default;
 
 	font-size:        font_size_default();
+	line-height:      line_height_default();
 
 	@include large-or-more {
-		font-size: font_size_default('large');
+		font-size:   font_size_default('large');
+		line-height: line_height_default('large');
 	}
-
-	line-height:      line_height_default();
 
 	color:            $color_default;
 	background-color: $color_grey_lighter;
@@ -32,6 +32,14 @@ img {
 
 .cta {
 	@include cta-style;
+}
+
+.cta__white {
+	@include cta-style(white, true);
+}
+
+.cta__inverted {
+	@include cta-style($color_action, true);
 }
 
 a:not([class]) {
@@ -52,19 +60,26 @@ p a:not([class]) {
 	color: $color_action;
 }
 
-.is-lead {
-	font-size:   (33 / 20) * 1em;
-	line-height: (47 / 33);
+.hint {
+	font-size: rem(13px);
+
+	@include medium-or-more {
+		font-size: rem(14px);
+	}
+
+	color:     $color_grey_neutral;
 }
 
-.is-big {
-	font-size:   (28 / 20) * 1em;
-	line-height: (44 / 28);
+p.hint {
+	margin-bottom: rem(24px);
 }
 
-.is-medium {
-	font-size:   (23 / 20) * 1em;
-	line-height: (35 / 23);
+h1,
+h2,
+h3 {
+	& + p.hint {
+		margin-top: -1rem;;
+	}
 }
 
 .h1, h1:not([class]) {
@@ -86,53 +101,69 @@ p a:not([class]) {
 .small-title {
 	margin:         0 0 1rem;
 
-	@include font_default;
-	font-size:      rem(14px);
+	@include font_title_bold;
 
-	color:          $color_grey_light;
+	font-size:      rem(12px);
+
+	@include medium-or-more {
+		font-size: rem(18px);
+	}
+
 	text-transform: uppercase;
 }
 
 .narrow {
-	margin: 0 auto;
-	width:  80%;
-}
-
-.columns-50-50 {
-	display:         flex;
-	flex-flow:       row nowrap;
-	justify-content: space-between;
-
-	> :nth-child(1),
-	> :nth-child(2) {
-		flex-basis: 50%;
+	@include large-or-more {
+		margin: 0 auto;
+		width:  84%;
 	}
 }
 
-.columns-33-66 {
-	display:         flex;
-	flex-flow:       row nowrap;
-	justify-content: space-between;
-
-	> :nth-child(1) {
-		flex-basis: (1/3) * 100%;
-	}
-
-	> :nth-child(2) {
-		flex-basis: (2/3) * 100%;
+.thin {
+	@include large-or-more {
+		margin: 0 auto;
+		width:  70%;
 	}
 }
 
-.columns-66-33 {
-	display:         flex;
-	flex-flow:       row nowrap;
-	justify-content: space-between;
+.columns {
+	&__50-50 {
+		@include columns;
 
-	> :nth-child(1) {
-		flex-basis: (2/3) * 100%;
+		> * {
+			@include columns_item(1/2, false);
+		}
 	}
 
-	> :nth-child(2) {
-		flex-basis: (1/3) * 100%;
+	&__33-33-33 {
+		@include columns;
+
+		> * {
+			@include columns_item(1/3, false);
+		}
+	}
+
+	&__33-66 {
+		@include columns;
+
+		> :nth-child(2n+1) {
+			@include columns_item(1/3, false);
+		}
+
+		> :nth-child(2n+2) {
+			@include columns_item(2/3, false);
+		}
+	}
+
+	&__66-33 {
+		@include columns;
+
+		> :nth-child(2n+1) {
+			@include columns_item(2/3, false);
+		}
+
+		> :nth-child(2n+2) {
+			@include columns_item(1/3, false);
+		}
 	}
 }

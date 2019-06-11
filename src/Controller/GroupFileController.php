@@ -10,9 +10,17 @@ use App\Service\FileManager;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class GroupFileController extends AbstractController {
+	/**
+	 * @Route("/groups/{groupSlug}/files", name="group_files_index")
+	 */
+	public function groupFiles () {
+		return new Response( "#TODO" );
+	}
+
 	/**
 	 * @Route("/groups/{groupSlug}/files/new", name="group_file_upload")
 	 * @param                                            $groupSlug

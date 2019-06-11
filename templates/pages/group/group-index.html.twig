@@ -2,7 +2,7 @@
 
 {% block title %}{{ group.name }} - {{ plateform.name }}{% endblock %}
 
-{% block body %}
+{% block main %}
 	<section class="group-index">
 		{% if is_granted(constant('App\\Security\\GroupVoter::READ'), group) %}
 			{% include 'contents/group/group--full.html.twig' with {'group':group} %}
