@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Document;
 use App\Entity\File;
 use App\Entity\Upload;
 use App\Entity\Usergroup;
 use App\Form\UploadType;
+use App\Security\GroupVoter;
 use App\Service\FileManager;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,16 +15,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class GroupFileController extends AbstractController {
+class GroupDocumentsController extends AbstractController {
 	/**
-	 * @Route("/groups/{groupSlug}/files", name="group_files_index")
+	 * @Route("/groups/{groupSlug}/documents", name="group_documents_index")
 	 */
 	public function groupFiles () {
 		return new Response( "#TODO" );
 	}
 
 	/**
-	 * @Route("/groups/{groupSlug}/files/new", name="group_file_upload")
+	 * @Route("/groups/{groupSlug}/documents/new", name="group_document_upload")
 	 * @param                                            $groupSlug
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
 	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
@@ -44,6 +46,8 @@ class GroupFileController extends AbstractController {
 		$group = $manager->getRepository( Usergroup::class )
 						 ->findOneBy( [ 'slug' => $groupSlug ] );
 
+		$this->denyAccessUnlessGranted( GroupVoter::EDIT, $group );
+
 		/**************************************************
 		 * UPLOAD
 		 **************************************************/
@@ -62,6 +66,12 @@ class GroupFileController extends AbstractController {
 			$file                 = $usergroupFileManager->createFromUploadedFile( $uploadFile, $user, $group );
 
 			$manager->persist( $file );
+
+			$document = new Document();
+			$document->setUser( $user );
+			$document->setUsergroup( $group );
+			$document->setFile( $file );
+
 			$manager->flush();
 		}
 
@@ -72,9 +82,9 @@ class GroupFileController extends AbstractController {
 	}
 
 	/**
-	 * @Route("/groups/{groupSlug}/files/{fileSlug}", name="group_file_get")
+	 * @Route("/groups/{groupSlug}/documents/{documentSlug}", name="group_document_get")
 	 * @param                                            $groupSlug
-	 * @param                                            $fileSlug
+	 * @param                                            $documentSlug
 	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
 	 * @param \App\Service\FileManager                   $fileManager
 	 *
@@ -82,21 +92,23 @@ class GroupFileController extends AbstractController {
 	 */
 	public function getFile (
 			$groupSlug,
-			$fileSlug,
+			$documentSlug,
 			ObjectManager $manager,
 			FileManager $fileManager ) {
 		/**
-		 * @var $group \App\Entity\Usergroup
+		 * @var  \App\Entity\Usergroup $group
 		 */
 		$group = $manager->getRepository( Usergroup::class )
 						 ->findOneBy( [ 'slug' => $groupSlug ] );
 
-		/**
-		 * @var $file \App\Entity\File
-		 */
-		$file = $manager->getRepository( File::class )
-						->findOneBy( [ 'usergroup' => $group, 'name' => $fileSlug ] );
+		$this->denyAccessUnlessGranted( GroupVoter::READ, $group );
 
-		return $fileManager->getFile( $file );
+		/**
+		 * @var  \App\Entity\Document $document
+		 */
+		$document = $manager->getRepository( Document::class )
+							->findOneBy( [ 'usergroup' => $group, 'slug' => $documentSlug ] );
+
+		return $fileManager->getFile( $document->getFile() );
 	}
 }

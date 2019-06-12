@@ -2,6 +2,7 @@
 ui:
     menu: "Menu"
     see_all: "Voir tout"
+    delete: "Supprimer"
 
 forms:
     mandatory: "Champs obligatoires *"
@@ -59,12 +60,21 @@ forms:
         slug:
             label: "Identifiant"
             placeholder: "Sera généré automatiquement"
+        logo:
+            label: "Icône du groupe"
+            hint: "Format JPG ou PNG, 500 Ko maximum"
+            button: "Parcourir"
+        cover:
+            label: "Image de couverture"
+            hint: "Format JPG ou PNG, 500 Ko maximum"
+            button: "Parcourir"
         visibility:
-            label: "Visibilité"
+            label: "Visibilité du groupe"
             placeholder: ""
         description:
             label: "Description"
-            placeholder: ""
+            hint: "Précisez les but et intention de votre groupe."
+            placeholder: "Dites nous en plus sur votre groupe…"
         presentation:
             label: "Présentation"
             placeholder: "Présentation du groupe, ses objectifs..."
@@ -117,13 +127,14 @@ pages:
             title: "Profil"
     group:
         group_create:
-            title: "Création d’un groupe"
+            title: "Créer un groupe"
             link: "Créer un groupe"
             button: "Créer le groupe"
         group_edit:
-            title: "Édition du groupe <em>%s</em>"
+            title: "Modifier le groupe"
             link: "Modifier"
-            button: "Enregistrer les modifications"
+            button: "Modifier"
+            delete: "Supprimer"
         status:
             public: "Groupe public"
             private: "Groupe privé"

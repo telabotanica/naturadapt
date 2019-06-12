@@ -12,7 +12,7 @@
  * GROUP PAGES
  *************************************************/
 
-.group-page__edit {
+.main__group-page__edit {
 	.group-form {
 		padding: padding_vertical('small') padding_horizontal('small');
 
@@ -25,5 +25,19 @@
 
 	.form-row__file {
 		margin-top: rem(27px);
+	}
+
+	.form-row__file__logo {
+		.file-preview--img {
+			width:  rem(110px);
+			height: rem(110px);
+		}
+	}
+
+	.form-row__file__cover {
+		.file-preview--img {
+			width:  rem(138px);
+			height: rem(110px);
+		}
 	}
 }

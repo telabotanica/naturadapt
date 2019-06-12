@@ -1,16 +1,24 @@
 <div class="group group__{{ group.visibility }} group__teaser" style="--color: {{ group.name|color }}">
 	<div class="group-illustration">
-
-	</div>
-	<div class="group-status">
-		<span class="group-visibility group-visibility__{{ group.visibility }}"><span>{{ ('pages.group.status.' ~ group.visibility)|trans }}</span></span>
+		{% if (group.cover is defined) and (group.cover is not empty) %}
+			<img src="{{ group.cover.path | imagine_filter('cover_teaser') }}" alt="">
+		{% endif %}
 	</div>
 	<div class="group-content">
-		<h2 class="group-name">
-			<a href="{{ path('group_index', {'groupSlug': group.slug}) }}">{{ group.name }}</a>
+		{% if (group.logo is defined) and (group.logo is not empty) %}
+			<div class="group-logo">
+				<img src="{{ group.logo.path | imagine_filter('logo') }}" alt="">
+			</div>
+		{% endif %}
+
+		<h2 class="group-name h3">
 			{% if user_group_relation.isMember(app.user, group) %}
 				<span class="group-membership" title="{{ 'pages.group.is_member'|trans }}">✓</span>
+			{% elseif group.visibility == constant('App\\Entity\\Usergroup::PRIVATE') %}
+				<span class="group-visibility group-visibility__{{ group.visibility }}"><span>{{ ('pages.group.status.' ~ group.visibility)|trans }}</span></span>
 			{% endif %}
+
+			<a href="{{ path('group_index', {'groupSlug': group.slug}) }}">{{ group.name }}</a>
 		</h2>
 
 		<div class="group-description">

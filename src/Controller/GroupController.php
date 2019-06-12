@@ -2,11 +2,12 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
+use App\Entity\File;
 use App\Entity\Usergroup;
 use App\Entity\UsergroupMembership;
 use App\Form\UsergroupType;
 use App\Security\GroupVoter;
+use App\Service\FileManager;
 use App\Service\SlugGenerator;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -38,14 +39,16 @@ class GroupController extends AbstractController {
 	 * @Route("/groups/new", name="group_new")
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
 	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
-	 *
+	 * @param \App\Service\FileManager                   $fileManager
 	 * @param \App\Service\SlugGenerator                 $slugGenerator
 	 *
 	 * @return string
+	 * @throws \Exception
 	 */
 	public function groupNew (
 			Request $request,
 			ObjectManager $manager,
+			FileManager $fileManager,
 			SlugGenerator $slugGenerator
 	) {
 		$this->denyAccessUnlessGranted( GroupVoter::CREATE );
@@ -81,6 +84,40 @@ class GroupController extends AbstractController {
 
 			$manager->flush();
 
+			// Logo
+			$uploadFile = $form->get( 'logofile' )->getData();
+
+			if ( !empty( $uploadFile ) ) {
+				/**
+				 * @var \App\Service\UsergroupFileManager $groupFileManager
+				 */
+				$groupFileManager = $fileManager->getManager( File::USERGROUP_FILES );
+				$file             = $groupFileManager->createFromUploadedFile( $uploadFile, $user, $group );
+
+				$manager->persist( $file );
+
+				$group->setLogo( $file );
+			}
+			// --
+
+			// Cover
+			$uploadFile = $form->get( 'coverfile' )->getData();
+
+			if ( !empty( $uploadFile ) ) {
+				/**
+				 * @var \App\Service\UsergroupFileManager $groupFileManager
+				 */
+				$groupFileManager = $fileManager->getManager( File::USERGROUP_FILES );
+				$file             = $groupFileManager->createFromUploadedFile( $uploadFile, $user, $group );
+
+				$manager->persist( $file );
+
+				$group->setCover( $file );
+			}
+			// --
+
+			$manager->flush();
+
 			$this->addFlash( 'notice', 'messages.group.group_created' );
 
 			return $this->redirectToRoute( 'group_index', [ 'groupSlug' => $group->getSlug() ] );
@@ -111,14 +148,21 @@ class GroupController extends AbstractController {
 	 * @param                                            $groupSlug
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
 	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \App\Service\FileManager                   $fileManager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function groupEdit (
 			$groupSlug,
 			Request $request,
-			ObjectManager $manager
+			ObjectManager $manager,
+			FileManager $fileManager
 	) {
+		/**
+		 * @var \App\Entity\User $user
+		 */
+		$user = $this->getUser();
+
 		/**
 		 * @var \App\Entity\Usergroup $group
 		 */
@@ -132,6 +176,44 @@ class GroupController extends AbstractController {
 		$form->handleRequest( $request );
 
 		if ( $form->isSubmitted() && $form->isValid() ) {
+			// Logo
+			$uploadFile = $form->get( 'logofile' )->getData();
+
+			if ( !empty( $uploadFile ) ) {
+				/**
+				 * @var \App\Service\UsergroupFileManager $groupFileManager
+				 */
+				$groupFileManager = $fileManager->getManager( File::USERGROUP_FILES );
+				$file             = $groupFileManager->createFromUploadedFile( $uploadFile, $user, $group );
+
+				$manager->persist( $file );
+
+				if ( !empty( $group->getLogo() ) ) {
+					$fileManager->deleteFile( $group->getLogo() );
+				}
+				$group->setLogo( $file );
+			}
+			// --
+
+			// Cover
+			$uploadFile = $form->get( 'coverfile' )->getData();
+
+			if ( !empty( $uploadFile ) ) {
+				/**
+				 * @var \App\Service\UsergroupFileManager $groupFileManager
+				 */
+				$groupFileManager = $fileManager->getManager( File::USERGROUP_FILES );
+				$file             = $groupFileManager->createFromUploadedFile( $uploadFile, $user, $group );
+
+				$manager->persist( $file );
+
+				if ( !empty( $group->getCover() ) ) {
+					$fileManager->deleteFile( $group->getCover() );
+				}
+				$group->setCover( $file );
+			}
+			// --
+
 			$manager->flush();
 
 			$this->addFlash( 'notice', 'messages.group.group_updated' );
@@ -149,12 +231,14 @@ class GroupController extends AbstractController {
 	 * @Route("/groups/{groupSlug}/delete", name="group_delete")
 	 * @param                                            $groupSlug
 	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \App\Service\FileManager                   $fileManager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function groupDelete (
 			$groupSlug,
-			ObjectManager $manager
+			ObjectManager $manager,
+			FileManager $fileManager
 	) {
 		/**
 		 * @var \App\Entity\Usergroup $group
@@ -164,7 +248,28 @@ class GroupController extends AbstractController {
 
 		$this->denyAccessUnlessGranted( GroupVoter::DELETE, $group );
 
+		$group->setLogo( NULL );
+		$group->setCover( NULL );
+
+		foreach ( $group->getMembers() as $membership ) {
+			$manager->remove( $membership );
+		}
+
+		foreach ( $group->getPages() as $page ) {
+			$manager->remove( $page );
+		}
+
+		foreach ( $group->getDocuments() as $document ) {
+			$manager->remove( $document );
+		}
+
+		foreach ( $group->getFiles() as $file ) {
+			$fileManager->deleteFile( $file );
+			$manager->remove( $file );
+		}
+
 		$manager->remove( $group );
+
 		$manager->flush();
 
 		$this->addFlash( 'notice', 'messages.group.group_deleted' );

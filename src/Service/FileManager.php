@@ -6,7 +6,6 @@ use App\Entity\File;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class FileManager {
@@ -36,6 +35,20 @@ class FileManager {
 		);
 
 		return $response;
+	}
+
+	public function deleteFile ( File $file ) {
+		/**
+		 * @var \Gaufrette\FilesystemInterface $fs
+		 */
+		$fs = $this->getManager( $file->getFilesystem() )
+				   ->getFileSystem();
+
+		if ( $fs->has( $file->getPath() ) ) {
+			return $fs->delete( $file->getPath() );
+		}
+
+		return TRUE;
 	}
 
 	public function getResized ( File $file ) {

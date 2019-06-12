@@ -1,16 +1,32 @@
-<div class="group-header main--header">
-	<div class="group-illustration"></div>
-	<div class="content-container">
+<div class="main--header">
+	{% if (group.cover is defined) and (group.cover is not empty) %}
+		<div class="main--header--image">
+			<img src="{{ group.cover.path | imagine_filter('cover') }}" alt="">
+		</div>
+	{% endif %}
+
+	<div class="main--header--content content-container">
 		{% include 'components/app-flashes.html.twig' %}
 
-		<h1 class="h1 group-name">{{ group.name }}</h1>
-		<div class="group-status">
-			<span class="group-visibility group-visibility__{{ group.visibility }}"><span>{{ ('pages.group.status.' ~ group.visibility)|trans }}</span></span>
-			<span class="group-date">{{ 'pages.group.status.created_at'|trans|format(group.createdAt|localizeddate('long', 'none', app.request.locale)) }}</span>
-		</div>
+		<div class="main--header--group-infos">
+			{% if (group.logo is defined) and (group.logo is not empty) %}
+				<div class="main--header--logo">
+					<img src="{{ group.logo.path | imagine_filter('logo') }}" alt="">
+				</div>
+			{% endif %}
 
-		{% if is_granted(constant('App\\Security\\GroupVoter::EDIT'), group) %}
-			<a class="admin admin__edit" href="{{ path('group_edit', {'groupSlug':group.slug}) }}"><span>{{ 'pages.group.group_edit.link'|trans }}</span></a>
-		{% endif %}
+			<div>
+				<h1 class="h1 group-name">{{ group.name }}</h1>
+
+				<div class="group-status">
+					<span class="group-visibility group-visibility__{{ group.visibility }}"><span>{{ ('pages.group.status.' ~ group.visibility)|trans }}</span></span>
+					<span class="group-date">{{ 'pages.group.status.created_at'|trans|format(group.createdAt|localizeddate('long', 'none', app.request.locale)) }}</span>
+				</div>
+
+				{% if is_granted(constant('App\\Security\\GroupVoter::ADMIN'), group) %}
+					<a class="cta__white" href="{{ path('group_edit', {'groupSlug':group.slug}) }}"><span>{{ 'pages.group.group_edit.link'|trans }}</span></a>
+				{% endif %}
+			</div>
+		</div>
 	</div>
 </div>

@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Usergroup;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -18,6 +19,14 @@ class UsergroupType extends AbstractType {
 	public function buildForm ( FormBuilderInterface $builder, array $options ) {
 		$builder
 				->add( 'name', TextType::class )
+				->add( 'logofile', FileType::class, [
+						'required' => FALSE,
+						'mapped'   => FALSE,
+				] )
+				->add( 'coverfile', FileType::class, [
+						'required' => FALSE,
+						'mapped'   => FALSE,
+				] )
 				->add( 'description', TextareaType::class )
 				->add( 'presentation', TextareaType::class )
 				->add( 'visibility', ChoiceType::class, [

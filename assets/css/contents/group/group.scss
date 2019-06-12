@@ -8,9 +8,19 @@
 	> ul {
 		@include columns;
 
+		@include medium-or-more {
+			justify-content: flex-start;
+		}
+
 		> li {
 			@include columns_item(1/3);
 			@include card_shadow();
+
+			@include medium-or-more {
+				&:not(:nth-child(3n+1)) {
+					margin-left: column_gap();
+				}
+			}
 		}
 	}
 }
@@ -23,13 +33,24 @@
 	--color: $color_grey_light;
 
 	.group-illustration {
+		position:         relative;
+
 		&::before {
 			content:        '';
 			display:        block;
-			padding-bottom: (9 / 16) * 100%;
+			padding-bottom: (380 / 1366) * 100%;
 		}
 
 		background-color: var(--color);
+
+		img {
+			position:   absolute;
+			top:        0;
+			left:       0;
+			width:      100%;
+			height:     100%;
+			object-fit: cover;
+		}
 	}
 
 	.group-visibility__private {
@@ -50,24 +71,15 @@
 	flex-flow: column nowrap;
 	height:    100%;
 
-	.group-visibility {
-		position: absolute;
-		top:      padding_vertical();
-		right:    padding_horizontal();
-
-		span {
-			position: absolute;
-			left:     -99999px;
+	.group-illustration {
+		&::before {
+			padding-bottom: (165 / 292) * 100%;
 		}
 	}
 
-	.group-visibility__private::before {
-		position: absolute;
-		top:      0;
-		right:    0;
-	}
-
 	.group-content {
+		position:  relative;
+
 		flex-grow: 1;
 
 		display:   flex;
@@ -81,11 +93,20 @@
 		}
 	}
 
-	.group-name {
-		margin:    0 0 1rem;
+	.group-logo {
+		position:      absolute;
+		top:           rem(-20px);
+		left:          padding_horizontal('small');
+		width:         rem(40px);
+		height:        rem(40px);
+		border-radius: 50%;
+		overflow:      hidden;
+	}
 
-		@include font_default;
-		font-size: (33 / 20) * 1em;
+	.group-name {
+		margin-top: rem(4px);
+
+		@include font_title_bold;
 
 		a {
 			color:           $color_default;
@@ -96,7 +117,6 @@
 	.group-membership {
 		position:         relative;
 		top:              .05em;
-		margin-left:      .31em;
 		display:          inline-block;
 		vertical-align:   baseline;
 		width:            .8em;
@@ -139,13 +159,44 @@
 **************************************************/
 
 .group__full {
-	.group-illustration {
-		position: absolute;
-		top:      0;
-		right:    0;
-		bottom:   0;
-		left:     0;
-		z-index:  -1;
+	.main--header--image {
+		background-color: $color_grey_lighter;
+		overflow:         hidden;
+
+		img {
+			filter: blur(20px);
+		}
+	}
+
+	.main--header--content {
+		flex-basis: 100%;
+	}
+
+	.main--header--group-infos {
+		display:         flex;
+		flex-flow:       row nowrap;
+		justify-content: flex-start;
+		align-items:     center;
+	}
+
+	.main--header--logo {
+		margin-right:  column_gap();
+
+		width:         rem(150px);
+		height:        rem(150px);
+		border-radius: 50%;
+		overflow:      hidden;
+
+		img {
+			display:    block;
+			width:      100%;
+			height:     100%;
+			object-fit: cover;
+		}
+	}
+
+	.group-status + a {
+		margin-top: 1rem;
 	}
 
 	.group-visibility__private::before {

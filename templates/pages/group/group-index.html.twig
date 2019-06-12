@@ -3,7 +3,7 @@
 {% block title %}{{ group.name }} - {{ plateform.name }}{% endblock %}
 
 {% block main %}
-	<section class="group-index">
+	<section class="main main__group-index">
 		{% if is_granted(constant('App\\Security\\GroupVoter::READ'), group) %}
 			{% include 'contents/group/group--full.html.twig' with {'group':group} %}
 		{% else %}

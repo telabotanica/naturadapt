@@ -5,6 +5,36 @@
 		{{ form_label(form.name, 'forms.group.name.label') }}
 		{{ form_widget(form.name, {'attr': {'placeholder': 'forms.group.name.placeholder'}}) }}
 	</div>
+	<div class="form-row form-row__file form-row__file__logo">
+		<div class="file-preview">
+			<div class="file-preview--img">
+				{% if (group is defined) and (group.logo is defined) and (group.logo is not empty) %}
+					<img src="{{ group.logo.path | imagine_filter('logo') }}" alt="">
+				{% endif %}
+			</div>
+			<div class="file-preview--content">
+				{{ form_label(form.logofile, 'forms.group.logo.label') }}
+				<div class="hint">{{ 'forms.group.logo.hint'|trans }}</div>
+				{{ form_widget(form.logofile) }}
+				{{ form_label(form.logofile, 'forms.group.logo.button', {'label_attr': {'class': 'submit-style submit-style__inverted'}}) }}
+			</div>
+		</div>
+	</div>
+	<div class="form-row form-row__file form-row__file__cover">
+		<div class="file-preview">
+			<div class="file-preview--img">
+				{% if (group is defined) and (group.cover is defined) and (group.cover is not empty) %}
+					<img src="{{ group.cover.path | imagine_filter('cover') }}" alt="">
+				{% endif %}
+			</div>
+			<div class="file-preview--content">
+				{{ form_label(form.coverfile, 'forms.group.cover.label') }}
+				<div class="hint">{{ 'forms.group.cover.hint'|trans }}</div>
+				{{ form_widget(form.coverfile) }}
+				{{ form_label(form.coverfile, 'forms.group.cover.button', {'label_attr': {'class': 'submit-style submit-style__inverted'}}) }}
+			</div>
+		</div>
+	</div>
 	<div class="form-row form-row__field">
 		{{ form_label(form.visibility, 'forms.group.visibility.label') }}
 		<div class="form-row__radioboxes">
@@ -13,6 +43,7 @@
 	</div>
 	<div class="form-row form-row__field">
 		{{ form_label(form.description, 'forms.group.description.label') }}
+		<div class="hint">{{ 'forms.group.description.hint'|trans }}</div>
 		{{ form_widget(form.description, {'attr': {'placeholder': 'forms.group.description.placeholder'}}) }}
 	</div>
 	<div class="form-row form-row__field">
@@ -22,5 +53,8 @@
 </div>
 <div class="form-row form-row__submit">
 	{{ form_widget(form.submit, {'label': form_submit}) }}
+	{% if (delete is defined) and (delete) and is_granted(constant('App\\Security\\GroupVoter::ADMIN'), group) %}
+		<a class="cta__inverted" href="{{ path('group_delete', {'groupSlug':group.slug}) }}">{{ 'ui.delete'|trans }}</a>
+	{% endif %}
 </div>
 {{ form_end(form) }}

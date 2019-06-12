@@ -329,6 +329,45 @@ $form_label_width: (1/3) * 100%;
 	label.submit-style {
 		align-self: flex-start;
 	}
+
+	.file-preview {
+		display:         flex;
+		flex-flow:       row nowrap;
+		justify-content: stretch;
+		align-items:     stretch;
+	}
+
+	.file-preview--img {
+		position:         relative;
+		margin-right:     column_gap();
+		overflow:         hidden;
+
+		background-color: $color_grey_light;
+		border-radius:    rem(5px);
+
+		img {
+			display:         block;
+			width:           100%;
+			height:          100%;
+			object-fit:      cover;
+			object-position: center center;
+		}
+	}
+
+	.file-preview--content {
+		display:         flex;
+		flex-flow:       column nowrap;
+		justify-content: stretch;
+
+		label {
+			margin-bottom: 0;
+		}
+
+		.hint {
+			margin-bottom: 0;
+			flex-grow:     1;
+		}
+	}
 }
 
 .form-row__checkbox {

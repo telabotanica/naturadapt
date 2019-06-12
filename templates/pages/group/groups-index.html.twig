@@ -10,11 +10,16 @@
 				{% include 'components/app-flashes.html.twig' %}
 
 				<div class="narrow">
-					<h1 class="small-title">Bienvenue sur {{ plateform.name }}</h1>
+					<h1 class="small-title">Groupes</h1>
 
-					<p class="h1">Échangeons pour adapter la gestion des espaces naturels face au changement climatique</p>
+					<p class="h1">Trouvez les groupes de discussion qui vous intéressent</p>
 
-					<p><a class="cta__white" href="{{ path('homepage') }}">En savoir plus</a></p>
+					<p>
+						<a class="cta__white" href="{{ path('homepage') }}">En savoir plus</a>
+						{% if is_granted(constant('App\\Security\\GroupVoter::CREATE')) %}
+							<a class="cta__white" href="{{ path('group_new') }}">Créer un groupe</a>
+						{% endif %}
+					</p>
 				</div>
 			</div>
 		</div>

@@ -78,11 +78,27 @@ class Usergroup {
 	 */
 	private $createdAt;
 
+	/**
+	 * @ORM\OneToOne(targetEntity="App\Entity\File", cascade={"persist", "remove"})
+	 */
+	private $logo;
+
+	/**
+	 * @ORM\OneToOne(targetEntity="App\Entity\File", cascade={"persist", "remove"})
+	 */
+	private $cover;
+
+	/**
+	 * @ORM\OneToMany(targetEntity="App\Entity\Document", mappedBy="usergroup")
+	 */
+	private $documents;
+
 	public function __construct () {
 		$this->categories = new ArrayCollection();
 		$this->members    = new ArrayCollection();
 		$this->pages      = new ArrayCollection();
 		$this->files      = new ArrayCollection();
+		$this->documents  = new ArrayCollection();
 	}
 
 	public function getId (): ?int {
@@ -264,6 +280,54 @@ class Usergroup {
 
 	public function setCreatedAt ( \DateTimeInterface $createdAt ): self {
 		$this->createdAt = $createdAt;
+
+		return $this;
+	}
+
+	public function getLogo (): ?File {
+		return $this->logo;
+	}
+
+	public function setLogo ( ?File $logo ): self {
+		$this->logo = $logo;
+
+		return $this;
+	}
+
+	public function getCover (): ?File {
+		return $this->cover;
+	}
+
+	public function setCover ( ?File $cover ): self {
+		$this->cover = $cover;
+
+		return $this;
+	}
+
+	/**
+	 * @return Collection|Document[]
+	 */
+	public function getDocuments (): Collection {
+		return $this->documents;
+	}
+
+	public function addDocument ( Document $document ): self {
+		if ( !$this->documents->contains( $document ) ) {
+			$this->documents[] = $document;
+			$document->setUsergroup( $this );
+		}
+
+		return $this;
+	}
+
+	public function removeDocument ( Document $document ): self {
+		if ( $this->documents->contains( $document ) ) {
+			$this->documents->removeElement( $document );
+			// set the owning side to null (unless already changed)
+			if ( $document->getUsergroup() === $this ) {
+				$document->setUsergroup( NULL );
+			}
+		}
 
 		return $this;
 	}

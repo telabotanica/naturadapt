@@ -1,20 +1,26 @@
 {% extends 'base.html.twig' %}
 
 {% block main %}
-	<div class="group-page group-page__edit">
-		<div class="group-page--header main--header">
-			<div class="content-container">
-				<div class="narrow">
-					{% include 'components/app-flashes.html.twig' %}
-				</div>
+	<section class="main main__group-page main__group-page__edit">
+		<div class="main--content content-container">
+			<div class="thin">
+				{% include 'components/app-flashes.html.twig' %}
+
+				<section class="group-header">
+					<h1 class="h1">{{ 'pages.group.group_edit.title'|trans }}</h1>
+
+					{#//TODO : Breadcrumb#}
+				</section>
+
+				<section class="group-form">
+					{% include 'components/group/group-form.html.twig' with ({
+						'group':group,
+						'form':form,
+						'form_submit':'pages.group.group_edit.button',
+						'delete':true
+					}) %}
+				</section>
 			</div>
 		</div>
-		<div class="group-page--content content-container">
-			<section class="group-form narrow">
-				<h1 class="h3">{{ 'pages.group.group_edit.title'|trans|format(group.name)|raw }}</h1>
-
-				{% include 'components/group/group-form.html.twig' with ({'form':form, 'form_submit':'pages.group.group_edit.button'}) %}
-			</section>
-		</div>
-	</div>
+	</section>
 {% endblock %}
