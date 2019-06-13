@@ -1,7 +1,8 @@
 # translations/messages.fr.yaml
 ui:
     menu: "Menu"
-    see_all: "Voir tout"
+    see_more: "En savoir plus"
+    see_all: "Tout voir"
     delete: "Supprimer"
 
 forms:
