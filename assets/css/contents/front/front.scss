@@ -17,10 +17,10 @@
 }
 
 .front-page--columns {
-	@include small-or-less {
-		img {
-			width: 100%;
-		}
+	text-align: center;
+
+	svg {
+		height: rem(85px);
 	}
 }
 
