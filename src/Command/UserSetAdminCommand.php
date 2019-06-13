@@ -9,8 +9,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class UserDeactivateCommand extends Command {
-	protected static $defaultName = 'user:deactivate';
+class UserSetAdminCommand extends Command {
+	protected static $defaultName = 'user:set-admin';
 
 	private $manager;
 
@@ -22,8 +22,8 @@ class UserDeactivateCommand extends Command {
 
 	protected function configure () {
 		$this
-				->setDescription( 'Set User as deactivated' )
-				->setHelp( 'Set User as deactivated' );
+				->setDescription( 'Set User as ROLE_ADMIN' )
+				->setHelp( 'Set User as ROLE_ADMIN' );
 
 		$this
 				->addArgument( 'username', InputArgument::REQUIRED, 'The username of the user.' );
@@ -48,10 +48,10 @@ class UserDeactivateCommand extends Command {
 			return;
 		}
 
-		$user->setStatus( User::STATUS_DISABLED );
+		$user->setRoles( array_merge( $user->getRoles(), [ User::ROLE_ADMIN ] ) );
 		$manager->persist( $user );
 		$manager->flush();
 
-		$output->writeln( sprintf( 'User %s is now deactivated', $user->getDisplayName() ) );
+		$output->writeln( sprintf( 'User %s updated, has roles %s', $user->getDisplayName(), implode( ', ', $user->getRoles() ) ) );
 	}
 }
