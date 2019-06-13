@@ -268,6 +268,8 @@ class GroupController extends AbstractController {
 			$manager->remove( $file );
 		}
 
+		$manager->flush();
+
 		$manager->remove( $group );
 
 		$manager->flush();
