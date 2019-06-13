@@ -1,0 +1,16 @@
+<div class="group-infos">
+	{% if (group.logo is defined) and (group.logo is not empty) %}
+		<div class="group-logo">
+			<img src="{{ group.logo.path | imagine_filter('logo') }}" alt="">
+		</div>
+	{% endif %}
+
+	<div>
+		<h1 class="h1 group-name">{{ group.name }}</h1>
+
+		<div class="group-status">
+			<span class="group-visibility group-visibility__{{ group.visibility }}"><span>{{ ('pages.group.status.' ~ group.visibility)|trans }}</span></span>
+			<span class="group-date">{{ 'pages.group.status.created_at'|trans|format(group.createdAt|localizeddate('long', 'none', app.request.locale)) }}</span>
+		</div>
+	</div>
+</div>

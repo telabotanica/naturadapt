@@ -164,7 +164,8 @@
 		overflow:         hidden;
 
 		img {
-			filter: blur(20px);
+			filter:    blur(20px);
+			transform: scale(1.1);
 		}
 	}
 
@@ -172,14 +173,16 @@
 		flex-basis: 100%;
 	}
 
-	.main--header--group-infos {
+	// Group Infos
+
+	.group-infos {
 		display:         flex;
 		flex-flow:       row nowrap;
 		justify-content: flex-start;
 		align-items:     center;
 	}
 
-	.main--header--logo {
+	.group-logo {
 		margin-right:  column_gap();
 
 		width:         rem(150px);
@@ -203,11 +206,40 @@
 		margin-right: .31em;
 	}
 
-	.group-infos {
-		display:         flex;
-		flex-flow:       row nowrap;
-		justify-content: flex-start;
-		align-items:     flex-start;
+	// Group Title (member)
+
+	.group-title {
+		@include columns;
+
+		> :nth-child(1) {
+			@include columns_item(2 / 3)
+		}
+
+		> :nth-child(2) {
+			@include columns_item(1 / 3);
+		}
+	}
+
+	.group-edit {
+		align-self: flex-end;
+		text-align: right;
+	}
+
+	// Group Description
+
+	.group-description {
+		@include columns;
+	}
+
+	.group-description-text {
+		@include columns_item(2 / 3)
+	}
+
+	.group-join {
+		@include columns_item(1 / 3);
+		@include card_shadow;
+
+		padding: 1rem;
 	}
 
 	.group-date {
@@ -217,31 +249,13 @@
 		}
 	}
 
-	.group-description {
-		margin:    0 column_gap() padding_vertical() 0;
-		flex-grow: 1;
-
-		padding:   1rem 0;
-	}
-
-	.group-join {
-		margin:      (-1 * padding_vertical()) 0 padding_vertical();
-		flex-basis:  calc(#{(1 / 3) * 100%} - #{(2 / 3) * column_gap()});
-		flex-grow:   0;
-		flex-shrink: 0;
-
-		@include card_shadow;
-
-		padding:     1rem;
-	}
-
 	.group-join--action {
 		margin-bottom:  padding_vertical();
 		padding-bottom: padding_vertical();
 		border-bottom:  1px solid $color_grey_lighter;
 
 		a {
-			@include cta-style($color_dodger_blue);
+			@include cta-style;
 			width: 100%;
 		}
 	}
@@ -255,6 +269,9 @@
 	}
 
 	.group-app {
+		display:   flex;
+		flex-flow: column nowrap;
+
 		@include columns_item(1/3);
 		@include card_shadow();
 
@@ -264,16 +281,35 @@
 			}
 		}
 
-		padding: 1rem;
+		padding:   1rem;
+
+		a {
+			text-decoration: none;
+		}
 
 		h2 {
-			margin:      0 0 1rem;
+			@include clearfloat;
+		}
 
-			@include font_default_bold;
+		.count {
+			float:     right;
 
-			font-size:   rem(20px);
+			font-size: rem(16px);
+			color:     $color_grey_neutral;
+		}
 
-			line-height: line_height_default();
+		> ul {
+			flex-grow: 1;
+		}
+
+		.see-all {
+			margin-top: .5em;
+
+			text-align: center;
+
+			font-size:  rem(16px);
+
+			color:      $color_action;
 		}
 	}
 }

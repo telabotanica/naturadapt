@@ -1,0 +1,14 @@
+<div class="group-description">
+	<div class="group-description-text">
+		<p>{{ group.description }}</p>
+
+		{% if group.presentation is not empty %}
+			<button class="cta__inverted" type="button" data-see-more>{{ 'ui.see_more'|trans }}</button>
+			<p aria-hidden="true">{{ group.presentation }}</p>
+		{% endif %}
+	</div>
+	<div class="group-join">
+		{% include 'contents/group/partials/group-join-button.html.twig' with {'group':group} %}
+		{% include 'contents/group/partials/group-members--tiny.html.twig' with {'members':group.members} %}
+	</div>
+</div>
