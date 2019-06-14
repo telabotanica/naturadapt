@@ -32,27 +32,6 @@
 .group {
 	--color: $color_grey_light;
 
-	.group-illustration {
-		position:         relative;
-
-		&::before {
-			content:        '';
-			display:        block;
-			padding-bottom: (380 / 1366) * 100%;
-		}
-
-		background-color: var(--color);
-
-		img {
-			position:   absolute;
-			top:        0;
-			left:       0;
-			width:      100%;
-			height:     100%;
-			object-fit: cover;
-		}
-	}
-
 	.group-membership__member,
 	.group-visibility__private {
 		&::before {
@@ -90,8 +69,23 @@
 	height:    100%;
 
 	.group-illustration {
+		position:         relative;
+
 		&::before {
+			content:        '';
+			display:        block;
 			padding-bottom: (165 / 292) * 100%;
+		}
+
+		background-color: var(--color);
+
+		img {
+			position:   absolute;
+			top:        0;
+			left:       0;
+			width:      100%;
+			height:     100%;
+			object-fit: cover;
 		}
 	}
 
@@ -158,6 +152,15 @@
 **************************************************/
 
 .group__full {
+	.main--header__cover {
+		min-height: (237 / 375) * 100vw;
+
+		@include medium-or-more {
+			min-height: rem(380px);
+		}
+	}
+
+
 	.main--header--image {
 		background-color: $color_grey_lighter;
 		overflow:         hidden;

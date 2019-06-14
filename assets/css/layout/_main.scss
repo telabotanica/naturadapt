@@ -11,25 +11,26 @@ main {
 }
 
 .main--header {
-	position:         relative;
-	display:          flex;
+	position: relative;
+	display:  flex;
+}
 
-	min-height:       (237 / 375) * 100vw;
+.main--header__cover {
+	min-height: (237 / 375) * 100vw;
 
 	@include medium-or-more {
 		min-height: rem(500px);
 	}
-
-	color:            white;
-	background-color: black;
 }
 
 .main--header--image {
-	position: absolute;
-	top:      0;
-	right:    0;
-	bottom:   0;
-	left:     0;
+	position:         absolute;
+	top:              0;
+	right:            0;
+	bottom:           0;
+	left:             0;
+
+	background-color: black;
 
 	img {
 		display:    block;
@@ -44,8 +45,17 @@ main {
 	margin-top:     auto;
 	margin-bottom:  auto;
 
-	padding-top:    rem(50px);
-	padding-bottom: rem(50px);
+	padding-top:    rem(40px);
+	padding-bottom: rem(40px);
+
+	@include medium-or-more {
+		padding-top:    rem(80px);
+		padding-bottom: rem(80px);
+	}
+
+	.main--header--image ~ & {
+		color: white;
+	}
 }
 
 .main--content {
