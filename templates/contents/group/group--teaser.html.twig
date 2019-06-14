@@ -13,7 +13,7 @@
 
 		<h2 class="group-name h3">
 			{% if user_group_relation.isMember(app.user, group) %}
-				<span class="group-membership" title="{{ 'pages.group.is_member'|trans }}">✓</span>
+				<span class="group-membership__member" title="{{ 'pages.group.is_member'|trans }}"><span>✓</span></span>
 			{% elseif group.visibility == constant('App\\Entity\\Usergroup::PRIVATE') %}
 				<span class="group-visibility group-visibility__{{ group.visibility }}"><span>{{ ('pages.group.status.' ~ group.visibility)|trans }}</span></span>
 			{% endif %}
@@ -25,6 +25,6 @@
 			{{ group.description }}
 		</div>
 
-		{% include 'components/group/group-members--tiny.html.twig' with {'members':group.members} %}
+		{% include 'contents/group/partials/group-members--tiny.html.twig' with {'group':group} %}
 	</div>
 </div>

@@ -46,7 +46,7 @@ class UserController extends AbstractController {
 			$this->addFlash( 'error', $key );
 		}
 
-		return $this->render( 'components/user/login.html.twig', [
+		return $this->render( 'forms/user/login.html.twig', [
 				'last_username' => $lastUsername,
 		] );
 	}

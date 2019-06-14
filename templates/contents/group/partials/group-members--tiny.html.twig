@@ -1,0 +1,14 @@
+{% set maxVisibleUsers = 5 %}
+<div class="group-members group-members__tiny">
+	<ul>
+		{% for member in group.members|slice(0, maxVisibleUsers) %}
+			<li>
+				{% include 'contents/user/user--tiny.html.twig' with {'user':member.user, 'admin':user_group_relation.isAdmin(member.user, group)} %}
+			</li>
+		{% endfor %}
+	</ul>
+	{% set count_plus = group.members|length - maxVisibleUsers %}
+	{% if count_plus > 0 %}
+		<div class="members-count">{{ count_plus }}</div>
+	{% endif %}
+</div>

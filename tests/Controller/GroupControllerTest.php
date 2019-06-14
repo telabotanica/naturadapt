@@ -36,11 +36,21 @@ class GroupControllerTest extends WebTestCase {
 				->link()
 				->getUri();
 
+		$this->assertNotEmpty(
+				$publicLink,
+				'Assert groups index contains one public group'
+		);
+
 		$privateLink = $crawler
 				->filter( '.group__private .group-name a' )
 				->eq( 0 )
 				->link()
 				->getUri();
+
+		$this->assertNotEmpty(
+				$privateLink,
+				'Assert groups index contains one private group'
+		);
 
 		return [ 'public' => $publicLink, 'private' => $privateLink ];
 	}

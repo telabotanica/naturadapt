@@ -1,7 +1,8 @@
 # translations/messages.fr.yaml
 ui:
     menu: "Menu"
-    see_all: "Voir tout"
+    see_more: "En savoir plus"
+    see_all: "Tout voir"
     delete: "Supprimer"
 
 forms:
@@ -125,6 +126,7 @@ pages:
             my_groups: "Mes groupes"
         profile:
             title: "Profil"
+        is_admin: "Administrateur"
     group:
         group_create:
             title: "Créer un groupe"
@@ -139,7 +141,7 @@ pages:
             public: "Groupe public"
             private: "Groupe privé"
             created_at: "Créé le %s"
-        is_member: "Vous êtes membre de ce groupe"
+        is_member: "Inscrit"
         is_banned: "Vous avez été banni de ce groupe"
         is_pending: "Votre demande d’inscription est en attente"
         join_button:

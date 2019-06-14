@@ -1,0 +1,24 @@
+<div class="group group__full" style="--color: {{ group.name|color }}">
+	<div class="main--header">
+		{% if (group.cover is defined) and (group.cover is not empty) %}
+			<div class="main--header--image">
+				<img src="{{ group.cover.path | imagine_filter('cover') }}" alt="">
+			</div>
+		{% endif %}
+
+		<div class="main--header--content content-container">
+			{% include 'components/app-flashes.html.twig' %}
+
+			{% include 'contents/group/partials/group-infos.html.twig' with {'group':group} %}
+		</div>
+	</div>
+
+	<div class="main--content content-container">
+		{% include 'contents/group/partials/group-description.html.twig' with {'group':group} %}
+
+		<div class="group-restricted">
+			<p class="group-restricted--title">{{ 'pages.group.restricted.title'|trans }}</p>
+			<p>{{ 'pages.group.restricted.body'|trans }}</p>
+		</div>
+	</div>
+</div>

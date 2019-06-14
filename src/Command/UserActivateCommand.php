@@ -2,8 +2,6 @@
 
 namespace App\Command;
 
-use App\Entity\CouponActionLabel;
-use App\Entity\CouponStatusLabel;
 use App\Entity\User;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Console\Command\Command;

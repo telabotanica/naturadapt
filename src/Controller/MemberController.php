@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Security\UserVoter;
 use App\Service\FileManager;
 use App\Service\UsergroupMembersManager;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -27,6 +28,8 @@ class MemberController extends AbstractController {
 			Request $request,
 			UsergroupMembersManager $usergroupMembersManager
 	) {
+		$this->denyAccessUnlessGranted( UserVoter::LOGGED );
+
 		$page     = $request->query->get( 'page', 0 );
 		$per_page = 10;
 
@@ -74,6 +77,8 @@ class MemberController extends AbstractController {
 			ObjectManager $manager,
 			FileManager $fileManager
 	) {
+		$this->denyAccessUnlessGranted( UserVoter::LOGGED );
+		
 		$user = $manager->getRepository( User::class )
 						->findOneById( $user_id );
 

@@ -1,6 +1,6 @@
 <div class="group-join--action">
 	{% if user_group_relation.isMember(app.user, group) %}
-		{{ 'pages.group.is_member'|trans }}
+		<span class="member">{{ 'pages.group.is_member'|trans }}</span>
 	{% elseif user_group_relation.isBanned(app.user, group) %}
 		{{ 'pages.group.is_banned'|trans }}
 	{% elseif group.visibility == 'public' %}

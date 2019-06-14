@@ -4,10 +4,12 @@
 
 {% block main %}
 	<section class="main main__group-index">
-		{% if is_granted(constant('App\\Security\\GroupVoter::READ'), group) %}
-			{% include 'contents/group/group--full.html.twig' with {'group':group} %}
+		{% if user_group_relation.isMember(app.user, group) %}
+			{% include 'contents/group/group--full__member.html.twig' with {'group':group} %}
+		{% elseif is_granted(constant('App\\Security\\GroupVoter::READ'), group) %}
+			{% include 'contents/group/group--full__read.html.twig' with {'group':group} %}
 		{% else %}
-			{% include 'contents/group/group--full-restricted.html.twig' with {'group':group} %}
+			{% include 'contents/group/group--full__restricted.html.twig' with {'group':group} %}
 		{% endif %}
 	</section>
 {% endblock %}

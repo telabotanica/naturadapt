@@ -1,0 +1,9 @@
+[data-see-more] {
+	&[aria-hidden="true"] {
+		display: none;
+	}
+
+	& + [aria-hidden="true"] {
+		display: none;
+	}
+}

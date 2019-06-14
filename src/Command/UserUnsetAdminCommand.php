@@ -2,8 +2,6 @@
 
 namespace App\Command;
 
-use App\Entity\CouponActionLabel;
-use App\Entity\CouponStatusLabel;
 use App\Entity\User;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Console\Command\Command;
@@ -11,8 +9,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class UserAdminCommand extends Command {
-	protected static $defaultName = 'user:set-admin';
+class UserUnsetAdminCommand extends Command {
+	protected static $defaultName = 'user:unset-admin';
 
 	private $manager;
 
@@ -24,8 +22,8 @@ class UserAdminCommand extends Command {
 
 	protected function configure () {
 		$this
-				->setDescription( 'Set User as ROLE_ADMIN' )
-				->setHelp( 'Set User as ROLE_ADMIN' );
+				->setDescription( 'Set User as ROLE_USER' )
+				->setHelp( 'Set User as ROLE_USER' );
 
 		$this
 				->addArgument( 'username', InputArgument::REQUIRED, 'The username of the user.' );
@@ -50,7 +48,7 @@ class UserAdminCommand extends Command {
 			return;
 		}
 
-		$user->setRoles( array_merge( $user->getRoles(), [ User::ROLE_ADMIN ] ) );
+		$user->setRoles( [ User::ROLE_USER ] );
 		$manager->persist( $user );
 		$manager->flush();
 

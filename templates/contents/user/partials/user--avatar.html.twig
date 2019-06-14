@@ -1,8 +1,9 @@
-<div class="user--avatar">
+{% set hasAvatar = (user.avatar is defined) and user.avatar %}
+<div class="user--avatar {{ hasAvatar ? '' : 'user--avatar__empty' }}">
 	{% if filter is not defined %}
 		{% set filter = 'avatar' %}
 	{% endif %}
-	{% if (user.avatar is defined) and user.avatar %}
+	{% if hasAvatar %}
 		<img src="{{ user.avatar.path | imagine_filter(filter) }}" alt="">
 	{% else %}
 		<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" viewBox="0 0 16 16">

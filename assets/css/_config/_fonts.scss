@@ -107,12 +107,12 @@
 @mixin h4 {
 	margin:    0 0 1rem;
 
-	@include font_title;
+	@include font_title_bold;
 
-	font-size: font_size_default();
+	font-size: rem(16px);
 
 	@include medium-or-more {
-		font-size: font_size_default('large');
+		font-size: rem(16px);
 	}
 }
 

@@ -27,7 +27,7 @@
 			{{ page.body|raw }}
 		</div>
 		<div class="page-group">
-			{% include 'components/group/group-join-button.html.twig' with {'group':page.usergroup} %}
+			{% include 'contents/group/partials/group-join-button.html.twig' with {'group':page.usergroup} %}
 
 			<ul>
 				{% for page in page.usergroup.pages %}
