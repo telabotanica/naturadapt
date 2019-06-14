@@ -126,6 +126,7 @@ pages:
             my_groups: "Mes groupes"
         profile:
             title: "Profil"
+        is_admin: "Administrateur"
     group:
         group_create:
             title: "Créer un groupe"

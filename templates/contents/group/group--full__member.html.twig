@@ -12,7 +12,7 @@
 			{% else %}
 				<div class="group-join">
 					{% include 'contents/group/partials/group-join-button.html.twig' with {'group':group} %}
-					{% include 'contents/group/partials/group-members--tiny.html.twig' with {'members':group.members} %}
+					{% include 'contents/group/partials/group-members--tiny.html.twig' with {'group':group} %}
 				</div>
 			{% endif %}
 		</div>
