@@ -2,14 +2,14 @@
 	{% if user_group_relation.isMember(app.user, group) %}
 		<span class="member">{{ 'pages.group.is_member'|trans }}</span>
 	{% elseif user_group_relation.isBanned(app.user, group) %}
-		{{ 'pages.group.is_banned'|trans }}
+		<span class="banned">{{ 'pages.group.is_banned'|trans }}</span>
 	{% elseif group.visibility == 'public' %}
-		<a href="{{ path('group_member_new', {'groupSlug': group.slug}) }}">{{ 'pages.group.join_button.public'|trans }}</a>
+		<a class="join" href="{{ path('group_member_new', {'groupSlug': group.slug}) }}">{{ 'pages.group.join_button.public'|trans }}</a>
 	{% elseif group.visibility == 'private' %}
 		{% if user_group_relation.isPending(app.user, group) %}
-			{{ 'pages.group.is_pending'|trans }}
+			<span class="pending">{{ 'pages.group.is_pending'|trans }}</span>
 		{% else %}
-			<a href="{{ path('group_member_new', {'groupSlug': group.slug}) }}">{{ 'pages.group.join_button.private'|trans }}</a>
+			<a class="join" href="{{ path('group_member_new', {'groupSlug': group.slug}) }}">{{ 'pages.group.join_button.private'|trans }}</a>
 		{% endif %}
 	{% endif %}
 </div>

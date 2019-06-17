@@ -22,10 +22,10 @@
 	<div class="main--content content-container">
 		<div class="page-infos">
 			<div class="page-author">
-				{{ page.author.name }}
+				{% include 'contents/user/user--teaser.html.twig' with {'user':page.author} %}
 			</div>
 			<div class="page-date">
-				{{ page.createdAt|localizeddate('short', 'none', app.request.locale) }}
+				{{ 'pages.page.view.date'|trans|format(page.createdAt|localizeddate('short', 'none', app.request.locale)) }}
 			</div>
 			{% if is_granted(constant('App\\Security\\GroupPageVoter::EDIT'), page) %}
 				<div class="page-edit">
@@ -37,15 +37,33 @@
 			{{ page.body|raw }}
 		</div>
 		<div class="page-group">
+			{% if (page.usergroup.logo is defined) and (page.usergroup.logo is not empty) %}
+				<div class="group-logo">
+					<img src="{{ page.usergroup.logo.path | imagine_filter('logo') }}" alt="">
+				</div>
+			{% endif %}
+
+			<div class="group-name">
+				{{ page.usergroup.name }}
+			</div>
+
+			<div class="group-members">
+				{% set count = page.usergroup.members|length %}
+				{% transchoice count with {'%count%': count} %}pages.page.view.members{% endtranschoice %}
+			</div>
+
 			{% include 'contents/group/partials/group-join-button.html.twig' with {'group':page.usergroup} %}
 
-			<ul>
-				{% for page in page.usergroup.pages %}
-					<li>
-						{% include 'contents/page/page--teaser.html.twig' with {'page':page} %}
-					</li>
-				{% endfor %}
-			</ul>
+			<div class="group-pages">
+				<div class="group-pages--title">{{ 'pages.page.view.pages_index'|trans }}</div>
+				<ul>
+					{% for page in page.usergroup.pages %}
+						<li>
+							{% include 'contents/page/page--teaser.html.twig' with {'page':page} %}
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
 		</div>
 	</div>
 </div>

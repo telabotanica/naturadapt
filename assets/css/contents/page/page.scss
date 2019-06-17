@@ -75,4 +75,96 @@
 			margin-left: column_gap();
 		}
 	}
+
+	.page-author {
+		margin-bottom:  rem(10px);
+		padding-bottom: rem(10px);
+		border-bottom:  1px solid $color_grey_lightborder;
+
+		.user {
+			display:         block;
+			text-decoration: none;
+		}
+
+		.user--avatar {
+			width:         rem(50px);
+			height:        rem(50px);
+
+			margin-bottom: .5rem;
+		}
+
+		.user--name {
+			@include font_default_bold;
+
+			font-size: rem(16px);
+			color:     initial;
+		}
+
+		.user--presentation {
+			font-size: rem(14px);
+			color:     $color_grey_neutral;
+		}
+	}
+
+	.page-date {
+		margin-bottom: column_gap();
+
+		font-size:     rem(14px);
+		color:         $color_grey_neutral;
+	}
+
+	.page-edit {
+		a {
+			width:         100%;
+			padding-left:  .5em;
+			padding-right: .5em;
+		}
+	}
+
+	.group-name {
+		@include font_default_bold;
+
+		font-size: rem(16px);
+		color:     initial;
+	}
+
+	.group-members {
+		font-size: rem(14px);
+		color:     $color_grey_neutral;
+	}
+
+	.group-pages {
+		margin-top: column_gap();
+
+		@include clearulli;
+
+		li {
+			margin-bottom: 1rem;
+
+			font-size:     rem(14px);
+		}
+
+		a {
+			@include font_default;
+
+			color:           $color_action;
+			text-decoration: none;
+
+			&:focus,
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+	}
+
+	.group-pages--title {
+		margin-bottom:  rem(10px);
+		padding-bottom: rem(10px);
+		border-bottom:  1px solid $color_grey_lightborder;
+
+		font-size:      rem(14px);
+		color:          $color_grey_neutral;
+
+		text-transform: uppercase;
+	}
 }

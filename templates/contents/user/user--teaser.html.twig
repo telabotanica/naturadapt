@@ -7,6 +7,8 @@
 
 	<div class="user--infos">
 		<div class="user--name">{{ user.displayName }}</div>
-		<div class="user--presentation">{{ user.presentation }}</div>
+		{% if user.presentation is not empty %}
+			<div class="user--presentation">{{ user.presentation }}</div>
+		{% endif %}
 	</div>
 </a>

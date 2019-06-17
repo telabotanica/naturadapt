@@ -168,8 +168,12 @@ pages:
             button: "Créer la page"
         page_edit:
             title: "Édition de la page"
-            link: "Modifier"
+            link: "Modifier la page"
             button: "Enregistrer les modifications"
+        view:
+            date: "Édité le %s"
+            members: "{1}1 membre|]1,Inf]%count% membres"
+            pages_index: "Index"
 
     member:
         list:
