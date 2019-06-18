@@ -132,27 +132,6 @@ class GroupController extends AbstractController {
 	}
 
 	/**
-	 * @Route("/groups/{groupSlug}", name="group_index")
-	 * @param                                            $groupSlug
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
-	 *
-	 * @return \Symfony\Component\HttpFoundation\Response
-	 */
-	public function groupIndex ( $groupSlug, ObjectManager $manager ) {
-		/**
-		 * @var $group \App\Entity\Usergroup
-		 */
-		$group = $manager->getRepository( Usergroup::class )
-						 ->findOneBy( [ 'slug' => $groupSlug ] );
-
-		if ( !$group ) {
-			throw $this->createNotFoundException( 'The group does not exist' );
-		}
-
-		return $this->render( 'pages/group/group-index.html.twig', [ 'group' => $group ] );
-	}
-
-	/**
 	 * @Route("/groups/{groupSlug}/edit", name="group_edit")
 	 * @param                                            $groupSlug
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
@@ -240,6 +219,29 @@ class GroupController extends AbstractController {
 				'group' => $group,
 				'form'  => $form->createView(),
 		] );
+	}
+
+	/**
+	 * @Route("/groups/{groupSlug}", name="group_index")
+	 * @param                                            $groupSlug
+	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 *
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
+	public function groupIndex ( $groupSlug, ObjectManager $manager ) {
+		/**
+		 * @var $group \App\Entity\Usergroup
+		 */
+		$group = $manager->getRepository( Usergroup::class )
+						 ->findOneBy( [ 'slug' => $groupSlug ] );
+
+		if ( !$group ) {
+			throw $this->createNotFoundException( 'The group does not exist' );
+		}
+
+		// Viewing rights is tested in the template
+
+		return $this->render( 'pages/group/group-index.html.twig', [ 'group' => $group ] );
 	}
 
 	/**

@@ -10,12 +10,13 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class GroupVoter extends Voter {
-	const CREATE = 'group:create';
-	const READ   = 'group:read';
-	const EDIT   = 'group:edit';
-	const JOIN   = 'group:join';
-	const ADMIN  = 'group:admin';
-	const DELETE = 'group:delete';
+	const CREATE      = 'group:create';
+	const READ        = 'group:read';
+	const JOIN        = 'group:join';
+	const PARTICIPATE = 'group:participate';
+	const EDIT        = 'group:edit';
+	const ADMIN       = 'group:admin';
+	const DELETE      = 'group:delete';
 
 	/**
 	 * @var \Doctrine\Common\Persistence\ObjectManager
@@ -31,7 +32,7 @@ class GroupVoter extends Voter {
 			return TRUE;
 		}
 
-		if ( in_array( $attribute, [ self::READ, self::JOIN, self::EDIT, self::ADMIN, self::DELETE ] ) && ( $subject instanceof Usergroup ) ) {
+		if ( in_array( $attribute, [ self::READ, self::JOIN, self::PARTICIPATE, self::EDIT, self::ADMIN, self::DELETE ] ) && ( $subject instanceof Usergroup ) ) {
 			return TRUE;
 		}
 
@@ -81,6 +82,13 @@ class GroupVoter extends Voter {
 				}
 
 				return FALSE;
+
+			case self::PARTICIPATE:
+				if ( !$user instanceof User ) {
+					return FALSE;
+				}
+
+				return $this->manager->getRepository( UsergroupMembership::class )->isMember( $user, $group );
 
 			case self::EDIT:
 			case self::ADMIN:

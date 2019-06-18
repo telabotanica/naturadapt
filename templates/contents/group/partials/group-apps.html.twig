@@ -17,13 +17,16 @@
 			</div>
 		{% else %}
 			<div class="create-new">
-				<a href="{{ path('group_page_new', {'groupSlug':group.slug}) }}">{{ 'pages.page.page_create.link'|trans }}</a>
+				<div>
+					<p class="hint">{{ 'pages.group.pages.empty'|trans }}</p>
+					<p><a href="{{ path('group_page_new', {'groupSlug':group.slug}) }}">{{ 'pages.page.page_create.link'|trans }}</a></p>
+				</div>
 			</div>
 		{% endif %}
 	</div>
 	<div class="group-app group-app__files">
 		<h2 class="h4">
-			<a href="{{ path('group_documents_index', {'groupSlug':group.slug}) }}">{{ 'pages.group.files.title'|trans }}</a>
+			<a href="{{ path('group_documents_index', {'groupSlug':group.slug}) }}">{{ 'pages.group.documents.title'|trans }}</a>
 			<span class="count">{{ group.documents|length }}</span>
 		</h2>
 		{% if group.documents is not empty %}
@@ -36,6 +39,13 @@
 			</ul>
 			<div class="see-all">
 				<a href="{{ path('group_documents_index', {'groupSlug':group.slug}) }}">{{ 'ui.see_all'|trans }}</a>
+			</div>
+		{% else %}
+			<div class="create-new">
+				<div>
+					<p class="hint">{{ 'pages.group.documents.empty'|trans }}</p>
+					<p><a href="{{ path('group_document_new', {'groupSlug':group.slug}) }}">{{ 'pages.document.document_create.link'|trans }}</a></p>
+				</div>
 			</div>
 		{% endif %}
 	</div>

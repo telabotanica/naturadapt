@@ -324,12 +324,20 @@
 	}
 
 	.create-new {
-		flex-grow: 1;
-		display:   flex;
+		flex-grow:  1;
+		display:    flex;
+
+		text-align: center;
+
+		> div {
+			margin: auto;
+		}
+
+		.hint {
+		}
 
 		a {
 			@include cta-style;
-			margin: auto;
 		}
 	}
 }
@@ -360,5 +368,28 @@
 
 		background-color: $color_grey_light;
 		border-radius:    line_height_default() * .5em;
+	}
+}
+
+.group-restricted {
+	display:         flex;
+	flex-flow:       row nowrap;
+	justify-content: flex-start;
+	align-items:     center;
+
+	> :nth-child(1) {
+		@include card_shadow;
+
+		display:      flex;
+		width:        rem(100px);
+		height:       rem(100px);
+		flex-grow:    0;
+		flex-shrink:  0;
+
+		margin-right: padding_horizontal();
+
+		svg {
+			margin: auto;
+		}
 	}
 }

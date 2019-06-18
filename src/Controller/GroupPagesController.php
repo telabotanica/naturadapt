@@ -6,6 +6,7 @@ use App\Entity\Page;
 use App\Entity\Usergroup;
 use App\Form\PageType;
 use App\Security\GroupPageVoter;
+use App\Security\GroupVoter;
 use App\Service\SlugGenerator;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,14 +16,37 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class GroupPagesController extends AbstractController {
+	/**************************************************
+	 * PAGES
+	 **************************************************/
+
 	/**
 	 * @Route("/groups/{groupSlug}/pages", name="group_pages_index")
 	 */
-	public function groupPages ( $groupSlug ) {
-		// TODO : Create list
+	public function groupPagesIndex (
+			$groupSlug,
+			ObjectManager $manager
+	) {
+		/**
+		 * @var \App\Entity\Usergroup $group
+		 */
+		$group = $manager->getRepository( Usergroup::class )
+						 ->findOneBy( [ 'slug' => $groupSlug ] );
 
-		return new Response( "#TODO" );
+		if ( !$group ) {
+			throw $this->createNotFoundException( 'The group does not exist' );
+		}
+
+		$this->denyAccessUnlessGranted( GroupVoter::READ, $group );
+
+		return $this->render( 'pages/page/pages-index.html.twig', [
+				'group' => $group,
+		] );
 	}
+
+	/**************************************************
+	 * PAGE
+	 **************************************************/
 
 	/**
 	 * @Route("/groups/{groupSlug}/pages/new", name="group_page_new")
@@ -81,37 +105,6 @@ class GroupPagesController extends AbstractController {
 				'page'   => $page,
 				'form'   => $form->createView(),
 				'upload' => $router->generate( 'file_upload', [ 'groupId' => $group->getId() ] ),
-		] );
-	}
-
-	/**
-	 * @Route("/groups/{groupSlug}/pages/{pageSlug}", name="group_page_index")
-	 * @param                                            $groupSlug
-	 * @param                                            $pageSlug
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
-	 *
-	 * @return \Symfony\Component\HttpFoundation\Response
-	 */
-	public function groupPage (
-			$groupSlug,
-			$pageSlug,
-			ObjectManager $manager
-	) {
-		/**
-		 * @var \App\Entity\Usergroup $group
-		 */
-		$group = $manager->getRepository( Usergroup::class )
-						 ->findOneBy( [ 'slug' => $groupSlug ] );
-
-		/**
-		 * @var \App\Entity\Page $page
-		 */
-		$page = $manager->getRepository( Page::class )
-						->findOneBy( [ 'usergroup' => $group, 'slug' => $pageSlug ] );
-
-		return $this->render( 'pages/page/page-index.html.twig', [
-				'group' => $group,
-				'page'  => $page,
 		] );
 	}
 
@@ -177,6 +170,39 @@ class GroupPagesController extends AbstractController {
 				'page'   => $page,
 				'form'   => $form->createView(),
 				'upload' => $router->generate( 'file_upload', [ 'groupId' => $group->getId() ] ),
+		] );
+	}
+
+	/**
+	 * @Route("/groups/{groupSlug}/pages/{pageSlug}", name="group_page_index")
+	 * @param                                            $groupSlug
+	 * @param                                            $pageSlug
+	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 *
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
+	public function groupPageIndex (
+			$groupSlug,
+			$pageSlug,
+			ObjectManager $manager
+	) {
+		/**
+		 * @var \App\Entity\Usergroup $group
+		 */
+		$group = $manager->getRepository( Usergroup::class )
+						 ->findOneBy( [ 'slug' => $groupSlug ] );
+
+		/**
+		 * @var \App\Entity\Page $page
+		 */
+		$page = $manager->getRepository( Page::class )
+						->findOneBy( [ 'usergroup' => $group, 'slug' => $pageSlug ] );
+
+		// Viewing rights is tested in the template
+
+		return $this->render( 'pages/page/page-index.html.twig', [
+				'group' => $group,
+				'page'  => $page,
 		] );
 	}
 

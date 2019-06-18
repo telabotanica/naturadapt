@@ -5,7 +5,7 @@
 		<div class="group-title">
 			{% include 'contents/group/partials/group-infos.html.twig' with {'group':group} %}
 
-			{% if is_granted(constant('App\\Security\\GroupVoter::ADMIN'), group) %}
+			{% if is_granted(constant('App\\Security\\GroupVoter::EDIT'), group) %}
 				<div class="group-edit">
 					<a class="cta__inverted" href="{{ path('group_edit', {'groupSlug':group.slug}) }}">{{ 'pages.group.group_edit.link'|trans }}</a>
 				</div>

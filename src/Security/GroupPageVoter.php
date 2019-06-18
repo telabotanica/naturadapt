@@ -57,7 +57,7 @@ class GroupPageVoter extends Voter {
 				 */
 				$group = $subject;
 
-				return $this->security->isGranted( GroupVoter::EDIT, $group );
+				return $this->security->isGranted( GroupVoter::PARTICIPATE, $group );
 
 			case self::READ:
 				/**
@@ -74,10 +74,14 @@ class GroupPageVoter extends Voter {
 				$page = $subject;
 
 				if ( $page->getEditionRestricted() ) {
-					return $this->security->isGranted( GroupVoter::ADMIN, $page->getUsergroup() );
+					if ( $user === $page->getAuthor() ) {
+						return $this->security->isGranted( GroupVoter::PARTICIPATE, $page->getUsergroup() );
+					}
+
+					return $this->security->isGranted( GroupVoter::EDIT, $page->getUsergroup() );
 				}
 
-				return $this->security->isGranted( GroupVoter::EDIT, $page->getUsergroup() );
+				return $this->security->isGranted( GroupVoter::PARTICIPATE, $page->getUsergroup() );
 
 			case self::DELETE:
 				/**
@@ -85,7 +89,11 @@ class GroupPageVoter extends Voter {
 				 */
 				$page = $subject;
 
-				return $this->security->isGranted( GroupVoter::ADMIN, $page->getUsergroup() );
+				if ( $user === $page->getAuthor() ) {
+					return $this->security->isGranted( GroupVoter::PARTICIPATE, $page->getUsergroup() );
+				}
+
+				return $this->security->isGranted( GroupVoter::DELETE, $page->getUsergroup() );
 		}
 
 		throw new \LogicException( 'This code should not be reached!' );

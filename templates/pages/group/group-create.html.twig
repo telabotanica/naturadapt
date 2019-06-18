@@ -9,7 +9,15 @@
 				<section class="group-header">
 					<h1 class="h1">{{ 'pages.group.group_create.title'|trans }}</h1>
 
-					{#//TODO : Breadcrumb#}
+					{% include 'components/breadcrumb.html.twig' with {'items':[
+						{
+							label: 'pages.group.groups.title'|trans,
+							href: path('groups_index')
+						},
+						{
+							label: 'pages.group.group_create.title'|trans
+						}
+					]} %}
 				</section>
 
 				<section class="group-form">

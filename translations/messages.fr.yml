@@ -150,21 +150,28 @@ pages:
         restricted:
             title: "Ce groupe est privé"
             body: "Votre demande d’inscription au groupe sera soumise à l’acceptation des administrateurs. Il peut ainsi se passer plusieurs jours avant que vous ne receviez votre invitation."
+        home: "Accueil du groupe"
+        groups:
+            title: "Groupes"
         pages:
             title: "Pages"
+            empty: "Créer votre première page"
+        documents:
+            title: "Documents"
+            empty: "Vous n’avez aucun document"
         members:
             title: "Membres"
         members_pending:
             title: "En attente de validation"
         members_banned:
             title: "Bannis"
-        files:
-            title: "Documents"
 
     page:
+        list:
+            title: "Pages"
         page_create:
-            title: "Création d’une page"
-            link: "Créer une page"
+            title: "Ajouter une page"
+            link: "Ajouter une page"
             button: "Créer la page"
         page_edit:
             title: "Édition de la page"
@@ -175,6 +182,12 @@ pages:
             date_edited: "Édité le %s"
             members: "{1}1 membre|]1,Inf]%count% membres"
             pages_index: "Index"
+
+    document:
+        document_create:
+            title: "Envoi d’un docuemnt"
+            link: "Ajouter un document"
+            button: "Envoyer le document"
 
     member:
         list:

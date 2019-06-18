@@ -1,0 +1,56 @@
+/**************************************************
+* BREADCRUMB
+**************************************************/
+
+.breadcrumb {
+	margin:        0 0 column_gap();
+	padding:       0 0 padding_vertical();
+	border-bottom: 1px solid $color_grey_light;
+
+	@include clearulli;
+
+	font-size:     rem(16px);
+
+	li {
+		display: inline-block;
+	}
+
+	li:not(:first-child) {
+		&::before {
+			content:      '>';
+			margin-left:  .5em;
+			margin-right: .5em;
+			color:        $color_action;
+		}
+	}
+
+	span {
+		color: $color_grey_neutral;
+	}
+
+	a {
+		text-decoration: none;
+
+		&:focus,
+		&:hover {
+			text-decoration: underline;
+		}
+
+		span {
+			color: $color_default;
+		}
+	}
+}
+
+.main--header__cover .breadcrumb {
+	border-bottom-color: white;
+
+	span {
+		color: $color_grey_neutral;
+	}
+
+	li::before,
+	a span {
+		color: white;
+	}
+}

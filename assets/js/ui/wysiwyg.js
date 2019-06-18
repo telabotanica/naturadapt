@@ -106,7 +106,8 @@ ready( () => {
 				ClassicEditor
 					.create( textarea, {
 						toolbar:      toolbar,
-						extraPlugins: extraPlugins
+						extraPlugins: extraPlugins,
+						height:       '500px',
 					} )
 					.then( editor => {
 						console.log( editor );

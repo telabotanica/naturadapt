@@ -42,4 +42,11 @@
 			height: rem(110px);
 		}
 	}
+
+	.wysiwyg {
+		textarea,
+		.ck-editor__editable_inline {
+			min-height: rem(500px);
+		}
+	}
 }

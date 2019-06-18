@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+	<section class="main main__pages-index">
+		<div class="main--content content-container">
+			{% include 'components/app-flashes.html.twig' %}
+
+			<div class="pages-title">
+				<h1 class="h1">{{ 'pages.page.list.title'|trans }}</h1>
+
+				{% if is_granted(constant('App\\Security\\GroupPageVoter::CREATE'), group) %}
+					<div class="page-edit">
+						<a class="cta__inverted" href="{{ path('group_page_new', {'groupSlug':group.slug}) }}">{{ 'pages.page.page_create.link'|trans }}</a>
+					</div>
+				{% endif %}
+			</div>
+
+			{% include 'components/breadcrumb.html.twig' with {'items':[
+				{
+					label: 'pages.group.groups.title'|trans,
+					href: path('groups_index')
+				},
+				{
+					label: group.name,
+					href: path('group_index', {'groupSlug':group.slug})
+				},
+				{
+					label: 'pages.group.pages.title'|trans,
+				}
+			]} %}
+
+			<section class="pages-list narrow">
+				<ul>
+					{% for page in group.pages %}
+						<li>
+							{% include 'contents/page/page--teaser.html.twig' with {'page':page} %}
+						</li>
+					{% endfor %}
+				</ul>
+			</section>
+		</div>
+	</section>
+{% endblock %}

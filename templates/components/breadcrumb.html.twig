@@ -1,0 +1,16 @@
+<ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+	{% set i = 1 %}
+	{% for item in items %}
+		<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+			{% if item.href is defined %}
+				<a href="{{ item.href }}">
+					<span itemprop="name">{{ item.label }}</span>
+				</a>
+			{% else %}
+				<span itemprop="name">{{ item.label }}</span>
+			{% endif %}
+			<meta itemprop="position" content="{{ i }}"/>
+			{% set i = i + 1 %}
+		</li>
+	{% endfor %}
+</ol>

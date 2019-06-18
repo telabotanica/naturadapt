@@ -16,6 +16,24 @@
 				</div>
 				<h1 class="h1 page-title">{{ page.title }}</h1>
 			</div>
+
+			{% include 'components/breadcrumb.html.twig' with {'items':[
+				{
+					label: 'pages.group.groups.title'|trans,
+					href: path('groups_index')
+				},
+				{
+					label: group.name,
+					href: path('group_index', {'groupSlug':page.usergroup.slug})
+				},
+				{
+					label: 'pages.group.pages.title'|trans,
+					href: path('group_pages_index', {'groupSlug':page.usergroup.slug})
+				},
+				{
+					label: page.title,
+				}
+			]} %}
 		</div>
 	</div>
 
