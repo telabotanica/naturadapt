@@ -3,7 +3,7 @@
 {% block title %}{{ page.title }} - {{ group.name }} - {{ plateform.name }}{% endblock %}
 
 {% block main %}
-	<section class="page-index">
+	<section class="main main__page-index">
 		{% if is_granted(constant('App\\Security\\GroupPageVoter::READ'), page) %}
 			{% include 'contents/page/page--full.html.twig' with {'group':group, 'page':page} %}
 		{% else %}

@@ -28,6 +28,8 @@ class GroupMembersController extends AbstractController {
 			ObjectManager $manager,
 			UsergroupMembersManager $usergroupMembersManager
 	) {
+		$this->denyAccessUnlessGranted( UserVoter::LOGGED );
+
 		$group = $manager->getRepository( Usergroup::class )
 						 ->findOneBy( [ 'slug' => $groupSlug ] );
 

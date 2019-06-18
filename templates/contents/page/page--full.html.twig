@@ -1,41 +1,69 @@
+{% set hasCover = (page.usergroup.cover is defined) and (page.usergroup.cover is not empty) %}
 <div class="page page__full" style="--color: {{ page.usergroup.name|color }}">
-	<div class="page--header main--header">
-		<div class="main--header--image"></div>
-		<div class="content-container">
+	<div class="main--header {{ hasCover ? 'main--header__cover' : 'main--header__no-cover' }}">
+		{% if hasCover %}
+			<div class="main--header--image">
+				<img src="{{ page.usergroup.cover.path | imagine_filter('cover') }}" alt="">
+			</div>
+		{% endif %}
+
+		<div class="main--header--content content-container">
 			{% include 'components/app-flashes.html.twig' %}
 
-			<div class="page-group">
-				<a href="{{ path('group_index', {'groupSlug': page.usergroup.slug}) }}" class="small-title">{{ page.usergroup.name }}</a>
+			<div class="page-title">
+				<div class="page-group">
+					<a href="{{ path('group_index', {'groupSlug': page.usergroup.slug}) }}" class="small-title">{{ page.usergroup.name }}</a>
+				</div>
+				<h1 class="h1 page-title">{{ page.title }}</h1>
 			</div>
-			<h1 class="h1 page-title">{{ page.title }}</h1>
-
-			{% if is_granted(constant('App\\Security\\GroupPageVoter::EDIT'), page) %}
-				<a class="admin admin__edit" href="{{ path('group_page_edit', {'groupSlug': page.usergroup.slug, 'pageSlug':page.slug}) }}"><span>{{ 'pages.page.page_edit.link'|trans }}</span></a>
-			{% endif %}
 		</div>
 	</div>
-	<div class="page-content content-container">
+
+	<div class="main--content content-container">
 		<div class="page-infos">
 			<div class="page-author">
-				{{ page.author.name }}
+				{% include 'contents/user/user--teaser.html.twig' with {'user':page.author} %}
 			</div>
 			<div class="page-date">
-				{{ page.createdAt|localizeddate('short', 'none', app.request.locale) }}
+				{{ 'pages.page.view.date'|trans|format(page.createdAt|localizeddate('short', 'none', app.request.locale)) }}
 			</div>
+			{% if is_granted(constant('App\\Security\\GroupPageVoter::EDIT'), page) %}
+				<div class="page-edit">
+					<a class="cta__inverted" href="{{ path('group_page_edit', {'groupSlug': page.usergroup.slug, 'pageSlug':page.slug}) }}"><span>{{ 'pages.page.page_edit.link'|trans }}</span></a>
+				</div>
+			{% endif %}
 		</div>
 		<div class="page-body">
 			{{ page.body|raw }}
 		</div>
 		<div class="page-group">
+			{% if (page.usergroup.logo is defined) and (page.usergroup.logo is not empty) %}
+				<div class="group-logo">
+					<img src="{{ page.usergroup.logo.path | imagine_filter('logo') }}" alt="">
+				</div>
+			{% endif %}
+
+			<div class="group-name">
+				{{ page.usergroup.name }}
+			</div>
+
+			<div class="group-members">
+				{% set count = page.usergroup.members|length %}
+				{% transchoice count with {'%count%': count} %}pages.page.view.members{% endtranschoice %}
+			</div>
+
 			{% include 'contents/group/partials/group-join-button.html.twig' with {'group':page.usergroup} %}
 
-			<ul>
-				{% for page in page.usergroup.pages %}
-					<li>
-						{% include 'contents/page/page--teaser.html.twig' with {'page':page} %}
-					</li>
-				{% endfor %}
-			</ul>
+			<div class="group-pages">
+				<div class="group-pages--title">{{ 'pages.page.view.pages_index'|trans }}</div>
+				<ul>
+					{% for page in page.usergroup.pages %}
+						<li>
+							{% include 'contents/page/page--teaser.html.twig' with {'page':page} %}
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
 		</div>
 	</div>
 </div>

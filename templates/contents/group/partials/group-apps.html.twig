@@ -43,7 +43,7 @@
 		<ul class="items-list">
 			{% for member in group.members|slice(0, 5) %}
 				<li>
-					{% include 'contents/user/user--teaser.html.twig' with {'user':member.user} %}
+					{% include 'contents/user/user--teaser.html.twig' with {'user':member.user, 'admin':user_group_relation.isAdmin(member.user, group)} %}
 				</li>
 			{% endfor %}
 		</ul>

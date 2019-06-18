@@ -198,7 +198,9 @@
 		width:          rem(40px);
 		height:         rem(40px);
 
-		@include shadow;
+		.user--avatar {
+			@include shadow;
+		}
 	}
 
 	.links {

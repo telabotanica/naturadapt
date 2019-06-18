@@ -4,16 +4,6 @@
 
 .page {
 	--color: $color_grey_light;
-
-	.page-illustration {
-		&::before {
-			content:        '';
-			display:        block;
-			padding-bottom: (9 / 16) * 100%;
-		}
-
-		background-color: var(--color);
-	}
 }
 
 /**************************************************
@@ -29,28 +19,43 @@
 **************************************************/
 
 .page__full {
-	.page-header {
-		position:       relative;
-		padding-top:    rem(150px);
-		padding-bottom: rem(150px);
+	.main--header__cover {
+		min-height: (237 / 375) * 100vw;
 
-		overflow:       hidden;
+		@include medium-or-more {
+			min-height: rem(380px);
+		}
 	}
 
-	.page-illustration {
-		position: absolute;
-		top:      0;
-		right:    0;
-		bottom:   0;
-		left:     0;
-		z-index:  -1;
+	.main--header--image {
+		background-color: $color_grey_lighter;
+		overflow:         hidden;
+
+		img {
+			filter:    blur(20px);
+			transform: scale(1.1);
+		}
 	}
 
-	.page-content {
+	.main--header--content {
+		flex-basis: 100%;
+	}
+
+	.page-title {
+		.page-group a {
+			color:           inherit;
+			text-decoration: none;
+
+			&:focus,
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+	}
+
+	.main--content {
 		display:   flex;
 		flex-flow: row nowrap;
-
-		padding:   padding_vertical() 0;
 
 		.page-infos {
 			flex-basis:   (1 / 7) * 100%;
@@ -69,5 +74,97 @@
 			flex-shrink: 0;
 			margin-left: column_gap();
 		}
+	}
+
+	.page-author {
+		margin-bottom:  rem(10px);
+		padding-bottom: rem(10px);
+		border-bottom:  1px solid $color_grey_lightborder;
+
+		.user {
+			display:         block;
+			text-decoration: none;
+		}
+
+		.user--avatar {
+			width:         rem(50px);
+			height:        rem(50px);
+
+			margin-bottom: .5rem;
+		}
+
+		.user--name {
+			@include font_default_bold;
+
+			font-size: rem(16px);
+			color:     initial;
+		}
+
+		.user--presentation {
+			font-size: rem(14px);
+			color:     $color_grey_neutral;
+		}
+	}
+
+	.page-date {
+		margin-bottom: column_gap();
+
+		font-size:     rem(14px);
+		color:         $color_grey_neutral;
+	}
+
+	.page-edit {
+		a {
+			width:         100%;
+			padding-left:  .5em;
+			padding-right: .5em;
+		}
+	}
+
+	.group-name {
+		@include font_default_bold;
+
+		font-size: rem(16px);
+		color:     initial;
+	}
+
+	.group-members {
+		font-size: rem(14px);
+		color:     $color_grey_neutral;
+	}
+
+	.group-pages {
+		margin-top: column_gap();
+
+		@include clearulli;
+
+		li {
+			margin-bottom: 1rem;
+
+			font-size:     rem(14px);
+		}
+
+		a {
+			@include font_default;
+
+			color:           $color_action;
+			text-decoration: none;
+
+			&:focus,
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+	}
+
+	.group-pages--title {
+		margin-bottom:  rem(10px);
+		padding-bottom: rem(10px);
+		border-bottom:  1px solid $color_grey_lightborder;
+
+		font-size:      rem(14px);
+		color:          $color_grey_neutral;
+
+		text-transform: uppercase;
 	}
 }

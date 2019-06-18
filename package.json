@@ -1,5 +1,6 @@
 {
 	"devDependencies": {
+		"@ckeditor/ckeditor5-build-classic": "^12.2.0",
 		"@symfony/webpack-encore": "^0.27.0",
 		"autocomplete.js": "^0.36.0",
 		"core-js": "^3.0.1",

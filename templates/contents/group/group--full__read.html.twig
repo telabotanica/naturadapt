@@ -1,6 +1,7 @@
+{% set hasCover = (group.cover is defined) and (group.cover is not empty) %}
 <div class="group group__full" style="--color: {{ group.name|color }}">
-	<div class="main--header">
-		{% if (group.cover is defined) and (group.cover is not empty) %}
+	<div class="main--header {{ hasCover ? 'main--header__cover' : 'main--header__no-cover' }}">
+		{% if hasCover %}
 			<div class="main--header--image">
 				<img src="{{ group.cover.path | imagine_filter('cover') }}" alt="">
 			</div>

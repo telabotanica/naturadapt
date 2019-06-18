@@ -4,7 +4,9 @@
 
 .main__front-page {
 	.main--header--image {
-		opacity: .6;
+		img {
+			opacity: .6;
+		}
 	}
 
 	.main--content section:not(:first-child) {
