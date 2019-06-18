@@ -1,9 +1,9 @@
-<div class="user user__tiny" title="{{ user.displayName }}" style="--color: {{ user.displayName|color }}">
+<div class="user user__tiny" title="{{ user.name }}" style="--color: {{ user.name|color }}">
 	{% if (admin is defined) and admin %}
 		<div class="user--admin"><span>{{ 'pages.user.is_admin'|trans }}</span></div>
 	{% endif %}
 
 	{% include 'contents/user/partials/user--avatar.html.twig' with{'user':user} %}
 
-	<span class="user--name">{{ user.displayName }}</span>
+	<span class="user--name">{{ user.name }}</span>
 </div>
