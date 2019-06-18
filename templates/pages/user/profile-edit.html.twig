@@ -15,7 +15,12 @@
 
 					<p class="hint">{{ 'pages.user.profile_edit.introduction'|trans }}</p>
 
-					{% include 'forms/user/profile-form.html.twig' with ({'form':form, 'form_submit':'pages.user.profile_edit.button', 'view':true, 'user':user}) %}
+					{% include 'forms/user/profile-form.html.twig' with ({
+						'form':form,
+						'form_submit':'pages.user.profile_edit.button',
+						'view':true,
+						'user':user
+					}) %}
 				</section>
 			</div>
 		</div>

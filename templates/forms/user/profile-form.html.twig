@@ -12,7 +12,9 @@
 	<div class="form-row form-row__file">
 		<div class="file-preview">
 			<div class="file-preview--img">
-				<img src="{{ path('member_avatar', {'user_id': app.user.id}) }}" alt="">
+				{% if (user is defined) and (user.avatar is not empty) %}
+					<img src="{{ path('member_avatar', {'user_id': user.id}) }}" alt="">
+				{% endif %}
 			</div>
 			<div class="file-preview--content">
 				{{ form_label(form.avatarfile, 'forms.user.avatar.label') }}
