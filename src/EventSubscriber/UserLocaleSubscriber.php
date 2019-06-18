@@ -22,6 +22,14 @@ class UserLocaleSubscriber implements EventSubscriberInterface {
 		$this->session       = $session;
 	}
 
+	public static function getSubscribedEvents () {
+		return [
+			// must be registered before (i.e. with a higher priority than) the default Locale listener
+			KernelEvents::REQUEST             => [ [ 'onKernelRequest', 20 ] ],
+			SecurityEvents::INTERACTIVE_LOGIN => 'onInteractiveLogin',
+		];
+	}
+
 	public function onKernelRequest ( GetResponseEvent $event ) {
 		$request = $event->getRequest();
 
@@ -45,13 +53,5 @@ class UserLocaleSubscriber implements EventSubscriberInterface {
 		if ( NULL !== $user->getLocale() ) {
 			$this->session->set( '_locale', $user->getLocale() );
 		}
-	}
-
-	public static function getSubscribedEvents () {
-		return [
-			// must be registered before (i.e. with a higher priority than) the default Locale listener
-			KernelEvents::REQUEST             => [ [ 'onKernelRequest', 20 ] ],
-			SecurityEvents::INTERACTIVE_LOGIN => 'onInteractiveLogin',
-		];
 	}
 }
