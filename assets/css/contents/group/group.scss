@@ -322,6 +322,16 @@
 			color:      $color_action;
 		}
 	}
+
+	.create-new {
+		flex-grow: 1;
+		display:   flex;
+
+		a {
+			@include cta-style;
+			margin: auto;
+		}
+	}
 }
 
 /**************************************************

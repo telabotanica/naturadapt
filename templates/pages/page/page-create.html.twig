@@ -6,7 +6,7 @@
 			{% include 'components/app-flashes.html.twig' %}
 
 			<section class="group-header">
-				<h1 class="h1">{{ 'pages.page.page_edit.title'|trans }}</h1>
+				<h1 class="h1">{{ 'pages.page.page_create.title'|trans }}</h1>
 
 				{#//TODO : Breadcrumb#}
 			</section>
@@ -14,7 +14,7 @@
 			<section class="group-form">
 				{% include 'forms/page/page-form.html.twig' with ({
 					'form':form,
-					'form_submit':'pages.page.page_edit.button',
+					'form_submit':'pages.page.page_create.button',
 					'upload':upload
 				}) %}
 			</section>

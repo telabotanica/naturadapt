@@ -19,12 +19,12 @@ class GroupDocumentsController extends AbstractController {
 	/**
 	 * @Route("/groups/{groupSlug}/documents", name="group_documents_index")
 	 */
-	public function groupFiles () {
+	public function documentsIndex () {
 		return new Response( "#TODO" );
 	}
 
 	/**
-	 * @Route("/groups/{groupSlug}/documents/new", name="group_document_upload")
+	 * @Route("/groups/{groupSlug}/documents/new", name="group_document_new")
 	 * @param                                            $groupSlug
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
 	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
@@ -32,7 +32,7 @@ class GroupDocumentsController extends AbstractController {
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function uploadFile (
+	public function documentNew (
 			$groupSlug,
 			Request $request,
 			ObjectManager $manager,

@@ -28,7 +28,9 @@ class UsergroupType extends AbstractType {
 						'mapped'   => FALSE,
 				] )
 				->add( 'description', TextareaType::class )
-				->add( 'presentation', TextareaType::class )
+				->add( 'presentation', TextareaType::class, [
+						'required' => FALSE,
+				] )
 				->add( 'visibility', ChoiceType::class, [
 						'required'    => TRUE,
 						'expanded'    => TRUE,

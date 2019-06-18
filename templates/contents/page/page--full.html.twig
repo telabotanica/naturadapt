@@ -25,7 +25,11 @@
 				{% include 'contents/user/user--teaser.html.twig' with {'user':page.author} %}
 			</div>
 			<div class="page-date">
-				{{ 'pages.page.view.date'|trans|format(page.createdAt|localizeddate('short', 'none', app.request.locale)) }}
+				{% if page.editedAt is not empty %}
+					{{ 'pages.page.view.date_edited'|trans|format(page.editedAt|localizeddate('short', 'none', app.request.locale)) }}
+				{% else %}
+					{{ 'pages.page.view.date'|trans|format(page.createdAt|localizeddate('short', 'none', app.request.locale)) }}
+				{% endif %}
 			</div>
 			{% if is_granted(constant('App\\Security\\GroupPageVoter::EDIT'), page) %}
 				<div class="page-edit">

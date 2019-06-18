@@ -15,6 +15,10 @@
 			<div class="see-all">
 				<a href="{{ path('group_pages_index', {'groupSlug':group.slug}) }}">{{ 'ui.see_all'|trans }}</a>
 			</div>
+		{% else %}
+			<div class="create-new">
+				<a href="{{ path('group_page_new', {'groupSlug':group.slug}) }}">{{ 'pages.page.page_create.link'|trans }}</a>
+			</div>
 		{% endif %}
 	</div>
 	<div class="group-app group-app__files">

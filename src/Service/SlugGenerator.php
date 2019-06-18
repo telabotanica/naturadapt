@@ -29,7 +29,7 @@ class SlugGenerator {
 		return $string;
 	}
 
-	public function generateSlug ( $string, $class = FALSE, $slugField = 'slug' ) {
+	public function generateSlug ( $string, $class = FALSE, $slugField = 'slug', $where = [] ) {
 		$slug = SlugGenerator::slugify( $string );
 
 		if ( $class ) {
@@ -37,7 +37,7 @@ class SlugGenerator {
 			do {
 				$testSlug = $slug . ( ( $n <= 1 ) ? '' : '-' . $n );
 				$exists   = $this->manager->getRepository( $class )
-										  ->findOneBy( [ $slugField => $testSlug ] );
+										  ->findOneBy( array_merge( $where, [ $slugField => $testSlug ] ) );
 				$n++;
 			} while ( !empty( $exists ) );
 

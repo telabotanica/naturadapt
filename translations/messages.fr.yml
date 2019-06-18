@@ -171,7 +171,8 @@ pages:
             link: "Modifier la page"
             button: "Enregistrer les modifications"
         view:
-            date: "Édité le %s"
+            date: "Posté le %s"
+            date_edited: "Édité le %s"
             members: "{1}1 membre|]1,Inf]%count% membres"
             pages_index: "Index"
 
