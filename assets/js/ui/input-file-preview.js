@@ -1,14 +1,20 @@
 import ready from 'mf-js/modules/dom/ready';
 
 ready( () => Array.from( document.querySelectorAll( '.file-preview' ) ).forEach( ( element ) => {
-	const img   = element.querySelector( '.file-preview--img img' );
-	const input = element.querySelector( '[type="file"]' );
+	const preview = element.querySelector( '.file-preview--img' );
+	const input   = element.querySelector( '[type="file"]' );
 
-	if ( !img || !input ) {
+	if ( !preview || !input ) {
 		return;
 	}
 
 	input.addEventListener( 'change', ( e ) => {
+		let img = preview.querySelector( 'img' );
+		if ( !img ) {
+			img = document.createElement( 'img' );
+			preview.appendChild( img );
+		}
+
 		const reader = new FileReader();
 		reader.addEventListener( 'load', ( e ) => img.src = e.target.result );
 		reader.readAsDataURL( input.files[ 0 ] );
