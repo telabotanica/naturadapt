@@ -86,7 +86,10 @@ ready( () => {
 				const textarea    = wysiwyg.querySelector( 'textarea' );
 				textarea.required = false;
 
-				let toolbar = [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'undo', 'redo' ];
+				let toolbar = [ 'heading', '|',
+								'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|',
+								'mediaEmbed', 'insertTable', '|',
+								'undo', 'redo' ];
 
 				let extraPlugins = [];
 
@@ -99,7 +102,10 @@ ready( () => {
 				}
 
 				if ( wysiwyg.getAttribute( 'data-upload' ) ) {
-					toolbar      = [ 'heading', '|', 'bold', 'italic', 'link', 'imageUpload', 'bulletedList', 'numberedList', 'blockQuote', 'undo', 'redo' ];
+					toolbar      = [ 'heading', '|',
+									 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|',
+									 'imageUpload', 'mediaEmbed', 'insertTable', '|',
+									 'undo', 'redo' ];
 					extraPlugins = [ UploadAdapterPlugin ];
 				}
 
@@ -110,7 +116,7 @@ ready( () => {
 						height:       '500px',
 					} )
 					.then( editor => {
-						console.log( editor );
+						console.log( Array.from( editor.ui.componentFactory.names() ) );
 
 						editor.on( 'required', ( evt ) => {
 							alert( 'This field is required.' );
