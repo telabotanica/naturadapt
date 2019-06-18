@@ -22,7 +22,7 @@ class RedirectDomainsSubscriber implements EventSubscriberInterface {
 		$host    = $request->getHost();
 
 		switch ( $host ) {
-			case 'naturadapt.com':
+			case 'www.naturadapt.com':
 			case 'naturadapt.fr':
 			case 'www.naturadapt.fr':
 			case 'naturadapt.eu':
@@ -31,7 +31,7 @@ class RedirectDomainsSubscriber implements EventSubscriberInterface {
 					$qs = '?' . $qs;
 				}
 				$uri = $request->getBaseUrl() . $request->getPathInfo() . $qs;
-				$event->setResponse( new RedirectResponse( 'https://www.naturadapt.com' . $uri, 301 ) );
+				$event->setResponse( new RedirectResponse( 'https://naturadapt.com' . $uri, 301 ) );
 				break;
 		}
 	}
