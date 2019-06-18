@@ -60,6 +60,17 @@ p a:not([class]) {
 	color: $color_action;
 }
 
+figcaption {
+	padding:       .3em 0 .8em;
+	text-align:    center;
+
+	@include font_default_bold;
+	font-size:     (16 / 18) * 1em;
+	color:         $color_grey_neutral;
+
+	border-bottom: 1px solid $color_grey_light;
+}
+
 .hint {
 	font-size: rem(13px);
 
