@@ -116,6 +116,8 @@ class GroupController extends AbstractController {
 			}
 			// --
 
+			// TODO : Add Log
+
 			$manager->flush();
 
 			$this->addFlash( 'notice', 'messages.group.group_created' );
@@ -137,8 +139,15 @@ class GroupController extends AbstractController {
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function groupIndex ( $groupSlug, ObjectManager $manager ) {
+		/**
+		 * @var $group \App\Entity\Usergroup
+		 */
 		$group = $manager->getRepository( Usergroup::class )
 						 ->findOneBy( [ 'slug' => $groupSlug ] );
+
+		if ( !$group ) {
+			throw $this->createNotFoundException( 'The group does not exist' );
+		}
 
 		return $this->render( 'pages/group/group-index.html.twig', [ 'group' => $group ] );
 	}
@@ -168,6 +177,10 @@ class GroupController extends AbstractController {
 		 */
 		$group = $manager->getRepository( Usergroup::class )
 						 ->findOneBy( [ 'slug' => $groupSlug ] );
+
+		if ( !$group ) {
+			throw $this->createNotFoundException( 'The group does not exist' );
+		}
 
 		$this->denyAccessUnlessGranted( GroupVoter::EDIT, $group );
 
@@ -213,6 +226,8 @@ class GroupController extends AbstractController {
 				$group->setCover( $file );
 			}
 			// --
+
+			// TODO : Add Log
 
 			$manager->flush();
 
@@ -273,6 +288,8 @@ class GroupController extends AbstractController {
 		$manager->remove( $group );
 
 		$manager->flush();
+
+		// TODO : Add Log
 
 		$this->addFlash( 'notice', 'messages.group.group_deleted' );
 
