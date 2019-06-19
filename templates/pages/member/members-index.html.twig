@@ -7,6 +7,22 @@
 
 			<h1 class="h1">{{ 'pages.member.list.title'|trans }}</h1>
 
+			{% if group is defined %}
+				{% include 'components/breadcrumb.html.twig' with {'items':[
+					{
+						label: 'pages.group.groups.title'|trans,
+						href: path('groups_index')
+					},
+					{
+						label: group.name,
+						href: path('group_index', {'groupSlug':group.slug})
+					},
+					{
+						label: 'pages.member.list.title'|trans
+					}
+				]} %}
+			{% endif %}
+
 			{{ form_start(form) }}
 			<div class="columns__33-66">
 				<div class="filters">

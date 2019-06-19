@@ -60,7 +60,8 @@ class GroupMembersController extends AbstractController {
 		unset( $filters[ '_token' ] );
 		unset( $filters[ 'submit' ] );
 
-		return $this->render( 'pages/member/list.html.twig', [
+		return $this->render( 'pages/member/members-index.html.twig', [
+				'group'   => $group,
 				'form'    => $data[ 'form' ]->createView(),
 				'members' => $data[ 'members' ],
 				'pager'   => [
