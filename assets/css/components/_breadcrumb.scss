@@ -46,11 +46,13 @@
 	border-bottom-color: white;
 
 	span {
-		color: $color_grey_neutral;
+		color:   white;
+		opacity: .5;
 	}
 
 	li::before,
 	a span {
-		color: white;
+		color:   white;
+		opacity: 1;
 	}
 }
