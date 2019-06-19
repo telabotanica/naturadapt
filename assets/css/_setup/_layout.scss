@@ -71,6 +71,47 @@ figcaption {
 	border-bottom: 1px solid $color_grey_light;
 }
 
+blockquote {
+	padding:     .5em padding_vertical();
+	margin:      0 0 padding_vertical();
+
+	@include font_default;
+
+	border-left: 5px solid $color_grey_neutral;
+
+	footer {
+		display:   block;
+		font-size: 80%;
+		color:     $color_grey_neutral;
+	}
+}
+
+table {
+	width:         100%;
+	margin-bottom: 1rem;
+	border:        1px solid $color_grey_light;
+
+	th,
+	td {
+		@include font_default;
+
+		padding:          .75em;
+		background-color: white;
+		border:           1px solid $color_grey_light;
+	}
+
+	th {
+		@include font_default_bold;
+	}
+	
+	thead th {
+		text-align:          left;
+		vertical-align:      bottom;
+		border-bottom-width: 2px;
+	}
+
+}
+
 .hint {
 	font-size: rem(13px);
 
