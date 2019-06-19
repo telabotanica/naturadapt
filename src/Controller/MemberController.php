@@ -48,7 +48,7 @@ class MemberController extends AbstractController {
 		unset( $filters[ '_token' ] );
 		unset( $filters[ 'submit' ] );
 
-		return $this->render( 'pages/member/list.html.twig', [
+		return $this->render( 'pages/member/members-index.html.twig', [
 				'form'    => $data[ 'form' ]->createView(),
 				'members' => $data[ 'members' ],
 				'pager'   => [
@@ -78,7 +78,7 @@ class MemberController extends AbstractController {
 			FileManager $fileManager
 	) {
 		$this->denyAccessUnlessGranted( UserVoter::LOGGED );
-		
+
 		$user = $manager->getRepository( User::class )
 						->findOneById( $user_id );
 

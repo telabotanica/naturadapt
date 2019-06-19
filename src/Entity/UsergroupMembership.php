@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class UsergroupMembership {
 	const ROLE_ADMIN = 'admin';
-	const ROLE_USER  = NULL;
+	const ROLE_USER  = 'user';
 
 	const STATUS_PENDING = 'pending';
 	const STATUS_MEMBER  = 'member';

@@ -21,10 +21,6 @@ class UserGroupRelation {
 			return FALSE;
 		}
 
-		if ( $user->isAdmin() ) {
-			return TRUE;
-		}
-
 		$membership = $this->manager->getRepository( UsergroupMembership::class )
 									->getMembership( $user, $group );
 

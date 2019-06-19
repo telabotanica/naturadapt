@@ -231,6 +231,7 @@
 
 	.group-description {
 		@include columns;
+		align-items: flex-start;
 	}
 
 	.group-description-text {
@@ -257,7 +258,7 @@
 	.group-join--action {
 		margin-bottom:  padding_vertical();
 		padding-bottom: padding_vertical();
-		border-bottom:  1px solid $color_grey_lighter;
+		border-bottom:  1px solid $color_grey_border;
 
 		.member {
 			@include cta-style($color_action, true);

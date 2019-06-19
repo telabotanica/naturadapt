@@ -1,9 +1,11 @@
 # translations/messages.fr.yaml
 ui:
+    home: "Accueil"
     menu: "Menu"
     see_more: "En savoir plus"
     see_all: "Tout voir"
     delete: "Supprimer"
+    settings: "Paramètres"
 
 forms:
     mandatory: "Champs obligatoires *"
@@ -205,6 +207,15 @@ pages:
             query:
                 placeholder: "Chercher un membre par nom, pseudo, bio…"
             search: "Filtrer"
+        actions:
+            pending_set_member: "Approuver l’inscription"
+            pending_set_remove: "Refuser l’inscription"
+            banned_set_member: "Retirer le bannissement"
+            banned_set_remove: "Supprimer du groupe"
+            admin_set_user: "Enlever admin"
+            member_set_admin: "Promouvoir admin"
+            member_set_remove: "Supprimer du groupe"
+            member_set_banned: "Bannir"
 
 messages:
     user:
@@ -226,6 +237,11 @@ messages:
 
     group:
         joined: "Vous avez rejoint ce groupe."
+        user_set_admin: "L’utilisateur est maintenant administrateur du groupe."
+        user_set_user: "L’utilisateur est maintenant membre du groupe."
+        user_set_member: "L’utilisateur a rejoint le groupe."
+        user_set_remove: "L’utilisateur a été retiré du groupe."
+        user_set_banned: "L’utilisateur a été banni du groupe."
         candidature_sent: "Votre demande a été transmise aux administrateurs du groupe."
         user_banned: "Vous avez été banni de ce groupe."
         group_created: "Le groupe a été créé"

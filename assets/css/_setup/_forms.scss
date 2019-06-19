@@ -27,6 +27,7 @@
 
 @mixin input-style {
 	display:       inline-block;
+	box-sizing:    border-box;
 	margin:        0;
 
 	max-width:     100%;
@@ -37,18 +38,18 @@
 	$line-height: 1.3;
 
 	line-height:   $line-height;
-	padding:       em(.5 * (30px - 2px - $line-height * 16px), 16px) 1.5em;
+	padding:       em(.5 * (30px - 2px - $line-height * 16px), 16px) .8em;
 	min-height:    rem(30px);
 
 	@include medium-or-more {
-		padding:    em(.5 * (40px - 2px - $line-height * 16px), 16px) 1.5em;
+		padding:    em(.5 * (40px - 2px - $line-height * 16px), 16px) .8em;
 		min-height: rem(40px);
 	}
 
 	color:         $color_default;
 	background:    white;
 
-	border:        1px solid $color_grey_light;
+	border:        1px solid $color_grey_border;
 	border-radius: 0;
 
 	&:disabled {
@@ -104,6 +105,32 @@ input[type="number"],
 textarea,
 select {
 	@include input-style;
+}
+
+input[type="search"] {
+	border-color:        white;
+	@include card_shadow;
+
+	$line-height: 1.3;
+
+	line-height:         $line-height;
+	font-size:           rem(16px);
+	padding-top:         em(.5 * (50px - 2px - $line-height * 16px), 16px);
+	padding-bottom:      em(.5 * (50px - 2px - $line-height * 16px), 16px);
+	min-height:          rem(50px);
+
+	padding-left:        rem(54px);
+	@import "../_assets/search.svg";
+	background-size:     rem(22px) rem(22px);
+	background-repeat:   no-repeat;
+	background-position: rem(15px) center;
+
+	@include medium-or-more {
+		font-size:      rem(18px);
+		padding-top:    em(.5 * (50px - 2px - $line-height * 18px), 16px);
+		padding-bottom: em(.5 * (50px - 2px - $line-height * 18px), 16px);
+		min-height:     rem(50px);
+	}
 }
 
 select {
@@ -162,7 +189,7 @@ input[type="submit"] {
 		position:   absolute;
 		left:       0;
 		top:        1.1em;
-		margin-top: rem(-13px);
+		margin-top: rem(-16px);
 
 		@include picto-checkbox();
 	}
@@ -223,7 +250,7 @@ input[type="submit"] {
 		position:   absolute;
 		left:       0;
 		top:        1.1em;
-		margin-top: rem(-13px);
+		margin-top: rem(-16px);
 
 		@include picto-radiobox();
 	}
@@ -256,9 +283,10 @@ input[type="submit"] {
 .form-row__radiobox,
 .form-row__radioboxes:not(#_o) {
 	label {
-		display: block;
+		display:        block;
 
 		@include radiobox-label;
+		padding-bottom: 0;
 	}
 
 	input[type="radio"] {
@@ -373,13 +401,28 @@ $form_label_width: (1/3) * 100%;
 .form-row__checkbox {
 }
 
+.form-row__no-gap {
+	margin-bottom: 0;
+}
+
+.form-row__filter {
+	margin-bottom:  padding_vertical();
+	padding-bottom: padding_vertical();
+	border-bottom:  1px solid $color_grey_border;
+}
+
 .form-row__submit {
 	position:      relative;
 	display:       block;
 	margin-bottom: 0;
 	padding-top:   padding_vertical();
 
-	border-top:    1px solid $color_grey_light;
+	border-top:    1px solid $color_grey_border;
+
+	.form-row__filter + & {
+		padding-top: 0;
+		border-top:  0;
+	}
 
 	[type="submit"] {
 		display:      inline-block;

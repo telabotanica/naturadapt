@@ -1,16 +1,144 @@
-<a href="{{ path('member', {'user_id':user.id}) }}" class="user user__in-list" title="{{ user.name }}" style="--color: {{ user.name|color }}">
-	{% if (admin is defined) and admin %}
-		<div class="user--admin"><span>{{ 'pages.user.is_admin'|trans }}</span></div>
+{% set classes = ['user', 'user__in-list'] %}
+{% if (group is defined) %}
+	{% set isPending = user_group_relation.isPending(user, group) %}
+	{% set isMember = user_group_relation.isMember(user, group) %}
+	{% set isBanned = user_group_relation.isBanned(user, group) %}
+	{% set isAdmin = user_group_relation.isAdmin(user, group) %}
+	{% if isPending %}
+		{% set classes = classes|merge(['user__pending']) %}
 	{% endif %}
-
-	{% include 'contents/user/partials/user--avatar.html.twig' with{'user':user} %}
-
-	<div class="user--infos">
-		<div class="user--name">{{ user.name }}</div>
-		<div class="user--presentation">{{ user.presentation }}</div>
-	</div>
-
-	{% if user.site is defined and user.site is not empty %}
-		<div class="user--site">{{ user.site.name }}</div>
+	{% if isMember %}
+		{% set classes = classes|merge([ 'user__member']) %}
 	{% endif %}
-</a>
+	{% if isBanned %}
+		{% set classes = classes|merge([ 'user__banned']) %}
+	{% endif %}
+	{% if isAdmin %}
+		{% set classes = classes|merge([ 'user__admin']) %}
+	{% endif %}
+{% endif %}
+<div class="{{ classes|join(' ') }}" style="--color: {{ user.name|color }}">
+	<a class="user-infos" href="{{ path('member', {'user_id':user.id}) }}">
+		{% if (admin is defined) and admin %}
+			<div class="user--admin"><span>{{ 'pages.user.is_admin'|trans }}</span></div>
+		{% endif %}
+
+		{% include 'contents/user/partials/user--avatar.html.twig' with{'user':user} %}
+
+		<div class="user--infos">
+			<div class="user--name">{{ user.name }}</div>
+			<div class="user--presentation">{{ user.presentation }}</div>
+		</div>
+
+		{% if (user.site is defined) and (user.site is not empty) %}
+			<div class="user--site">{{ user.site.name }}</div>
+		{% endif %}
+	</a>
+
+	{% if (group is defined) and is_granted(constant('App\\Security\\GroupVoter::ADMIN'), group) %}
+		{% if isPending %}
+			<div class="user-admin-panel">
+				<ul>
+					<li>
+						<a class="pending_set_member"
+						   href="{{ path('group_member_admin', {
+							   'groupSlug':group.slug,
+							   'userId':user.id,
+							   'status':constant('App\\Entity\\UsergroupMembership::STATUS_MEMBER')
+						   }) }}" title="{{ 'pages.member.actions.pending_set_member'|trans|escape('html_attr') }}">
+							<span>{{ 'pages.member.actions.pending_set_member'|trans }}</span>
+						</a>
+					</li>
+					<li>
+						<a class="pending_set_remove"
+						   href="{{ path('group_member_admin', {
+							   'groupSlug':group.slug,
+							   'userId':user.id,
+							   'status':'remove'
+						   }) }}" title="{{ 'pages.member.actions.pending_set_remove'|trans|escape('html_attr') }}">
+							<span>{{ 'pages.member.actions.pending_remove'|trans }}</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		{% elseif isBanned %}
+			<div class="user-admin-panel">
+				<ul>
+					<li>
+						<a class="banned_set_member"
+						   href="{{ path('group_member_admin', {
+							   'groupSlug':group.slug,
+							   'userId':user.id,
+							   'status':constant('App\\Entity\\UsergroupMembership::STATUS_MEMBER')
+						   }) }}" title="{{ 'pages.member.actions.banned_set_member'|trans|escape('html_attr') }}">
+							<span>{{ 'pages.member.actions.banned_set_member'|trans }}</span>
+						</a>
+					</li>
+					<li>
+						<a class="banned_set_remove"
+						   href="{{ path('group_member_admin', {
+							   'groupSlug':group.slug,
+							   'userId':user.id,
+							   'status':'remove'
+						   }) }}" title="{{ 'pages.member.actions.banned_set_remove'|trans|escape('html_attr') }}">
+							<span>{{ 'pages.member.actions.banned_set_remove'|trans }}</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		{% elseif isAdmin %}
+			<div class="user-admin-panel">
+				<ul>
+					<li>
+						<a class="admin_set_user"
+						   href="{{ path('group_member_admin', {
+							   'groupSlug':group.slug,
+							   'userId':user.id,
+							   'status':constant('App\\Entity\\UsergroupMembership::ROLE_USER')
+						   }) }}" title="{{ 'pages.member.actions.admin_set_user'|trans|escape('html_attr') }}">
+							<span>{{ 'pages.member.actions.admin_set_user'|trans }}</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		{% else %}
+			<div class="user-admin-panel">
+				<button class="sibling-toggle" type="button" title="{{ 'ui.settings'|trans|escape('html_attr') }}">
+					<span>{{ 'ui.settings'|trans }}</span>
+				</button>
+				<ul aria-hidden="false">
+					<li>
+						<a class="member_set_admin"
+						   href="{{ path('group_member_admin', {
+							   'groupSlug':group.slug,
+							   'userId':user.id,
+							   'status':constant('App\\Entity\\UsergroupMembership::ROLE_ADMIN')
+						   }) }}" title="{{ 'pages.member.actions.member_set_admin'|trans|escape('html_attr') }}">
+							<span>{{ 'pages.member.actions.member_set_admin'|trans }}</span>
+						</a>
+					</li>
+					<li>
+						<a class="member_set_remove"
+						   href="{{ path('group_member_admin', {
+							   'groupSlug':group.slug,
+							   'userId':user.id,
+							   'status':'remove'
+						   }) }}" title="{{ 'pages.member.actions.member_set_remove'|trans|escape('html_attr') }}">
+							<span>{{ 'pages.member.actions.member_set_remove'|trans }}</span>
+						</a>
+					</li>
+					<li>
+						<a class="member_set_banned"
+						   href="{{ path('group_member_admin', {
+							   'groupSlug':group.slug,
+							   'userId':user.id,
+							   'status':constant('App\\Entity\\UsergroupMembership::STATUS_BANNED')
+						   }) }}" title="{{ 'pages.member.actions.member_set_banned'|trans|escape('html_attr') }}">
+							<span>{{ 'pages.member.actions.member_set_banned'|trans }}</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		{% endif %}
+	{% endif %}
+</div>

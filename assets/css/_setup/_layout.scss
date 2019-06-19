@@ -68,7 +68,7 @@ figcaption {
 	font-size:     (16 / 18) * 1em;
 	color:         $color_grey_neutral;
 
-	border-bottom: 1px solid $color_grey_light;
+	border-bottom: 1px solid $color_grey_border;
 }
 
 blockquote {
@@ -103,7 +103,7 @@ table {
 	th {
 		@include font_default_bold;
 	}
-	
+
 	thead th {
 		text-align:          left;
 		vertical-align:      bottom;
@@ -217,5 +217,9 @@ h3 {
 		> :nth-child(2n+2) {
 			@include columns_item(1/3, false);
 		}
+	}
+
+	&__no-stretch {
+		align-items: flex-start;
 	}
 }

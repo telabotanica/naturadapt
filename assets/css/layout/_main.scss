@@ -74,7 +74,7 @@ main {
 	@include clearulli(true);
 
 	> li {
-		border-bottom: 1px solid $color_grey_lighter;
+		border-bottom: 1px solid $color_grey_border;
 
 		> a {
 			display:         flex;

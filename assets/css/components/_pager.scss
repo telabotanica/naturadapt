@@ -3,7 +3,7 @@
 **************************************************/
 
 .pager {
-	padding: column_gap();
+	padding: column_gap() 0 0;
 
 	@include clearulli();
 

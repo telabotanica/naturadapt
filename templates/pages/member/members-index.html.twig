@@ -21,24 +21,34 @@
 						label: 'pages.member.list.title'|trans
 					}
 				]} %}
+			{% else %}
+				{% include 'components/breadcrumb.html.twig' with {'items':[
+					{
+						label: 'ui.home'|trans,
+						href: path('homepage')
+					},
+					{
+						label: 'pages.member.list.title'|trans
+					}
+				]} %}
 			{% endif %}
 
 			{{ form_start(form) }}
-			<div class="columns__33-66">
+			<div class="columns__33-66 columns__no-stretch">
 				<div class="filters">
 					<div class="small-title">{{ 'pages.member.list.filters.title'|trans }}</div>
-					<div class="form-row form-row__field">
+					<div class="form-row form-row__filter">
 						{{ form_label(form.country, 'pages.member.list.filters.country.label') }}
 						<div class="form-row__checkboxes">
 							{{ form_widget(form.country) }}
 						</div>
 					</div>
-					<div class="form-row form-row__field">
+					<div class="form-row form-row__filter">
 						<div class="form-row__checkboxes">
 							{{ form_widget(form.inscriptionType) }}
 						</div>
 					</div>
-					<div class="form-row form-row__field">
+					<div class="form-row form-row__filter">
 						{{ form_label(form.skills, 'pages.member.list.filters.skills.label') }}
 						<div class="form-row__checkboxes checkboxes-autocomplete">
 							{{ form_widget(form.skills) }}
@@ -49,13 +59,17 @@
 					</div>
 				</div>
 				<div>
-					<div class="form-row form-row__field">
+					<div class="form-row form-row__no-gap">
 						{{ form_widget(form.query, {'attr': {'placeholder': 'pages.member.list.query.placeholder'}}) }}
 					</div>
-					<ul class="items-list">
-						{% for member in members %}
+					<ul class="members-list">
+						{% for user in members %}
 							<li>
-								{% include 'contents/user/user--in-list.html.twig' with {'user':member} %}
+								{% if group is defined %}
+									{% include 'contents/user/user--in-list.html.twig' with {'user':user, 'admin':user_group_relation.isAdmin(user, group)} %}
+								{% else %}
+									{% include 'contents/user/user--in-list.html.twig' with {'user':user} %}
+								{% endif %}
 							</li>
 						{% endfor %}
 					</ul>

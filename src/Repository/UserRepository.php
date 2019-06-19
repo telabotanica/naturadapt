@@ -183,14 +183,15 @@ class UserRepository extends ServiceEntityRepository {
 		 */
 		if ( !empty( $filters[ 'group' ] ) ) {
 			if ( !empty( $filters[ 'status' ] ) && ( $filters[ 'status' ] === UsergroupMembership::STATUS_ALL ) ) {
-				$qb->orderBy( 'g.status', 'DESC' );
+				$qb->addOrderBy( 'g.status', 'DESC' );
 			}
-
-			$qb->orderBy( 'g.joinedAt', 'DESC' );
+			$qb->addOrderBy( 'g.joinedAt', 'DESC' );
+		}
+		else {
+			$qb->addOrderBy( 'u.createdAt', 'DESC' );
 		}
 
-		return $qb->orderBy( 'u.createdAt', 'DESC' )
-				  ->setFirstResult( $options[ 'limit' ] * $options[ 'page' ] )
+		return $qb->setFirstResult( $options[ 'limit' ] * $options[ 'page' ] )
 				  ->setMaxResults( $options[ 'limit' ] )
 				  ->getQuery()
 				  ->getResult();

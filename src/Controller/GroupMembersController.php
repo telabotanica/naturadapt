@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Usergroup;
 use App\Entity\UsergroupMembership;
 use App\Security\GroupVoter;
@@ -30,8 +31,15 @@ class GroupMembersController extends AbstractController {
 	) {
 		$this->denyAccessUnlessGranted( UserVoter::LOGGED );
 
+		/**
+		 * @var \App\Entity\Usergroup $group
+		 */
 		$group = $manager->getRepository( Usergroup::class )
 						 ->findOneBy( [ 'slug' => $groupSlug ] );
+
+		if ( !$group ) {
+			throw $this->createNotFoundException( 'The group does not exist' );
+		}
 
 		$this->denyAccessUnlessGranted( GroupVoter::READ, $group );
 
@@ -41,10 +49,15 @@ class GroupMembersController extends AbstractController {
 		$filters = $request->query->get( 'form', [] );
 
 		if ( $this->isGranted( GroupVoter::ADMIN, $group ) ) {
-			$dataFilters = array_merge( $filters, [ 'group' => $group, 'status' => UsergroupMembership::STATUS_ALL ] );
+			$dataFilters = array_merge( $filters, [
+					'group'  => $group,
+					'status' => UsergroupMembership::STATUS_ALL,
+			] );
 		}
 		else {
-			$dataFilters = array_merge( $filters, [ 'group' => $group ] );
+			$dataFilters = array_merge( $filters, [
+					'group' => $group,
+			] );
 		}
 
 		$data = $usergroupMembersManager->getFormAndMembers(
@@ -75,7 +88,10 @@ class GroupMembersController extends AbstractController {
 	/**
 	 * @Route("/groups/{groupSlug}/members/new", name="group_member_new")
 	 */
-	public function groupMemberNew ( $groupSlug, ObjectManager $manager ) {
+	public function groupMemberNew (
+			$groupSlug,
+			ObjectManager $manager
+	) {
 		$group = $manager->getRepository( Usergroup::class )
 						 ->findOneBy( [ 'slug' => $groupSlug ] );
 
@@ -111,9 +127,107 @@ class GroupMembersController extends AbstractController {
 			$this->addFlash( 'notice', 'messages.group.candidature_sent' );
 		}
 
+		// TODO : Add Log
+
 		$manager->persist( $membership );
 		$manager->flush();
 
 		return $this->redirectToRoute( 'group_index', [ 'groupSlug' => $groupSlug ] );
+	}
+
+	/**
+	 * @Route("/groups/{groupSlug}/members/{userId}/admin/{status}", name="group_member_admin")
+	 * @param                                            $groupSlug
+	 * @param                                            $userId
+	 * @param                                            $status
+	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 *
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 * @throws \Exception
+	 */
+	public function groupMemberJoin (
+			$groupSlug,
+			$userId,
+			$status,
+			ObjectManager $manager
+	) {
+		/**
+		 * @var \App\Entity\Usergroup $group
+		 */
+		$group = $manager->getRepository( Usergroup::class )
+						 ->findOneBy( [ 'slug' => $groupSlug ] );
+
+		if ( !$group ) {
+			throw $this->createNotFoundException( 'The group does not exist' );
+		}
+
+		$this->denyAccessUnlessGranted( GroupVoter::ADMIN, $group );
+
+		$user = $manager->getRepository( User::class )
+						->findOneBy( [ 'id' => $userId ] );
+
+		if ( !$user ) {
+			throw $this->createNotFoundException( 'The user does not exist' );
+		}
+
+		$membership = $manager->getRepository( UsergroupMembership::class )
+							  ->getMembership( $user, $group );
+
+		switch ( $status ) {
+			case UsergroupMembership::STATUS_MEMBER:
+				if ( empty( $membership ) ) {
+					$membership = new UsergroupMembership();
+					$membership->setUsergroup( $group );
+					$membership->setUser( $user );
+
+					$manager->persist( $membership );
+				}
+
+				$membership->setJoinedAt( new \DateTime() );
+				$membership->setStatus( UsergroupMembership::STATUS_MEMBER );
+
+				$this->addFlash( 'notice', 'messages.group.user_set_member' );
+				break;
+
+			case 'remove':
+				if ( !empty( $membership ) ) {
+					$manager->remove( $membership );
+
+					$this->addFlash( 'notice', 'messages.group.user_set_remove' );
+				}
+				break;
+
+			case UsergroupMembership::STATUS_BANNED:
+				if ( !empty( $membership ) ) {
+					$membership->setStatus( UsergroupMembership::STATUS_BANNED );
+
+					$this->addFlash( 'notice', 'messages.group.user_set_banned' );
+				}
+				break;
+
+			case UsergroupMembership::ROLE_ADMIN:
+				if ( !empty( $membership ) ) {
+					$membership->setRole( UsergroupMembership::ROLE_ADMIN );
+					$membership->setStatus( UsergroupMembership::STATUS_MEMBER );
+
+					$this->addFlash( 'notice', 'messages.group.user_set_admin' );
+				}
+				break;
+
+			case UsergroupMembership::ROLE_USER:
+				if ( !empty( $membership ) ) {
+					$membership->setRole( UsergroupMembership::ROLE_USER );
+					$membership->setStatus( UsergroupMembership::STATUS_MEMBER );
+
+					$this->addFlash( 'notice', 'messages.group.user_set_user' );
+				}
+				break;
+		}
+
+		$manager->flush();
+
+		// TODO : Add Log
+
+		return $this->redirectToRoute( 'group_members_index', [ 'groupSlug' => $groupSlug ] );
 	}
 }
