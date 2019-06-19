@@ -8,6 +8,7 @@ use App\Service\FileManager;
 use App\Service\UsergroupMembersManager;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -111,5 +112,32 @@ class MemberController extends AbstractController {
 		}
 
 		throw $this->createNotFoundException( 'User does not have an avatar' );
+	}
+
+	/**
+	 * @Route("/members/{user_id}/delete")
+	 *
+	 * @param                                            $user_id
+	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \App\Service\FileManager                   $fileManager
+	 *
+	 * @return \Symfony\Component\HttpFoundation\BinaryFileResponse|\Symfony\Component\HttpFoundation\Response
+	 */
+	public function memberDelete (
+			$user_id,
+			ObjectManager $manager,
+			FileManager $fileManager
+	) {
+		if ( $this->getUser() && $this->getUser()->isAdmin() ) {
+			$user = $manager->getRepository( User::class )
+							->findOneById( $user_id );
+
+			$manager->remove( $user );
+			$manager->flush();
+
+			$this->addFlash( 'notice', 'User deleted' );
+		}
+
+		return $this->redirectToRoute( 'homepage' );
 	}
 }

@@ -5,7 +5,6 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     plateform:
-        name: NaturAdapt
         from: '%env(string:POSTMARK_SENDER)%'
     postmark:
         server_token: '%env(string:POSTMARK_SERVER_TOKEN)%'
@@ -39,6 +38,9 @@ services:
 
     App\EventSubscriber\UserLocaleSubscriber:
         arguments: ['%kernel.default_locale%']
+
+    App\Service\Community:
+        arguments: ['%env(string:COMMUNITY_SLUG)%']
 
     postmark:
         class: \Postmark\Transport

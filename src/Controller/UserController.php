@@ -5,8 +5,10 @@ namespace App\Controller;
 use App\Entity\File;
 use App\Entity\Site;
 use App\Entity\User;
+use App\Entity\UsergroupMembership;
 use App\Form\UserProfileType;
 use App\Security\UserVoter;
+use App\Service\Community;
 use App\Service\EmailSender;
 use App\Service\FileManager;
 use DateTime;
@@ -137,6 +139,8 @@ class UserController extends AbstractController {
 	 * @param \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $tokenStorage
 	 * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface                         $eventDispatcher
 	 *
+	 * @param \App\Service\Community                                                              $community
+	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function activate (
@@ -145,7 +149,8 @@ class UserController extends AbstractController {
 			ObjectManager $manager,
 			SessionInterface $session,
 			TokenStorageInterface $tokenStorage,
-			EventDispatcherInterface $eventDispatcher
+			EventDispatcherInterface $eventDispatcher,
+			Community $community
 	) {
 		/**
 		 * @var $user User
@@ -172,6 +177,21 @@ class UserController extends AbstractController {
 
 		$user->setResetToken( NULL );
 		$user->setStatus( User::STATUS_ACTIVE );
+
+		// Join community
+
+		if ( $community->getGroup() ) {
+			$membership = new UsergroupMembership();
+			$membership->setUsergroup( $community->getGroup() );
+			$membership->setUser( $user );
+			$membership->setRole( UsergroupMembership::ROLE_USER );
+			$membership->setStatus( UsergroupMembership::STATUS_MEMBER );
+			$membership->setJoinedAt( new \DateTime() );
+
+			$manager->persist( $membership );
+		}
+
+		//
 
 		$manager->flush();
 
