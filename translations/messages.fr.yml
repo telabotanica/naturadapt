@@ -216,6 +216,13 @@ pages:
             member_set_admin: "Promouvoir admin"
             member_set_remove: "Supprimer du groupe"
             member_set_banned: "Bannir"
+        profile:
+            skills:
+                title: "Compétences"
+            bio:
+                title: "Biographie"
+            groups:
+                title: "Groupes"
 
 messages:
     user:

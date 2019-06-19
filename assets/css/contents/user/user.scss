@@ -124,10 +124,10 @@
 }
 
 /**************************************************
- * USER PROFILE
+ * USER HEADER
  *************************************************/
 
-.user__profile {
+.user__header {
 	display:         flex;
 	flex-flow:       row nowrap;
 	justify-content: flex-start;
@@ -154,6 +154,84 @@
 		@include font_default_bold;
 
 		color: $color_grey_neutral;
+	}
+}
+
+/**************************************************
+ * USER PROFILE
+ *************************************************/
+
+.user__profile {
+	@include card_shadow;
+	padding: padding_vertical() padding_horizontal();
+
+	.user-title {
+		display:         flex;
+		flex-flow:       row nowrap;
+		justify-content: flex-start;
+		align-items:     center;
+
+		margin-bottom:   padding_vertical();
+	}
+
+	.user--name {
+		margin-bottom: rem(6px);
+	}
+
+	.user--location,
+	.user--site {
+		font-size: rem(16px);
+		color:     $color_grey_neutral
+	}
+
+	.user--avatar {
+		width:  rem(100px);
+		height: rem(100px);
+
+		@include medium-or-more {
+			margin-right: padding_horizontal();
+		}
+	}
+
+	.user--presentation,
+	.user--skills,
+	.user--bio {
+		margin-bottom: rem(30px);
+	}
+
+	.user--presentation {
+
+		@include font_default_bold;
+
+		color: $color_grey_neutral;
+	}
+
+	.user--skills,
+	.user--groups {
+		@include clearulli;
+
+		li {
+			@include font_default_bold;
+
+			font-size:      rem(16px);
+			text-transform: capitalize;
+			color:          $color_action;
+		}
+
+		a {
+			text-decoration: none;
+
+			&:focus,
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+	}
+
+	.user--bio {
+		p {
+			font-size: rem(16px);
+		}
 	}
 }
 

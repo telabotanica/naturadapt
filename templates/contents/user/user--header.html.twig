@@ -1,0 +1,9 @@
+<div class="user user__header" style="--color: {{ user.name|color }}">
+	{% include 'contents/user/partials/user--avatar.html.twig' with{'user':user, 'filter':'profile'} %}
+
+	<div>
+		<p class="small-title">{{ 'pages.user.profile.title'|trans }}</p>
+		<h1 class="h1 user--name">{{ user.name }}</h1>
+		<div class="user--presentation">{{ user.presentation }}</div>
+	</div>
+</div>

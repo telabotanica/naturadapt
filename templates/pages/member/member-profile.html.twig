@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+	<section class="main main__member-profile">
+		<div class="main--content content-container">
+			{% include 'components/app-flashes.html.twig' %}
+
+			<div class="h1">{{ 'pages.member.list.title'|trans }}</div>
+
+			{% if community.group %}
+				{% include 'components/breadcrumb.html.twig' with {'items':[
+					{
+						label: 'pages.group.groups.title'|trans,
+						href: path('groups_index')
+					},
+					{
+						label: community.group.name,
+						href: path('group_index', {'groupSlug':community.group.slug})
+					},
+					{
+						label: 'pages.member.list.title'|trans,
+						href: path('group_members_index', {'groupSlug':community.group.slug})
+					},
+					{
+						label: user.name
+					}
+				]} %}
+			{% else %}
+				{% include 'components/breadcrumb.html.twig' with {'items':[
+					{
+						label: 'ui.home'|trans,
+						href: path('homepage')
+					},
+					{
+						label: 'pages.member.list.title'|trans,
+						href: path('members')
+					},
+					{
+						label: user.name
+					}
+				]} %}
+			{% endif %}
+
+			{% include 'contents/user/user--profile.html.twig' with {'user':user} %}
+		</div>
+	</section>
+{% endblock %}

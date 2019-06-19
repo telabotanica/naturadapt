@@ -1,9 +1,55 @@
 <div class="user user__profile" style="--color: {{ user.name|color }}">
-	{% include 'contents/user/partials/user--avatar.html.twig' with{'user':user, 'filter':'profile'} %}
+	<div class="user-title">
+		{% include 'contents/user/partials/user--avatar.html.twig' with{'user':user, 'filter':'profile'} %}
 
-	<div>
-		<p class="small-title">{{ 'pages.user.profile.title'|trans }}</p>
-		<h1 class="h1 user--name">{{ user.name }}</h1>
-		<div class="user--presentation">{{ user.presentation }}</div>
+		<div>
+			<h1 class="h2 user--name">{{ user.name }}</h1>
+
+			{% set location = [] %}
+			{% if user.city is not empty %}{% set location = location|merge([user.city]) %}{% endif %}
+			{% if user.country is not empty %}{% set location = location|merge([user.country|countryName]) %}{% endif %}
+			{% if location is not empty %}
+				<div class="user--location">{{ location|join(', ') }}</div>
+			{% endif %}
+
+			{% if user.site is not empty %}
+				<div class="user--site">{{ user.site.name }}</div>
+			{% endif %}
+		</div>
 	</div>
+	<div class="user--presentation">{{ user.presentation }}</div>
+
+	{% if user.skills is not empty %}
+		<div class="user--skills">
+			<h2 class="h3">{{ 'pages.member.profile.skills.title'|trans }}&nbsp;:</h2>
+
+			<ul>
+				{% for skill in user.skills %}
+					<li>{{ skill.slug|trans({}, 'skills') }}</li>
+				{% endfor %}
+			</ul>
+		</div>
+	{% endif %}
+
+	{% if user.bio is not empty %}
+		<div class="user--bio">
+			<h2 class="h3">{{ 'pages.member.profile.bio.title'|trans }}&nbsp;:</h2>
+
+			<p>{{ user.bio|nl2br }}</p>
+		</div>
+	{% endif %}
+
+	{% if user.usergroupmemberships is not empty %}
+		<div class="user--groups">
+			<h2 class="h3">{{ 'pages.member.profile.groups.title'|trans }}&nbsp;:</h2>
+
+			<ul>
+				{% for membership in user.usergroupmemberships %}
+					{% if user_group_relation.isMember(user, membership.usergroup) %}
+						<li><a href="{{ path('group_index', {'groupSlug':membership.usergroup.slug}) }}">{{ membership.usergroup.name }}</a></li>
+					{% endif %}
+				{% endfor %}
+			</ul>
+		</div>
+	{% endif %}
 </div>
