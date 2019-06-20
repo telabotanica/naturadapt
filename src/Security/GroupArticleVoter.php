@@ -73,15 +73,11 @@ class GroupArticleVoter extends Voter {
 				 */
 				$article = $subject;
 
-				if ( $article->getEditionRestricted() ) {
-					if ( $user === $article->getAuthor() ) {
-						return $this->security->isGranted( GroupVoter::PARTICIPATE, $article->getUsergroup() );
-					}
-
-					return $this->security->isGranted( GroupVoter::EDIT, $article->getUsergroup() );
+				if ( $user === $article->getAuthor() ) {
+					return $this->security->isGranted( GroupVoter::PARTICIPATE, $article->getUsergroup() );
 				}
 
-				return $this->security->isGranted( GroupVoter::PARTICIPATE, $article->getUsergroup() );
+				return $this->security->isGranted( GroupVoter::ADMIN, $article->getUsergroup() );
 
 			case self::DELETE:
 				/**
