@@ -34,8 +34,10 @@
 	}
 
 	.document--icon {
-		width:  rem(50px);
-		height: rem(50px);
+		width:            rem(50px);
+		height:           rem(50px);
+		border-radius:    50%;
+		background-color: white;
 
 		span {
 			@include visually-hidden;
@@ -46,7 +48,7 @@
 		padding: 0 padding_horizontal();
 
 		width:   rem(215px);
-		
+
 		@include font_title_bold;
 	}
 

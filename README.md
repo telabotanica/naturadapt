@@ -40,6 +40,10 @@ Eventually, additionnal skills can be directly in the database.
 Skills translations in the differents languages are managed via Symfony translations via the specific _skills_ domain.
 ex: _translations/skills.fr.yml_
 
+## General group
+
+If the _env_ variable _COMMUNITY_SLUG_ is defined, the corresponding group will be defacto the "general" group, and every user registred will be by default a member of this group.
+
 ## Fixtures
 
 Fill the plateform with _Lorem Ipsum_:
