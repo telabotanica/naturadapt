@@ -35,6 +35,16 @@ class Document {
 	 */
 	private $slug;
 
+	/**
+	 * @ORM\Column(type="string", length=100, nullable=true)
+	 */
+	private $title;
+
+	/**
+	 * @ORM\Column(type="datetime")
+	 */
+	private $createdAt;
+
 	public function getId (): ?int {
 		return $this->id;
 	}
@@ -75,6 +85,26 @@ class Document {
 
 	public function setSlug ( ?string $slug ): self {
 		$this->slug = $slug;
+
+		return $this;
+	}
+
+	public function getTitle (): ?string {
+		return $this->title;
+	}
+
+	public function setTitle ( ?string $title ): self {
+		$this->title = $title;
+
+		return $this;
+	}
+
+	public function getCreatedAt (): ?\DateTimeInterface {
+		return $this->createdAt;
+	}
+
+	public function setCreatedAt ( \DateTimeInterface $createdAt ): self {
+		$this->createdAt = $createdAt;
 
 		return $this;
 	}

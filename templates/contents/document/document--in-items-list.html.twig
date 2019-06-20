@@ -1,4 +1,4 @@
 {% set classes = ['document', 'document__in-items-list'] %}
-<div class="{{ classes|join(' ') }}" data-type="{{ document.file.type }}">
-	<a href="{{ path('group_document_get', {'groupSlug': file.usergroup.slug, 'documentSlug': document.slug}) }}">{{ document.file.name }}</a>
-</div>
+<a class="{{ classes|join(' ') }}" data-type="{{ document.file.type }}" href="{{ path('group_document_get', {'groupSlug': document.usergroup.slug, 'documentId': document.id}) }}">
+	{{ document.title }}
+</a>

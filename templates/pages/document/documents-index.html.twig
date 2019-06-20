@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+	<section class="main main__documents-index">
+		<div class="main--content content-container">
+			{% include 'components/app-flashes.html.twig' %}
+
+			<div class="panel">
+				<h1 class="h1">{{ 'pages.document.list.title'|trans }}</h1>
+
+				{% if is_granted(constant('App\\Security\\GroupDocumentVoter::CREATE'), group) %}
+					<div class="panel--edit">
+						<a class="cta__inverted" href="{{ path('group_document_new', {'groupSlug':group.slug}) }}">{{ 'pages.document.document_create.link'|trans }}</a>
+					</div>
+				{% endif %}
+			</div>
+
+			{% include 'components/breadcrumb.html.twig' with {'items':[
+				{
+					label: 'pages.group.groups.title'|trans,
+					href: path('groups_index')
+				},
+				{
+					label: group.name,
+					href: path('group_index', {'groupSlug':group.slug})
+				},
+				{
+					label: 'pages.group.documents.title'|trans,
+				}
+			]} %}
+
+			{{ form_start(form) }}
+			<div class="columns__33-66 columns__no-stretch">
+				<div class="filters">
+					<div class="small-title">{{ 'pages.document.list.filters.title'|trans }}</div>
+					<div class="form-row form-row__filter">
+						{{ form_label(form.filetype, 'pages.document.list.filters.filetype.label') }}
+						<div class="form-row__checkboxes">
+							{{ form_widget(form.filetype) }}
+						</div>
+					</div>
+					<div class="form-row form-row__submit">
+						{{ form_widget(form.submit, {'label': 'pages.document.list.search'}) }}
+					</div>
+				</div>
+				<div>
+					<div class="form-row form-row__no-gap">
+						{{ form_widget(form.query, {'attr': {'placeholder': 'pages.document.list.query.placeholder'}}) }}
+					</div>
+					<ul class="documents-list">
+						{% for document in group.documents %}
+							<li>
+								{% include 'contents/document/document--teaser.html.twig' with {'document':document} %}
+							</li>
+						{% endfor %}
+					</ul>
+					{% include 'components/pager.html.twig' %}
+				</div>
+			</div>
+			{{ form_end(form) }}
+		</div>
+	</section>
+{% endblock %}

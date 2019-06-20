@@ -1,9 +1,0 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}{{ group.name }} - {{ community.name }}{% endblock %}
-
-{% block main %}
-	<div class="content-container">
-		{% include 'components/upload-form.html.twig' with {'form':form} %}
-	</div>
-{% endblock %}

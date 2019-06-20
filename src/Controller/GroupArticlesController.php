@@ -23,6 +23,10 @@ class GroupArticlesController extends AbstractController {
 
 	/**
 	 * @Route("/groups/{groupSlug}/articles", name="group_articles_index")
+	 * @param                                            $groupSlug
+	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 *
+	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function groupArticlesIndex (
 			$groupSlug,
@@ -88,7 +92,6 @@ class GroupArticlesController extends AbstractController {
 
 		$article = new Article();
 		$form    = $this->createForm( ArticleType::class, $article );
-
 		$form->handleRequest( $request );
 
 		if ( $form->isSubmitted() && $form->isValid() ) {

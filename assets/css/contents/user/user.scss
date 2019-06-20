@@ -276,6 +276,11 @@
 .user__in-members-list {
 	position:    relative;
 
+	&:focus,
+	&:hover {
+		background-color: rgba(white, .6);
+	}
+
 	&:hover {
 		z-index: 1;
 	}
@@ -360,11 +365,12 @@
 	}
 
 	.user-admin-panel {
-		font-size: (14/18) * 1em;
+		font-size: (14 / 18) * 1em;
 	}
 
 	.user-admin-panel {
-		position: relative;
+		position:     relative;
+		margin-right: rem(10px);
 
 		@include clearulli;
 

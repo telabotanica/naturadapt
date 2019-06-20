@@ -70,6 +70,16 @@ main {
  * COMMON COMPONENTS
  *************************************************/
 
+.filters {
+	@include card_shadow();
+
+	padding: padding_vertical('small') padding_horizontal('small');
+
+	@include large-or-more {
+		padding: padding_vertical('large') padding_horizontal('large');
+	}
+}
+
 .items-list {
 	@include clearulli(true);
 

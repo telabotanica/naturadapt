@@ -1,0 +1,18 @@
+{{ form_start(form) }}
+<div class="form-row__mandatory">{{ 'forms.mandatory'|trans }}</div>
+<div class="form-rows">
+	<div class="form-row form-row__file">
+		{{ form_label(form.filefile, 'forms.document.file.label') }}
+		<div class="hint">{{ 'forms.document.file.hint'|trans }}</div>
+		{{ form_widget(form.filefile) }}
+		{{ form_label(form.filefile, 'forms.document.file.button', {'label_attr': {'class': 'submit-style submit-style__inverted'}}) }}
+	</div>
+	<div class="form-row form-row__field">
+		{{ form_label(form.title, 'forms.document.title.label') }}
+		{{ form_widget(form.title, {'attr': {'placeholder': 'forms.document.title.placeholder'}}) }}
+	</div>
+</div>
+<div class="form-row form-row__submit">
+	{{ form_widget(form.submit, {'label': form_submit}) }}
+</div>
+{{ form_end(form) }}

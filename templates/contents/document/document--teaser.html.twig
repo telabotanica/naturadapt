@@ -1,4 +1,17 @@
 {% set classes = ['document', 'document__teaser'] %}
 <div class="{{ classes|join(' ') }}" data-type="{{ document.file.type }}">
-	<a href="{{ path('group_document_get', {'groupSlug': file.usergroup.slug, 'documentSlug': document.slug}) }}">{{ document.file.name }}</a>
+	<a class="document-infos" href="{{ path('group_document_get', {'groupSlug': document.usergroup.slug, 'documentId': document.id}) }}">
+
+		<div class="document--icon">
+			<span>{{ document.title }}</span>
+		</div>
+
+		<div class="document--title">
+			<span>{{ document.title }}</span>
+		</div>
+
+		<div class="document--date">
+			<span>{{ 'pages.document.view.date'|trans|format(document.createdAt|localizeddate('short', 'none', app.request.locale)) }}</span>
+		</div>
+	</a>
 </div>

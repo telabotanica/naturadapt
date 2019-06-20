@@ -58,8 +58,8 @@
 			<span class="count">{{ group.documents|length }}</span>
 		</h2>
 		{% if group.documents is not empty %}
-			<ul>
-				{% for file in group.documents %}
+			<ul class="items-list">
+				{% for document in group.documents|slice(0, 5) %}
 					<li>
 						{% include 'contents/document/document--in-items-list.html.twig' with {'document':document} %}
 					</li>

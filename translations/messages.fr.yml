@@ -106,6 +106,15 @@ forms:
             label: "Article"
             placeholder: "Saississez votre contenu ici…"
 
+    document:
+        file:
+            label: "Ajouter un fichier"
+            hint: "Format JPG ou PNG, DOC, … 500 Ko maximum"
+            button: "Parcourir"
+        title:
+            label: "Nom du document"
+            placeholder: ""
+
 pages:
     user:
         login:
@@ -219,10 +228,21 @@ pages:
             author: "Par %s"
 
     document:
+        list:
+            title: "Documents"
+            filters:
+                title: "Filtres"
+                filetype:
+                    label: "Type de document"
+            query:
+                placeholder: "Chercher un document par nom…"
+            search: "Filtrer"
         document_create:
-            title: "Envoi d’un docuemnt"
+            title: "Envoi d’un document"
             link: "Ajouter un document"
             button: "Envoyer le document"
+        view:
+            date: "Le %s"
 
     member:
         list:
@@ -292,4 +312,14 @@ messages:
         page_created: "La page a été créée"
         page_updated: "La page a été mise à jour"
         page_deleted: "La page a été supprimée"
+
+    article:
+        article_created: "L’article a été créé"
+        article_updated: "L’article a été mis à jour"
+        article_deleted: "L’article a été supprimé"
+
+    document:
+        document_created: "Le document a été ajouté"
+        document_updated: "Le document a été mis à jour"
+        document_deleted: "Le document a été supprimé"
 
