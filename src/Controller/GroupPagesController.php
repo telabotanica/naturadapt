@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\File;
 use App\Entity\Page;
+use App\Entity\PageRevision;
 use App\Entity\Usergroup;
 use App\Form\PageType;
 use App\Security\GroupPageVoter;
@@ -113,10 +114,19 @@ class GroupPagesController extends AbstractController {
 			}
 			// --
 
-			// TODO : Add Versioning
+			$manager->persist( $page );
+
+			// Create revision
+
+			$revision = new PageRevision();
+			$revision->setUser( $user );
+			$revision->setPage( $page );
+			$revision->setCreatedAt( new \DateTime() );
+			$revision->setData( [ 'title' => $page->getTitle(), 'body' => $page->getBody() ] );
+			$manager->persist( $revision );
+
 			// TODO : Add Log
 
-			$manager->persist( $page );
 			$manager->flush();
 
 			$this->addFlash( 'notice', 'messages.page.page_created' );
@@ -206,7 +216,15 @@ class GroupPagesController extends AbstractController {
 			}
 			// --
 
-			// TODO : Add Versioning
+			// Create revision
+
+			$revision = new PageRevision();
+			$revision->setUser( $user );
+			$revision->setPage( $page );
+			$revision->setCreatedAt( new \DateTime() );
+			$revision->setData( [ 'title' => $page->getTitle(), 'body' => $page->getBody() ] );
+			$manager->persist( $revision );
+			
 			// TODO : Add Log
 
 			$manager->flush();

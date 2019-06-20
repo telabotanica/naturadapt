@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -62,6 +64,15 @@ class Page {
 	 * @ORM\OneToOne(targetEntity="App\Entity\File", cascade={"persist", "remove"})
 	 */
 	private $cover;
+
+	/**
+	 * @ORM\OneToMany(targetEntity="App\Entity\PageRevision", mappedBy="page", orphanRemoval=true)
+	 */
+	private $pageRevisions;
+
+	public function __construct () {
+		$this->pageRevisions = new ArrayCollection();
+	}
 
 	public function getId (): ?int {
 		return $this->id;
@@ -153,6 +164,34 @@ class Page {
 
 	public function setCover ( ?File $cover ): self {
 		$this->cover = $cover;
+
+		return $this;
+	}
+
+	/**
+	 * @return Collection|PageRevision[]
+	 */
+	public function getPageRevisions (): Collection {
+		return $this->pageRevisions;
+	}
+
+	public function addPageRevision ( PageRevision $pageRevision ): self {
+		if ( !$this->pageRevisions->contains( $pageRevision ) ) {
+			$this->pageRevisions[] = $pageRevision;
+			$pageRevision->setPage( $this );
+		}
+
+		return $this;
+	}
+
+	public function removePageRevision ( PageRevision $pageRevision ): self {
+		if ( $this->pageRevisions->contains( $pageRevision ) ) {
+			$this->pageRevisions->removeElement( $pageRevision );
+			// set the owning side to null (unless already changed)
+			if ( $pageRevision->getPage() === $this ) {
+				$pageRevision->setPage( NULL );
+			}
+		}
 
 		return $this;
 	}
