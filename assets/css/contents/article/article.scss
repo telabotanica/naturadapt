@@ -33,7 +33,10 @@
 	}
 
 	.article-cover {
-		width:        rem(.5 * 480px);
+		flex-basis:   rem(.5 * 480px);
+		flex-grow:    0;
+		flex-shrink:  0;
+
 		margin-right: padding_horizontal();
 	}
 
