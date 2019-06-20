@@ -1,12 +1,17 @@
 <footer class="footer">
 	<div class="content-container">
 		<div class="footer--logo">
-			<p class="plateform-logo"><img src="{{ asset('media/layout/logo-naturadapt__139x85.png') }}" alt="{{ community.name }}"
-										   srcset="{{ asset('media/layout/logo-naturadapt__278x170.png') }} 2x"></p>
+			<p class="plateform-logo">
+				<img src="{{ asset('media/layout/logo-naturadapt__139x85.png') }}" alt="{{ community.name }}"
+					 srcset="{{ asset('media/layout/logo-naturadapt__278x170.png') }} 2x">
+			</p>
 			<p class="project-sponsor-logo">
-				Projet ayant bénéficié<br>
-				du soutien financier du<br>
-				programme LIFE.
+				<img src="{{ asset('media/layout/logo-life.svg') }}" alt="Life">
+				<span>
+					Projet ayant bénéficié<br>
+					du soutien financier du<br>
+					programme LIFE.
+				</span>
 			</p>
 		</div>
 		<div class="footer--menu">
@@ -14,9 +19,8 @@
 				<li>
 					<span>Menu</span>
 					<ul>
-						<li><a href="">À propos de la plateforme</a></li>
-						<li><a href="{{ path('user_register') }}">{{ 'pages.user.register.link'|trans }}</a></li>
-						<li><a href="{{ path('user_login') }}">{{ 'pages.user.login.link'|trans }}</a></li>
+						<li><a href="{{ path('homepage') }}">{{ 'ui.home'|trans }}</a></li>
+						<li><a href="{{ path('user_login') }}">{{ 'pages.user.login.link'|trans }} / {{ 'pages.user.register.link'|trans }}</a></li>
 					</ul>
 				</li>
 				<li>

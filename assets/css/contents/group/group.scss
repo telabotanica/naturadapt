@@ -97,15 +97,16 @@
 	}
 
 	.group-content {
-		position:  relative;
+		position:        relative;
 
-		flex-grow: 1;
+		flex-grow:       1;
 
-		display:   flex;
-		flex-flow: column nowrap;
-		height:    100%;
+		display:         flex;
+		flex-flow:       column nowrap;
+		justify-content: flex-start;
+		height:          100%;
 
-		padding:   padding_vertical('small') padding_horizontal('small');
+		padding:         padding_vertical('small') padding_horizontal('small');
 
 		@include large-or-more {
 			padding: padding_vertical('large') padding_horizontal('large');
@@ -125,6 +126,8 @@
 	.group-name {
 		margin-top: rem(4px);
 
+		flex-grow:  1;
+
 		@include font_title_bold;
 
 		a {
@@ -134,12 +137,15 @@
 	}
 
 	.group-description {
+		display:            -webkit-box;
+		-webkit-line-clamp: 4;
+		-webkit-box-orient: vertical;
+		text-overflow:      ellipsis;
+
 		$line-height: line_height_default();
-		line-height:            $line-height;
-		height:                 4 * $line-height * 1em;
-		overflow:               hidden;
-		text-overflow:          ellipsis;
-		text-overflow-ellipsis: "…";
+		line-height:        $line-height;
+		height:             4 * $line-height * 1em;
+		overflow:           hidden;
 	}
 
 	.group-members {

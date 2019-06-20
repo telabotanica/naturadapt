@@ -67,16 +67,15 @@
 .project-sponsor-logo {
 	margin-top:  rem(32px);
 
-	&::before {
-		margin:           0 1em 1em 0;
+	img {
+		margin:        0 1em 1em 0;
 
-		content:          '';
-		display:          block;
-		float:            left;
-		width:            rem(58px);
-		height:           rem(38px);
-		border-radius:    rem(5px);
-		background-color: #0d3f97;
+		display:       block;
+		float:         left;
+		width:         rem(58px);
+		height:        auto;
+		border-radius: rem(5px);
+		overflow:      hidden;
 	}
 
 	font-size:   rem(10px);
