@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+	<section class="main main__group-page main__group-page__edit">
+		<div class="main--content content-container">
+			{% include 'components/app-flashes.html.twig' %}
+
+			<section class="group-header">
+				<h1 class="h1">{{ 'pages.group.articles.title'|trans }}</h1>
+
+				{% include 'components/breadcrumb.html.twig' with {'items':[
+					{
+						label: 'pages.group.groups.title'|trans,
+						href: path('groups_index')
+					},
+					{
+						label: group.name,
+						href: path('group_index', {'groupSlug':group.slug})
+					},
+					{
+						label: 'pages.group.articles.title'|trans,
+						href: path('group_articles_index', {'groupSlug':group.slug})
+					},
+					{
+						label: article.title,
+						href: path('group_article_index', {'groupSlug':group.slug, 'articleSlug':article.slug})
+					},
+					{
+						label: 'pages.article.article_edit.title'|trans
+					}
+				]} %}
+			</section>
+
+			<section class="group-form">
+				{% include 'forms/article/article-form.html.twig' with ({
+					'form':form,
+					'form_submit':'pages.article.article_edit.button',
+					'upload':upload
+				}) %}
+			</section>
+		</div>
+	</section>
+{% endblock %}

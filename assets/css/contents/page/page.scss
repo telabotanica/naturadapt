@@ -3,25 +3,6 @@
 **************************************************/
 
 .main__pages-index {
-	// Group Title (member)
-
-	.pages-title {
-		@include columns;
-
-		> :nth-child(1) {
-			@include columns_item(2 / 3, false)
-		}
-
-		> :nth-child(2) {
-			@include columns_item(1 / 3, false);
-		}
-	}
-
-	.page-edit {
-		align-self: flex-end;
-		text-align: right;
-	}
-
 	.pages-list {
 		@include clearulli;
 	}
@@ -36,11 +17,50 @@
 }
 
 /**************************************************
-* PAGE LIST
+* PAGE IN ITEMS LIST
+**************************************************/
+
+.page__in-items-list {
+	@include font_default_bold;
+}
+
+/**************************************************
+* PAGE IN PAGES LIST
 **************************************************/
 
 .page__teaser {
-	@include font_default_bold;
+	display:         flex;
+	flex-flow:       row nowrap;
+	justify-content: flex-start;
+	align-items:     flex-start;
+	width:           100%;
+
+	padding:         padding_vertical() padding_horizontal();
+
+	font-size:       rem(16px);
+	color:           inherit;
+	text-decoration: none;
+
+	border-bottom:   1px solid $color_grey_border;
+
+	&:focus,
+	&:hover {
+		background-color: rgba(white, .5);
+	}
+
+	.page-cover {
+		width:        rem(.5 * 480px);
+		margin-right: padding_horizontal();
+	}
+
+	.page-body {
+		height:   5 * line_height_default() * 1em;
+		overflow: hidden;
+
+		p {
+			margin: 0;
+		}
+	}
 }
 
 /**************************************************
@@ -142,7 +162,7 @@
 		color:         $color_grey_neutral;
 	}
 
-	.page-edit {
+	.panel--edit {
 		a {
 			width:         100%;
 			padding-left:  .5em;

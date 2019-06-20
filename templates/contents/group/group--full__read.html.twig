@@ -1,5 +1,6 @@
-{% set hasCover = (group.cover is defined) and (group.cover is not empty) %}
-<div class="group group__full" style="--color: {{ group.name|color }}">
+{% set classes = ['group', 'group__full'] %}
+<div class="{{ classes|join(' ') }}" style="--color: {{ group.name|color }}">
+	{% set hasCover = (group.cover is defined) and (group.cover is not empty) %}
 	<div class="main--header {{ hasCover ? 'main--header__cover' : 'main--header__no-cover' }}">
 		{% if hasCover %}
 			<div class="main--header--image">

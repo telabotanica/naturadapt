@@ -40,3 +40,9 @@ liip_imagine:
             quality: 75
             filters:
                 thumbnail: { size: [584, 330], mode: outbound }
+        article_cover:
+            data_loader: usergroupfiles
+            cache: ~
+            quality: 75
+            filters:
+                downscale: { max: [480, 480] }

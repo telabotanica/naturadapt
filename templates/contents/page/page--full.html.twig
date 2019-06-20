@@ -1,9 +1,16 @@
-{% set hasCover = (page.usergroup.cover is defined) and (page.usergroup.cover is not empty) %}
-<div class="page page__full" style="--color: {{ page.usergroup.name|color }}">
+{% set classes = ['page', 'page__full'] %}
+<div class="{{ classes|join(' ') }}" style="--color: {{ page.usergroup.name|color }}">
+	{% set hasCover = ((page.cover is defined) and (page.cover is not empty))
+		or ((page.usergroup.cover is defined) and (page.usergroup.cover is not empty)) %}
+
 	<div class="main--header {{ hasCover ? 'main--header__cover' : 'main--header__no-cover' }}">
 		{% if hasCover %}
 			<div class="main--header--image">
-				<img src="{{ page.usergroup.cover.path | imagine_filter('cover') }}" alt="">
+				{% if (page.cover is defined) and (page.cover is not empty) %}
+					<img src="{{ page.cover.path | imagine_filter('cover') }}" alt="">
+				{% elseif (page.usergroup.cover is defined) and (page.usergroup.cover is not empty) %}
+					<img src="{{ page.usergroup.cover.path | imagine_filter('cover') }}" alt="">
+				{% endif %}
 			</div>
 		{% endif %}
 
@@ -14,7 +21,7 @@
 				<div class="page-group">
 					<a href="{{ path('group_index', {'groupSlug': page.usergroup.slug}) }}" class="small-title">{{ page.usergroup.name }}</a>
 				</div>
-				<h1 class="h1 page-title">{{ page.title }}</h1>
+				<h1 class="h1">{{ page.title }}</h1>
 			</div>
 
 			{% include 'components/breadcrumb.html.twig' with {'items':[
@@ -50,7 +57,7 @@
 				{% endif %}
 			</div>
 			{% if is_granted(constant('App\\Security\\GroupPageVoter::EDIT'), page) %}
-				<div class="page-edit">
+				<div class="panel--edit">
 					<a class="cta__inverted" href="{{ path('group_page_edit', {'groupSlug': page.usergroup.slug, 'pageSlug':page.slug}) }}"><span>{{ 'pages.page.page_edit.link'|trans }}</span></a>
 				</div>
 			{% endif %}
@@ -78,10 +85,10 @@
 
 			<div class="group-pages">
 				<div class="group-pages--title">{{ 'pages.page.view.pages_index'|trans }}</div>
-				<ul>
+				<ul class="index-list">
 					{% for page in page.usergroup.pages %}
 						<li>
-							{% include 'contents/page/page--teaser.html.twig' with {'page':page} %}
+							{% include 'contents/page/page--in-index-list.html.twig' with {'page':page} %}
 						</li>
 					{% endfor %}
 				</ul>

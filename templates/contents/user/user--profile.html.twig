@@ -1,4 +1,5 @@
-<div class="user user__profile" style="--color: {{ user.name|color }}">
+{% set classes = ['user', 'user__profile'] %}
+<div class="{{ classes|join(' ') }}" style="--color: {{ user.name|color }}">
 	<div class="user-title">
 		{% include 'contents/user/partials/user--avatar.html.twig' with{'user':user, 'filter':'profile'} %}
 

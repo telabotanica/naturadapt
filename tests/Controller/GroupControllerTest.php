@@ -70,7 +70,7 @@ class GroupControllerTest extends WebTestCase {
 		);
 
 		$pageUrl = $crawler
-				->filter( '.group-app__pages a.page__teaser' )
+				->filter( '.group-app__pages a.page__in-items-list' )
 				->eq( 0 )
 				->link()
 				->getUri();

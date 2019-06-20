@@ -1,0 +1,31 @@
+{{ form_start(form) }}
+<div class="form-row__mandatory">{{ 'forms.mandatory'|trans }}</div>
+<div class="form-rows">
+	<div class="form-row form-row__file form-row__file__cover">
+		<div class="file-preview">
+			<div class="file-preview--img">
+				{% if (article is defined) and (article.cover is defined) and (article.cover is not empty) %}
+					<img src="{{ article.cover.path | imagine_filter('article_cover') }}" alt="">
+				{% endif %}
+			</div>
+			<div class="file-preview--content">
+				{{ form_label(form.coverfile, 'forms.article.cover.label') }}
+				<div class="hint">{{ 'forms.article.cover.hint'|trans }}</div>
+				{{ form_widget(form.coverfile) }}
+				{{ form_label(form.coverfile, 'forms.article.cover.button', {'label_attr': {'class': 'submit-style submit-style__inverted'}}) }}
+			</div>
+		</div>
+	</div>
+	<div class="form-row form-row__field">
+		{{ form_label(form.title, 'forms.article.title.label') }}
+		{{ form_widget(form.title, {'attr': {'placeholder': 'forms.article.title.placeholder'}}) }}
+	</div>
+	<div class="form-row form-row__field wysiwyg" data-upload="{{ upload }}">
+		{{ form_label(form.body, 'forms.article.body.label') }}
+		{{ form_widget(form.body, {'attr': {'placeholder': 'forms.article.body.placeholder'}}) }}
+	</div>
+</div>
+<div class="form-row form-row__submit">
+	{{ form_widget(form.submit, {'label': form_submit}) }}
+</div>
+{{ form_end(form) }}

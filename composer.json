@@ -10,6 +10,7 @@
         "gaufrette/local-adapter": "^0.4.0",
         "knplabs/gaufrette": "^0.8.1",
         "knplabs/knp-gaufrette-bundle": "^0.5.3",
+        "knplabs/knp-time-bundle": "^1.9",
         "liip/imagine-bundle": "^2.1",
         "sensio/framework-extra-bundle": "^5.2",
         "symfony/apache-pack": "^1.0",

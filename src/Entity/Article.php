@@ -5,10 +5,10 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="pages",indexes={@ORM\Index(name="slug", columns={"slug"})})
- * @ORM\Entity(repositoryClass="App\Repository\PageRepository")
+ * @ORM\Table(name="articles",indexes={@ORM\Index(name="slug", columns={"slug"})})
+ * @ORM\Entity(repositoryClass="App\Repository\ArticlesRepository")
  */
-class Page {
+class Article {
 	/**
 	 * @ORM\Id()
 	 * @ORM\GeneratedValue()
@@ -17,7 +17,7 @@ class Page {
 	private $id;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="App\Entity\Usergroup", inversedBy="pages")
+	 * @ORM\ManyToOne(targetEntity="App\Entity\Usergroup", inversedBy="articles")
 	 * @ORM\JoinColumn(nullable=false)
 	 */
 	private $usergroup;
@@ -52,11 +52,6 @@ class Page {
 	 * @ORM\Column(type="datetime", nullable=true)
 	 */
 	private $editedAt;
-
-	/**
-	 * @ORM\Column(type="boolean", nullable=true)
-	 */
-	private $editionRestricted;
 
 	/**
 	 * @ORM\OneToOne(targetEntity="App\Entity\File", cascade={"persist", "remove"})
@@ -102,7 +97,7 @@ class Page {
 	}
 
 	public function setTitle ( string $title ): self {
-		$this->title = substr( $title, 0, 100 );
+		$this->title = $title;
 
 		return $this;
 	}
@@ -133,16 +128,6 @@ class Page {
 
 	public function setEditedAt ( ?\DateTimeInterface $editedAt ): self {
 		$this->editedAt = $editedAt;
-
-		return $this;
-	}
-
-	public function getEditionRestricted (): ?bool {
-		return !empty( $this->editionRestricted );
-	}
-
-	public function setEditionRestricted ( ?bool $editionRestricted ): self {
-		$this->editionRestricted = $editionRestricted;
 
 		return $this;
 	}

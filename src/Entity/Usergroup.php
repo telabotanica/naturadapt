@@ -69,6 +69,17 @@ class Usergroup {
 	private $pages;
 
 	/**
+	 * @ORM\OneToMany(targetEntity="App\Entity\Document", mappedBy="usergroup")
+	 */
+	private $documents;
+
+	/**
+	 * @ORM\OneToMany(targetEntity="Article", mappedBy="usergroup", orphanRemoval=true)
+	 * @ORM\OrderBy({"createdAt"="DESC"})
+	 */
+	private $articles;
+
+	/**
 	 * @ORM\OneToMany(targetEntity="App\Entity\File", mappedBy="usergroup")
 	 */
 	private $files;
@@ -88,17 +99,13 @@ class Usergroup {
 	 */
 	private $cover;
 
-	/**
-	 * @ORM\OneToMany(targetEntity="App\Entity\Document", mappedBy="usergroup")
-	 */
-	private $documents;
-
 	public function __construct () {
 		$this->categories = new ArrayCollection();
 		$this->members    = new ArrayCollection();
 		$this->pages      = new ArrayCollection();
 		$this->files      = new ArrayCollection();
 		$this->documents  = new ArrayCollection();
+		$this->articles   = new ArrayCollection();
 	}
 
 	public function getId (): ?int {
@@ -326,6 +333,34 @@ class Usergroup {
 			// set the owning side to null (unless already changed)
 			if ( $document->getUsergroup() === $this ) {
 				$document->setUsergroup( NULL );
+			}
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @return Collection|Article[]
+	 */
+	public function getArticles (): Collection {
+		return $this->articles;
+	}
+
+	public function addArticle ( Article $article ): self {
+		if ( !$this->articles->contains( $article ) ) {
+			$this->articles[] = $article;
+			$article->setUsergroup( $this );
+		}
+
+		return $this;
+	}
+
+	public function removeArticle ( Article $article ): self {
+		if ( $this->articles->contains( $article ) ) {
+			$this->articles->removeElement( $article );
+			// set the owning side to null (unless already changed)
+			if ( $article->getUsergroup() === $this ) {
+				$article->setUsergroup( NULL );
 			}
 		}
 

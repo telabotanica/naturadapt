@@ -1,0 +1,4 @@
+{% set classes = ['article', 'article__in-items-list'] %}
+<a class="{{ classes|join(' ') }}" href="{{ path('group_article_index', {'groupSlug': article.usergroup.slug, 'articleSlug': article.slug}) }}">
+	{{ article.title }}
+</a>

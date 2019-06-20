@@ -1,12 +1,13 @@
-<div class="group group__full" style="--color: {{ group.name|color }}">
+{% set classes = ['group', 'group__full'] %}
+<div class="{{ classes|join(' ') }}" style="--color: {{ group.name|color }}">
 	<div class="main--content content-container">
 		{% include 'components/app-flashes.html.twig' %}
 
-		<div class="group-title">
+		<div class="panel">
 			{% include 'contents/group/partials/group-infos.html.twig' with {'group':group} %}
 
 			{% if is_granted(constant('App\\Security\\GroupVoter::EDIT'), group) %}
-				<div class="group-edit">
+				<div class="panel--edit">
 					<a class="cta__inverted" href="{{ path('group_edit', {'groupSlug':group.slug}) }}">{{ 'pages.group.group_edit.link'|trans }}</a>
 				</div>
 			{% else %}

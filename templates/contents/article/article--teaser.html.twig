@@ -1,0 +1,12 @@
+{% set classes = ['article', 'article__teaser'] %}
+<a class="{{ classes|join(' ') }}" href="{{ path('group_article_index', {'groupSlug': article.usergroup.slug, 'articleSlug': article.slug}) }}">
+	{% if (article.cover is defined) and (article.cover is not empty) %}
+		<div class="article-cover">
+			<img src="{{ article.cover.path | imagine_filter('article_cover') }}" alt="">
+		</div>
+	{% endif %}
+	<div>
+		<h2 class="h3">{{ article.title }}</h2>
+		<div class="article-body">{{ article.body|striptags('<br><p>')|raw }}</div>
+	</div>
+</a>

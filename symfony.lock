@@ -122,6 +122,9 @@
     "knplabs/knp-gaufrette-bundle": {
         "version": "v0.5.3"
     },
+    "knplabs/knp-time-bundle": {
+        "version": "v1.9.1"
+    },
     "liip/imagine-bundle": {
         "version": "1.8",
         "recipe": {

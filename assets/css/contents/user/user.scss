@@ -85,10 +85,10 @@
 }
 
 /**************************************************
- * USER TEASER (avatar + name + presentation)
+ * USER IN ITEMS LIST (avatar + name + presentation)
  *************************************************/
 
-.user__teaser {
+.user__in-items-list {
 	display:         flex;
 	flex-flow:       row nowrap;
 	justify-content: flex-start;
@@ -102,6 +102,32 @@
 			height: rem(16px);
 		}
 	}
+
+	.user--avatar {
+		width:        rem(40px);
+		height:       rem(40px);
+		margin-right: 1rem;
+	}
+
+	.user--infos {
+		flex-grow: 1;
+	}
+
+	.user--presentation {
+		font-size: (12 / 14) * 1em;
+		color:     $color_grey_light;
+	}
+}
+
+/**************************************************
+ * USER TEASER (avatar + name + presentation)
+ *************************************************/
+
+.user__teaser {
+	display:         flex;
+	flex-flow:       row nowrap;
+	justify-content: flex-start;
+	align-items:     center;
 
 	.user--avatar {
 		width:        rem(40px);
@@ -247,7 +273,7 @@
 	}
 }
 
-.user__in-list {
+.user__in-members-list {
 	position:    relative;
 
 	&:hover {

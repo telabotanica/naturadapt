@@ -4,10 +4,6 @@
 
 {% block main %}
 	<section class="main main__page-index">
-		{% if is_granted(constant('App\\Security\\GroupPageVoter::READ'), page) %}
-			{% include 'contents/page/page--full.html.twig' with {'group':group, 'page':page} %}
-		{% else %}
-			{% include 'contents/page/page--full-restricted.html.twig' with {'group':group, 'page':page} %}
-		{% endif %}
+		{% include 'contents/page/page--full.html.twig' with {'group':group, 'page':page} %}
 	</section>
 {% endblock %}

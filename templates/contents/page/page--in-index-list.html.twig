@@ -1,0 +1,4 @@
+{% set classes = ['page', 'page__in-index-list'] %}
+<a class="{{ classes|join(' ') }}" href="{{ path('group_page_index', {'groupSlug': page.usergroup.slug, 'pageSlug': page.slug}) }}">
+	{{ page.title }}
+</a>

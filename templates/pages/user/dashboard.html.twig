@@ -13,7 +13,7 @@
 					<ul>
 						{% for membership in app.user.usergroupMemberships %}
 							<li>
-								{% include 'contents/group/group--in-list.html.twig' with {'group': membership.usergroup} %}
+								{% include 'contents/group/group--in-items-list.html.twig' with {'group': membership.usergroup} %}
 							</li>
 						{% endfor %}
 					</ul>

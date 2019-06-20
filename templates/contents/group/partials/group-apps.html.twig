@@ -1,4 +1,5 @@
 <div class="group-apps">
+
 	<div class="group-app group-app__pages">
 		<h2 class="h4">
 			<a href="{{ path('group_pages_index', {'groupSlug':group.slug}) }}">{{ 'pages.group.pages.title'|trans }}</a>
@@ -8,7 +9,7 @@
 			<ul class="items-list">
 				{% for page in group.pages|slice(0, 5) %}
 					<li>
-						{% include 'contents/page/page--teaser.html.twig' with {'page':page} %}
+						{% include 'contents/page/page--in-items-list.html.twig' with {'page':page} %}
 					</li>
 				{% endfor %}
 			</ul>
@@ -24,7 +25,34 @@
 			</div>
 		{% endif %}
 	</div>
-	<div class="group-app group-app__files">
+
+	<div class="group-app group-app__articles">
+		<h2 class="h4">
+			<a href="{{ path('group_articles_index', {'groupSlug':group.slug}) }}">{{ 'pages.group.articles.title'|trans }}</a>
+			<span class="count">{{ group.articles|length }}</span>
+		</h2>
+		{% if group.articles is not empty %}
+			<ul class="items-list">
+				{% for article in group.articles|slice(0, 5) %}
+					<li>
+						{% include 'contents/article/article--in-items-list.html.twig' with {'article':article} %}
+					</li>
+				{% endfor %}
+			</ul>
+			<div class="see-all">
+				<a href="{{ path('group_articles_index', {'groupSlug':group.slug}) }}">{{ 'ui.see_all'|trans }}</a>
+			</div>
+		{% else %}
+			<div class="create-new">
+				<div>
+					<p class="hint">{{ 'pages.group.articles.empty'|trans }}</p>
+					<p><a href="{{ path('group_article_new', {'groupSlug':group.slug}) }}">{{ 'pages.article.article_create.link'|trans }}</a></p>
+				</div>
+			</div>
+		{% endif %}
+	</div>
+
+	<div class="group-app group-app__documents">
 		<h2 class="h4">
 			<a href="{{ path('group_documents_index', {'groupSlug':group.slug}) }}">{{ 'pages.group.documents.title'|trans }}</a>
 			<span class="count">{{ group.documents|length }}</span>
@@ -33,7 +61,7 @@
 			<ul>
 				{% for file in group.documents %}
 					<li>
-						{% include 'contents/document/document--teaser.html.twig' with {'document':document} %}
+						{% include 'contents/document/document--in-items-list.html.twig' with {'document':document} %}
 					</li>
 				{% endfor %}
 			</ul>
@@ -49,6 +77,7 @@
 			</div>
 		{% endif %}
 	</div>
+
 	<div class="group-app group-app__members">
 		<h2 class="h4">
 			<a href="{{ path('group_members_index', {'groupSlug':group.slug}) }}">{{ 'pages.group.members.title'|trans }}</a>
@@ -57,7 +86,7 @@
 		<ul class="items-list">
 			{% for member in group.members|slice(0, 5) %}
 				<li>
-					{% include 'contents/user/user--teaser.html.twig' with {'user':member.user, 'admin':user_group_relation.isAdmin(member.user, group)} %}
+					{% include 'contents/user/user--in-items-list.html.twig' with {'user':member.user, 'admin':user_group_relation.isAdmin(member.user, group)} %}
 				</li>
 			{% endfor %}
 		</ul>
@@ -65,4 +94,5 @@
 			<a href="{{ path('group_members_index', {'groupSlug':group.slug}) }}">{{ 'ui.see_all'|trans }}</a>
 		</div>
 	</div>
+
 </div>

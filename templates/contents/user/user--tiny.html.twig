@@ -1,4 +1,5 @@
-<div class="user user__tiny" title="{{ user.name }}" style="--color: {{ user.name|color }}">
+{% set classes = ['user', 'user__tiny'] %}
+<div class="{{ classes|join(' ') }}" title="{{ user.name }}" style="--color: {{ user.name|color }}">
 	{% if (admin is defined) and admin %}
 		<div class="user--admin"><span>{{ 'pages.user.is_admin'|trans }}</span></div>
 	{% endif %}

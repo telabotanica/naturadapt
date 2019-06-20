@@ -1,4 +1,5 @@
-<div class="group group__{{ group.visibility }} group__teaser" style="--color: {{ group.name|color }}">
+{% set classes = ['group', 'group__teaser', 'group__' ~ group.visibility] %}
+<div class="{{ classes|join(' ') }}" style="--color: {{ group.name|color }}">
 	<div class="group-illustration">
 		{% if (group.cover is defined) and (group.cover is not empty) %}
 			<img src="{{ group.cover.path | imagine_filter('cover_teaser') }}" alt="">

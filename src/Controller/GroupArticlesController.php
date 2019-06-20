@@ -2,11 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Article;
 use App\Entity\File;
-use App\Entity\Page;
 use App\Entity\Usergroup;
-use App\Form\PageType;
-use App\Security\GroupPageVoter;
+use App\Form\ArticleType;
+use App\Security\GroupArticleVoter;
 use App\Security\GroupVoter;
 use App\Service\FileManager;
 use App\Service\SlugGenerator;
@@ -16,15 +16,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class GroupPagesController extends AbstractController {
+class GroupArticlesController extends AbstractController {
 	/**************************************************
-	 * PAGES
+	 * ARTICLES
 	 **************************************************/
 
 	/**
-	 * @Route("/groups/{groupSlug}/pages", name="group_pages_index")
+	 * @Route("/groups/{groupSlug}/articles", name="group_articles_index")
 	 */
-	public function groupPagesIndex (
+	public function groupArticlesIndex (
 			$groupSlug,
 			ObjectManager $manager
 	) {
@@ -40,17 +40,17 @@ class GroupPagesController extends AbstractController {
 
 		$this->denyAccessUnlessGranted( GroupVoter::READ, $group );
 
-		return $this->render( 'pages/page/pages-index.html.twig', [
+		return $this->render( 'pages/article/articles-index.html.twig', [
 				'group' => $group,
 		] );
 	}
 
 	/**************************************************
-	 * PAGE
+	 * ARTICLE
 	 **************************************************/
 
 	/**
-	 * @Route("/groups/{groupSlug}/pages/new", name="group_page_new")
+	 * @Route("/groups/{groupSlug}/articles/new", name="group_article_new")
 	 * @param                                                            $groupSlug
 	 * @param \Symfony\Component\HttpFoundation\Request                  $request
 	 * @param \Doctrine\Common\Persistence\ObjectManager                 $manager
@@ -61,7 +61,7 @@ class GroupPagesController extends AbstractController {
 	 * @return string
 	 * @throws \Exception
 	 */
-	public function groupPageNew (
+	public function groupArticleNew (
 			$groupSlug,
 			Request $request,
 			ObjectManager $manager,
@@ -79,23 +79,23 @@ class GroupPagesController extends AbstractController {
 			throw $this->createNotFoundException( 'The group does not exist' );
 		}
 
-		$this->denyAccessUnlessGranted( GroupPageVoter::CREATE, $group );
+		$this->denyAccessUnlessGranted( GroupArticleVoter::CREATE, $group );
 
 		/**
 		 * @var \App\Entity\User $user
 		 */
 		$user = $this->getUser();
 
-		$page = new Page();
-		$form = $this->createForm( PageType::class, $page );
+		$article = new Article();
+		$form    = $this->createForm( ArticleType::class, $article );
 
 		$form->handleRequest( $request );
 
 		if ( $form->isSubmitted() && $form->isValid() ) {
-			$page->setAuthor( $this->getUser() );
-			$page->setUsergroup( $group );
-			$page->setCreatedAt( new \DateTime() );
-			$page->setSlug( $slugGenerator->generateSlug( $page->getTitle(), Page::class, 'slug', [ 'usergroup' => $group ] ) );
+			$article->setAuthor( $this->getUser() );
+			$article->setUsergroup( $group );
+			$article->setCreatedAt( new \DateTime() );
+			$article->setSlug( $slugGenerator->generateSlug( $article->getTitle(), Article::class, 'slug', [ 'usergroup' => $group ] ) );
 
 			// Cover
 			$uploadFile = $form->get( 'coverfile' )->getData();
@@ -109,33 +109,32 @@ class GroupPagesController extends AbstractController {
 
 				$manager->persist( $file );
 
-				$page->setCover( $file );
+				$article->setCover( $file );
 			}
 			// --
 
-			// TODO : Add Versioning
 			// TODO : Add Log
 
-			$manager->persist( $page );
+			$manager->persist( $article );
 			$manager->flush();
 
-			$this->addFlash( 'notice', 'messages.page.page_created' );
+			$this->addFlash( 'notice', 'messages.article.article_created' );
 
-			return $this->redirectToRoute( 'group_page_index', [ 'groupSlug' => $group->getSlug(), 'pageSlug' => $page->getSlug() ] );
+			return $this->redirectToRoute( 'group_article_index', [ 'groupSlug' => $group->getSlug(), 'articleSlug' => $article->getSlug() ] );
 		}
 
-		return $this->render( 'pages/page/page-create.html.twig', [
-				'group'  => $group,
-				'page'   => $page,
-				'form'   => $form->createView(),
-				'upload' => $router->generate( 'file_upload', [ 'groupId' => $group->getId() ] ),
+		return $this->render( 'pages/article/article-create.html.twig', [
+				'group'   => $group,
+				'article' => $article,
+				'form'    => $form->createView(),
+				'upload'  => $router->generate( 'file_upload', [ 'groupId' => $group->getId() ] ),
 		] );
 	}
 
 	/**
-	 * @Route("/groups/{groupSlug}/pages/{pageSlug}/edit", name="group_page_edit")
+	 * @Route("/groups/{groupSlug}/articles/{articleSlug}/edit", name="group_article_edit")
 	 * @param                                                            $groupSlug
-	 * @param                                                            $pageSlug
+	 * @param                                                            $articleSlug
 	 * @param \Symfony\Component\HttpFoundation\Request                  $request
 	 * @param \Doctrine\Common\Persistence\ObjectManager                 $manager
 	 *
@@ -145,9 +144,9 @@ class GroupPagesController extends AbstractController {
 	 * @return string
 	 * @throws \Exception
 	 */
-	public function groupPageEdit (
+	public function groupArticleEdit (
 			$groupSlug,
-			$pageSlug,
+			$articleSlug,
 			Request $request,
 			ObjectManager $manager,
 			FileManager $fileManager,
@@ -164,28 +163,28 @@ class GroupPagesController extends AbstractController {
 		}
 
 		/**
-		 * @var \App\Entity\Page $page
+		 * @var \App\Entity\Article $article
 		 */
-		$page = $manager->getRepository( Page::class )
-						->findOneBy( [ 'usergroup' => $group, 'slug' => $pageSlug ] );
+		$article = $manager->getRepository( Article::class )
+						   ->findOneBy( [ 'usergroup' => $group, 'slug' => $articleSlug ] );
 
-		if ( !$page ) {
-			throw $this->createNotFoundException( 'The page does not exist' );
+		if ( !$article ) {
+			throw $this->createNotFoundException( 'The article does not exist' );
 		}
 
-		$this->denyAccessUnlessGranted( GroupPageVoter::EDIT, $page );
+		$this->denyAccessUnlessGranted( GroupArticleVoter::EDIT, $article );
 
 		/**
 		 * @var \App\Entity\User $user
 		 */
 		$user = $this->getUser();
 
-		$form = $this->createForm( PageType::class, $page );
+		$form = $this->createForm( ArticleType::class, $article );
 
 		$form->handleRequest( $request );
 
 		if ( $form->isSubmitted() && $form->isValid() ) {
-			$page->setEditedAt( new \DateTime() );
+			$article->setEditedAt( new \DateTime() );
 
 			// Cover
 			$uploadFile = $form->get( 'coverfile' )->getData();
@@ -199,42 +198,41 @@ class GroupPagesController extends AbstractController {
 
 				$manager->persist( $file );
 
-				if ( !empty( $page->getCover() ) ) {
-					$fileManager->deleteFile( $page->getCover() );
+				if ( !empty( $article->getCover() ) ) {
+					$fileManager->deleteFile( $article->getCover() );
 				}
-				$page->setCover( $file );
+				$article->setCover( $file );
 			}
 			// --
 
-			// TODO : Add Versioning
 			// TODO : Add Log
 
 			$manager->flush();
 
-			$this->addFlash( 'notice', 'messages.page.page_updated' );
+			$this->addFlash( 'notice', 'messages.article.article_updated' );
 
-			return $this->redirectToRoute( 'group_page_index', [ 'groupSlug' => $group->getSlug(), 'pageSlug' => $page->getSlug() ] );
+			return $this->redirectToRoute( 'group_article_index', [ 'groupSlug' => $group->getSlug(), 'articleSlug' => $article->getSlug() ] );
 		}
 
-		return $this->render( 'pages/page/page-edit.html.twig', [
-				'group'  => $group,
-				'page'   => $page,
-				'form'   => $form->createView(),
-				'upload' => $router->generate( 'file_upload', [ 'groupId' => $group->getId() ] ),
+		return $this->render( 'pages/article/article-edit.html.twig', [
+				'group'   => $group,
+				'article' => $article,
+				'form'    => $form->createView(),
+				'upload'  => $router->generate( 'file_upload', [ 'groupId' => $group->getId() ] ),
 		] );
 	}
 
 	/**
-	 * @Route("/groups/{groupSlug}/pages/{pageSlug}", name="group_page_index")
+	 * @Route("/groups/{groupSlug}/articles/{articleSlug}", name="group_article_index")
 	 * @param                                            $groupSlug
-	 * @param                                            $pageSlug
+	 * @param                                            $articleSlug
 	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function groupPageIndex (
+	public function groupArticleIndex (
 			$groupSlug,
-			$pageSlug,
+			$articleSlug,
 			ObjectManager $manager
 	) {
 		/**
@@ -248,37 +246,37 @@ class GroupPagesController extends AbstractController {
 		}
 
 		/**
-		 * @var \App\Entity\Page $page
+		 * @var \App\Entity\Article $article
 		 */
-		$page = $manager->getRepository( Page::class )
-						->findOneBy( [ 'usergroup' => $group, 'slug' => $pageSlug ] );
+		$article = $manager->getRepository( Article::class )
+						   ->findOneBy( [ 'usergroup' => $group, 'slug' => $articleSlug ] );
 
-		if ( !$page ) {
-			throw $this->createNotFoundException( 'The page does not exist' );
+		if ( !$article ) {
+			throw $this->createNotFoundException( 'The article does not exist' );
 		}
 
-		if ( !$this->isGranted( GroupPageVoter::READ, $page ) ) {
+		if ( !$this->isGranted( GroupArticleVoter::READ, $article ) ) {
 			return $this->redirectToRoute( 'group_index', [ 'groupSlug' => $group->getSlug() ] );
 		}
 
-		return $this->render( 'pages/page/page-index.html.twig', [
-				'group' => $group,
-				'page'  => $page,
+		return $this->render( 'pages/article/article-index.html.twig', [
+				'group'   => $group,
+				'article' => $article,
 		] );
 	}
 
 	/**
-	 * @Route("/groups/{groupSlug}/pages/{pageSlug}/delete", name="group_page_delete")
+	 * @Route("/groups/{groupSlug}/articles/{articleSlug}/delete", name="group_article_delete")
 	 * @param                                            $groupSlug
-	 * @param                                            $pageSlug
+	 * @param                                            $articleSlug
 	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
 	 * @param \App\Service\FileManager                   $fileManager
 	 *
 	 * @return string
 	 */
-	public function groupPageDelete (
+	public function groupArticleDelete (
 			$groupSlug,
-			$pageSlug,
+			$articleSlug,
 			ObjectManager $manager,
 			FileManager $fileManager
 	) {
@@ -293,25 +291,25 @@ class GroupPagesController extends AbstractController {
 		}
 
 		/**
-		 * @var \App\Entity\Page $page
+		 * @var \App\Entity\Article $article
 		 */
-		$page = $manager->getRepository( Page::class )
-						->findOneBy( [ 'usergroup' => $group, 'slug' => $pageSlug ] );
+		$article = $manager->getRepository( Article::class )
+						   ->findOneBy( [ 'usergroup' => $group, 'slug' => $articleSlug ] );
 
-		if ( !$page ) {
-			throw $this->createNotFoundException( 'The page does not exist' );
+		if ( !$article ) {
+			throw $this->createNotFoundException( 'The article does not exist' );
 		}
 
-		$this->denyAccessUnlessGranted( GroupPageVoter::DELETE, $page );
+		$this->denyAccessUnlessGranted( GroupArticleVoter::DELETE, $article );
 
-		if ( !empty( $page->getCover() ) ) {
-			$fileManager->deleteFile( $page->getCover() );
+		if ( !empty( $article->getCover() ) ) {
+			$fileManager->deleteFile( $article->getCover() );
 		}
 
-		$manager->remove( $page );
+		$manager->remove( $article );
 		$manager->flush();
 
-		$this->addFlash( 'notice', 'messages.page.page_deleted' );
+		$this->addFlash( 'notice', 'messages.article.article_deleted' );
 
 		return $this->redirectToRoute( 'group_index', [ 'groupSlug' => $group->getSlug() ] );
 	}

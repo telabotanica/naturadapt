@@ -1,0 +1,59 @@
+{% set classes = ['article', 'article__full'] %}
+<div class="{{ classes|join(' ') }}" style="--color: {{ article.usergroup.name|color }}">
+	<div class="main--content content-container">
+		{% include 'components/app-flashes.html.twig' %}
+
+		<div class="panel">
+			<h1 class="h1">{{ 'pages.article.list.title'|trans }}</h1>
+
+			{% if is_granted(constant('App\\Security\\GroupArticleVoter::EDIT'), article) %}
+				<div class="panel--edit">
+					<a class="cta__inverted" href="{{ path('group_article_edit', {'groupSlug': article.usergroup.slug, 'articleSlug':article.slug}) }}"><span>{{ 'pages.article.article_edit.link'|trans }}</span></a>
+				</div>
+			{% endif %}
+		</div>
+
+		{% include 'components/breadcrumb.html.twig' with {'items':[
+			{
+				label: 'pages.group.groups.title'|trans,
+				href: path('groups_index')
+			},
+			{
+				label: group.name,
+				href: path('group_index', {'groupSlug':article.usergroup.slug})
+			},
+			{
+				label: 'pages.group.articles.title'|trans,
+				href: path('group_articles_index', {'groupSlug':article.usergroup.slug})
+			},
+			{
+				label: article.title,
+			}
+		]} %}
+
+		<div class="article-content">
+			{% if (article.cover is defined) and (article.cover is not empty) %}
+				<div class="article-cover">
+					<img src="{{ article.cover.path | imagine_filter('article_cover') }}" alt="">
+				</div>
+			{% endif %}
+
+			<div class="article-infos">
+				<span class="article-date">
+					{% if article.editedAt is not empty %}
+						{{ article.editedAt|ago|capitalize }}
+					{% else %}
+						{{ article.createdAt|ago|capitalize }}
+					{% endif %}
+				</span>
+				<span class="article-author">
+					{{ 'pages.article.view.author'|trans|format(article.author.name) }}
+				</span>
+			</div>
+
+			<div class="article-body">
+				{{ article.body|raw }}
+			</div>
+		</div>
+	</div>
+</div>

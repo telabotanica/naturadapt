@@ -1,3 +1,12 @@
-<a href="{{ path('group_page_index', {'groupSlug': page.usergroup.slug, 'pageSlug': page.slug}) }}" class="page page__teaser">
-	{{ page.title }}
+{% set classes = ['page', 'page__teaser'] %}
+<a class="{{ classes|join(' ') }}" href="{{ path('group_page_index', {'groupSlug': page.usergroup.slug, 'pageSlug': page.slug}) }}">
+	{% if (page.cover is defined) and (page.cover is not empty) %}
+		<div class="page-cover">
+			<img src="{{ page.cover.path | imagine_filter('article_cover') }}" alt="">
+		</div>
+	{% endif %}
+	<div>
+		<h2 class="h3">{{ page.title }}</h2>
+		<div class="page-body">{{ page.body|striptags('<br><p>')|raw }}</div>
+	</div>
 </a>

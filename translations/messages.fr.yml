@@ -83,12 +83,28 @@ forms:
             placeholder: "Présentation du groupe, ses objectifs..."
 
     page:
+        cover:
+            label: "Image de couverture"
+            hint: "Format JPG ou PNG, 500 Ko maximum"
+            button: "Parcourir"
         title:
             label: "Titre de page"
             placeholder: "ex: Présentation"
         body:
             label: "Contenu de la page"
             placeholder: ""
+
+    article:
+        cover:
+            label: "Ajouter une image qui sera utilisée en Entête de l’actualité (facultatif)"
+            hint: "Format JPG ou PNG, 500 Ko maximum"
+            button: "Parcourir"
+        title:
+            label: "Titre"
+            placeholder: "Entrez le titre de votre article ici…"
+        body:
+            label: "Article"
+            placeholder: "Saississez votre contenu ici…"
 
 pages:
     user:
@@ -158,6 +174,9 @@ pages:
         pages:
             title: "Pages"
             empty: "Créer votre première page"
+        articles:
+            title: "Actualités"
+            empty: "Aucune actualité disponible"
         documents:
             title: "Documents"
             empty: "Vous n’avez aucun document"
@@ -184,6 +203,20 @@ pages:
             date_edited: "Édité le %s"
             members: "{1}1 membre|]1,Inf]%count% membres"
             pages_index: "Index"
+
+    article:
+        list:
+            title: "Actualités"
+        article_create:
+            title: "Ajouter une actualité"
+            link: "Ajouter une actualité"
+            button: "Publier"
+        article_edit:
+            title: "Édition de l’article"
+            link: "Modifier"
+            button: "Enregistrer les modifications"
+        view:
+            author: "Par %s"
 
     document:
         document_create:

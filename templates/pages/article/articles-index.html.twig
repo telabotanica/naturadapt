@@ -1,16 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block main %}
-	<section class="main main__pages-index">
+	<section class="main main__articles-index">
 		<div class="main--content content-container">
 			{% include 'components/app-flashes.html.twig' %}
 
 			<div class="panel">
-				<h1 class="h1">{{ 'pages.page.list.title'|trans }}</h1>
+				<h1 class="h1">{{ 'pages.article.list.title'|trans }}</h1>
 
-				{% if is_granted(constant('App\\Security\\GroupPageVoter::CREATE'), group) %}
+				{% if is_granted(constant('App\\Security\\GroupArticleVoter::CREATE'), group) %}
 					<div class="panel--edit">
-						<a class="cta__inverted" href="{{ path('group_page_new', {'groupSlug':group.slug}) }}">{{ 'pages.page.page_create.link'|trans }}</a>
+						<a class="cta__inverted" href="{{ path('group_article_new', {'groupSlug':group.slug}) }}">{{ 'pages.article.article_create.link'|trans }}</a>
 					</div>
 				{% endif %}
 			</div>
@@ -25,15 +25,15 @@
 					href: path('group_index', {'groupSlug':group.slug})
 				},
 				{
-					label: 'pages.group.pages.title'|trans,
+					label: 'pages.group.articles.title'|trans,
 				}
 			]} %}
 
-			<section class="pages-list narrow">
+			<section class="articles-list narrow">
 				<ul>
-					{% for page in group.pages %}
+					{% for article in group.articles %}
 						<li>
-							{% include 'contents/page/page--teaser.html.twig' with {'page':page} %}
+							{% include 'contents/article/article--teaser.html.twig' with {'article':article} %}
 						</li>
 					{% endfor %}
 				</ul>

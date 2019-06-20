@@ -1,4 +1,4 @@
-{% set classes = ['user', 'user__in-list'] %}
+{% set classes = ['user', 'user__in-members-list'] %}
 {% if (group is defined) %}
 	{% set isPending = user_group_relation.isPending(user, group) %}
 	{% set isMember = user_group_relation.isMember(user, group) %}

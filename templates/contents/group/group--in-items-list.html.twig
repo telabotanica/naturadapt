@@ -1,0 +1,4 @@
+{% set classes = ['group', 'group__in-items-list'] %}
+<div class="{{ classes|join(' ') }}" style="--color: {{ group.name|color }}">
+	<div class="group-name"><a href="{{ path('group_index', {'groupSlug': group.slug}) }}">{{ group.name }}</a></div>
+</div>

@@ -80,9 +80,9 @@
 						{% for user in members %}
 							<li>
 								{% if group is defined %}
-									{% include 'contents/user/user--in-list.html.twig' with {'user':user, 'admin':user_group_relation.isAdmin(user, group)} %}
+									{% include 'contents/user/user--in-members-list.html.twig' with {'user':user, 'admin':user_group_relation.isAdmin(user, group)} %}
 								{% else %}
-									{% include 'contents/user/user--in-list.html.twig' with {'user':user} %}
+									{% include 'contents/user/user--in-members-list.html.twig' with {'user':user} %}
 								{% endif %}
 							</li>
 						{% endfor %}

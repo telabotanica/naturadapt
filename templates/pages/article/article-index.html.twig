@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ article.title }} - {{ group.name }} - {{ community.name }}{% endblock %}
+
+{% block main %}
+	<section class="main main__article-index">
+		{% include 'contents/article/article--full.html.twig' with {'group':group, 'article':article} %}
+	</section>
+{% endblock %}
