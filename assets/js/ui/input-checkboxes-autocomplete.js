@@ -1,6 +1,8 @@
 import ready from 'mf-js/modules/dom/ready';
 import autocomplete from 'autocomplete.js';
 
+const normalizeKey = str => str.normalize( 'NFD' ).replace( /[\u0300-\u036f]/g, "" ).toLocaleLowerCase();
+
 ready( () => Array.from( document.querySelectorAll( '.checkboxes-autocomplete' ) ).forEach( ( element ) => {
 	const checkboxes = Array.from( element.querySelectorAll( 'input[type="checkbox"]' ) );
 
@@ -41,6 +43,7 @@ ready( () => Array.from( document.querySelectorAll( '.checkboxes-autocomplete' )
 			source:     ( query, callback ) => {
 				const keys = query
 					.split( ' ' )
+					.map( ( key ) => normalizeKey( key ) )
 					.filter( ( key ) => key.length > 0 );
 
 				const results = list
@@ -48,7 +51,7 @@ ready( () => Array.from( document.querySelectorAll( '.checkboxes-autocomplete' )
 						const r = Object.assign( { suggestion: item.label, match: 0 }, item );
 
 						keys.forEach( ( key ) => {
-							if ( r.label.includes( key ) ) {
+							if ( normalizeKey( r.label ).includes( key ) ) {
 								r.suggestion = r.suggestion.replace( key, `<em>${key}</em>` );
 								r.match++;
 							}
