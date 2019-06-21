@@ -60,6 +60,7 @@
 
 	@include medium-or-more {
 		flex-basis: calc(#{$n * 100%} - #{(1 - $n) * column_gap() });
+		overflow:   hidden;
 	}
 }
 

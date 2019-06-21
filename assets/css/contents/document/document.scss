@@ -59,9 +59,11 @@
 	}
 
 	.document--title {
-		padding: 0 padding_horizontal();
+		padding:       0 padding_horizontal();
 
-		width:   rem(215px);
+		width:         rem(215px);
+		overflow:      hidden;
+		text-overflow: ellipsis;
 
 		@include font_title_bold;
 	}
