@@ -243,9 +243,9 @@ class GroupDocumentsController extends AbstractController {
 		if ( $form->isSubmitted() && $form->isValid() ) {
 			if ( !empty( $document->getFile() ) ) {
 				$fileManager->deleteFile( $document->getFile() );
+				$manager->remove( $document->getFile() );
 			}
 
-			$manager->remove( $document->getFile() );
 			$manager->remove( $document );
 			$manager->flush();
 
