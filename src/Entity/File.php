@@ -45,7 +45,7 @@ class File {
 	private $path;
 
 	/**
-	 * @ORM\Column(type="string", length=50, nullable=true)
+	 * @ORM\Column(type="string", length=255, nullable=true)
 	 */
 	private $type;
 
@@ -103,7 +103,7 @@ class File {
 	}
 
 	public function setType ( ?string $type ): self {
-		$this->type = $type;
+		$this->type = substr( $type, 0, 255 );
 
 		return $this;
 	}
