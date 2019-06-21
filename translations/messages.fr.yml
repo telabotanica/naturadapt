@@ -296,6 +296,7 @@ messages:
         password_successful: "Mot de passe mis à jour, vous pouvez désormais vous identifier."
         profile_created: "Votre profil a été créé"
         profile_updated: "Votre profil a été mis à jour"
+        login_requested: "Vous devez vous inscrire ou vous connecter pour voir cette page."
 
     group:
         joined: "Vous avez rejoint ce groupe."

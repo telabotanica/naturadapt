@@ -29,6 +29,10 @@ class GroupMembersController extends AbstractController {
 			ObjectManager $manager,
 			UsergroupMembersManager $usergroupMembersManager
 	) {
+		if ( !$this->isGranted( UserVoter::LOGGED ) ) {
+			$this->addFlash( 'notice', 'messages.user.login_requested' );
+		}
+
 		$this->denyAccessUnlessGranted( UserVoter::LOGGED );
 
 		/**
@@ -87,17 +91,26 @@ class GroupMembersController extends AbstractController {
 
 	/**
 	 * @Route("/groups/{groupSlug}/members/new", name="group_member_new")
+	 * @param                                            $groupSlug
+	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 *
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 * @throws \Exception
 	 */
 	public function groupMemberNew (
 			$groupSlug,
 			ObjectManager $manager
 	) {
+		if ( !$this->isGranted( UserVoter::LOGGED ) ) {
+			$this->addFlash( 'notice', 'messages.user.login_requested' );
+		}
+
+		$this->denyAccessUnlessGranted( UserVoter::LOGGED );
+
 		$group = $manager->getRepository( Usergroup::class )
 						 ->findOneBy( [ 'slug' => $groupSlug ] );
 
 		$user = $this->getUser();
-
-		$this->denyAccessUnlessGranted( UserVoter::LOGGED );
 
 		$membership = $manager->getRepository( UsergroupMembership::class )
 							  ->getMembership( $user, $group );
