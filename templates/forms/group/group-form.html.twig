@@ -53,7 +53,7 @@
 </div>
 <div class="form-row form-row__submit">
 	{{ form_widget(form.submit, {'label': form_submit}) }}
-	{% if (delete is defined) and (delete) and is_granted(constant('App\\Security\\GroupVoter::ADMIN'), group) %}
+	{% if (delete is defined) and (delete) and is_granted(constant('App\\Security\\GroupVoter::DELETE'), group) %}
 		<a class="cta__inverted" href="{{ path('group_delete', {'groupSlug':group.slug}) }}">{{ 'ui.delete'|trans }}</a>
 	{% endif %}
 </div>

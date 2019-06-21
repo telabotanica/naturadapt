@@ -11,6 +11,9 @@ use App\Service\FileManager;
 use App\Service\SlugGenerator;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -247,6 +250,7 @@ class GroupController extends AbstractController {
 	/**
 	 * @Route("/groups/{groupSlug}/delete", name="group_delete")
 	 * @param                                            $groupSlug
+	 * @param \Symfony\Component\HttpFoundation\Request  $request
 	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
 	 * @param \App\Service\FileManager                   $fileManager
 	 *
@@ -254,6 +258,7 @@ class GroupController extends AbstractController {
 	 */
 	public function groupDelete (
 			$groupSlug,
+			Request $request,
 			ObjectManager $manager,
 			FileManager $fileManager
 	) {
@@ -265,36 +270,49 @@ class GroupController extends AbstractController {
 
 		$this->denyAccessUnlessGranted( GroupVoter::DELETE, $group );
 
-		$group->setLogo( NULL );
-		$group->setCover( NULL );
+		// Delete confirmation form
 
-		foreach ( $group->getMembers() as $membership ) {
-			$manager->remove( $membership );
+		$form = $this->createFormBuilder()
+					 ->add( 'submit', SubmitType::class )
+					 ->getForm();
+
+		$form->handleRequest( $request );
+
+		if ( $form->isSubmitted() && $form->isValid() ) {
+			$group->setLogo( NULL );
+			$group->setCover( NULL );
+
+			foreach ( $group->getMembers() as $membership ) {
+				$manager->remove( $membership );
+			}
+
+			foreach ( $group->getPages() as $page ) {
+				$manager->remove( $page );
+			}
+
+			foreach ( $group->getDocuments() as $document ) {
+				$manager->remove( $document );
+			}
+
+			foreach ( $group->getFiles() as $file ) {
+				$fileManager->deleteFile( $file );
+				$manager->remove( $file );
+			}
+
+			$manager->flush();
+
+			$manager->remove( $group );
+			$manager->flush();
+
+			// TODO : Add Log
+
+			$this->addFlash( 'notice', 'messages.group.group_deleted' );
+
+			return $this->redirectToRoute( 'groups_index' );
 		}
 
-		foreach ( $group->getPages() as $page ) {
-			$manager->remove( $page );
-		}
-
-		foreach ( $group->getDocuments() as $document ) {
-			$manager->remove( $document );
-		}
-
-		foreach ( $group->getFiles() as $file ) {
-			$fileManager->deleteFile( $file );
-			$manager->remove( $file );
-		}
-
-		$manager->flush();
-
-		$manager->remove( $group );
-
-		$manager->flush();
-
-		// TODO : Add Log
-
-		$this->addFlash( 'notice', 'messages.group.group_deleted' );
-
-		return $this->redirectToRoute( 'groups_index' );
+		return $this->render( 'pages/confirm.html.twig', [
+				'form'         => $form->createView(),
+		] );
 	}
 }

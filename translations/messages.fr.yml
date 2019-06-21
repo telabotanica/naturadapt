@@ -6,6 +6,8 @@ ui:
     see_all: "Tout voir"
     delete: "Supprimer"
     settings: "Paramètres"
+    confirm: "Êtes-vous sûr ?"
+    cancel: "Annuler"
 
 forms:
     mandatory: "Champs obligatoires *"

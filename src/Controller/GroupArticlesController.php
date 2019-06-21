@@ -12,6 +12,7 @@ use App\Service\FileManager;
 use App\Service\SlugGenerator;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -272,6 +273,7 @@ class GroupArticlesController extends AbstractController {
 	 * @Route("/groups/{groupSlug}/articles/{articleSlug}/delete", name="group_article_delete")
 	 * @param                                            $groupSlug
 	 * @param                                            $articleSlug
+	 * @param \Symfony\Component\HttpFoundation\Request  $request
 	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
 	 * @param \App\Service\FileManager                   $fileManager
 	 *
@@ -280,6 +282,7 @@ class GroupArticlesController extends AbstractController {
 	public function groupArticleDelete (
 			$groupSlug,
 			$articleSlug,
+			Request $request,
 			ObjectManager $manager,
 			FileManager $fileManager
 	) {
@@ -305,15 +308,29 @@ class GroupArticlesController extends AbstractController {
 
 		$this->denyAccessUnlessGranted( GroupArticleVoter::DELETE, $article );
 
-		if ( !empty( $article->getCover() ) ) {
-			$fileManager->deleteFile( $article->getCover() );
+		// Delete confirmation form
+
+		$form = $this->createFormBuilder()
+					 ->add( 'submit', SubmitType::class )
+					 ->getForm();
+
+		$form->handleRequest( $request );
+
+		if ( $form->isSubmitted() && $form->isValid() ) {
+			if ( !empty( $article->getCover() ) ) {
+				$fileManager->deleteFile( $article->getCover() );
+			}
+
+			$manager->remove( $article );
+			$manager->flush();
+
+			$this->addFlash( 'notice', 'messages.article.article_deleted' );
+
+			return $this->redirectToRoute( 'group_index', [ 'groupSlug' => $group->getSlug() ] );
 		}
 
-		$manager->remove( $article );
-		$manager->flush();
-
-		$this->addFlash( 'notice', 'messages.article.article_deleted' );
-
-		return $this->redirectToRoute( 'group_index', [ 'groupSlug' => $group->getSlug() ] );
+		return $this->render( 'pages/confirm.html.twig', [
+				'form' => $form->createView(),
+		] );
 	}
 }

@@ -27,5 +27,8 @@
 </div>
 <div class="form-row form-row__submit">
 	{{ form_widget(form.submit, {'label': form_submit}) }}
+	{% if (delete is defined) and (delete) and is_granted(constant('App\\Security\\GroupPageVoter::DELETE'), page) %}
+		<a class="cta__inverted" href="{{ path('group_page_delete', {'groupSlug':group.slug, 'pageSlug':page.slug}) }}">{{ 'ui.delete'|trans }}</a>
+	{% endif %}
 </div>
 {{ form_end(form) }}

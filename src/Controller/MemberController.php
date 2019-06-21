@@ -8,6 +8,7 @@ use App\Service\FileManager;
 use App\Service\UsergroupMembersManager;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -118,17 +119,29 @@ class MemberController extends AbstractController {
 	 * @Route("/members/{user_id}/delete")
 	 *
 	 * @param                                            $user_id
+	 * @param \Symfony\Component\HttpFoundation\Request  $request
 	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
-	 * @param \App\Service\FileManager                   $fileManager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\BinaryFileResponse|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function memberDelete (
 			$user_id,
-			ObjectManager $manager,
-			FileManager $fileManager
+			Request $request,
+			ObjectManager $manager
 	) {
-		if ( $this->getUser() && $this->getUser()->isAdmin() ) {
+		if ( !$this->getUser() || !$this->getUser()->isAdmin() ) {
+			return $this->redirectToRoute( 'homepage' );
+		}
+
+		// Delete confirmation form
+
+		$form = $this->createFormBuilder()
+					 ->add( 'submit', SubmitType::class )
+					 ->getForm();
+
+		$form->handleRequest( $request );
+
+		if ( $form->isSubmitted() && $form->isValid() ) {
 			$user = $manager->getRepository( User::class )
 							->findOneById( $user_id );
 
@@ -136,8 +149,12 @@ class MemberController extends AbstractController {
 			$manager->flush();
 
 			$this->addFlash( 'notice', 'User deleted' );
+
+			return $this->redirectToRoute( 'members' );
 		}
 
-		return $this->redirectToRoute( 'homepage' );
+		return $this->render( 'pages/confirm.html.twig', [
+				'form' => $form->createView(),
+		] );
 	}
 }

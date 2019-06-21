@@ -13,6 +13,7 @@ use App\Service\FileManager;
 use App\Service\SlugGenerator;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -224,7 +225,7 @@ class GroupPagesController extends AbstractController {
 			$revision->setCreatedAt( new \DateTime() );
 			$revision->setData( [ 'title' => $page->getTitle(), 'body' => $page->getBody() ] );
 			$manager->persist( $revision );
-			
+
 			// TODO : Add Log
 
 			$manager->flush();
@@ -289,6 +290,7 @@ class GroupPagesController extends AbstractController {
 	 * @Route("/groups/{groupSlug}/pages/{pageSlug}/delete", name="group_page_delete")
 	 * @param                                            $groupSlug
 	 * @param                                            $pageSlug
+	 * @param \Symfony\Component\HttpFoundation\Request  $request
 	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
 	 * @param \App\Service\FileManager                   $fileManager
 	 *
@@ -297,6 +299,7 @@ class GroupPagesController extends AbstractController {
 	public function groupPageDelete (
 			$groupSlug,
 			$pageSlug,
+			Request $request,
 			ObjectManager $manager,
 			FileManager $fileManager
 	) {
@@ -322,15 +325,29 @@ class GroupPagesController extends AbstractController {
 
 		$this->denyAccessUnlessGranted( GroupPageVoter::DELETE, $page );
 
-		if ( !empty( $page->getCover() ) ) {
-			$fileManager->deleteFile( $page->getCover() );
+		// Delete confirmation form
+
+		$form = $this->createFormBuilder()
+					 ->add( 'submit', SubmitType::class )
+					 ->getForm();
+
+		$form->handleRequest( $request );
+
+		if ( $form->isSubmitted() && $form->isValid() ) {
+			if ( !empty( $page->getCover() ) ) {
+				$fileManager->deleteFile( $page->getCover() );
+			}
+
+			$manager->remove( $page );
+			$manager->flush();
+
+			$this->addFlash( 'notice', 'messages.page.page_deleted' );
+
+			return $this->redirectToRoute( 'group_index', [ 'groupSlug' => $group->getSlug() ] );
 		}
 
-		$manager->remove( $page );
-		$manager->flush();
-
-		$this->addFlash( 'notice', 'messages.page.page_deleted' );
-
-		return $this->redirectToRoute( 'group_index', [ 'groupSlug' => $group->getSlug() ] );
+		return $this->render( 'pages/confirm.html.twig', [
+				'form'         => $form->createView(),
+		] );
 	}
 }
