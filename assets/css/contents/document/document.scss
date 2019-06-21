@@ -34,13 +34,27 @@
 	}
 
 	.document--icon {
-		width:            rem(50px);
-		height:           rem(50px);
-		border-radius:    50%;
-		background-color: white;
+		width:             rem(50px);
+		height:            rem(50px);
+		border-radius:     50%;
+		background-repeat: no-repeat;
+		background-size:   contain;
+		background-image:  url('/media/layout/icons/other.png');
 
 		span {
 			@include visually-hidden;
+		}
+	}
+
+	&[data-type="application/pdf"] {
+		.document--icon {
+			background-image: url('/media/layout/icons/pdf.png');
+		}
+	}
+
+	&[data-type^="image/"] {
+		.document--icon {
+			background-image: url('/media/layout/icons/image.png');
 		}
 	}
 
