@@ -76,6 +76,16 @@
 		}
 	}
 
+	.main--header__no-cover {
+		.main--header--content {
+			padding-bottom: 0;
+		}
+
+		.breadcrumb {
+			margin-bottom: 0;
+		}
+	}
+
 	.main--header--image {
 		background-color: $color_grey_lighter;
 		overflow:         hidden;
@@ -218,8 +228,16 @@
 	}
 
 	.group-join--action {
-		.member {
-			display: none;
+		margin-top: padding_vertical();
+
+		span {
+			@include cta-style($color_action, true);
+			width: 100%;
+		}
+
+		a {
+			@include cta-style;
+			width: 100%;
 		}
 	}
 }

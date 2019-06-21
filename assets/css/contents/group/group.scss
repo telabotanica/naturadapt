@@ -293,7 +293,7 @@
 			float:     right;
 
 			font-size: rem(16px);
-			color:     $color_grey_neutral;
+			color:     $color_grey_light;
 		}
 
 		> ul {
@@ -338,24 +338,29 @@
 	@include clearulli;
 
 	ul {
-		display: inline;
+		display:        inline-block;
+		vertical-align: middle;
 	}
 
 	li {
-		display: inline-block;
+		display:        inline-block;
+		vertical-align: middle;
 	}
 
 	.members-count {
-		display:          inline-block;
+		display:        inline-block;
+		vertical-align: middle;
 
-		padding:          0 .5em;
+		margin-left:    .31em;
+
+		@include font_title_bold;
+		font-size:      rem(14px);
 
 		&::before {
 			content: '+';
 		}
 
-		background-color: $color_grey_light;
-		border-radius:    line_height_default() * .5em;
+		color:          $color_grey_light;
 	}
 }
 
