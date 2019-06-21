@@ -142,9 +142,14 @@
 		-webkit-box-orient: vertical;
 		text-overflow:      ellipsis;
 
-		$line-height: line_height_default();
-		line-height:        $line-height;
-		height:             4 * $line-height * 1em;
+		line-height:        line_height_default();
+		height:             4 * line_height_default() * 1em;
+
+		@include medium-or-more {
+			line-height: line_height_default('large');
+			height:      4 * line_height_default('large') * 1em;
+		}
+
 		overflow:           hidden;
 	}
 
@@ -275,7 +280,7 @@
 
 		@include medium-or-more {
 			min-height: rem(385px);
-			
+
 			&:not(:nth-child(3n+1)) {
 				margin-left: column_gap();
 			}

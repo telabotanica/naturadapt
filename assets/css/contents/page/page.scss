@@ -54,8 +54,20 @@
 	}
 
 	.page-body {
-		height:   5 * line_height_default() * 1em;
-		overflow: hidden;
+		display:            -webkit-box;
+		-webkit-line-clamp: 5;
+		-webkit-box-orient: vertical;
+		text-overflow:      ellipsis;
+
+		height:             5 * line_height_default() * 1em;
+		line-height:        line_height_default();
+
+		@include medium-or-more {
+			height:      5 * line_height_default('large') * 1em;
+			line-height: line_height_default('large');
+		}
+
+		overflow:           hidden;
 
 		p {
 			margin: 0;
