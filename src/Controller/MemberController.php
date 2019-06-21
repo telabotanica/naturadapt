@@ -30,6 +30,10 @@ class MemberController extends AbstractController {
 			Request $request,
 			UsergroupMembersManager $usergroupMembersManager
 	) {
+		if ( !$this->isGranted( UserVoter::LOGGED ) ) {
+			$this->addFlash( 'notice', 'messages.user.login_requested' );
+		}
+
 		$this->denyAccessUnlessGranted( UserVoter::LOGGED );
 
 		$page     = $request->query->get( 'page', 0 );
@@ -79,6 +83,10 @@ class MemberController extends AbstractController {
 			ObjectManager $manager,
 			FileManager $fileManager
 	) {
+		if ( !$this->isGranted( UserVoter::LOGGED ) ) {
+			$this->addFlash( 'notice', 'messages.user.login_requested' );
+		}
+
 		$this->denyAccessUnlessGranted( UserVoter::LOGGED );
 
 		$user = $manager->getRepository( User::class )
