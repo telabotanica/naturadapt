@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Article;
 use App\Entity\Document;
 use App\Entity\File;
 use App\Entity\Page;
@@ -10,6 +11,7 @@ use App\Entity\User;
 use App\Entity\Usergroup;
 use App\Form\DocumentType;
 use App\Repository\SkillRepository;
+use App\Security\GroupArticleVoter;
 use App\Security\GroupDocumentVoter;
 use App\Security\GroupVoter;
 use App\Service\FileManager;
@@ -200,5 +202,60 @@ class GroupDocumentsController extends AbstractController {
 		$this->denyAccessUnlessGranted( GroupDocumentVoter::READ, $document );
 
 		return $fileManager->getFile( $document->getFile() );
+	}
+
+	/**
+	 * @Route("/groups/{groupSlug}/documents/{documentId}/delete", name="group_document_delete")
+	 * @param                                            $groupSlug
+	 * @param                                            $documentId
+	 * @param \Symfony\Component\HttpFoundation\Request  $request
+	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \App\Service\FileManager                   $fileManager
+	 *
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
+	public function documentDelete (
+			$groupSlug,
+			$documentId,
+			Request $request,
+			ObjectManager $manager,
+			FileManager $fileManager ) {
+		/**
+		 * @var \App\Entity\Document $document
+		 */
+		$document = $manager->getRepository( Document::class )
+							->findOneBy( [ 'id' => $documentId ] );
+
+		if ( !$document ) {
+			throw $this->createNotFoundException( 'The document does not exist' );
+		}
+
+		$this->denyAccessUnlessGranted( GroupDocumentVoter::DELETE, $document );
+
+		// Delete confirmation form
+
+		$form = $this->createFormBuilder()
+					 ->add( 'submit', SubmitType::class )
+					 ->getForm();
+
+		$form->handleRequest( $request );
+
+		if ( $form->isSubmitted() && $form->isValid() ) {
+			if ( !empty( $document->getFile() ) ) {
+				$fileManager->deleteFile( $document->getFile() );
+			}
+
+			$manager->remove( $document->getFile() );
+			$manager->remove( $document );
+			$manager->flush();
+
+			$this->addFlash( 'notice', 'messages.document.document_deleted' );
+
+			return $this->redirectToRoute( 'group_index', [ 'groupSlug' => $groupSlug ] );
+		}
+
+		return $this->render( 'pages/confirm.html.twig', [
+				'form' => $form->createView(),
+		] );
 	}
 }
