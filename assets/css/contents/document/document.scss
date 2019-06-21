@@ -72,3 +72,9 @@
 		color: $color_grey_neutral;
 	}
 }
+
+.document__in-items-list {
+	display:       block;
+	overflow:      hidden;
+	text-overflow: ellipsis;
+}
