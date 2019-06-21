@@ -74,7 +74,9 @@
 }
 
 .document__in-items-list {
-	display:       block;
-	overflow:      hidden;
-	text-overflow: ellipsis;
+	span {
+		display:       block;
+		overflow:      hidden;
+		text-overflow: ellipsis;
+	}
 }
