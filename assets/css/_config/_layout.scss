@@ -59,8 +59,9 @@
 	}
 
 	@include medium-or-more {
-		flex-basis: calc(#{$n * 100%} - #{(1 - $n) * column_gap() });
-		overflow:   hidden;
+		flex-basis:  calc(#{$n * 100%} - #{(1 - $n) * column_gap() });
+		flex-grow:   0;
+		flex-shrink: 0;
 	}
 }
 
