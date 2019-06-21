@@ -274,6 +274,8 @@
 		@include card_shadow();
 
 		@include medium-or-more {
+			min-height: rem(385px);
+			
 			&:not(:nth-child(3n+1)) {
 				margin-left: column_gap();
 			}
