@@ -68,9 +68,6 @@
 	</div>
 </div>
 <div class="form-row form-row__submit">
-	{% if view is defined and view and user is defined %}
-		<a class="cta__inverted" href="{{ path('member', {'user_id':user.id}) }}">{{ 'pages.user.profile_edit.view'|trans }}</a>
-	{% endif %}
 	{{ form_widget(form.submit, {'label': form_submit}) }}
 </div>
 {{ form_end(form) }}

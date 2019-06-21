@@ -7,7 +7,13 @@
 				{% include 'components/app-flashes.html.twig' %}
 
 				<section class="profile-header">
-					{% include 'contents/user/user--header.html.twig' with{'user':user} %}
+					<div class="panel">
+						{% include 'contents/user/user--header.html.twig' with{'user':user} %}
+
+						<div class="panel--edit">
+							<a class="cta__inverted" href="{{ path('member', {'user_id':user.id}) }}">{{ 'pages.user.profile_edit.view'|trans }}</a>
+						</div>
+					</div>
 				</section>
 
 				<section class="profile-form">
@@ -18,7 +24,6 @@
 					{% include 'forms/user/profile-form.html.twig' with ({
 						'form':form,
 						'form_submit':'pages.user.profile_edit.button',
-						'view':true,
 						'user':user
 					}) %}
 				</section>

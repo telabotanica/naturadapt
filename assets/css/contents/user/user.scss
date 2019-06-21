@@ -166,6 +166,7 @@
 
 		@include medium-or-more {
 			margin-right: column_gap();
+			flex-shrink:  0;
 		}
 	}
 
