@@ -99,6 +99,11 @@ class Usergroup {
 	 */
 	private $cover;
 
+	/**
+	 * @ORM\OneToMany(targetEntity="App\Entity\LogEvent", mappedBy="usergroup")
+	 */
+	private $logEvents;
+
 	public function __construct () {
 		$this->categories = new ArrayCollection();
 		$this->members    = new ArrayCollection();
@@ -106,6 +111,7 @@ class Usergroup {
 		$this->files      = new ArrayCollection();
 		$this->documents  = new ArrayCollection();
 		$this->articles   = new ArrayCollection();
+		$this->logEvents  = new ArrayCollection();
 	}
 
 	public function getId (): ?int {
@@ -136,7 +142,7 @@ class Usergroup {
 		return $this->presentation;
 	}
 
-	public function setPresentation ( string $presentation ): self {
+	public function setPresentation ( ?string $presentation ): self {
 		$this->presentation = $presentation;
 
 		return $this;
@@ -361,6 +367,34 @@ class Usergroup {
 			// set the owning side to null (unless already changed)
 			if ( $article->getUsergroup() === $this ) {
 				$article->setUsergroup( NULL );
+			}
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @return Collection|LogEvent[]
+	 */
+	public function getLogEvents (): Collection {
+		return $this->logEvents;
+	}
+
+	public function addLogEvent ( LogEvent $logEvent ): self {
+		if ( !$this->logEvents->contains( $logEvent ) ) {
+			$this->logEvents[] = $logEvent;
+			$logEvent->setUsergroup( $this );
+		}
+
+		return $this;
+	}
+
+	public function removeLogEvent ( LogEvent $logEvent ): self {
+		if ( $this->logEvents->contains( $logEvent ) ) {
+			$this->logEvents->removeElement( $logEvent );
+			// set the owning side to null (unless already changed)
+			if ( $logEvent->getUsergroup() === $this ) {
+				$logEvent->setUsergroup( NULL );
 			}
 		}
 

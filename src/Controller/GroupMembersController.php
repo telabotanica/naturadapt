@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\LogEvent;
 use App\Entity\User;
 use App\Entity\Usergroup;
 use App\Entity\UsergroupMembership;
@@ -132,6 +133,17 @@ class GroupMembersController extends AbstractController {
 		if ( $this->isGranted( GroupVoter::JOIN, $group ) ) {
 			$membership->setStatus( UsergroupMembership::STATUS_MEMBER );
 
+			// Log Event
+
+			$log = new LogEvent();
+			$log->setType( LogEvent::USER_JOIN );
+			$log->setUser( $this->getUser() );
+			$log->setUsergroup( $group );
+			$log->setCreatedAt( new \DateTime() );
+			$manager->persist( $log );
+
+			// --
+
 			$this->addFlash( 'notice', 'messages.group.joined' );
 		}
 		else {
@@ -139,8 +151,6 @@ class GroupMembersController extends AbstractController {
 
 			$this->addFlash( 'notice', 'messages.group.candidature_sent' );
 		}
-
-		// TODO : Add Log
 
 		$manager->persist( $membership );
 		$manager->flush();
@@ -200,6 +210,18 @@ class GroupMembersController extends AbstractController {
 				$membership->setStatus( UsergroupMembership::STATUS_MEMBER );
 
 				$this->addFlash( 'notice', 'messages.group.user_set_member' );
+
+				// Log Event
+
+				$log = new LogEvent();
+				$log->setType( LogEvent::USER_JOIN );
+				$log->setUser( $membership->getUser() );
+				$log->setUsergroup( $group );
+				$log->setCreatedAt( new \DateTime() );
+				$log->setData( [ 'admin' => $this->getUser()->getId() ] );
+				$manager->persist( $log );
+
+				// --
 				break;
 
 			case 'remove':
@@ -224,6 +246,18 @@ class GroupMembersController extends AbstractController {
 					$membership->setStatus( UsergroupMembership::STATUS_MEMBER );
 
 					$this->addFlash( 'notice', 'messages.group.user_set_admin' );
+
+					// Log Event
+
+					$log = new LogEvent();
+					$log->setType( LogEvent::USER_ADMIN );
+					$log->setUser( $membership->getUser() );
+					$log->setUsergroup( $group );
+					$log->setCreatedAt( new \DateTime() );
+					$log->setData( [ 'admin' => $this->getUser()->getId() ] );
+					$manager->persist( $log );
+
+					// --
 				}
 				break;
 
@@ -238,8 +272,6 @@ class GroupMembersController extends AbstractController {
 		}
 
 		$manager->flush();
-
-		// TODO : Add Log
 
 		return $this->redirectToRoute( 'group_members_index', [ 'groupSlug' => $groupSlug ] );
 	}

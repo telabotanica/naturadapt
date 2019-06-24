@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\File;
+use App\Entity\LogEvent;
 use App\Entity\Page;
 use App\Entity\PageRevision;
 use App\Entity\Usergroup;
@@ -99,6 +100,8 @@ class GroupPagesController extends AbstractController {
 			$page->setCreatedAt( new \DateTime() );
 			$page->setSlug( $slugGenerator->generateSlug( $page->getTitle(), Page::class, 'slug', [ 'usergroup' => $group ] ) );
 
+			$manager->persist( $page );
+
 			// Cover
 			$uploadFile = $form->get( 'coverfile' )->getData();
 
@@ -115,8 +118,6 @@ class GroupPagesController extends AbstractController {
 			}
 			// --
 
-			$manager->persist( $page );
-
 			// Create revision
 
 			$revision = new PageRevision();
@@ -126,9 +127,20 @@ class GroupPagesController extends AbstractController {
 			$revision->setData( [ 'title' => $page->getTitle(), 'body' => $page->getBody() ] );
 			$manager->persist( $revision );
 
-			// TODO : Add Log
-
 			$manager->flush();
+
+			// Log Event
+
+			$log = new LogEvent();
+			$log->setType( LogEvent::PAGE_CREATE );
+			$log->setUser( $this->getUser() );
+			$log->setUsergroup( $group );
+			$log->setCreatedAt( new \DateTime() );
+			$log->setData( [ 'page' => $page->getId(), 'title' => $page->getTitle() ] );
+			$manager->persist( $log );
+			$manager->flush();
+
+			// --
 
 			$this->addFlash( 'notice', 'messages.page.page_created' );
 
@@ -226,9 +238,20 @@ class GroupPagesController extends AbstractController {
 			$revision->setData( [ 'title' => $page->getTitle(), 'body' => $page->getBody() ] );
 			$manager->persist( $revision );
 
-			// TODO : Add Log
-
 			$manager->flush();
+
+			// Log Event
+
+			$log = new LogEvent();
+			$log->setType( LogEvent::PAGE_EDIT );
+			$log->setUser( $this->getUser() );
+			$log->setUsergroup( $group );
+			$log->setCreatedAt( new \DateTime() );
+			$log->setData( [ 'page' => $page->getId(), 'title' => $page->getTitle() ] );
+			$manager->persist( $log );
+			$manager->flush();
+
+			// --
 
 			$this->addFlash( 'notice', 'messages.page.page_updated' );
 
@@ -338,7 +361,20 @@ class GroupPagesController extends AbstractController {
 				$fileManager->deleteFile( $page->getCover() );
 			}
 
+			// Log Event
+
+			$log = new LogEvent();
+			$log->setType( LogEvent::PAGE_DELETE );
+			$log->setUser( $this->getUser() );
+			$log->setUsergroup( $group );
+			$log->setCreatedAt( new \DateTime() );
+			$log->setData( [ 'page' => $page->getId(), 'title' => $page->getTitle() ] );
+			$manager->persist( $log );
+
+			// --
+
 			$manager->remove( $page );
+
 			$manager->flush();
 
 			$this->addFlash( 'notice', 'messages.page.page_deleted' );
@@ -347,7 +383,7 @@ class GroupPagesController extends AbstractController {
 		}
 
 		return $this->render( 'pages/confirm.html.twig', [
-				'form'         => $form->createView(),
+				'form' => $form->createView(),
 		] );
 	}
 }

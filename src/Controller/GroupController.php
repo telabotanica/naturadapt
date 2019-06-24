@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\File;
+use App\Entity\LogEvent;
 use App\Entity\Usergroup;
 use App\Entity\UsergroupMembership;
 use App\Form\UsergroupType;
@@ -11,8 +12,6 @@ use App\Service\FileManager;
 use App\Service\SlugGenerator;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -119,9 +118,20 @@ class GroupController extends AbstractController {
 			}
 			// --
 
-			// TODO : Add Log
-
 			$manager->flush();
+
+			// Log Event
+
+			$log = new LogEvent();
+			$log->setType( LogEvent::GROUP_CREATE );
+			$log->setUser( $this->getUser() );
+			$log->setUsergroup( $group );
+			$log->setCreatedAt( new \DateTime() );
+			$log->setData( [ 'name' => $group->getName() ] );
+			$manager->persist( $log );
+			$manager->flush();
+
+			// --
 
 			$this->addFlash( 'notice', 'messages.group.group_created' );
 
@@ -157,8 +167,9 @@ class GroupController extends AbstractController {
 		/**
 		 * @var \App\Entity\Usergroup $group
 		 */
-		$group = $manager->getRepository( Usergroup::class )
-						 ->findOneBy( [ 'slug' => $groupSlug ] );
+		$group    = $manager->getRepository( Usergroup::class )
+							->findOneBy( [ 'slug' => $groupSlug ] );
+		$original = clone $group;
 
 		if ( !$group ) {
 			throw $this->createNotFoundException( 'The group does not exist' );
@@ -171,6 +182,20 @@ class GroupController extends AbstractController {
 		$form->handleRequest( $request );
 
 		if ( $form->isSubmitted() && $form->isValid() ) {
+			$modifications = [];
+
+			if ( $original->getName() !== $group->getName() ) {
+				$modifications[] = 'name';
+			}
+
+			if ( $original->getDescription() !== $group->getDescription() ) {
+				$modifications[] = 'description';
+			}
+
+			if ( $original->getPresentation() !== $group->getPresentation() ) {
+				$modifications[] = 'presentation';
+			}
+
 			// Logo
 			$uploadFile = $form->get( 'logofile' )->getData();
 
@@ -187,6 +212,8 @@ class GroupController extends AbstractController {
 					$fileManager->deleteFile( $group->getLogo() );
 				}
 				$group->setLogo( $file );
+
+				$modifications[] = 'logo';
 			}
 			// --
 
@@ -206,12 +233,29 @@ class GroupController extends AbstractController {
 					$fileManager->deleteFile( $group->getCover() );
 				}
 				$group->setCover( $file );
+
+				$modifications[] = 'cover';
 			}
 			// --
 
-			// TODO : Add Log
+			if ( $original->getVisibility() !== $group->getVisibility() ) {
+				$modifications[] = 'visibility_' . $group->getVisibility();
+			}
 
 			$manager->flush();
+
+			// Log Event
+
+			$log = new LogEvent();
+			$log->setType( LogEvent::GROUP_EDIT );
+			$log->setUser( $this->getUser() );
+			$log->setUsergroup( $group );
+			$log->setCreatedAt( new \DateTime() );
+			$log->setData( [ 'name' => $group->getName(), 'modifications' => $modifications ] );
+			$manager->persist( $log );
+			$manager->flush();
+
+			// --
 
 			$this->addFlash( 'notice', 'messages.group.group_updated' );
 
@@ -302,9 +346,20 @@ class GroupController extends AbstractController {
 			$manager->flush();
 
 			$manager->remove( $group );
-			$manager->flush();
 
-			// TODO : Add Log
+			// Log Event
+
+			$log = new LogEvent();
+			$log->setType( LogEvent::GROUP_DELETE );
+			$log->setUser( $this->getUser() );
+			$log->setUsergroup( $group );
+			$log->setCreatedAt( new \DateTime() );
+			$log->setData( [ 'name' => $group->getName() ] );
+			$manager->persist( $log );
+
+			// --
+
+			$manager->flush();
 
 			$this->addFlash( 'notice', 'messages.group.group_deleted' );
 
@@ -312,7 +367,7 @@ class GroupController extends AbstractController {
 		}
 
 		return $this->render( 'pages/confirm.html.twig', [
-				'form'         => $form->createView(),
+				'form' => $form->createView(),
 		] );
 	}
 }

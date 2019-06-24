@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\File;
+use App\Entity\LogEvent;
 use App\Entity\Usergroup;
 use App\Form\ArticleType;
 use App\Security\GroupArticleVoter;
@@ -101,6 +102,8 @@ class GroupArticlesController extends AbstractController {
 			$article->setCreatedAt( new \DateTime() );
 			$article->setSlug( $slugGenerator->generateSlug( $article->getTitle(), Article::class, 'slug', [ 'usergroup' => $group ] ) );
 
+			$manager->persist( $article );
+
 			// Cover
 			$uploadFile = $form->get( 'coverfile' )->getData();
 
@@ -117,10 +120,20 @@ class GroupArticlesController extends AbstractController {
 			}
 			// --
 
-			// TODO : Add Log
-
-			$manager->persist( $article );
 			$manager->flush();
+
+			// Log Event
+
+			$log = new LogEvent();
+			$log->setType( LogEvent::ARTICLE_CREATE );
+			$log->setUser( $this->getUser() );
+			$log->setUsergroup( $group );
+			$log->setCreatedAt( new \DateTime() );
+			$log->setData( [ 'article' => $article->getId(), 'title' => $article->getTitle() ] );
+			$manager->persist( $log );
+			$manager->flush();
+
+			// --
 
 			$this->addFlash( 'notice', 'messages.article.article_created' );
 
@@ -209,9 +222,20 @@ class GroupArticlesController extends AbstractController {
 			}
 			// --
 
-			// TODO : Add Log
-
 			$manager->flush();
+
+			// Log Event
+
+			$log = new LogEvent();
+			$log->setType( LogEvent::ARTICLE_EDIT );
+			$log->setUser( $this->getUser() );
+			$log->setUsergroup( $group );
+			$log->setCreatedAt( new \DateTime() );
+			$log->setData( [ 'article' => $article->getId(), 'title' => $article->getTitle() ] );
+			$manager->persist( $log );
+			$manager->flush();
+
+			// --
 
 			$this->addFlash( 'notice', 'messages.article.article_updated' );
 
@@ -322,6 +346,19 @@ class GroupArticlesController extends AbstractController {
 			}
 
 			$manager->remove( $article );
+
+			// Log Event
+
+			$log = new LogEvent();
+			$log->setType( LogEvent::ARTICLE_DELETE );
+			$log->setUser( $this->getUser() );
+			$log->setUsergroup( $group );
+			$log->setCreatedAt( new \DateTime() );
+			$log->setData( [ 'article' => $article->getId(), 'title' => $article->getTitle() ] );
+			$manager->persist( $log );
+
+			// --
+
 			$manager->flush();
 
 			$this->addFlash( 'notice', 'messages.article.article_deleted' );

@@ -2,24 +2,17 @@
 
 namespace App\Controller;
 
-use App\Entity\Article;
 use App\Entity\Document;
 use App\Entity\File;
-use App\Entity\Page;
-use App\Entity\Skill;
-use App\Entity\User;
+use App\Entity\LogEvent;
 use App\Entity\Usergroup;
 use App\Form\DocumentType;
-use App\Repository\SkillRepository;
-use App\Security\GroupArticleVoter;
 use App\Security\GroupDocumentVoter;
 use App\Security\GroupVoter;
 use App\Service\FileManager;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -129,8 +122,6 @@ class GroupDocumentsController extends AbstractController {
 
 			$manager->persist( $document );
 
-			$manager->flush();
-
 			// File
 			$uploadFile = $form->get( 'filefile' )->getData();
 
@@ -150,9 +141,20 @@ class GroupDocumentsController extends AbstractController {
 				}
 			}
 
-			// TODO : Add Log
-
 			$manager->flush();
+
+			// Log Event
+
+			$log = new LogEvent();
+			$log->setType( LogEvent::DOCUMENT_CREATE );
+			$log->setUser( $this->getUser() );
+			$log->setUsergroup( $group );
+			$log->setCreatedAt( new \DateTime() );
+			$log->setData( [ 'document' => $document->getId(), 'title' => $document->getTitle() ] );
+			$manager->persist( $log );
+			$manager->flush();
+
+			// --
 
 			$this->addFlash( 'notice', 'messages.document.document_created' );
 
@@ -246,7 +248,20 @@ class GroupDocumentsController extends AbstractController {
 				$manager->remove( $document->getFile() );
 			}
 
+			// Log Event
+
+			$log = new LogEvent();
+			$log->setType( LogEvent::DOCUMENT_DELETE );
+			$log->setUser( $this->getUser() );
+			$log->setUsergroup( $document->getUsergroup() );
+			$log->setCreatedAt( new \DateTime() );
+			$log->setData( [ 'document' => $document->getId(), 'title' => $document->getTitle() ] );
+			$manager->persist( $log );
+
+			// --
+
 			$manager->remove( $document );
+
 			$manager->flush();
 
 			$this->addFlash( 'notice', 'messages.document.document_deleted' );
