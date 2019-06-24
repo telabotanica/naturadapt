@@ -1,0 +1,327 @@
+# translations/messages.en.yaml
+ui:
+    home: "Home"
+    menu: "Menu"
+    see_more: "Show more"
+    see_all: "Show all"
+    delete: "Delete"
+    settings: "Settings"
+    confirm: "Are your sure?"
+    cancel: "Cancel"
+
+forms:
+    mandatory: "Mandatory fields *"
+    user:
+        email:
+            label: "E-mail address"
+            placeholder: "Enter your e-mail address here…"
+        password:
+            label: "Password"
+            placeholder: "Enter your e-mail address here…"
+        name:
+            label: "Your full name"
+            placeholder: "Enter your first and last name…"
+        display_name:
+            label: "How do you want to be called?"
+            placeholder: "Enter your first name, your full name, a nickname…"
+        avatar:
+            label: "Profile picture"
+            button: "Browse"
+            hint: "JPG or PNG format, 500 Kb maximum"
+        city:
+            label: "City"
+            placeholder: "Enter your city…"
+        zipcode:
+            label: "Postcode"
+            placeholder: "Enter your postal code…"
+        country:
+            label: "Pays"
+            placeholder: "Enter your country…"
+        presentation:
+            label: "Introduce yourself in a couple words"
+            hint: "Limited to 32 characters (will be displayed under your name)"
+            placeholder: "Example: Botanist"
+        bio:
+            label: "Bio"
+            hint: "hint: "Explain what are your occupations, what you're looking for on this platform… (will be de)""
+            placeholder: "Tell us more about yourself…"
+        inscription_type:
+            label: "Type of registration"
+            labels:
+                private: "Registration as a private individual"
+                professional: "Registration as a professional"
+        skills:
+            label: "Your skills"
+            hint: "Pick in the list the skills you want to share with the community"
+        site:
+            label: "Your natural space"
+            hint: "Because you work there, you live there or simply if you're especially interested in a specific natural space"
+            placeholder: "Example: …"
+
+    group:
+        name:
+            label: "Group name"
+            placeholder: "Example: About glaciers"
+        slug:
+            label: "Identifiant"
+            placeholder: "Sera généré automatiquement"
+        logo:
+            label: "Group icon"
+            hint: "JPG or PNG format, 500 Kb maximum"
+            button: "Browse"
+        cover:
+            label: "Cover picture"
+            hint: "JPG or PNG format, 500 Kb maximum"
+            button: "Browse"
+        visibility:
+            label: "Group visibility"
+            placeholder: ""
+        description:
+            label: "Description"
+            hint: "Précisez les but et intention de votre groupe."
+            placeholder: "Dites nous en plus sur votre groupe…"
+        presentation:
+            label: "Presentation"
+            placeholder: "Presentation du groupe, ses objectifs..."
+
+    page:
+        cover:
+            label: "Cover picture"
+            hint: "JPG or PNG format, 500 Kb maximum"
+            button: "Browse"
+        title:
+            label: "Titre de page"
+            placeholder: "Example: Presentation"
+        body:
+            label: "Contenu de la page"
+            placeholder: ""
+
+    article:
+        cover:
+            label: "Ajouter une image qui sera utilisée en Entête de l’actualité (facultatif)"
+            hint: "JPG or PNG format, 500 Kb maximum"
+            button: "Browse"
+        title:
+            label: "Titre"
+            placeholder: "Entrez le titre de votre article ici…"
+        body:
+            label: "Article"
+            placeholder: "Saississez votre contenu ici…"
+
+    document:
+        file:
+            label: "Ajouter un fichier"
+            hint: "Format JPG ou PNG, DOC, … 500 Ko maximum"
+            button: "Browse"
+        title:
+            label: "Nom du document"
+            placeholder: ""
+
+pages:
+    user:
+        login:
+            title: "Connectez-vous"
+            subtitle: "Si vous avez déjà un compte"
+            button: "Se connecter"
+            link: "Connexion"
+        register:
+            title: "Créer votre compte"
+            subtitle: "Si c’est votre première visite"
+            button: "S’inscrire"
+            link: "Inscription"
+        logout:
+            link: "Déconnexion"
+        forgotten_password:
+            title: "Mot de passe oublié"
+            button: "Envoyer"
+            link: "Mot de passe oublié ?"
+        reset_password:
+            title: "Nouveau mot de passe"
+            button: "Modifier"
+        profile_create:
+            title: "Créez votre profil"
+            introduction: "Il permettra de vous trouver dans l’annuaire des membres et sera consultable par les autres membres de la communauté."
+            button: "Créer votre profil"
+        profile_edit:
+            title: "Profil"
+            introduction: "Ici, vous pouvez modifier les informations de votre profil."
+            view: "Voir mon profil"
+            button: "Sauvegarder les modifications"
+            link: "Mon profil"
+        dashboard:
+            welcome: "Bienvenue"
+            hello: "Bonjour %s,"
+            slogan: "Voici l'activité récente de %s et de vos groupes."
+            my_groups: "Mes groupes"
+        profile:
+            title: "Profil"
+        is_admin: "Administrateur"
+    group:
+        group_create:
+            title: "Créer un groupe"
+            link: "Créer un groupe"
+            button: "Créer le groupe"
+        group_edit:
+            title: "Modifier le groupe"
+            link: "Modifier"
+            button: "Modifier"
+            delete: "Supprimer"
+        status:
+            public: "Groupe public"
+            private: "Groupe privé"
+            created_at: "Créé le %s"
+        is_member: "Inscrit"
+        is_banned: "Vous avez été banni de ce groupe"
+        is_pending: "Votre demande d’inscription est en attente"
+        join_button:
+            public: "Rejoindre le groupe"
+            private: "Demande d’inscription"
+        restricted:
+            title: "Ce groupe est privé"
+            body: "Votre demande d’inscription au groupe sera soumise à l’acceptation des administrateurs. Il peut ainsi se passer plusieurs jours avant que vous ne receviez votre invitation."
+        home: "Accueil du groupe"
+        groups:
+            title: "Groupes"
+        pages:
+            title: "Pages"
+            empty: "Créer votre première page"
+        articles:
+            title: "Actualités"
+            empty: "Aucune actualité disponible"
+        documents:
+            title: "Documents"
+            empty: "Vous n’avez aucun document"
+        members:
+            title: "Membres"
+        members_pending:
+            title: "En attente de validation"
+        members_banned:
+            title: "Bannis"
+
+    page:
+        list:
+            title: "Pages"
+        page_create:
+            title: "Ajouter une page"
+            link: "Ajouter une page"
+            button: "Créer la page"
+        page_edit:
+            title: "Édition de la page"
+            link: "Modifier la page"
+            button: "Enregistrer les modifications"
+        view:
+            date: "Posté le %s"
+            date_edited: "Édité le %s"
+            members: "{1}1 membre|]1,Inf]%count% membres"
+            pages_index: "Index"
+
+    article:
+        list:
+            title: "Actualités"
+        article_create:
+            title: "Ajouter une actualité"
+            link: "Ajouter une actualité"
+            button: "Publier"
+        article_edit:
+            title: "Édition de l’article"
+            link: "Modifier"
+            button: "Enregistrer les modifications"
+        view:
+            author: "Par %s"
+
+    document:
+        list:
+            title: "Documents"
+            filters:
+                title: "Filtres"
+                filetype:
+                    label: "Type de document"
+            query:
+                placeholder: "Chercher un document par nom…"
+            search: "Filtrer"
+        document_create:
+            title: "Envoi d’un document"
+            link: "Ajouter un document"
+            button: "Envoyer le document"
+        view:
+            date: "Le %s"
+
+    member:
+        list:
+            title: "Annuaire des membres"
+            filters:
+                title: "Filtres"
+                country:
+                    label: "Pays"
+                inscription_type:
+                    labels:
+                        private: "Grand public"
+                        professional: "Professionnel"
+                skills:
+                    label: "Compétences"
+            query:
+                placeholder: "Chercher un membre par nom, pseudo, bio…"
+            search: "Filtrer"
+        actions:
+            pending_set_member: "Approuver l’inscription"
+            pending_set_remove: "Refuser l’inscription"
+            banned_set_member: "Retirer le bannissement"
+            banned_set_remove: "Supprimer du groupe"
+            admin_set_user: "Enlever admin"
+            member_set_admin: "Promouvoir admin"
+            member_set_remove: "Supprimer du groupe"
+            member_set_banned: "Bannir"
+        profile:
+            skills:
+                title: "Compétences"
+            bio:
+                title: "Biographie"
+            groups:
+                title: "Groupes"
+
+messages:
+    user:
+        invalid_credentials: "Mot de passe incorrect"
+        exists: "Cet utilisateur est déjà enregistré."
+        unknown: "Cet utilisateur est inconnu."
+        inactive: "Cet utilisateur est désactivé."
+        not_activated: "Cet utilisateur n’a pas encore été activé."
+        activation_sent: "Un email d’activation vous a été envoyé. Regardez votre boite de reception."
+        activation_token_unknown: "Ce token est inconnu."
+        activation_already_active: "Cet utilisateur est déjà activé."
+        activation_impossible: "Impossible d’activer cet utilisateur."
+        activation_successful: "<strong>Merci d’avoir confirmé votre adresse e-mail</strong><br> Pour commencer, complétez le profil ci-dessous."
+        password_sent: "Un email vous a été envoyé. Regardez votre boite de reception."
+        password_token_unknown: "Ce token est inconnu."
+        password_successful: "Mot de passe mis à jour, vous pouvez désormais vous identifier."
+        profile_created: "Votre profil a été créé"
+        profile_updated: "Votre profil a été mis à jour"
+        login_requested: "Vous devez vous inscrire ou vous connecter pour voir cette page."
+
+    group:
+        joined: "Vous avez rejoint ce groupe."
+        user_set_admin: "L’utilisateur est maintenant administrateur du groupe."
+        user_set_user: "L’utilisateur est maintenant membre du groupe."
+        user_set_member: "L’utilisateur a rejoint le groupe."
+        user_set_remove: "L’utilisateur a été retiré du groupe."
+        user_set_banned: "L’utilisateur a été banni du groupe."
+        candidature_sent: "Votre demande a été transmise aux administrateurs du groupe."
+        user_banned: "Vous avez été banni de ce groupe."
+        group_created: "Le groupe a été créé"
+        group_updated: "Les informations du groupe ont été mises à jour"
+        group_deleted: "Le groupe a été supprimé"
+
+    page:
+        page_created: "La page a été créée"
+        page_updated: "La page a été mise à jour"
+        page_deleted: "La page a été supprimée"
+
+    article:
+        article_created: "L’article a été créé"
+        article_updated: "L’article a été mis à jour"
+        article_deleted: "L’article a été supprimé"
+
+    document:
+        document_created: "Le document a été ajouté"
+        document_updated: "Le document a été mis à jour"
+        document_deleted: "Le document a été supprimé"

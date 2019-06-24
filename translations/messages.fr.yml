@@ -6,7 +6,7 @@ ui:
     see_all: "Tout voir"
     delete: "Supprimer"
     settings: "Paramètres"
-    ask_confirm: "Êtes-vous sûr(e) ?"
+    ask_confirm: "Êtes-vous sûr·e ?"
     confirm: "Confirmer"
     cancel: "Annuler"
 
@@ -31,19 +31,19 @@ forms:
             hint: "Format JPG ou PNG, %s maximum"
         city:
             label: "Ville"
-            placeholder: "Entrez votre Ville…"
+            placeholder: "Entrez votre ville…"
         zipcode:
             label: "Code Postal"
-            placeholder: "Entrez votre Code Postal…"
+            placeholder: "Entrez votre code postal…"
         country:
             label: "Pays"
-            placeholder: "Entrez votre Pays…"
+            placeholder: "Entrez votre pays…"
         presentation:
             label: "Présentez-vous en deux mots"
             hint: "Limité à 32 caractères (sera affiché sous votre nom)"
-            placeholder: "Exemple: Botaniste…"
+            placeholder: "Exemple : Botaniste"
         bio:
-            label: "Biographie"
+            label: "Bio"
             hint: "Précisez ce que vous faites dans la vie, ce que vous recherchez sur la plateforme… (sera affiché sur votre profil)"
             placeholder: "Dites nous en plus sur vous…"
         inscription_type:
@@ -57,7 +57,7 @@ forms:
         site:
             label: "Votre site naturel"
             hint: "Parce que vous y travaillez, vous y habitez ou simplement si vous êtes particlièrement attaché·e à un site naturel en particulier"
-            placeholder: "Exemple: Chaîne des puys…"
+            placeholder: "Exemple : Parc naturel régional des volcans d'Auvergne"
         agree_terms:
             label:
                 agree: "J’accepte les "
@@ -93,7 +93,7 @@ forms:
     group:
         name:
             label: "Nom du groupe"
-            placeholder: "ex: Colloque du 11 février"
+            placeholder: "Exemple : Autour des glaciers"
         slug:
             label: "Identifiant"
             placeholder: "Sera généré automatiquement"
@@ -123,7 +123,7 @@ forms:
             button: "Parcourir"
         title:
             label: "Titre de page"
-            placeholder: "ex: Présentation"
+            placeholder: "Exemple : Présentation"
         body:
             label: "Contenu de la page"
             placeholder: ""
@@ -487,6 +487,7 @@ messages:
         document_created: "Le document a été ajouté"
         document_updated: "Le document a été mis à jour"
         document_deleted: "Le document a été supprimé"
+<<<<<<< HEAD
 
 logevents:
     user_register: "%1$s s’est inscrit"
@@ -527,3 +528,5 @@ logevents:
 database_data:
     user:
         user_deleted_name: "Ancien utilisateur n°%1$d"
+=======
+>>>>>>> WIP on EN translations + fixes on FR messages
