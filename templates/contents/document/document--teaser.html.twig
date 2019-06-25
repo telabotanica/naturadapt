@@ -1,9 +1,9 @@
 {% set classes = ['document', 'document__teaser'] %}
 <div class="{{ classes|join(' ') }}" data-type="{{ document.file.type|escape('html_attr') }}">
-	<a class="document-infos"
+	<a class="document-infos" data-type="{{ document.file.type }}"
 	   href="{{ path('group_document_get', {'groupSlug': document.usergroup.slug, 'documentId': document.id}) }}"
 	   title="{{ document.title|escape('html_attr') }}"
-	>
+	   target="_blank">
 
 		<div class="document--icon">
 			<span>{{ document.title }}</span>
