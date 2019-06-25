@@ -20,9 +20,15 @@
 					{% endif %}
 				</div>
 			</div>
-			<div class="user-contact">
-				<a class="cta" href="mailto:{{ user.email }}" target="_blank">{{ 'pages.user.profile.contact'|trans }}</a>
-			</div>
+			{% if app.user == user %}
+				<div class="user-contact">
+					<a class="cta" href="{{ path('user_profile_edit') }}">{{ 'pages.user.profile_edit.link'|trans }}</a>
+				</div>
+			{% else %}
+				<div class="user-contact">
+					<a class="cta" href="mailto:{{ user.email }}" target="_blank">{{ 'pages.user.profile.contact'|trans }}</a>
+				</div>
+			{% endif %}
 		</div>
 
 		<div class="user--presentation">{{ user.presentation }}</div>
