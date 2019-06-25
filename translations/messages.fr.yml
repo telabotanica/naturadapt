@@ -235,11 +235,11 @@ pages:
             private: "Groupe privé"
             created_at: "Créé le %s"
             active_ago: "Actif %s"
-        is_member: "Abonné(e)"
+        is_member: "Abonné·e"
         is_member_description: "Vous recevez toutes les discussions de ce groupe par e-mail."
         is_member_unsubscribed: "Membre"
         is_member_unsubscribed_description: "Vous pouvez accéder au groupe mais vous ne recevez pas d’email."
-        is_banned: "Vous avez été banni de ce groupe"
+        is_banned: "Vous avez été banni·e de ce groupe"
         is_pending: "Votre demande d’inscription est en attente"
         delete_button: "Supprimer le groupe"
         activation_button:

@@ -170,7 +170,7 @@ pages:
             public: "Groupe public"
             private: "Groupe privé"
             created_at: "Créé le %s"
-        is_member: "Inscrit"
+        is_member: "You're a member of this group"
         is_banned: "Vous avez été banni de ce groupe"
         is_pending: "Votre demande d’inscription est en attente"
         join_button:
