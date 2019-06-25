@@ -118,8 +118,6 @@
 	}
 
 	.group-content {
-		position:        relative;
-
 		flex-grow:       1;
 
 		display:         flex;
@@ -135,7 +133,7 @@
 
 	.group-logo {
 		position:      absolute;
-		top:           rem(-20px);
+		top:           - padding_vertical('large') - rem(20px);
 		left:          padding_horizontal('small');
 		width:         rem(40px);
 		height:        rem(40px);
