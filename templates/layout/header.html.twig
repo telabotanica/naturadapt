@@ -24,7 +24,7 @@
 		</ul>
 	</div>
 	<div class="header--user">
-		{% if is_granted('ROLE_USER') %}
+		{% if is_granted(constant('App\\Security\\UserVoter::LOGGED')) %}
 			<div class="header--user-menu">
 				<button class="sibling-toggle" type="button">{% include 'contents/user/user--tiny.html.twig' with {'user':app.user} %}</button>
 				<div class="links" aria-hidden="true">
