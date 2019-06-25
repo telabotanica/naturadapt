@@ -11,26 +11,26 @@
 		</a>
 	</div>
 	<div class="header--pages">
-		<input type="checkbox" id="menu-trigger">
-		<label for="menu-trigger">
+		<button class="sibling-toggle" type="button" data-sibling-toggle="aria-expanded">
 			<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="17" height="13" viewBox="0 0 17 13">
 				<use xlink:href="#menu"/>
 			</svg>
 			<span>{{ 'ui.menu'|trans }}</span>
-		</label>
-		<ul>
+		</button>
+		<ul aria-expanded="false">
 			<li><a href="{{ path('homepage') }}">À propos du projet</a></li>
 			<li><a href="{{ path('groups_index') }}">Groupes</a></li>
-			<li><a href="/members">Annuaire</a></li>
+			<li><a href="{{ path('members') }}">Annuaire</a></li>
 		</ul>
 	</div>
 	<div class="header--user">
 		{% if is_granted('ROLE_USER') %}
 			<div class="header--user-menu">
-				<a href="{{ path('user_dashboard') }}">{% include 'contents/user/user--tiny.html.twig' with {'user':app.user} %}</a>
-				<div class="links">
+				<button class="sibling-toggle" type="button">{% include 'contents/user/user--tiny.html.twig' with {'user':app.user} %}</button>
+				<div class="links" aria-hidden="true">
 					<ul>
-						<li><a href="{{ path('user_profile_edit') }}">{{ 'pages.user.profile_edit.link'|trans }}</a></li>
+						<li><a href="{{ path('user_dashboard') }}">{{ 'pages.user.dashboard.link'|trans }}</a></li>
+						<li><a href="{{ path('member', {'user_id':app.user.id}) }}">{{ 'pages.user.profile.link'|trans }}</a></li>
 						<li><a href="{{ path('user_logout') }}">{{ 'pages.user.logout.link'|trans }}</a></li>
 					</ul>
 				</div>

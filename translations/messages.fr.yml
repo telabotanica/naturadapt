@@ -147,15 +147,17 @@ pages:
             introduction: "Ici, vous pouvez modifier les informations de votre profil."
             view: "Voir mon profil"
             button: "Sauvegarder les modifications"
-            link: "Mon profil"
+            link: "Modifier mon profil"
         dashboard:
             welcome: "Bienvenue"
             hello: "Bonjour %s,"
             slogan: "Voici l'activité récente de la communauté et de vos groupes."
             my_groups: "Mes groupes"
+            link: "Tableau de bord"
         profile:
             title: "Profil"
             contact: "Contacter par e-mail"
+            link: "Mon profil"
         is_admin: "Administrateur"
     group:
         group_create:

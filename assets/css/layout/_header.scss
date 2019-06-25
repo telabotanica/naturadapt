@@ -78,12 +78,8 @@
 	@include medium-or-less {
 		order: 3;
 
-		input {
-			@include visually-hidden;
-		}
-
-		label {
-			cursor:      pointer;
+		.sibling-toggle {
+			@include button-reset;
 
 			margin-left: padding_horizontal();
 
@@ -92,6 +88,10 @@
 
 				stroke-dashoffset: 47px;
 				transition:        stroke-dashoffset 1s ease-in-out;
+			}
+
+			&:not([data-sibling-aria-expanded="true"]) svg {
+				stroke-dashoffset: 0;
 			}
 		}
 
@@ -105,16 +105,8 @@
 
 			overflow:         hidden;
 			transition:       transform .35s ease-out;
-		}
 
-		input:not(:checked) ~ {
-			label {
-				svg {
-					stroke-dashoffset: 0;
-				}
-			}
-
-			ul {
+			&:not([aria-expanded="true"]) {
 				transform: translateX(100%);
 			}
 		}
@@ -144,8 +136,7 @@
 		flex-basis: 50%;
 		padding:    padding_vertical() 0;
 
-		input,
-		label {
+		.sibling-toggle {
 			display: none;
 		}
 
@@ -203,14 +194,21 @@
 		}
 	}
 
-	.links {
-		position:   absolute;
-		top:        calc(100% + 1rem);
-		right:      0;
+	.sibling-toggle {
+		@include button-reset;
+	}
 
-		max-height: 0;
-		transition: max-height .5s ease-in-out;
-		overflow:   hidden;
+	.links {
+		position:    absolute;
+		top:         calc(100% + 1rem);
+		right:       0;
+
+		text-align:  left;
+		white-space: nowrap;
+
+		max-height:  0;
+		transition:  max-height .5s ease-in-out;
+		overflow:    hidden;
 		@include shadow;
 
 		ul {
@@ -238,6 +236,10 @@
 					background-color: $color_action;
 				}
 			}
+		}
+
+		&[aria-hidden="false"] {
+			max-height: 100vh;
 		}
 	}
 
