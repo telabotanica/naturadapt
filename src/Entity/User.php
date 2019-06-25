@@ -162,12 +162,12 @@ class User implements UserInterface {
 	}
 
 	/**
-	 * A visual identifier that represents this user.
+	 * A unique identifier that represents this user.
 	 *
 	 * @see UserInterface
 	 */
 	public function getUsername (): string {
-		return (string) $this->getDisplayName();
+		return (string) $this->getEmail();
 	}
 
 	/****************************************
