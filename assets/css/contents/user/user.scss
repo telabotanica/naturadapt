@@ -194,14 +194,21 @@
 	@include card_shadow;
 	padding: padding_vertical() padding_horizontal();
 
-	> .user-infos {
+	> .user-container {
 		.user-title {
 			display:         flex;
 			flex-flow:       row nowrap;
 			justify-content: flex-start;
 			align-items:     center;
 
+			flex-grow:       1;
+
 			margin-bottom:   padding_vertical();
+		}
+
+		.user-contact {
+			align-self: flex-start;
+			text-align: right;
 		}
 
 		.user--name {

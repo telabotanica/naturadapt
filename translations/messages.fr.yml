@@ -155,7 +155,7 @@ pages:
             my_groups: "Mes groupes"
         profile:
             title: "Profil"
-            contact: "Contacter"
+            contact: "Contacter par e-mail"
         is_admin: "Administrateur"
     group:
         group_create:
