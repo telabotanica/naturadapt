@@ -46,6 +46,7 @@ class UserProfileType extends AbstractType {
 				] )
 				->add( 'presentation', TextType::class, [
 						'required' => FALSE,
+						'attr'     => [ 'maxlength' => 32 ],
 				] )
 				->add( 'bio', TextareaType::class, [
 						'required' => FALSE,
