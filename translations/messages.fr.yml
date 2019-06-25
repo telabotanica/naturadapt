@@ -194,12 +194,18 @@ pages:
         documents:
             title: "Documents"
             empty: "Vous n’avez aucun document"
+        discussions:
+            title: "Discussions"
+            empty: "Vous n’avez pas de discussion en cours"
         members:
             title: "Membres"
         members_pending:
             title: "En attente de validation"
         members_banned:
             title: "Bannis"
+        soon:
+            title: "Bientôt"
+            hint: "Cette fonction est en cours de développement, vous pourrez bientôt discuter à l'intérieur de ce groupe au sein de la plateforme et par e-mail."
 
     page:
         list:

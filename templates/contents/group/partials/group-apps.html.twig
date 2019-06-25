@@ -26,6 +26,18 @@
 		{% endif %}
 	</div>
 
+	<div class="group-app group-app__discussions">
+		<h2 class="h4">
+			<a href="{{ path('group_index', {'groupSlug':group.slug}) }}">{{ 'pages.group.discussions.title'|trans }}</a>
+			<span class="count">{{ 'pages.group.soon.title'|trans }}</span>
+		</h2>
+		<div class="create-new">
+			<div>
+				<p class="hint">{{ 'pages.group.soon.hint'|trans }}</p>
+			</div>
+		</div>
+	</div>
+
 	<div class="group-app group-app__articles">
 		<h2 class="h4">
 			<a href="{{ path('group_articles_index', {'groupSlug':group.slug}) }}">{{ 'pages.group.articles.title'|trans }}</a>
