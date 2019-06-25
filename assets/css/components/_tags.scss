@@ -1,0 +1,59 @@
+/**************************************************
+* TAGS
+**************************************************/
+
+.tags {
+	.tag {
+		float:            left;
+
+		display:          flex;
+		flex-flow:        row nowrap;
+		align-items:      center;
+
+		white-space:      nowrap;
+
+		margin-right:     .5em;
+		margin-bottom:    .5rem;
+		padding:          .5em 1em;
+		font-size:        rem(10px);
+
+		color:            $color_action;
+		background-color: lighten($color_action, 50);
+		border-radius:    2em;
+
+		button {
+			position:      relative;
+			@include button-reset;
+			margin-left:   .5em;
+
+			width:         1em;
+			height:        1em;
+			border:        1px solid $color_action;
+			border-radius: .5em;
+
+			&::before,
+			&::after {
+				content:    '';
+				position:   absolute;
+				top:        50%;
+				left:       50%;
+				width:      80%;
+				height:     0;
+				border-top: 1px solid $color_action;
+			}
+
+			&::before {
+				transform: translate(-50%, -50%) rotate(45deg);
+			}
+
+			&::after {
+				transform: translate(-50%, -50%) rotate(-45deg);
+			}
+		}
+	}
+}
+
+ul.tags {
+	@include clearulli(true);
+	@include clearfloat;
+}

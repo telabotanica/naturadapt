@@ -18,10 +18,10 @@
 	}
 
 	img {
-		display: block;
+		display:    block;
 		object-fit: cover;
-		width:   100%;
-		height:  100%;
+		width:      100%;
+		height:     100%;
 	}
 
 	svg {
@@ -194,72 +194,52 @@
 	@include card_shadow;
 	padding: padding_vertical() padding_horizontal();
 
-	.user-title {
-		display:         flex;
-		flex-flow:       row nowrap;
-		justify-content: flex-start;
-		align-items:     center;
+	> .user-infos {
+		.user-title {
+			display:         flex;
+			flex-flow:       row nowrap;
+			justify-content: flex-start;
+			align-items:     center;
 
-		margin-bottom:   padding_vertical();
-	}
-
-	.user--name {
-		margin-bottom: rem(6px);
-	}
-
-	.user--location,
-	.user--site {
-		font-size: rem(16px);
-		color:     $color_grey_neutral
-	}
-
-	.user--avatar {
-		width:  rem(100px);
-		height: rem(100px);
-
-		@include medium-or-more {
-			margin-right: padding_horizontal();
-		}
-	}
-
-	.user--presentation,
-	.user--skills,
-	.user--bio {
-		margin-bottom: rem(30px);
-	}
-
-	.user--presentation {
-
-		@include font_default_bold;
-
-		color: $color_grey_neutral;
-	}
-
-	.user--skills,
-	.user--groups {
-		@include clearulli;
-
-		li {
-			@include font_default_bold;
-
-			font-size:      rem(16px);
-			text-transform: capitalize;
-			color:          $color_action;
+			margin-bottom:   padding_vertical();
 		}
 
-		a {
-			text-decoration: none;
+		.user--name {
+			margin-bottom: rem(6px);
+		}
 
-			&:focus,
-			&:hover {
-				text-decoration: underline;
+		.user--location,
+		.user--site {
+			font-size: rem(16px);
+			color:     $color_grey_neutral
+		}
+
+		.user--avatar {
+			width:  rem(100px);
+			height: rem(100px);
+
+			@include medium-or-more {
+				margin-right: padding_horizontal();
 			}
 		}
-	}
 
-	.user--bio {
-		p {
-			font-size: rem(16px);
+		.user--presentation,
+		.user--skills,
+		.user--bio {
+			margin-bottom: rem(30px);
+		}
+
+		.user--presentation {
+
+			@include font_default_bold;
+
+			color: $color_grey_neutral;
+		}
+
+		.user--bio {
+			p {
+				font-size: rem(16px);
+			}
 		}
 	}
 }
