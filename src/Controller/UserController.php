@@ -129,7 +129,8 @@ class UserController extends AbstractController {
 			$manager->flush();
 
 			$message = $this->renderView( 'emails/register-activation.html.twig', [
-					'url' => $this->generateUrl( 'user_activate', array ( 'token' => $token ), UrlGeneratorInterface::ABSOLUTE_URL ),
+					'user' => $user,
+					'url'  => $this->generateUrl( 'user_activate', array ( 'token' => $token ), UrlGeneratorInterface::ABSOLUTE_URL ),
 			] );
 
 			$mailer->send(
@@ -275,7 +276,8 @@ class UserController extends AbstractController {
 			}
 
 			$message = $this->renderView( 'emails/forgotten-password.html.twig', [
-					'url' => $this->generateUrl( 'user_reset_password', array ( 'token' => $token ), UrlGeneratorInterface::ABSOLUTE_URL ),
+					'user' => $user,
+					'url'  => $this->generateUrl( 'user_reset_password', array ( 'token' => $token ), UrlGeneratorInterface::ABSOLUTE_URL ),
 			] );
 
 			$mailer->send(
