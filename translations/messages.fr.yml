@@ -300,6 +300,7 @@ messages:
 
     group:
         joined: "Vous avez rejoint ce groupe."
+        access_denied: "Vous n’avez pas accès à ce groupe."
         user_set_admin: "L’utilisateur est maintenant administrateur du groupe."
         user_set_user: "L’utilisateur est maintenant membre du groupe."
         user_set_member: "L’utilisateur a rejoint le groupe."

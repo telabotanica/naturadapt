@@ -46,6 +46,12 @@ class GroupMembersController extends AbstractController {
 			throw $this->createNotFoundException( 'The group does not exist' );
 		}
 
+		if ( !$this->isGranted( GroupVoter::READ, $group ) ) {
+			$this->addFlash( 'notice', 'messages.group.access_denied' );
+
+			return $this->redirectToRoute( 'group_index', [ 'groupSlug' => $groupSlug ] );
+		}
+
 		$this->denyAccessUnlessGranted( GroupVoter::READ, $group );
 
 		$page     = $request->query->get( 'page', 0 );
@@ -256,7 +262,6 @@ class GroupMembersController extends AbstractController {
 					$log->setCreatedAt( new \DateTime() );
 					$log->setData( [ 'admin' => $this->getUser()->getId() ] );
 					$manager->persist( $log );
-
 					// --
 				}
 				break;
