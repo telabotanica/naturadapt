@@ -281,6 +281,7 @@ pages:
 
 messages:
     user:
+        already_connected: "Vous êtes déjà connecté·e."
         invalid_credentials: "Mot de passe incorrect"
         exists: "Cet utilisateur est déjà enregistré."
         unknown: "Cet utilisateur est inconnu."

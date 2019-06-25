@@ -60,6 +60,12 @@ class UserController extends AbstractController {
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function loginPage () {
+		if ( $this->isGranted( UserVoter::LOGGED ) ) {
+			$this->addFlash( 'notice', 'messages.user.already_connected' );
+
+			return $this->redirectToRoute( 'homepage' );
+		}
+
 		return $this->render( 'pages/user/login.html.twig' );
 	}
 
