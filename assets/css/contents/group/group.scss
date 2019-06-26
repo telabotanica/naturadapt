@@ -54,6 +54,18 @@
 			@import '../../_assets/lock.svg';
 		}
 	}
+
+	.group-logo {
+		border-radius: 50%;
+		overflow:      hidden;
+
+		img {
+			display:    block;
+			object-fit: cover;
+			width:      100%;
+			height:     100%;
+		}
+	}
 }
 
 /**************************************************
@@ -132,13 +144,11 @@
 	}
 
 	.group-logo {
-		position:      absolute;
-		margin-top:    - padding_vertical('large') - rem(20px);
-		left:          padding_horizontal('small');
-		width:         rem(40px);
-		height:        rem(40px);
-		border-radius: 50%;
-		overflow:      hidden;
+		position:   absolute;
+		margin-top: - padding_vertical('large') - rem(20px);
+		left:       padding_horizontal('small');
+		width:      rem(40px);
+		height:     rem(40px);
 	}
 
 	.group-name {
@@ -214,19 +224,10 @@
 	}
 
 	.group-logo {
-		margin-right:  column_gap();
+		margin-right: column_gap();
 
-		width:         rem(150px);
-		height:        rem(150px);
-		border-radius: 50%;
-		overflow:      hidden;
-
-		img {
-			display:    block;
-			width:      100%;
-			height:     100%;
-			object-fit: cover;
-		}
+		width:        rem(150px);
+		height:       rem(150px);
 	}
 
 	.group-status + a {

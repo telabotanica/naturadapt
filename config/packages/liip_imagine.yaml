@@ -15,34 +15,50 @@ liip_imagine:
             cache: ~
             quality: 75
             filters:
-                thumbnail: { size: [52, 52], mode: outbound }
+                thumbnail:
+                    mode: outbound
+                    size: [52, 52]
+                    allow_upscale: true
         profile:
             data_loader: userfiles
             cache: ~
             quality: 75
             filters:
-                thumbnail: { size: [150, 150], mode: outbound }
+                thumbnail:
+                    mode: outbound
+                    size: [150, 150]
+                    allow_upscale: true
         logo:
             data_loader: usergroupfiles
             cache: ~
             quality: 75
             filters:
-                thumbnail: { size: [300, 300], mode: outbound }
+                thumbnail:
+                    mode: outbound
+                    size: [300, 300]
+                    allow_upscale: true
         cover:
             data_loader: usergroupfiles
             cache: ~
             quality: 75
             filters:
-                thumbnail: { size: [1366, 380], mode: outbound }
+                thumbnail:
+                    mode: outbound
+                    size: [1366, 380]
+                    allow_upscale: false
         cover_teaser:
             data_loader: usergroupfiles
             cache: ~
             quality: 75
             filters:
-                thumbnail: { size: [584, 330], mode: outbound }
+                thumbnail:
+                    mode: outbound
+                    size: [584, 330]
+                    allow_upscale: false
         article_cover:
             data_loader: usergroupfiles
             cache: ~
             quality: 75
             filters:
-                downscale: { max: [480, 480] }
+                downscale:
+                    max: [480, 480]
