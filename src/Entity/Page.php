@@ -41,9 +41,9 @@ class Page {
 	private $title;
 
 	/**
-	 * @ORM\Column(type="text")
+	 * @ORM\Column(type="text", nullable=true)
 	 */
-	private $body;
+	private $body = '';
 
 	/**
 	 * @ORM\Column(type="datetime")
@@ -122,7 +122,7 @@ class Page {
 		return $this->body;
 	}
 
-	public function setBody ( string $body ): self {
+	public function setBody ( ?string $body ): self {
 		$this->body = $body;
 
 		return $this;
