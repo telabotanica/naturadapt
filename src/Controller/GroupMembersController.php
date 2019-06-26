@@ -55,7 +55,7 @@ class GroupMembersController extends AbstractController {
 		$this->denyAccessUnlessGranted( GroupVoter::READ, $group );
 
 		$page     = $request->query->get( 'page', 0 );
-		$per_page = 10;
+		$per_page = 20;
 
 		$filters = $request->query->get( 'form', [] );
 
