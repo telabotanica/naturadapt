@@ -49,6 +49,7 @@
 	}
 
 	.page-cover {
+		flex-shrink:  0;
 		width:        rem(.5 * 480px);
 		margin-right: padding_horizontal();
 	}
