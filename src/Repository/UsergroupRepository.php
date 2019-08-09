@@ -26,12 +26,14 @@ class UsergroupRepository extends ServiceEntityRepository {
 			   ->setParameter( 2, $community->getId() );
 		}
 
+		$qb->leftJoin( 'ug.logEvents', 'e' );
+
 		$qb->leftJoin( 'ug.members', 'm' )
 		   ->addSelect( 'm' )
 		   ->leftJoin( 'm.user', 'u' )
 		   ->addSelect( 'u' );
 
-		$qb->orderBy( 'ug.createdAt', 'DESC' );
+		$qb->orderBy( 'e.createdAt', 'DESC' );
 
 		$results = $qb->getQuery()
 					  ->getResult();
