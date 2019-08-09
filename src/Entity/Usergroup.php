@@ -59,6 +59,7 @@ class Usergroup {
 
 	/**
 	 * @ORM\OneToMany(targetEntity="App\Entity\UsergroupMembership", mappedBy="usergroup", orphanRemoval=true)
+	 * @ORM\OrderBy({"joinedAt"="DESC"})
 	 */
 	private $members;
 
