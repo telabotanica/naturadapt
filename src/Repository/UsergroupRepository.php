@@ -18,18 +18,29 @@ class UsergroupRepository extends ServiceEntityRepository {
 		parent::__construct( $registry, Usergroup::class );
 	}
 
-	public function getGroupsWithMembers () {
+	public function getGroupsWithMembers ( $community = FALSE ) {
 		$qb = $this->createQueryBuilder( 'ug' );
 
-		return $qb->leftJoin( 'ug.members', 'm' )
-				  ->addSelect( 'm' )
-				  ->andWhere( $qb->expr()->like( 'm.status', '?1' ) )
-				  ->setParameter( 1, UsergroupMembership::STATUS_MEMBER )
-				  ->leftJoin( 'm.user', 'u' )
-				  ->addSelect( 'u' )
-				  ->orderBy( 'ug.createdAt', 'ASC' )
-				  ->getQuery()
-				  ->getResult();
+		if ( $community ) {
+			$qb->andWhere( $qb->expr()->notLike( 'ug.id', '?2' ) )
+			   ->setParameter( 2, $community->getId() );
+		}
+
+		$qb->leftJoin( 'ug.members', 'm' )
+		   ->addSelect( 'm' )
+		   ->leftJoin( 'm.user', 'u' )
+		   ->addSelect( 'u' );
+
+		$qb->orderBy( 'ug.createdAt', 'DESC' );
+
+		$results = $qb->getQuery()
+					  ->getResult();
+
+		if ( $community ) {
+			array_unshift( $results, $community );
+		}
+
+		return $results;
 	}
 
 	// /**

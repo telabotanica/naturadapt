@@ -8,6 +8,7 @@ use App\Entity\Usergroup;
 use App\Entity\UsergroupMembership;
 use App\Form\UsergroupType;
 use App\Security\GroupVoter;
+use App\Service\Community;
 use App\Service\FileManager;
 use App\Service\SlugGenerator;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -23,10 +24,17 @@ class GroupController extends AbstractController {
 
 	/**
 	 * @Route("/groups", name="groups_index")
+	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \App\Service\Community                     $community
+	 *
+	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function groupsIndex ( ObjectManager $manager ) {
+	public function groupsIndex (
+			ObjectManager $manager,
+			Community $community
+	) {
 		$groups = $manager->getRepository( Usergroup::class )
-						  ->getGroupsWithMembers();
+						  ->getGroupsWithMembers( $community->getGroup() );
 
 		return $this->render( 'pages/group/groups-index.html.twig', [
 				'groups' => $groups,
