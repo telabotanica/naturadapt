@@ -192,11 +192,24 @@ class Usergroup {
 	}
 
 	/**
+	 * @param string $status
+	 *
 	 * @return Collection|UsergroupMembership[]
 	 */
 	public function getMembers ( $status = UsergroupMembership::STATUS_MEMBER ): Collection {
 		return $this->members->filter( function ( UsergroupMembership $membership ) use ( $status ) {
 			return $membership->getStatus() === $status;
+		} );
+	}
+
+	/**
+	 * @param string $role
+	 *
+	 * @return Collection|UsergroupMembership[]
+	 */
+	public function getMembersByRole ( $role = UsergroupMembership::ROLE_USER ): Collection {
+		return $this->members->filter( function ( UsergroupMembership $membership ) use ( $role ) {
+			return $membership->getRole() === $role;
 		} );
 	}
 

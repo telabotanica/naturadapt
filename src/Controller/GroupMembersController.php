@@ -8,11 +8,13 @@ use App\Entity\Usergroup;
 use App\Entity\UsergroupMembership;
 use App\Security\GroupVoter;
 use App\Security\UserVoter;
+use App\Service\EmailSender;
 use App\Service\UsergroupMembersManager;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class GroupMembersController extends AbstractController {
 	/**
@@ -100,13 +102,15 @@ class GroupMembersController extends AbstractController {
 	 * @Route("/groups/{groupSlug}/members/new", name="group_member_new")
 	 * @param                                            $groupSlug
 	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \App\Service\EmailSender                   $mailer
 	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 * @throws \Exception
 	 */
 	public function groupMemberNew (
 			$groupSlug,
-			ObjectManager $manager
+			ObjectManager $manager,
+			EmailSender $mailer
 	) {
 		if ( !$this->isGranted( UserVoter::LOGGED ) ) {
 			$this->addFlash( 'notice', 'messages.user.login_requested' );
@@ -154,6 +158,31 @@ class GroupMembersController extends AbstractController {
 		}
 		else {
 			$membership->setStatus( UsergroupMembership::STATUS_PENDING );
+
+			$admins   = $group->getMembersByRole( UsergroupMembership::ROLE_ADMIN );
+			$multiple = count( $admins ) > 1;
+
+			foreach ( $admins as $adminMembership ) {
+				$admin = $adminMembership->getUser();
+
+				$message = $this->renderView(
+						'emails/group-join-request.html.twig',
+						[
+								'admin'     => $admin,
+								'user'      => $user,
+								'usergroup' => $group,
+								'url'       => $this->generateUrl( 'group_members_index', array( 'groupSlug' => $groupSlug ), UrlGeneratorInterface::ABSOLUTE_URL ),
+								'multiple'  => $multiple,
+						]
+				);
+
+				$mailer->send(
+						$this->getParameter( 'plateform' )[ 'from' ],
+						$admin->getEmail(),
+						$mailer->getSubjectFromTitle( $message ),
+						$message
+				);
+			}
 
 			$this->addFlash( 'notice', 'messages.group.candidature_sent' );
 		}
