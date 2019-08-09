@@ -4,7 +4,7 @@
 	<div class="form-row form-row__file">
 		{{ form_label(form.filefile, 'forms.document.file.label') }}
 		<div class="hint">{{ 'forms.document.file.hint'|trans }}</div>
-		{{ form_widget(form.filefile) }}
+		{{ form_widget(form.filefile, { 'attr': {'data-prefill': '#document_title'} }) }}
 		{{ form_label(form.filefile, 'forms.document.file.button', {'label_attr': {'class': 'submit-style submit-style__inverted'}}) }}
 	</div>
 	<div class="form-row form-row__field">
