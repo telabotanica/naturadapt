@@ -35,7 +35,7 @@
 
 	@include font_default;
 	font-size:     rem(16px);
-	$line-height: 1.3;
+	$line-height:  1.3;
 
 	line-height:   $line-height;
 	padding:       em(.5 * (30px - 2px - $line-height * 16px), 16px) .8em;
@@ -111,7 +111,7 @@ input[type="search"] {
 	border-color:        white;
 	@include card_shadow;
 
-	$line-height: 1.3;
+	$line-height:        1.3;
 
 	line-height:         $line-height;
 	font-size:           rem(16px);
@@ -140,7 +140,7 @@ select {
 	-moz-appearance:     none;
 	appearance:          none;
 
-	$color: $color_default;
+	$color:              $color_default;
 	@import '../_assets/picto-select.svg';
 	background-repeat:   no-repeat;
 	background-position: right rem(10px) center;
@@ -359,15 +359,25 @@ $form_label_width: (1/3) * 100%;
 	}
 
 	.file-preview {
-		display:         flex;
-		flex-flow:       row nowrap;
-		justify-content: stretch;
-		align-items:     stretch;
+		@include medium-or-more {
+			display:         flex;
+			flex-flow:       row nowrap;
+			justify-content: stretch;
+			align-items:     stretch;
+		}
 	}
 
 	.file-preview--img {
 		position:         relative;
-		margin-right:     column_gap();
+
+		@include small-or-less {
+			margin-bottom: padding_vertical();
+		}
+
+		@include medium-or-more {
+			margin-right: column_gap();
+		}
+
 		overflow:         hidden;
 
 		background-color: $color_grey_light;
@@ -394,6 +404,25 @@ $form_label_width: (1/3) * 100%;
 		.hint {
 			margin-bottom: 0;
 			flex-grow:     1;
+		}
+	}
+
+	.filename-container {
+		label {
+			margin-right: 1rem;
+		}
+
+		.filename {
+			display:    inline-block;
+
+			font-style: italic;
+			font-size:  rem(13px);
+
+			@include medium-or-more {
+				font-size: rem(14px);
+			}
+
+			color:      $color_grey_neutral;
 		}
 	}
 }

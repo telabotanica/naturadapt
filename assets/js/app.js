@@ -20,6 +20,7 @@ import 'core-js/features/promise';
 
 import './ui/input-checkboxes-autocomplete';
 import './ui/input-file-preview';
+import './ui/input-file-name';
 import './ui/input-file-prefill';
 import './ui/see-more';
 import './ui/sibling-toggle';
