@@ -334,6 +334,10 @@ class GroupController extends AbstractController {
 			$group->setLogo( NULL );
 			$group->setCover( NULL );
 
+			foreach ( $group->getLogEvents() as $event ) {
+				$manager->remove( $event );
+			}
+
 			foreach ( $group->getMembers() as $membership ) {
 				$manager->remove( $membership );
 			}
@@ -360,7 +364,6 @@ class GroupController extends AbstractController {
 			$log = new LogEvent();
 			$log->setType( LogEvent::GROUP_DELETE );
 			$log->setUser( $this->getUser() );
-			$log->setUsergroup( $group );
 			$log->setCreatedAt( new \DateTime() );
 			$log->setData( [ 'name' => $group->getName() ] );
 			$manager->persist( $log );
