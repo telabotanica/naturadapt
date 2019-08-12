@@ -475,3 +475,18 @@ $form_label_width: (1/3) * 100%;
 		}
 	}
 }
+
+.form_errors ul {
+	@include clearulli(true);
+
+	margin:           1rem 0;
+	padding:          rem(10px) rem(25px);
+
+	@include font_default_bold;
+	font-size:        rem(14px);
+
+	color:            $color_orange_red;
+	background-color: lighten($color_orange_red, 50);
+	border:           1px solid $color_orange_red;;
+	border-radius:    rem(3px);
+}

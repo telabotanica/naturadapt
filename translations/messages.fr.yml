@@ -27,7 +27,7 @@ forms:
         avatar:
             label: "Image de profil"
             button: "Parcourir"
-            hint: "Format JPG ou PNG, 500 ko maximum"
+            hint: "Format JPG ou PNG, %s maximum"
         city:
             label: "Ville"
             placeholder: "Entrez votre Ville…"
@@ -67,11 +67,11 @@ forms:
             placeholder: "Sera généré automatiquement"
         logo:
             label: "Icône du groupe"
-            hint: "Format JPG ou PNG, 500 Ko maximum"
+            hint: "Format JPG ou PNG, %s maximum"
             button: "Parcourir"
         cover:
             label: "Image de couverture"
-            hint: "Format JPG ou PNG, 500 Ko maximum"
+            hint: "Format JPG ou PNG, %s maximum"
             button: "Parcourir"
         visibility:
             label: "Visibilité du groupe"
@@ -87,7 +87,7 @@ forms:
     page:
         cover:
             label: "Image de couverture"
-            hint: "Format JPG ou PNG, 500 Ko maximum"
+            hint: "Format JPG ou PNG, %s maximum"
             button: "Parcourir"
         title:
             label: "Titre de page"
@@ -99,7 +99,7 @@ forms:
     article:
         cover:
             label: "Ajouter une image qui sera utilisée en Entête de l’actualité (facultatif)"
-            hint: "Format JPG ou PNG, 500 Ko maximum"
+            hint: "Format JPG ou PNG, %s maximum"
             button: "Parcourir"
         title:
             label: "Titre"
@@ -111,7 +111,7 @@ forms:
     document:
         file:
             label: "Ajouter un fichier"
-            hint: "Format JPG ou PNG, DOC, … 500 Ko maximum"
+            hint: "Format JPG ou PNG, DOC, … %s maximum"
             button: "Parcourir"
         title:
             label: "Nom du document"

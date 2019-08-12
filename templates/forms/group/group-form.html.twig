@@ -14,9 +14,10 @@
 			</div>
 			<div class="file-preview--content">
 				{{ form_label(form.logofile, 'forms.group.logo.label') }}
-				<div class="hint">{{ 'forms.group.logo.hint'|trans }}</div>
+				<div class="hint">{{ 'forms.group.logo.hint'|trans|format(form.logofile.vars.attr['data-max-size']) }}</div>
 				{{ form_widget(form.logofile) }}
 				{{ form_label(form.logofile, 'forms.group.logo.button', {'label_attr': {'class': 'submit-style submit-style__inverted'}}) }}
+				<div class="form_errors">{{ form_errors(form.logofile) }}</div>
 			</div>
 		</div>
 	</div>
@@ -29,9 +30,10 @@
 			</div>
 			<div class="file-preview--content">
 				{{ form_label(form.coverfile, 'forms.group.cover.label') }}
-				<div class="hint">{{ 'forms.group.cover.hint'|trans }}</div>
+				<div class="hint">{{ 'forms.group.cover.hint'|trans|format(form.coverfile.vars.attr['data-max-size']) }}</div>
 				{{ form_widget(form.coverfile) }}
 				{{ form_label(form.coverfile, 'forms.group.cover.button', {'label_attr': {'class': 'submit-style submit-style__inverted'}}) }}
+				<div class="form_errors">{{ form_errors(form.coverfile) }}</div>
 			</div>
 		</div>
 	</div>

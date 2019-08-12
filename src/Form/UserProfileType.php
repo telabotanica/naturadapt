@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Skill;
 use App\Entity\User;
 use App\Repository\SkillRepository;
+use App\Service\FileManager;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -16,18 +17,43 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class UserProfileType extends AbstractType {
+	private $fileManager;
+
+	/**
+	 * DocumentType constructor.
+	 *
+	 * @param \App\Service\FileManager $fileManager
+	 */
+	public function __construct ( FileManager $fileManager ) {
+		$this->fileManager = $fileManager;
+	}
+
 	/**
 	 * {@inheritdoc}
 	 */
 	public function buildForm ( FormBuilderInterface $builder, array $options ) {
+		$maxFileSize = $this->fileManager->fileUploadMaxSize( '5M' );
+
 		$builder
 				->add( 'name', TextType::class )
 				->add( 'displayname', TextType::class )
 				->add( 'avatarfile', FileType::class, [
-						'required' => FALSE,
-						'mapped'   => FALSE,
+						'required'    => FALSE,
+						'mapped'      => FALSE,
+						'attr'        => [ 'data-max-size' => $this->fileManager->formatSize( $maxFileSize ) ],
+						'constraints' => [
+								new File( [
+										'maxSize'          => $maxFileSize,
+										'mimeTypes'        => [
+												'image/png',
+												'image/jpeg',
+										],
+										'mimeTypesMessage' => 'filetype_incorrect',
+								] ),
+						],
 				] )
 				->add( 'city', TextType::class, [
 						'required' => FALSE,
@@ -85,8 +111,8 @@ class UserProfileType extends AbstractType {
 	 */
 	public function configureOptions ( OptionsResolver $resolver ) {
 		$resolver->setDefaults( [
-										'attr'       => [],
-										'data_class' => User::class,
-								] );
+				'attr'       => [],
+				'data_class' => User::class,
+		] );
 	}
 }

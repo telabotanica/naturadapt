@@ -10,9 +10,10 @@
 			</div>
 			<div class="file-preview--content">
 				{{ form_label(form.coverfile, 'forms.article.cover.label') }}
-				<div class="hint">{{ 'forms.article.cover.hint'|trans }}</div>
+				<div class="hint">{{ 'forms.article.cover.hint'|trans|format(form.coverfile.vars.attr['data-max-size']) }}</div>
 				{{ form_widget(form.coverfile) }}
 				{{ form_label(form.coverfile, 'forms.article.cover.button', {'label_attr': {'class': 'submit-style submit-style__inverted'}}) }}
+				<div class="form_errors">{{ form_errors(form.coverfile) }}</div>
 			</div>
 		</div>
 	</div>

@@ -18,9 +18,10 @@
 			</div>
 			<div class="file-preview--content">
 				{{ form_label(form.avatarfile, 'forms.user.avatar.label') }}
-				<div class="hint">{{ 'forms.user.avatar.hint'|trans }}</div>
+				<div class="hint">{{ 'forms.user.avatar.hint'|trans|format(form.avatarfile.vars.attr['data-max-size']) }}</div>
 				{{ form_widget(form.avatarfile) }}
 				{{ form_label(form.avatarfile, 'forms.user.avatar.button', {'label_attr': {'class': 'submit-style submit-style__inverted'}}) }}
+				<div class="form_errors">{{ form_errors(form.avatarfile) }}</div>
 			</div>
 		</div>
 	</div>
