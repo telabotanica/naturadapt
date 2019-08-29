@@ -235,6 +235,23 @@
 		}
 	}
 
+	.page-group {
+		@include small-or-less {
+			display: flex;
+			flex:    1;
+
+			.group-logo {
+				width:        rem(80px);
+				flex:         0 0 auto;
+				margin-right: padding_horizontal('small');
+			}
+
+			.group-join--action {
+				margin-top: rem(10px);
+			}
+		}
+	}
+
 	.group-name {
 		@include font_default_bold;
 

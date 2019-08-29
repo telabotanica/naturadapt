@@ -72,16 +72,18 @@
 				</div>
 			{% endif %}
 
-			<div class="group-name">
-				{{ page.usergroup.name }}
-			</div>
+			<div class="group-infos">
+				<div class="group-name">
+					{{ page.usergroup.name }}
+				</div>
 
-			<div class="group-members">
-				{% set count = page.usergroup.members|length %}
-				{% transchoice count with {'%count%': count} %}pages.page.view.members{% endtranschoice %}
-			</div>
+				<div class="group-members">
+					{% set count = page.usergroup.members|length %}
+					{% transchoice count with {'%count%': count} %}pages.page.view.members{% endtranschoice %}
+				</div>
 
-			{% include 'contents/group/partials/group-join-button.html.twig' with {'group':page.usergroup} %}
+				{% include 'contents/group/partials/group-join-button.html.twig' with {'group':page.usergroup} %}
+			</div>
 		</div>
 		<div class="group-pages">
 			<div class="group-pages--title">{{ 'pages.page.view.pages_index'|trans }}</div>
