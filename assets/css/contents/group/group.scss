@@ -226,10 +226,21 @@
 	}
 
 	.group-logo {
-		margin-right: column_gap();
+		margin-right: padding_horizontal('small');
+		width:        rem(80px);
+		height:       rem(80px);
 
-		width:        rem(150px);
-		height:       rem(150px);
+		@include medium-or-more {
+			margin-right: column_gap();
+			width:        rem(150px);
+			height:       rem(150px);
+		}
+	}
+
+	.group-status {
+		@include small-or-less {
+			font-size: (12 / 16) * 1em;
+		}
 	}
 
 	.group-status + a {
