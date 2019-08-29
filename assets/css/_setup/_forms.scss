@@ -119,17 +119,21 @@ input[type="search"] {
 	padding-bottom:      em(.5 * (50px - 2px - $line-height * 16px), 16px);
 	min-height:          rem(50px);
 
-	padding-left:        rem(54px);
 	@import "../_assets/search.svg";
-	background-size:     rem(22px) rem(22px);
+	padding-left:        rem(40px);
+	background-size:     rem(17px) rem(17px);
 	background-repeat:   no-repeat;
-	background-position: rem(15px) center;
+	background-position: rem(13px) center;
 
 	@include medium-or-more {
 		font-size:      rem(18px);
 		padding-top:    em(.5 * (50px - 2px - $line-height * 18px), 16px);
 		padding-bottom: em(.5 * (50px - 2px - $line-height * 18px), 16px);
 		min-height:     rem(50px);
+
+		padding-left:        rem(54px);
+		background-size:     rem(22px) rem(22px);
+		background-position: rem(15px) center;
 	}
 }
 
