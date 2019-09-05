@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}{{ user.name }} | {{ community.name }}{% endblock %}
+
 {% block main %}
 	<section class="main main__member-profile">
 		<div class="main--content content-container">

@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}{{ 'pages.user.login.title'|trans }} | {{ community.name }}{% endblock %}
+
 {% block main %}
 	{% set loginForm = render(controller( 'App\\Controller\\UserController::loginForm' )) %}
 	<section class="main main__user-page main__user-page__login">

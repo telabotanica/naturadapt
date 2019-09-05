@@ -1,5 +1,13 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}
+	{% if group is defined %}
+		{{ 'pages.group.members.title'|trans }} - {{ group.name }} | {{ community.name }}
+	{% else %}
+		{{ 'pages.group.members.title'|trans }} | {{ community.name }}
+	{% endif %}
+{% endblock %}
+
 {% block main %}
 	<section class="main main__members-list">
 		<div class="main--content content-container">
