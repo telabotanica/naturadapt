@@ -255,7 +255,10 @@
 
 	.group-description {
 		@include columns;
-		align-items: flex-start;
+
+		&:not(#important) {
+			align-items: flex-start;
+		}
 	}
 
 	.group-description-text {
