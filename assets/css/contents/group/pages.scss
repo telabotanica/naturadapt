@@ -31,8 +31,9 @@
 
 	.form-row__file__logo {
 		.file-preview--img {
-			width:  rem(110px);
-			height: rem(110px);
+			width:         rem(110px);
+			height:        rem(110px);
+			border-radius: 50%;
 		}
 	}
 
