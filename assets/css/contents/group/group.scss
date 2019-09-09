@@ -373,6 +373,55 @@
 }
 
 /**************************************************
+* GROUP ON USER DASHBOARD
+**************************************************/
+
+.group__in-items-list {
+	position:        relative;
+	display:         block;
+	padding:         rem(14px) 0;
+	border-bottom:   1px solid $color_grey_border;
+
+	text-decoration: none;
+
+	&::after {
+		content:      '';
+		position:     absolute;
+		top:          50%;
+		right:        0;
+		width:        rem(10px);
+		height:       rem(10px);
+		border-top:   2px solid $color_action;
+		border-right: 2px solid $color_action;
+		transform:    translate(#{rem(-10px)}, -50%) rotate(45deg);
+		transition:   transform .25s ease;
+	}
+
+	.group-name {
+		@include font_default_bold;
+		font-size: rem(16px);
+		color:     black;
+	}
+
+	.group-last-activity {
+		@include font_default;
+		font-size: rem(14px);
+		color:     $color_grey_neutral;
+	}
+
+	&:focus,
+	&:hover {
+		.group-name {
+			text-decoration: underline;
+		}
+
+		&::after {
+			transform: translate(#{rem(-5px)}, -50%) rotate(45deg);
+		}
+	}
+}
+
+/**************************************************
 * GROUP COMPONENTS
 **************************************************/
 

@@ -1,0 +1,5 @@
+{{ ('logevents.' ~ (logEvent.type|replace({':': '_'})))|trans|format(
+	'<strong class="user--name">' ~ logEvent.user.name ~ '</strong>',
+	'<strong class="group--name">' ~ logEvent.usergroup.name ~ '</strong>',
+	'<strong class="document--name">' ~ logEvent.data.title ~ '</strong>'
+)|raw }}

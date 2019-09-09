@@ -153,6 +153,7 @@ pages:
             hello: "Bonjour %s,"
             slogan: "Voici l'activité récente de la communauté et de vos groupes."
             my_groups: "Mes groupes"
+            notifications: "Notifications"
             link: "Tableau de bord"
         profile:
             title: "Profil"
@@ -173,6 +174,7 @@ pages:
             public: "Groupe public"
             private: "Groupe privé"
             created_at: "Créé le %s"
+            active_ago: "Actif %s"
         is_member: "Inscrit"
         is_banned: "Vous avez été banni de ce groupe"
         is_pending: "Votre demande d’inscription est en attente"
@@ -336,3 +338,33 @@ messages:
         document_created: "Le document a été ajouté"
         document_updated: "Le document a été mis à jour"
         document_deleted: "Le document a été supprimé"
+
+logevents:
+    user_register: "%1$s s’est inscrit"
+    user_join: "%1$s a rejoint le groupe %2$s"
+    user_join_ask: "%1$s a demandé à rejoindre le groupe %2$s"
+    user_join_accept: "%1$s a accepté la demande d’inscription de %3$s au groupe %2$s"
+    user_leave: "%1$s a quitté le groupe %2$s"
+    user_admin: "%1$s est maintenant administrateur du groupe %2$s"
+
+    group_create: "%1$s a créé le groupe %2$s"
+    group_edit: "%1$s a modifié les informations du groupe %2$s"
+    group_edit_name: "%1$s a modifié le nom du groupe %2$s"
+    group_edit_logo: "%1$s a modifié l’icône du groupe %2$s"
+    group_edit_cover: "%1$s a modifié l’image de couverture du groupe %2$s"
+    group_edit_public: "%1$s a rendu public le groupe %2$s"
+    group_edit_private: "%1$s a rendu privé le groupe %2$s"
+    group_edit_description: "%1$s a modifié la description du groupe %2$s"
+    group_delete: "%1$s a supprimé le groupe %2$s"
+
+    page_create: "%1$s a créé la page %3$s dans le groupe %2$s"
+    page_edit: "%1$s a modifié la page %3$s dans le groupe %2$s"
+    page_delete: "%1$s a supprimé la page %3$s dans le groupe %2$s"
+
+    article_create: "%1$s a créé l’actualité %3$s dans le groupe %2$s"
+    article_edit: "%1$s a modifié l’actualité %3$s dans le groupe %2$s"
+    article_delete: "%1$s a supprimé l’actualité %3$s dans le groupe %2$s"
+
+    document_create: "%1$s a ajouté le document %3$s dans le groupe %2$s"
+    document_edit: "%1$s a mis à jour le document %3$s dans le groupe %2$s"
+    document_delete: "%1$s a supprimé le document %3$s dans le groupe %2$s"

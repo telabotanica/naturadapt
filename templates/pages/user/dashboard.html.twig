@@ -7,22 +7,41 @@
 		<div class="main--content content-container">
 			{% include 'components/app-flashes.html.twig' %}
 			<div class="small-title">{{ 'pages.user.dashboard.welcome'|trans }}</div>
-			<div class="h2">{{ 'pages.user.dashboard.hello'|trans|format(app.user.displayName) }}</div>
-			<div class="h3">{{ 'pages.user.dashboard.slogan'|trans }}</div>
-			<div class="columns__33-66">
-				<div>
-					<div class="small-title">{{ 'pages.user.dashboard.my_groups'|trans }}</div>
+			<div class="h1">{{ 'pages.user.dashboard.hello'|trans|format(app.user.displayName) }}</div>
+			<div class="h2">{{ 'pages.user.dashboard.slogan'|trans }}</div>
+			<div class="user-dashboard">
+				<nav class="user-dashboard--tabs">
 					<ul>
-						{% for membership in app.user.usergroupMemberships %}
-							<li>
-								{% include 'contents/group/group--in-items-list.html.twig' with {'group': membership.usergroup} %}
-							</li>
-						{% endfor %}
+						<li aria-selected="true">
+							<button class="user-dashboard--tab-button" type="button"
+									data-for="user-dashboard--groups">{{ 'pages.user.dashboard.my_groups'|trans }}</button>
+						</li>
+						<li>
+							<button class="user-dashboard--tab-button" type="button"
+									data-for="user-dashboard--events">{{ 'pages.user.dashboard.notifications'|trans }}</button>
+						</li>
 					</ul>
-					<a href="{{ path('group_new') }}">{{ 'pages.group.group_create.link'|trans }}</a>
-				</div>
-				<div>
-
+				</nav>
+				<div class="user-dashboard--tabs-contents">
+					<div class="user-dashboard--groups">
+						<h3 class="user-dashboard--groups-title">{{ 'pages.user.dashboard.my_groups'|trans }}</h3>
+						<ul>
+							{% for membership in app.user.usergroupMemberships %}
+								<li>
+									{% include 'contents/group/group--in-items-list.html.twig' with {'group': membership.usergroup} %}
+								</li>
+							{% endfor %}
+						</ul>
+					</div>
+					<div class="user-dashboard--events">
+						<ul>
+							{% for logEvent in logEvents %}
+								<li>
+									{% include 'contents/logevent/logevent--in-dashboard.html.twig' with {'logEvent': logEvent} %}
+								</li>
+							{% endfor %}
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>

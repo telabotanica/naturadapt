@@ -1,4 +1,7 @@
 {% set classes = ['group', 'group__in-items-list'] %}
-<div class="{{ classes|join(' ') }}" style="--color: {{ group.name|color }}">
-	<div class="group-name"><a href="{{ path('group_index', {'groupSlug': group.slug}) }}">{{ group.name }}</a></div>
-</div>
+<a href="{{ path('group_index', {'groupSlug': group.slug}) }}" class="{{ classes|join(' ') }}" style="--color: {{ group.name|color }}">
+	<div class="group-name">{{ group.name }}</div>
+	{% if (group.logEvents) and (group.logEvents is not empty) %}
+		<div class="group-last-activity">{{ 'pages.group.status.active_ago'|trans|format(group.logEvents[0].createdAt|ago) }}</div>
+	{% endif %}
+</a>

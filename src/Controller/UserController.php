@@ -130,7 +130,7 @@ class UserController extends AbstractController {
 
 			$message = $this->renderView( 'emails/register-activation.html.twig', [
 					'user' => $user,
-					'url'  => $this->generateUrl( 'user_activate', array ( 'token' => $token ), UrlGeneratorInterface::ABSOLUTE_URL ),
+					'url'  => $this->generateUrl( 'user_activate', array( 'token' => $token ), UrlGeneratorInterface::ABSOLUTE_URL ),
 			] );
 
 			$mailer->send(
@@ -277,7 +277,7 @@ class UserController extends AbstractController {
 
 			$message = $this->renderView( 'emails/forgotten-password.html.twig', [
 					'user' => $user,
-					'url'  => $this->generateUrl( 'user_reset_password', array ( 'token' => $token ), UrlGeneratorInterface::ABSOLUTE_URL ),
+					'url'  => $this->generateUrl( 'user_reset_password', array( 'token' => $token ), UrlGeneratorInterface::ABSOLUTE_URL ),
 			] );
 
 			$mailer->send(
@@ -359,7 +359,14 @@ class UserController extends AbstractController {
 			return $this->redirectToRoute( 'user_profile_create' );
 		}
 
-		return $this->render( 'pages/user/dashboard.html.twig' );
+		$groups = array_map( function ( UsergroupMembership $membership ) {
+			return $membership->getUsergroup();
+		}, iterator_to_array( $user->getUsergroupMemberships() ) );
+
+		$logEvents = $manager->getRepository( LogEvent::class )
+							 ->findForGroups( $groups );
+
+		return $this->render( 'pages/user/dashboard.html.twig', [ 'logEvents' => $logEvents ] );
 	}
 
 	protected function profileCreateEdit (
