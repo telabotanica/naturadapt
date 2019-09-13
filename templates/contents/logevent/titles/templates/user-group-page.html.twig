@@ -1,5 +1,5 @@
 {{ ('logevents.' ~ (logEvent.type|replace({':': '_'})))|trans|format(
-	'<strong class="user--name">' ~ logEvent.user.name ~ '</strong>',
-	'<strong class="group--name">' ~ logEvent.usergroup.name ~ '</strong>',
-	'<strong class="page--name">' ~ logEvent.data.title ~ '</strong>'
+	'<a class="user--name" href="' ~ url_manager.userUrlFromId(logEvent.user.id) ~ '">' ~ logEvent.user.name ~ '</a>',
+	'<a class="group--name" href="' ~ url_manager.usergroupUrlFromId(logEvent.usergroup.id) ~ '">' ~ logEvent.usergroup.name ~ '</a>',
+	'<a class="page--name" href="' ~ url_manager.pageUrlFromId(logEvent.data.page) ~ '">' ~ logEvent.data.title ~ '</a>'
 )|raw }}

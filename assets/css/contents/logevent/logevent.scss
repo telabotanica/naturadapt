@@ -28,6 +28,18 @@
 		.user--name {
 			font-size: (16 / 14) * 1em;
 		}
+
+		a {
+			@include font_default_bold;
+			color:           inherit;
+
+			text-decoration: none;
+
+			&:hover,
+			&:focus {
+				text-decoration: underline;
+			}
+		}
 	}
 
 	.logevent--date {
