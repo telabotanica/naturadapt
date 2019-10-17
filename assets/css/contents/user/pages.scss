@@ -67,6 +67,10 @@
 
 .main__user-page__parameters {
 	.profile-form {
+		&:not(:last-child) {
+			margin-bottom: rem(50px);
+		}
+		
 		@include card_shadow;
 
 		padding: padding_vertical('small') padding_horizontal('small');

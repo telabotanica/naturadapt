@@ -8,6 +8,7 @@ use App\Entity\Site;
 use App\Entity\User;
 use App\Entity\UsergroupMembership;
 use App\Form\UserEmailType;
+use App\Form\UserPasswordType;
 use App\Form\UserProfileType;
 use App\Security\UserVoter;
 use App\Service\Community;
@@ -497,18 +498,34 @@ class UserController extends AbstractController {
 		$this->denyAccessUnlessGranted( UserVoter::LOGGED );
 
 		/**
-		 * @var User $userSubmitted
+		 * @var User $emailUserSubmitted
 		 */
-		$userSubmitted = new User();
-		$emailForm     = $this->createForm( UserEmailType::class, $userSubmitted );
+		$emailUserSubmitted = new User();
+		$emailForm          = $this->createForm( UserEmailType::class, $emailUserSubmitted );
 
-		$emailForm->handleRequest( $request );
+		if ( !empty( $request->request->get( 'email' ) ) ) {
+			$emailForm->handleRequest( $request );
+		}
 
 		if ( $emailForm->isSubmitted() && $emailForm->isValid() ) {
 		}
 
+		/**
+		 * @var User $passwordUserSubmitted
+		 */
+		$passwordUserSubmitted = new User();
+		$passwordForm          = $this->createForm( UserPasswordType::class, $passwordUserSubmitted );
+
+		if ( !empty( $request->request->get( 'password_new' ) ) ) {
+			$passwordForm->handleRequest( $request );
+		}
+
+		if ( $passwordForm->isSubmitted() && $passwordForm->isValid() ) {
+		}
+
 		return $this->render( 'pages/user/parameters-edit.html.twig', [
-				'emailForm' => $emailForm->createView(),
+				'emailForm'    => $emailForm->createView(),
+				'passwordForm' => $passwordForm->createView(),
 		] );
 	}
 }

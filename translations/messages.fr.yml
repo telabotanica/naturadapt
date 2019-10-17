@@ -59,7 +59,7 @@ forms:
             placeholder: "Exemple: Chaîne des puys…"
 
     user_parameters:
-        introduction:
+        email_introduction:
             title: "Modifier l’adresse e-mail du compte"
             introduction: "L’adresse e-mail du compte est utilisée pour s’identifier à votre profil et pour envoyer des e-mails."
         email_current:
@@ -69,6 +69,14 @@ forms:
             placeholder: "Entrez votre nouvel e-mail …"
         password:
             label: "Mot de passe actuel"
+            placeholder: ""
+        password_introduction:
+            title: "Modifier le mot de passe"
+        password_new:
+            label: "Nouveau mot de passe"
+            placeholder: ""
+        password_confirm:
+            label: "Confirmation du mot de passe"
             placeholder: ""
 
     group:

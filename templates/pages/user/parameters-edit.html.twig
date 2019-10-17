@@ -20,6 +20,13 @@
 						'user':app.user
 					}) %}
 				</section>
+
+				<section class="profile-form">
+					{% include 'forms/user/parameters-password-form.html.twig' with ({
+						'form':passwordForm,
+						'user':app.user
+					}) %}
+				</section>
 			</div>
 		</div>
 	</section>
