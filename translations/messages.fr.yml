@@ -337,6 +337,8 @@ messages:
         profile_created: "Votre profil a été créé"
         profile_updated: "Votre profil a été mis à jour"
         login_requested: "Vous devez vous inscrire ou vous connecter pour voir cette page."
+        email_change_sent: "Un email de confirmation du changement d’adresse vous a été envoyé. Regardez la boite de reception de votre nouvelle adresse."
+        email_change_successful: "Votre adresse e-mail a été modifiée."
 
     group:
         joined: "Vous avez rejoint ce groupe."

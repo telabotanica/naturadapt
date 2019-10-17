@@ -486,16 +486,20 @@ class UserController extends AbstractController {
 	/**
 	 * @Route("/user/parameters/edit", name="user_parameters_edit")
 	 *
-	 * @param \Symfony\Component\HttpFoundation\Request                             $request
-	 * @param \Doctrine\Common\Persistence\ObjectManager                            $manager
-	 * @param \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface $passwordEncoder
+	 * @param \Symfony\Component\HttpFoundation\Request                               $request
+	 * @param \Doctrine\Common\Persistence\ObjectManager                              $manager
+	 * @param \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface   $passwordEncoder
+	 * @param \Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface $tokenGenerator
+	 * @param \App\Service\EmailSender                                                $mailer
 	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function parametersEdit (
 			Request $request,
 			ObjectManager $manager,
-			UserPasswordEncoderInterface $passwordEncoder
+			UserPasswordEncoderInterface $passwordEncoder,
+			TokenGeneratorInterface $tokenGenerator,
+			EmailSender $mailer
 	) {
 		$this->denyAccessUnlessGranted( UserVoter::LOGGED );
 
@@ -510,11 +514,61 @@ class UserController extends AbstractController {
 		$emailUserSubmitted = new User();
 		$emailForm          = $this->createForm( UserEmailType::class, $emailUserSubmitted );
 
-		if ( !empty( $request->request->get( 'email' ) ) ) {
+		$vars = $request->request->get( 'user_email' );
+
+		if ( !empty( $vars[ 'email_new' ] ) ) {
 			$emailForm->handleRequest( $request );
 		}
 
 		if ( $emailForm->isSubmitted() && $emailForm->isValid() ) {
+			$userRepository = $manager->getRepository( User::class );
+
+			if ( !$passwordEncoder->isPasswordValid( $user, $emailUserSubmitted->getPassword() ) ) {
+				$this->addFlash( 'error', 'messages.user.invalid_credentials' );
+			}
+			else if ( $userRepository->findOneBy( [ 'email' => $vars [ 'email_new' ] ] ) ) {
+				$this->addFlash( 'error', 'messages.user.exists' );
+			}
+			else {
+				$token = $tokenGenerator->generateToken();
+
+				try {
+					$user->setEmailNew( $vars[ 'email_new' ] );
+					$user->setEmailToken( $token );
+					$manager->flush();
+				} catch ( Exception $e ) {
+					$this->addFlash( 'warning', $e->getMessage() );
+				}
+
+				// Send Warning
+
+				$message = $this->renderView( 'emails/email-change-warning.html.twig', [
+						'user' => $user,
+				] );
+
+				$mailer->send(
+						$this->getParameter( 'plateform' )[ 'from' ],
+						$user->getEmail(),
+						$mailer->getSubjectFromTitle( $message ),
+						$message
+				);
+
+				// Send Confirmation
+
+				$message = $this->renderView( 'emails/email-change-confirm.html.twig', [
+						'user' => $user,
+						'url'  => $this->generateUrl( 'user_email_confirm', array( 'token' => $token ), UrlGeneratorInterface::ABSOLUTE_URL ),
+				] );
+
+				$mailer->send(
+						$this->getParameter( 'plateform' )[ 'from' ],
+						$vars[ 'email_new' ],
+						$mailer->getSubjectFromTitle( $message ),
+						$message
+				);
+
+				$this->addFlash( 'notice', 'messages.user.email_change_sent' );
+			}
 		}
 
 		/**
@@ -551,5 +605,45 @@ class UserController extends AbstractController {
 				'emailForm'    => $emailForm->createView(),
 				'passwordForm' => $passwordForm->createView(),
 		] );
+	}
+
+	/**
+	 * @Route("/user/email-change/{token}", name="user_email_confirm")
+	 *
+	 * @param \Symfony\Component\HttpFoundation\Request  $request
+	 * @param string                                     $token
+	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 *
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+	 */
+	public function emailChangeConfirm (
+			Request $request,
+			string $token,
+			ObjectManager $manager
+	) {
+		$this->denyAccessUnlessGranted( UserVoter::LOGGED );
+
+		/**
+		 * @var \App\Entity\User $user
+		 */
+		$user = $this->getUser();
+
+		$userRepository = $manager->getRepository( User::class );
+
+		if ( $userRepository->findOneBy( [ 'email' => $user->getEmailNew() ] ) ) {
+			$this->addFlash( 'error', 'messages.user.exists' );
+		}
+		else if ( ( $token !== $user->getEmailToken() ) || ( empty( $user->getEmailNew() ) ) ) {
+			$this->addFlash( 'error', 'messages.user.password_token_unknown' );
+		}
+		else {
+			$user->setEmail( $user->getEmailNew() );
+			$user->setEmailToken( NULL );
+			$manager->flush();
+
+			$this->addFlash( 'notice', 'messages.user.email_change_successful' );
+		}
+
+		return $this->redirectToRoute( 'user_dashboard' );
 	}
 }
