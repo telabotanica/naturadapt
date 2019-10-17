@@ -4,7 +4,7 @@
 
 		{% if group.presentation is not empty %}
 			<button class="cta__inverted" type="button" data-see-more>{{ 'ui.see_more'|trans }}</button>
-			<div aria-hidden="true">{{ group.presentation|raw }}</div>
+			<div class="wysiwyg-content" aria-hidden="true">{{ group.presentation|raw }}</div>
 		{% endif %}
 	</div>
 	<div class="group-join">
