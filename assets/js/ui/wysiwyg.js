@@ -78,7 +78,7 @@ class UploadAdapter {
 }
 
 ready( () => {
-	const wysiwygs = Array.from( document.querySelectorAll( '.wysiwyg' ) );
+	const wysiwygs = Array.from( document.querySelectorAll( '.wysiwyg-editor' ) );
 
 	if ( wysiwygs.length > 0 ) {
 		import( /* webpackChunkName: "ckeditor" */ '@ckeditor/ckeditor5-build-classic' ).then( ( { default: ClassicEditor } ) => {
