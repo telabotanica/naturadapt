@@ -486,16 +486,23 @@ class UserController extends AbstractController {
 	/**
 	 * @Route("/user/parameters/edit", name="user_parameters_edit")
 	 *
-	 * @param \Symfony\Component\HttpFoundation\Request  $request
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Symfony\Component\HttpFoundation\Request                             $request
+	 * @param \Doctrine\Common\Persistence\ObjectManager                            $manager
+	 * @param \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface $passwordEncoder
 	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function parametersEdit (
 			Request $request,
-			ObjectManager $manager
+			ObjectManager $manager,
+			UserPasswordEncoderInterface $passwordEncoder
 	) {
 		$this->denyAccessUnlessGranted( UserVoter::LOGGED );
+
+		/**
+		 * @var User $user
+		 */
+		$user = $this->getUser();
 
 		/**
 		 * @var User $emailUserSubmitted
@@ -516,11 +523,28 @@ class UserController extends AbstractController {
 		$passwordUserSubmitted = new User();
 		$passwordForm          = $this->createForm( UserPasswordType::class, $passwordUserSubmitted );
 
-		if ( !empty( $request->request->get( 'password_new' ) ) ) {
+		$vars = $request->request->get( 'user_password' );
+
+		if ( !empty( $vars[ 'password_new' ] ) ) {
 			$passwordForm->handleRequest( $request );
 		}
 
 		if ( $passwordForm->isSubmitted() && $passwordForm->isValid() ) {
+			if ( $vars[ 'password_new' ] !== $vars[ 'password_confirm' ] ) {
+				$this->addFlash( 'error', 'messages.user.password_confirm_invalid' );
+			}
+			else if ( !$passwordEncoder->isPasswordValid( $user, $passwordUserSubmitted->getPassword() ) ) {
+				$this->addFlash( 'error', 'messages.user.invalid_credentials' );
+			}
+			else {
+				$user->setPassword( $passwordEncoder->encodePassword( $user, $vars[ 'password_new' ] ) );
+				$user->setResetToken( NULL );
+				$manager->flush();
+
+				$this->addFlash( 'notice', 'messages.user.password_updated' );
+
+				return $this->redirectToRoute( 'user_dashboard' );
+			}
 		}
 
 		return $this->render( 'pages/user/parameters-edit.html.twig', [

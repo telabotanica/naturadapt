@@ -320,6 +320,7 @@ messages:
     user:
         already_connected: "Vous êtes déjà connecté·e."
         invalid_credentials: "Mot de passe incorrect"
+        password_confirm_invalid: "Votre mot de passe et sa confirmation doivent être identiques"
         exists: "Cet utilisateur est déjà enregistré."
         unknown: "Cet utilisateur est inconnu."
         inactive: "Cet utilisateur est désactivé."
@@ -332,6 +333,7 @@ messages:
         password_sent: "Un email vous a été envoyé. Regardez votre boite de reception."
         password_token_unknown: "Ce token est inconnu."
         password_successful: "Mot de passe mis à jour, vous pouvez désormais vous identifier."
+        password_updated: "Votre mot de passe a été mis à jour."
         profile_created: "Votre profil a été créé"
         profile_updated: "Votre profil a été mis à jour"
         login_requested: "Vous devez vous inscrire ou vous connecter pour voir cette page."
