@@ -43,9 +43,9 @@ img {
 }
 
 a:not([class]) {
-	color:                inherit;
-	text-decoration:      underline;
-	text-decoration-skip: ink;
+	color:                    inherit;
+	text-decoration:          underline;
+	text-decoration-skip-ink: auto;
 }
 
 p {
