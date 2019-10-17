@@ -58,6 +58,19 @@ forms:
             hint: "Parce que vous y travaillez, vous y habitez ou simplement si vous êtes particlièrement attaché·e à un site naturel en particulier"
             placeholder: "Exemple: Chaîne des puys…"
 
+    user_parameters:
+        introduction:
+            title: "Modifier l’adresse e-mail du compte"
+            introduction: "L’adresse e-mail du compte est utilisée pour s’identifier à votre profil et pour envoyer des e-mails."
+        email_current:
+            label: "Email actuel"
+        email_new:
+            label: "Nouvel e-mail"
+            placeholder: "Entrez votre nouvel e-mail …"
+        password:
+            label: "Mot de passe actuel"
+            placeholder: ""
+
     group:
         name:
             label: "Nom du groupe"
@@ -148,6 +161,11 @@ pages:
             view: "Voir mon profil"
             button: "Sauvegarder les modifications"
             link: "Modifier mon profil"
+        parameters_edit:
+            title: "Mes paramètres"
+            button: "Enregistrer"
+            cancel: "Annuler"
+            link: "Mes paramètres"
         dashboard:
             welcome: "Bienvenue"
             hello: "Bonjour %s,"

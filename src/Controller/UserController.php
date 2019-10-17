@@ -7,6 +7,7 @@ use App\Entity\LogEvent;
 use App\Entity\Site;
 use App\Entity\User;
 use App\Entity\UsergroupMembership;
+use App\Form\UserEmailType;
 use App\Form\UserProfileType;
 use App\Security\UserVoter;
 use App\Service\Community;
@@ -479,5 +480,35 @@ class UserController extends AbstractController {
 				$manager,
 				$fileManager
 		);
+	}
+
+	/**
+	 * @Route("/user/parameters/edit", name="user_parameters_edit")
+	 *
+	 * @param \Symfony\Component\HttpFoundation\Request  $request
+	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 *
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+	 */
+	public function parametersEdit (
+			Request $request,
+			ObjectManager $manager
+	) {
+		$this->denyAccessUnlessGranted( UserVoter::LOGGED );
+
+		/**
+		 * @var User $userSubmitted
+		 */
+		$userSubmitted = new User();
+		$emailForm     = $this->createForm( UserEmailType::class, $userSubmitted );
+
+		$emailForm->handleRequest( $request );
+
+		if ( $emailForm->isSubmitted() && $emailForm->isValid() ) {
+		}
+
+		return $this->render( 'pages/user/parameters-edit.html.twig', [
+				'emailForm' => $emailForm->createView(),
+		] );
 	}
 }
