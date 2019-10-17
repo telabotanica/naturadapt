@@ -1,0 +1,28 @@
+{{ form_start(form) }}
+<div class="form-rows">
+	<h2 class="h2">{{ 'forms.user_parameters.email_introduction.title'|trans }}</h2>
+	<p class="hint">{{ 'forms.user_parameters.email_introduction.introduction'|trans }}</p>
+
+	<div class="form-row form-row__static">
+		<label>{{ 'forms.user_parameters.email_current.label'|trans }}</label>
+		<p class="hint">{{ user.email }}</p>
+	</div>
+	<div class="form-row form-row__field">
+		{{ form_label(form.email_new, 'forms.user_parameters.email_new.label') }}
+		{{ form_widget(form.email_new, {'attr': {'placeholder': 'forms.user_parameters.email_new.placeholder'}}) }}
+	</div>
+	<div class="form-row form-row__field">
+		<div class="columns__50-50">
+			{{ form_label(form.password, 'forms.user_parameters.password.label') }}
+			<div class="forgotten-password-link">
+				<a href="{{ path('user_forgotten_password') }}">{{ 'pages.user.forgotten_password.link'|trans }}</a>
+			</div>
+		</div>
+		{{ form_widget(form.password, {'attr': {'placeholder': 'forms.user_parameters.password.placeholder'}}) }}
+	</div>
+</div>
+<div class="form-row form-row__submit">
+	{{ form_widget(form.submit, {'label': 'pages.user.parameters_edit.button'|trans}) }}
+	<a href="{{ path('user_dashboard') }}">{{ 'pages.user.parameters_edit.cancel'|trans }}</a>
+</div>
+{{ form_end(form) }}

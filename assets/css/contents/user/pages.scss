@@ -65,6 +65,31 @@
 	}
 }
 
+.main__user-page__parameters {
+	.profile-form {
+		&:not(:last-child) {
+			margin-bottom: rem(50px);
+		}
+
+		@include card_shadow;
+
+		padding: padding_vertical('small') padding_horizontal('small');
+
+		@include large-or-more {
+			padding: padding_vertical('large') padding_horizontal('large');
+		}
+	}
+
+	.forgotten-password-link {
+		text-align: right;
+
+		a {
+			@include label-style;
+			color: $color_action;
+		}
+	}
+}
+
 /**************************************************
  * USER DASHBOARD
  *************************************************/
