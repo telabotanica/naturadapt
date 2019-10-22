@@ -319,12 +319,23 @@
 		flex-flow:   row nowrap;
 		align-items: center;
 
-		padding:     padding_vertical() padding_horizontal();
+		padding:     0;
+
+		@include medium-or-more {
+			padding: padding_vertical() padding_horizontal();
+		}
 	}
 
 	.user--admin {
-		top:  padding_vertical();
-		left: padding_horizontal();
+		top: padding_vertical();
+
+		@include small-or-less {
+			left: 0;
+		}
+
+		@include medium-or-more {
+			left: padding_horizontal();
+		}
 
 		&::before {
 			width:  rem(16px);
@@ -335,12 +346,30 @@
 	.user--avatar {
 		width:  rem(50px);
 		height: rem(50px);
+
+		@include small-or-less {
+			margin: 1.25rem 0;
+		}
+	}
+
+	.user--infos-site {
+		@include medium-or-less {
+			padding: 0 0 0 padding_horizontal();
+		}
+
+		@include large-or-more {
+			display:     flex;
+			flex:        1;
+			flex-flow:   row nowrap;
+			align-items: center;
+		}
 	}
 
 	.user--infos {
-		padding:     0 padding_horizontal();
-
-		width:       rem(215px);
+		@include large-or-more {
+			padding: 0 padding_horizontal();
+			width:   rem(215px);
+		}
 
 		line-height: 1.3;
 	}
@@ -352,6 +381,13 @@
 	.user--presentation {
 		font-size: (12 / 16) * 1em;
 		color:     $color_grey_light;
+	}
+
+	.user--site {
+		@include medium-or-less {
+			margin-top: .8em;
+			font-size:  (12 / 16) * 1em;
+		}
 	}
 
 	.user-admin-panel {

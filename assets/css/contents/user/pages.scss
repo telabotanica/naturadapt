@@ -65,12 +65,141 @@
 	}
 }
 
-.user-page__dashboard .user-page--content {
-	.h2 {
-		margin-bottom: 0;
+.main__user-page__parameters {
+	.profile-form {
+		&:not(:last-child) {
+			margin-bottom: rem(50px);
+		}
+
+		@include card_shadow;
+
+		padding: padding_vertical('small') padding_horizontal('small');
+
+		@include large-or-more {
+			padding: padding_vertical('large') padding_horizontal('large');
+		}
 	}
 
-	.h3 {
-		color: $color_grey_light;
+	.forgotten-password-link {
+		text-align: right;
+
+		a {
+			@include label-style;
+			color: $color_action;
+		}
+	}
+}
+
+/**************************************************
+ * USER DASHBOARD
+ *************************************************/
+
+.user-dashboard {
+	margin: rem(50px) 0 0;
+
+	@include medium-or-more {
+		margin: rem(55px) 0 0;
+	}
+
+	&--tabs {
+		@include medium-or-more {
+			display: none;
+		}
+
+		margin-bottom: padding_vertical();
+
+		.user-dashboard--tab-button {
+			@include button-reset;
+			display:        block;
+			padding-bottom: rem(10px);
+			border-bottom:  3px solid transparent;
+
+			@include font_default_bold;
+			font-size:      rem(16px);
+		}
+
+		@include clearulli;
+
+		ul {
+			display:   flex;
+			flex:      1;
+			flex-flow: row nowrap;
+		}
+
+
+		li {
+			&:not(:first-child) {
+				margin-left: rem(30px);
+			}
+
+			&[aria-selected="true"] .user-dashboard--tab-button {
+				color:        $color_action;
+				border-color: $color_action;
+			}
+		}
+	}
+
+	&--tabs-contents {
+		@include medium-or-more {
+			display:   flex;
+			flex-flow: row nowrap;
+
+			> :nth-child(1) {
+				width: rem(200px);
+			}
+
+			> :nth-child(2) {
+				flex-grow: 1;
+			}
+		}
+	}
+
+	&--groups,
+	&--events {
+		@include small-or-less {
+			&[aria-selected="false"] {
+				display: none;
+			}
+		}
+	}
+
+	&--groups {
+		@include clearulli;
+	}
+
+	&--groups-title {
+		@include small-or-less {
+			display: none;
+		}
+
+		margin:         0 0 rem(10px);
+
+		@include font_default;
+		font-size:      rem(14px);
+		color:          $color_grey_neutral;
+		text-transform: uppercase;
+	}
+
+	&--events {
+		position: relative;
+
+		@include medium {
+			margin-left: column_gap();
+		}
+
+		@include large-or-more {
+			margin-left: rem(110px);
+		}
+
+		@include clearulli;
+
+		&::before {
+			content:     '';
+			position:    absolute;
+			top:         0;
+			bottom:      0;
+			left:        rem(24px);
+			border-left: 1px solid #DBDEE4;
+		}
 	}
 }

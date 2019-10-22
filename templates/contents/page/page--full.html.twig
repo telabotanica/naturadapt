@@ -62,7 +62,7 @@
 				</div>
 			{% endif %}
 		</div>
-		<div class="page-body">
+		<div class="page-body wysiwyg-content">
 			{{ page.body|raw }}
 		</div>
 		<div class="page-group">
@@ -72,27 +72,28 @@
 				</div>
 			{% endif %}
 
-			<div class="group-name">
-				{{ page.usergroup.name }}
-			</div>
+			<div class="group-infos">
+				<div class="group-name">
+					{{ page.usergroup.name }}
+				</div>
 
-			<div class="group-members">
-				{% set count = page.usergroup.members|length %}
-				{% transchoice count with {'%count%': count} %}pages.page.view.members{% endtranschoice %}
-			</div>
+				<div class="group-members">
+					{% set count = page.usergroup.members|length %}
+					{% transchoice count with {'%count%': count} %}pages.page.view.members{% endtranschoice %}
+				</div>
 
-			{% include 'contents/group/partials/group-join-button.html.twig' with {'group':page.usergroup} %}
-
-			<div class="group-pages">
-				<div class="group-pages--title">{{ 'pages.page.view.pages_index'|trans }}</div>
-				<ul class="index-list">
-					{% for page in page.usergroup.pages %}
-						<li>
-							{% include 'contents/page/page--in-index-list.html.twig' with {'page':page} %}
-						</li>
-					{% endfor %}
-				</ul>
+				{% include 'contents/group/partials/group-join-button.html.twig' with {'group':page.usergroup} %}
 			</div>
+		</div>
+		<div class="group-pages">
+			<div class="group-pages--title">{{ 'pages.page.view.pages_index'|trans }}</div>
+			<ul class="index-list">
+				{% for page in page.usergroup.pages %}
+					<li>
+						{% include 'contents/page/page--in-index-list.html.twig' with {'page':page} %}
+					</li>
+				{% endfor %}
+			</ul>
 		</div>
 	</div>
 </div>

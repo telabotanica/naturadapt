@@ -52,7 +52,8 @@ Encore
 		options.importer = [ svg_importer ];
 
 		return options;
-	} );
+	} )
+	.enablePostCssLoader();
 
 // uncomment if you use TypeScript
 //.enableTypeScriptLoader()

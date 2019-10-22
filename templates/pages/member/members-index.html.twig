@@ -1,5 +1,13 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}
+	{% if group is defined %}
+		{{ 'pages.group.members.title'|trans }} - {{ group.name }} | {{ community.name }}
+	{% else %}
+		{{ 'pages.group.members.title'|trans }} | {{ community.name }}
+	{% endif %}
+{% endblock %}
+
 {% block main %}
 	<section class="main main__members-list">
 		<div class="main--content content-container">
@@ -73,7 +81,7 @@
 					</div>
 				</div>
 				<div>
-					<div class="form-row form-row__no-gap">
+					<div class="form-row form-row__no-gap search">
 						{{ form_widget(form.query, {'attr': {'placeholder': 'pages.member.list.query.placeholder'}}) }}
 					</div>
 					<ul class="members-list">

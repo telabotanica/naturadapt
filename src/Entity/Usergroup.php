@@ -102,6 +102,7 @@ class Usergroup {
 
 	/**
 	 * @ORM\OneToMany(targetEntity="App\Entity\LogEvent", mappedBy="usergroup")
+	 * @ORM\OrderBy({"createdAt"="DESC"})
 	 */
 	private $logEvents;
 

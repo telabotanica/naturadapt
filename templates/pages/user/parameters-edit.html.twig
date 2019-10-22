@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'pages.user.parameters_edit.title'|trans }} | {{ community.name }}{% endblock %}
+
+{% block main %}
+	<section class="main main__user-page main__user-page__parameters">
+		<div class="main--content content-container">
+			<div class="thin">
+				{% include 'components/app-flashes.html.twig' %}
+
+				<section>
+					<div class="panel">
+						<h1 class="h1">{{ 'pages.user.parameters_edit.title'|trans }}</h1>
+					</div>
+				</section>
+
+				<section class="profile-form">
+					{% include 'forms/user/parameters-email-form.html.twig' with ({
+						'form':emailForm,
+						'user':app.user
+					}) %}
+				</section>
+
+				<section class="profile-form">
+					{% include 'forms/user/parameters-password-form.html.twig' with ({
+						'form':passwordForm,
+						'user':app.user
+					}) %}
+				</section>
+			</div>
+		</div>
+	</section>
+{% endblock %}

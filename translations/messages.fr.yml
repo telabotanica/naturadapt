@@ -58,6 +58,27 @@ forms:
             hint: "Parce que vous y travaillez, vous y habitez ou simplement si vous êtes particlièrement attaché·e à un site naturel en particulier"
             placeholder: "Exemple: Chaîne des puys…"
 
+    user_parameters:
+        email_introduction:
+            title: "Modifier l’adresse e-mail du compte"
+            introduction: "L’adresse e-mail du compte est utilisée pour s’identifier à votre profil et pour envoyer des e-mails."
+        email_current:
+            label: "Email actuel"
+        email_new:
+            label: "Nouvel e-mail"
+            placeholder: "Entrez votre nouvel e-mail …"
+        password:
+            label: "Mot de passe actuel"
+            placeholder: ""
+        password_introduction:
+            title: "Modifier le mot de passe"
+        password_new:
+            label: "Nouveau mot de passe"
+            placeholder: ""
+        password_confirm:
+            label: "Confirmation du mot de passe"
+            placeholder: ""
+
     group:
         name:
             label: "Nom du groupe"
@@ -148,11 +169,17 @@ pages:
             view: "Voir mon profil"
             button: "Sauvegarder les modifications"
             link: "Modifier mon profil"
+        parameters_edit:
+            title: "Mes paramètres"
+            button: "Enregistrer"
+            cancel: "Annuler"
+            link: "Mes paramètres"
         dashboard:
             welcome: "Bienvenue"
             hello: "Bonjour %s,"
             slogan: "Voici l'activité récente de la communauté et de vos groupes."
             my_groups: "Mes groupes"
+            notifications: "Notifications"
             link: "Tableau de bord"
         profile:
             title: "Profil"
@@ -173,6 +200,7 @@ pages:
             public: "Groupe public"
             private: "Groupe privé"
             created_at: "Créé le %s"
+            active_ago: "Actif %s"
         is_member: "Inscrit"
         is_banned: "Vous avez été banni de ce groupe"
         is_pending: "Votre demande d’inscription est en attente"
@@ -292,6 +320,7 @@ messages:
     user:
         already_connected: "Vous êtes déjà connecté·e."
         invalid_credentials: "Mot de passe incorrect"
+        password_confirm_invalid: "Votre mot de passe et sa confirmation doivent être identiques"
         exists: "Cet utilisateur est déjà enregistré."
         unknown: "Cet utilisateur est inconnu."
         inactive: "Cet utilisateur est désactivé."
@@ -304,9 +333,12 @@ messages:
         password_sent: "Un email vous a été envoyé. Regardez votre boite de reception."
         password_token_unknown: "Ce token est inconnu."
         password_successful: "Mot de passe mis à jour, vous pouvez désormais vous identifier."
+        password_updated: "Votre mot de passe a été mis à jour."
         profile_created: "Votre profil a été créé"
         profile_updated: "Votre profil a été mis à jour"
         login_requested: "Vous devez vous inscrire ou vous connecter pour voir cette page."
+        email_change_sent: "Un email de confirmation du changement d’adresse vous a été envoyé. Regardez la boite de reception de votre nouvelle adresse."
+        email_change_successful: "Votre adresse e-mail a été modifiée."
 
     group:
         joined: "Vous avez rejoint ce groupe."
@@ -336,3 +368,33 @@ messages:
         document_created: "Le document a été ajouté"
         document_updated: "Le document a été mis à jour"
         document_deleted: "Le document a été supprimé"
+
+logevents:
+    user_register: "%1$s s’est inscrit"
+    user_join: "%1$s a rejoint le groupe %2$s"
+    user_join_ask: "%1$s a demandé à rejoindre le groupe %2$s"
+    user_join_accept: "%1$s a accepté la demande d’inscription de %3$s au groupe %2$s"
+    user_leave: "%1$s a quitté le groupe %2$s"
+    user_admin: "%1$s est maintenant administrateur du groupe %2$s"
+
+    group_create: "%1$s a créé le groupe %2$s"
+    group_edit: "%1$s a modifié les informations du groupe %2$s"
+    group_edit_name: "%1$s a modifié le nom du groupe %2$s"
+    group_edit_logo: "%1$s a modifié l’icône du groupe %2$s"
+    group_edit_cover: "%1$s a modifié l’image de couverture du groupe %2$s"
+    group_edit_public: "%1$s a rendu public le groupe %2$s"
+    group_edit_private: "%1$s a rendu privé le groupe %2$s"
+    group_edit_description: "%1$s a modifié la description du groupe %2$s"
+    group_delete: "%1$s a supprimé le groupe %2$s"
+
+    page_create: "%1$s a créé la page %3$s dans le groupe %2$s"
+    page_edit: "%1$s a modifié la page %3$s dans le groupe %2$s"
+    page_delete: "%1$s a supprimé la page %3$s dans le groupe %2$s"
+
+    article_create: "%1$s a créé l’actualité %3$s dans le groupe %2$s"
+    article_edit: "%1$s a modifié l’actualité %3$s dans le groupe %2$s"
+    article_delete: "%1$s a supprimé l’actualité %3$s dans le groupe %2$s"
+
+    document_create: "%1$s a ajouté le document %3$s dans le groupe %2$s"
+    document_edit: "%1$s a mis à jour le document %3$s dans le groupe %2$s"
+    document_delete: "%1$s a supprimé le document %3$s dans le groupe %2$s"

@@ -27,5 +27,6 @@ import './ui/sibling-toggle';
 import './ui/wysiwyg';
 
 import './user/profile';
+import './user/dashboard';
 
 console.warn( 'Hello fellow developer, ENV is dev.\nDont\'t forget to compile in production mode before deploying.\nHappy coding ! Max.' );

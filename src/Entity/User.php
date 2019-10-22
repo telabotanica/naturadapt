@@ -152,6 +152,16 @@ class User implements UserInterface {
 	 */
 	private $site;
 
+	/**
+	 * @ORM\Column(type="string", length=180, nullable=true)
+	 */
+	private $emailNew;
+
+	/**
+	 * @ORM\Column(type="string", length=255, nullable=true)
+	 */
+	private $emailToken;
+
 	public function __construct () {
 		$this->usergroupMemberships = new ArrayCollection();
 		$this->skills               = new ArrayCollection();
@@ -167,7 +177,7 @@ class User implements UserInterface {
 	 * @see UserInterface
 	 */
 	public function getUsername (): string {
-		return (string) $this->getEmail();
+		return (string)$this->getEmail();
 	}
 
 	/****************************************
@@ -237,7 +247,7 @@ class User implements UserInterface {
 	 * @see UserInterface
 	 */
 	public function getPassword (): string {
-		return (string) $this->password;
+		return (string)$this->password;
 	}
 
 	public function setPassword ( string $password ): self {
@@ -488,6 +498,26 @@ class User implements UserInterface {
 
 	public function setSite ( ?Site $site ): self {
 		$this->site = $site;
+
+		return $this;
+	}
+
+	public function getEmailNew (): ?string {
+		return $this->emailNew;
+	}
+
+	public function setEmailNew ( ?string $emailNew ): self {
+		$this->emailNew = mb_convert_case( trim( $emailNew ), MB_CASE_LOWER );;
+
+		return $this;
+	}
+
+	public function getEmailToken (): ?string {
+		return $this->emailToken;
+	}
+
+	public function setEmailToken ( ?string $emailToken ): self {
+		$this->emailToken = $emailToken;
 
 		return $this;
 	}

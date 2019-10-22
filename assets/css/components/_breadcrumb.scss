@@ -9,7 +9,13 @@
 
 	@include clearulli;
 
-	font-size:     rem(16px);
+	@include small-or-less {
+		font-size: rem(13px);
+	}
+
+	@include medium-or-more {
+		font-size: rem(16px);
+	}
 
 	li {
 		display: inline-block;

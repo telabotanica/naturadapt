@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}{{ 'pages.page.list.title'|trans }} - {{ group.name }} | {{ community.name }}{% endblock %}
+
 {% block main %}
 	<section class="main main__pages-index">
 		<div class="main--content content-container">

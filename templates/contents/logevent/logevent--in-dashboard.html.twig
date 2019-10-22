@@ -1,0 +1,7 @@
+<div class="logevent logevent__in-dashboard">
+	{% include 'contents/user/partials/user--avatar.html.twig' with {'user':logEvent.user, 'filter':'profile'} %}
+	<div class="logevent--details">
+		<div class="logevent--title">{% include 'contents/logevent/titles/logevent--title__' ~ logEvent.type|replace({':': '_'}) ~ '.html.twig' with {'logEvent':logEvent} %}</div>
+		<div class="logevent--date">{{ logEvent.createdAt|ago|capitalize }}</div>
+	</div>
+</div>

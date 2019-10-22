@@ -17,6 +17,21 @@ class LogEventRepository extends ServiceEntityRepository {
 		parent::__construct( $registry, LogEvent::class );
 	}
 
+	/**
+	 * @param array $groups
+	 *
+	 * @return mixed
+	 */
+	public function findForGroups ( $groups = [] ) {
+		return $this->createQueryBuilder( 'l' )
+					->andWhere( 'l.usergroup IN (:groups)' )
+					->setParameter( 'groups', $groups )
+					->orderBy( 'l.createdAt', 'DESC' )
+					->setMaxResults( 10 )
+					->getQuery()
+					->getResult();
+	}
+
 	// /**
 	//  * @return LogEvent[] Returns an array of LogEvent objects
 	//  */

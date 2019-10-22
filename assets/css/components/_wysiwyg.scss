@@ -1,3 +1,15 @@
 .ck-voice-label {
 	@include visually-hidden;
 }
+
+.wysiwyg-content {
+	@include clearfloat;
+
+	@include medium-or-more {
+		.image-style-side {
+			float:         right;
+			margin-left:   column_gap();
+			margin-bottom: column_gap();
+		}
+	}
+}

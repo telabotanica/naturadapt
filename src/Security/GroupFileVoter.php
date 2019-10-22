@@ -56,7 +56,7 @@ class GroupFileVoter extends Voter {
 				 */
 				$group = $subject;
 
-				return $this->security->isGranted( GroupVoter::EDIT, $group );
+				return $this->security->isGranted( GroupVoter::PARTICIPATE, $group );
 
 			case self::READ:
 				/**

@@ -226,10 +226,21 @@
 	}
 
 	.group-logo {
-		margin-right: column_gap();
+		margin-right: padding_horizontal('small');
+		width:        rem(80px);
+		height:       rem(80px);
 
-		width:        rem(150px);
-		height:       rem(150px);
+		@include medium-or-more {
+			margin-right: column_gap();
+			width:        rem(150px);
+			height:       rem(150px);
+		}
+	}
+
+	.group-status {
+		@include small-or-less {
+			font-size: (12 / 16) * 1em;
+		}
 	}
 
 	.group-status + a {
@@ -244,7 +255,10 @@
 
 	.group-description {
 		@include columns;
-		align-items: flex-start;
+
+		&:not(#important) {
+			align-items: flex-start;
+		}
 	}
 
 	.group-description-text {
@@ -354,6 +368,55 @@
 
 		a {
 			@include cta-style;
+		}
+	}
+}
+
+/**************************************************
+* GROUP ON USER DASHBOARD
+**************************************************/
+
+.group__in-items-list {
+	position:        relative;
+	display:         block;
+	padding:         rem(14px) 0;
+	border-bottom:   1px solid $color_grey_border;
+
+	text-decoration: none;
+
+	&::after {
+		content:      '';
+		position:     absolute;
+		top:          50%;
+		right:        0;
+		width:        rem(10px);
+		height:       rem(10px);
+		border-top:   2px solid $color_action;
+		border-right: 2px solid $color_action;
+		transform:    translate(#{rem(-10px)}, -50%) rotate(45deg);
+		transition:   transform .25s ease;
+	}
+
+	.group-name {
+		@include font_default_bold;
+		font-size: rem(16px);
+		color:     black;
+	}
+
+	.group-last-activity {
+		@include font_default;
+		font-size: rem(14px);
+		color:     $color_grey_neutral;
+	}
+
+	&:focus,
+	&:hover {
+		.group-name {
+			text-decoration: underline;
+		}
+
+		&::after {
+			transform: translate(#{rem(-5px)}, -50%) rotate(45deg);
 		}
 	}
 }

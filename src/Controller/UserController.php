@@ -7,6 +7,8 @@ use App\Entity\LogEvent;
 use App\Entity\Site;
 use App\Entity\User;
 use App\Entity\UsergroupMembership;
+use App\Form\UserEmailType;
+use App\Form\UserPasswordType;
 use App\Form\UserProfileType;
 use App\Security\UserVoter;
 use App\Service\Community;
@@ -130,7 +132,7 @@ class UserController extends AbstractController {
 
 			$message = $this->renderView( 'emails/register-activation.html.twig', [
 					'user' => $user,
-					'url'  => $this->generateUrl( 'user_activate', array ( 'token' => $token ), UrlGeneratorInterface::ABSOLUTE_URL ),
+					'url'  => $this->generateUrl( 'user_activate', array( 'token' => $token ), UrlGeneratorInterface::ABSOLUTE_URL ),
 			] );
 
 			$mailer->send(
@@ -277,7 +279,7 @@ class UserController extends AbstractController {
 
 			$message = $this->renderView( 'emails/forgotten-password.html.twig', [
 					'user' => $user,
-					'url'  => $this->generateUrl( 'user_reset_password', array ( 'token' => $token ), UrlGeneratorInterface::ABSOLUTE_URL ),
+					'url'  => $this->generateUrl( 'user_reset_password', array( 'token' => $token ), UrlGeneratorInterface::ABSOLUTE_URL ),
 			] );
 
 			$mailer->send(
@@ -359,7 +361,14 @@ class UserController extends AbstractController {
 			return $this->redirectToRoute( 'user_profile_create' );
 		}
 
-		return $this->render( 'pages/user/dashboard.html.twig' );
+		$groups = array_map( function ( UsergroupMembership $membership ) {
+			return $membership->getUsergroup();
+		}, iterator_to_array( $user->getUsergroupMemberships() ) );
+
+		$logEvents = $manager->getRepository( LogEvent::class )
+							 ->findForGroups( $groups );
+
+		return $this->render( 'pages/user/dashboard.html.twig', [ 'logEvents' => $logEvents ] );
 	}
 
 	protected function profileCreateEdit (
@@ -472,5 +481,169 @@ class UserController extends AbstractController {
 				$manager,
 				$fileManager
 		);
+	}
+
+	/**
+	 * @Route("/user/parameters/edit", name="user_parameters_edit")
+	 *
+	 * @param \Symfony\Component\HttpFoundation\Request                               $request
+	 * @param \Doctrine\Common\Persistence\ObjectManager                              $manager
+	 * @param \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface   $passwordEncoder
+	 * @param \Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface $tokenGenerator
+	 * @param \App\Service\EmailSender                                                $mailer
+	 *
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+	 */
+	public function parametersEdit (
+			Request $request,
+			ObjectManager $manager,
+			UserPasswordEncoderInterface $passwordEncoder,
+			TokenGeneratorInterface $tokenGenerator,
+			EmailSender $mailer
+	) {
+		$this->denyAccessUnlessGranted( UserVoter::LOGGED );
+
+		/**
+		 * @var User $user
+		 */
+		$user = $this->getUser();
+
+		/**
+		 * @var User $emailUserSubmitted
+		 */
+		$emailUserSubmitted = new User();
+		$emailForm          = $this->createForm( UserEmailType::class, $emailUserSubmitted );
+
+		$vars = $request->request->get( 'user_email' );
+
+		if ( !empty( $vars[ 'email_new' ] ) ) {
+			$emailForm->handleRequest( $request );
+		}
+
+		if ( $emailForm->isSubmitted() && $emailForm->isValid() ) {
+			$userRepository = $manager->getRepository( User::class );
+
+			if ( !$passwordEncoder->isPasswordValid( $user, $emailUserSubmitted->getPassword() ) ) {
+				$this->addFlash( 'error', 'messages.user.invalid_credentials' );
+			}
+			else if ( $userRepository->findOneBy( [ 'email' => $vars [ 'email_new' ] ] ) ) {
+				$this->addFlash( 'error', 'messages.user.exists' );
+			}
+			else {
+				$token = $tokenGenerator->generateToken();
+
+				try {
+					$user->setEmailNew( $vars[ 'email_new' ] );
+					$user->setEmailToken( $token );
+					$manager->flush();
+				} catch ( Exception $e ) {
+					$this->addFlash( 'warning', $e->getMessage() );
+				}
+
+				// Send Warning
+
+				$message = $this->renderView( 'emails/email-change-warning.html.twig', [
+						'user' => $user,
+				] );
+
+				$mailer->send(
+						$this->getParameter( 'plateform' )[ 'from' ],
+						$user->getEmail(),
+						$mailer->getSubjectFromTitle( $message ),
+						$message
+				);
+
+				// Send Confirmation
+
+				$message = $this->renderView( 'emails/email-change-confirm.html.twig', [
+						'user' => $user,
+						'url'  => $this->generateUrl( 'user_email_confirm', array( 'token' => $token ), UrlGeneratorInterface::ABSOLUTE_URL ),
+				] );
+
+				$mailer->send(
+						$this->getParameter( 'plateform' )[ 'from' ],
+						$vars[ 'email_new' ],
+						$mailer->getSubjectFromTitle( $message ),
+						$message
+				);
+
+				$this->addFlash( 'notice', 'messages.user.email_change_sent' );
+			}
+		}
+
+		/**
+		 * @var User $passwordUserSubmitted
+		 */
+		$passwordUserSubmitted = new User();
+		$passwordForm          = $this->createForm( UserPasswordType::class, $passwordUserSubmitted );
+
+		$vars = $request->request->get( 'user_password' );
+
+		if ( !empty( $vars[ 'password_new' ] ) ) {
+			$passwordForm->handleRequest( $request );
+		}
+
+		if ( $passwordForm->isSubmitted() && $passwordForm->isValid() ) {
+			if ( $vars[ 'password_new' ] !== $vars[ 'password_confirm' ] ) {
+				$this->addFlash( 'error', 'messages.user.password_confirm_invalid' );
+			}
+			else if ( !$passwordEncoder->isPasswordValid( $user, $passwordUserSubmitted->getPassword() ) ) {
+				$this->addFlash( 'error', 'messages.user.invalid_credentials' );
+			}
+			else {
+				$user->setPassword( $passwordEncoder->encodePassword( $user, $vars[ 'password_new' ] ) );
+				$user->setResetToken( NULL );
+				$manager->flush();
+
+				$this->addFlash( 'notice', 'messages.user.password_updated' );
+
+				return $this->redirectToRoute( 'user_dashboard' );
+			}
+		}
+
+		return $this->render( 'pages/user/parameters-edit.html.twig', [
+				'emailForm'    => $emailForm->createView(),
+				'passwordForm' => $passwordForm->createView(),
+		] );
+	}
+
+	/**
+	 * @Route("/user/email-change/{token}", name="user_email_confirm")
+	 *
+	 * @param \Symfony\Component\HttpFoundation\Request  $request
+	 * @param string                                     $token
+	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 *
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+	 */
+	public function emailChangeConfirm (
+			Request $request,
+			string $token,
+			ObjectManager $manager
+	) {
+		$this->denyAccessUnlessGranted( UserVoter::LOGGED );
+
+		/**
+		 * @var \App\Entity\User $user
+		 */
+		$user = $this->getUser();
+
+		$userRepository = $manager->getRepository( User::class );
+
+		if ( $userRepository->findOneBy( [ 'email' => $user->getEmailNew() ] ) ) {
+			$this->addFlash( 'error', 'messages.user.exists' );
+		}
+		else if ( ( $token !== $user->getEmailToken() ) || ( empty( $user->getEmailNew() ) ) ) {
+			$this->addFlash( 'error', 'messages.user.password_token_unknown' );
+		}
+		else {
+			$user->setEmail( $user->getEmailNew() );
+			$user->setEmailToken( NULL );
+			$manager->flush();
+
+			$this->addFlash( 'notice', 'messages.user.email_change_successful' );
+		}
+
+		return $this->redirectToRoute( 'user_dashboard' );
 	}
 }

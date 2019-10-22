@@ -75,6 +75,10 @@ main {
 
 	padding: padding_vertical('small') padding_horizontal('small');
 
+	@include medium-or-less {
+		margin-bottom: rem(40px);
+	}
+
 	@include large-or-more {
 		padding: padding_vertical('large') padding_horizontal('large');
 	}
