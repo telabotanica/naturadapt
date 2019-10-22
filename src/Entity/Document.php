@@ -45,67 +45,84 @@ class Document {
 	 */
 	private $createdAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\DocumentFolder", inversedBy="documents")
+     */
+    private $folder;
+
 	public function getId (): ?int {
-		return $this->id;
-	}
+         		return $this->id;
+         	}
 
 	public function getUser (): ?User {
-		return $this->user;
-	}
+         		return $this->user;
+         	}
 
 	public function setUser ( ?User $user ): self {
-		$this->user = $user;
-
-		return $this;
-	}
+         		$this->user = $user;
+         
+         		return $this;
+         	}
 
 	public function getUsergroup (): ?Usergroup {
-		return $this->usergroup;
-	}
+         		return $this->usergroup;
+         	}
 
 	public function setUsergroup ( ?Usergroup $usergroup ): self {
-		$this->usergroup = $usergroup;
-
-		return $this;
-	}
+         		$this->usergroup = $usergroup;
+         
+         		return $this;
+         	}
 
 	public function getFile (): ?File {
-		return $this->file;
-	}
+         		return $this->file;
+         	}
 
 	public function setFile ( ?File $file ): self {
-		$this->file = $file;
-
-		return $this;
-	}
+         		$this->file = $file;
+         
+         		return $this;
+         	}
 
 	public function getSlug (): ?string {
-		return $this->slug;
-	}
+         		return $this->slug;
+         	}
 
 	public function setSlug ( ?string $slug ): self {
-		$this->slug = $slug;
-
-		return $this;
-	}
+         		$this->slug = $slug;
+         
+         		return $this;
+         	}
 
 	public function getTitle (): ?string {
-		return $this->title;
-	}
+         		return $this->title;
+         	}
 
 	public function setTitle ( ?string $title ): self {
-		$this->title = $title;
-
-		return $this;
-	}
+         		$this->title = $title;
+         
+         		return $this;
+         	}
 
 	public function getCreatedAt (): ?\DateTimeInterface {
-		return $this->createdAt;
-	}
+         		return $this->createdAt;
+         	}
 
 	public function setCreatedAt ( \DateTimeInterface $createdAt ): self {
-		$this->createdAt = $createdAt;
+         		$this->createdAt = $createdAt;
+         
+         		return $this;
+         	}
 
-		return $this;
-	}
+    public function getFolder(): ?DocumentFolder
+    {
+        return $this->folder;
+    }
+
+    public function setFolder(?DocumentFolder $folder): self
+    {
+        $this->folder = $folder;
+
+        return $this;
+    }
 }
