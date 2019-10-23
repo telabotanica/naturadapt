@@ -279,6 +279,10 @@ pages:
             query:
                 placeholder: "Chercher un document par nom…"
             search: "Filtrer"
+            types:
+                pdf: "PDF"
+                docs: "Documents"
+                images: "Images"
         document_create:
             title: "Envoi d’un document"
             link: "Ajouter un document"

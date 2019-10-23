@@ -59,7 +59,11 @@ class GroupDocumentsController extends AbstractController {
 							 'required' => FALSE,
 							 'expanded' => TRUE,
 							 'multiple' => TRUE,
-							 'choices'  => [],
+							 'choices'  => [
+									 'pages.document.list.types.docs'   => 'docs',
+									 'pages.document.list.types.pdf'    => 'pdf',
+									 'pages.document.list.types.images' => 'images',
+							 ],
 					 ] )
 					 ->add( 'query', SearchType::class, [
 							 'required' => FALSE,

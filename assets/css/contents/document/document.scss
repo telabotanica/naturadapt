@@ -74,9 +74,9 @@
 	}
 
 	.document--title {
+		flex-grow:     1;
 		padding:       0 padding_horizontal();
 
-		width:         rem(215px);
 		overflow:      hidden;
 		text-overflow: ellipsis;
 
@@ -84,6 +84,8 @@
 	}
 
 	.document--date {
+		width: rem(120px);
+
 		color: $color_grey_neutral;
 	}
 }
