@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Document;
+use App\Entity\DocumentFolder;
 use App\Entity\File;
 use App\Entity\LogEvent;
 use App\Entity\Usergroup;
@@ -48,8 +49,7 @@ class GroupDocumentsController extends AbstractController {
 
 		$this->denyAccessUnlessGranted( GroupVoter::READ, $group );
 
-		$page     = $request->query->get( 'page', 0 );
-		$per_page = 10;
+		// Filters
 
 		$filters = $request->query->get( 'form', [] );
 
@@ -69,9 +69,19 @@ class GroupDocumentsController extends AbstractController {
 
 		$form->handleRequest( $request );
 
+		// Folders
+
+		$folders = $group->getDocumentFolders();
+
+		// Documents
+
+		$documents = $manager->getRepository( Document::class )->findRootDocuments( $group );
+
 		return $this->render( 'pages/document/documents-index.html.twig', [
-				'group' => $group,
-				'form'  => $form->createView(),
+				'group'     => $group,
+				'folders'   => $folders,
+				'documents' => $documents,
+				'form'      => $form->createView(),
 		] );
 	}
 
@@ -111,14 +121,37 @@ class GroupDocumentsController extends AbstractController {
 		 * DOCUMENT
 		 **************************************************/
 
+		$existingFolders = $manager->getRepository( DocumentFolder::class )
+								   ->findForGroup( $group );
+
 		$document = new Document();
-		$form     = $this->createForm( DocumentType::class, $document );
+		$form     = $this->createForm( DocumentType::class, $document, [ 'folders' => $existingFolders ] );
 		$form->handleRequest( $request );
 
 		if ( $form->isSubmitted() && $form->isValid() ) {
 			$document->setUser( $user );
 			$document->setUsergroup( $group );
 			$document->setCreatedAt( new \DateTime() );
+
+			$folderTitle = trim( $form->get( 'folderTitle' )->getData() );
+
+			if ( !empty( $folderTitle ) ) {
+				$folder = $manager->getRepository( DocumentFolder::class )
+								  ->findOneBy( [ 'usergroup' => $group, 'title' => $folderTitle ] );
+
+				if ( !$folder ) {
+					$folder = new DocumentFolder();
+					$folder->setUsergroup( $group );
+					$folder->setTitle( $folderTitle );
+
+					$manager->persist( $folder );
+				}
+
+				$document->setFolder( $folder );
+			}
+			else {
+				$document->setFolder( NULL );
+			}
 
 			$manager->persist( $document );
 
@@ -168,6 +201,144 @@ class GroupDocumentsController extends AbstractController {
 	}
 
 	/**
+	 * @Route("/groups/{groupSlug}/documents/{documentId}/edit", name="group_document_edit")
+	 * @param                                            $groupSlug
+	 * @param                                            $documentId
+	 * @param \Symfony\Component\HttpFoundation\Request  $request
+	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \App\Service\FileManager                   $fileManager
+	 *
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 * @throws \Exception
+	 */
+	public function documentEdit (
+			$groupSlug,
+			$documentId,
+			Request $request,
+			ObjectManager $manager,
+			FileManager $fileManager
+	) {
+		/**
+		 * @var  \App\Entity\Usergroup $group
+		 */
+		$group = $manager->getRepository( Usergroup::class )
+						 ->findOneBy( [ 'slug' => $groupSlug ] );
+
+		if ( !$group ) {
+			throw $this->createNotFoundException( 'The group does not exist' );
+		}
+
+		/**
+		 * @var \App\Entity\Page $page
+		 */
+		$document = $manager->getRepository( Document::class )
+							->findOneBy( [ 'id' => $documentId ] );
+
+		if ( !$document ) {
+			throw $this->createNotFoundException( 'The document does not exist' );
+		}
+
+		$this->denyAccessUnlessGranted( GroupDocumentVoter::EDIT, $document );
+
+		/**
+		 * @var \App\Entity\User $user
+		 */
+		$user = $this->getUser();
+
+		/**************************************************
+		 * DOCUMENT
+		 **************************************************/
+
+		$existingFolders = $manager->getRepository( DocumentFolder::class )
+								   ->findForGroup( $group );
+
+		$form = $this->createForm( DocumentType::class, $document, [ 'folders' => $existingFolders ] );
+		$form->handleRequest( $request );
+
+		if ( $form->isSubmitted() && $form->isValid() ) {
+			$folderTitle    = trim( $form->get( 'folderTitle' )->getData() );
+			$previousFolder = $document->getFolder();
+
+			// Set Folder
+
+			if ( !empty( $folderTitle ) ) {
+				if ( ( empty( $previousFolder ) || ( $previousFolder->getTitle() !== $folderTitle ) ) ) {
+					$folder = $manager->getRepository( DocumentFolder::class )
+									  ->findOneBy( [ 'usergroup' => $group, 'title' => $folderTitle ] );
+
+					if ( !$folder ) {
+						$folder = new DocumentFolder();
+						$folder->setUsergroup( $group );
+						$folder->setTitle( $folderTitle );
+
+						$manager->persist( $folder );
+					}
+
+					$document->setFolder( $folder );
+				}
+			}
+			else {
+				$document->setFolder( NULL );
+			}
+
+			// File
+			$uploadFile = $form->get( 'filefile' )->getData();
+
+			if ( FALSE && !empty( $uploadFile ) ) {
+				/**
+				 * @var \App\Service\UsergroupFileManager $groupFileManager
+				 */
+				$groupFileManager = $fileManager->getManager( File::USERGROUP_FILES );
+				$file             = $groupFileManager->createFromUploadedFile( $uploadFile, $user, $group );
+
+				$manager->persist( $file );
+
+				$document->setFile( $file );
+
+				if ( empty( $document->getTitle() ) ) {
+					$document->setTitle( pathinfo( $file->getName(), PATHINFO_FILENAME ) );
+				}
+			}
+
+			$manager->flush();
+
+			// Clean previous Folder
+
+			if ( !empty( $previousFolder ) && ( $previousFolder->getTitle() !== $folderTitle ) ) {
+				$documents = $manager->getRepository( Document::class )
+									 ->findBy( [ 'folder' => $previousFolder ] );
+
+				if ( empty( $documents ) ) {
+					$manager->remove( $previousFolder );
+				}
+			}
+
+			// Log Event
+
+			$log = new LogEvent();
+			$log->setType( LogEvent::DOCUMENT_EDIT );
+			$log->setUser( $this->getUser() );
+			$log->setUsergroup( $group );
+			$log->setCreatedAt( new \DateTime() );
+			$log->setData( [ 'document' => $document->getId(), 'title' => $document->getTitle() ] );
+			$manager->persist( $log );
+			$manager->flush();
+
+			// --
+
+			$this->addFlash( 'notice', 'messages.document.document_updated' );
+
+			return $this->redirectToRoute( 'group_documents_index', [ 'groupSlug' => $group->getSlug() ] );
+		}
+
+		return $this->render( 'pages/document/document-edit.html.twig', [
+				'group'    => $group,
+				'form'     => $form->createView(),
+				'document' => $document,
+		] );
+	}
+
+	/**
 	 * @Route("/groups/{groupSlug}/documents/{documentId}/get", name="group_document_get")
 	 * @param                                            $groupSlug
 	 * @param                                            $documentId
@@ -180,7 +351,8 @@ class GroupDocumentsController extends AbstractController {
 			$groupSlug,
 			$documentId,
 			ObjectManager $manager,
-			FileManager $fileManager ) {
+			FileManager $fileManager
+	) {
 		/**
 		 * @var  \App\Entity\Usergroup $group
 		 */
@@ -221,7 +393,8 @@ class GroupDocumentsController extends AbstractController {
 			$documentId,
 			Request $request,
 			ObjectManager $manager,
-			FileManager $fileManager ) {
+			FileManager $fileManager
+	) {
 		/**
 		 * @var \App\Entity\Document $document
 		 */

@@ -49,13 +49,27 @@
 					<div class="form-row form-row__no-gap">
 						{{ form_widget(form.query, {'attr': {'placeholder': 'pages.document.list.query.placeholder'}}) }}
 					</div>
-					<ul class="documents-list">
-						{% for document in group.documents %}
-							<li>
-								{% include 'contents/document/document--teaser.html.twig' with {'document':document} %}
-							</li>
-						{% endfor %}
-					</ul>
+					{% for folder in folders %}
+						<div class="documents-folder">
+							<div class="documents-folder--name">{{ folder.title }}</div>
+							<ul class="documents-list">
+								{% for document in folder.documents %}
+									<li>
+										{% include 'contents/document/document--teaser.html.twig' with {'document':document} %}
+									</li>
+								{% endfor %}
+							</ul>
+						</div>
+					{% endfor %}
+					{% if documents is not empty %}
+						<ul class="documents-list">
+							{% for document in documents %}
+								<li>
+									{% include 'contents/document/document--teaser.html.twig' with {'document':document} %}
+								</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
 					{% include 'components/pager.html.twig' %}
 				</div>
 			</div>

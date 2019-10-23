@@ -39,7 +39,7 @@
 
 	{% if (group is defined) and is_granted(constant('App\\Security\\GroupVoter::ADMIN'), group) %}
 		{% if isPending %}
-			<div class="user-admin-panel">
+			<div class="in-list-admin-panel">
 				<ul>
 					<li>
 						<a class="pending_set_member"
@@ -64,7 +64,7 @@
 				</ul>
 			</div>
 		{% elseif isBanned %}
-			<div class="user-admin-panel">
+			<div class="in-list-admin-panel">
 				<ul>
 					<li>
 						<a class="banned_set_member"
@@ -89,7 +89,7 @@
 				</ul>
 			</div>
 		{% elseif isAdmin %}
-			<div class="user-admin-panel">
+			<div class="in-list-admin-panel">
 				<ul>
 					<li>
 						<a class="admin_set_user"
@@ -104,7 +104,7 @@
 				</ul>
 			</div>
 		{% else %}
-			<div class="user-admin-panel">
+			<div class="in-list-admin-panel">
 				<button class="sibling-toggle" type="button" title="{{ 'ui.settings'|trans|escape('html_attr') }}">
 					<span>{{ 'ui.settings'|trans }}</span>
 				</button>

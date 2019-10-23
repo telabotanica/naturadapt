@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ 'pages.document.document_create.title'|trans }} - {{ group.name }} | {{ community.name }}{% endblock %}
+{% block title %}{{ 'pages.document.document_edit.title'|trans }} - {{ group.name }} | {{ community.name }}{% endblock %}
 
 {% block main %}
 	<section class="main main__group-page main__group-page__edit">
@@ -24,7 +24,11 @@
 						href: path('group_documents_index', {'groupSlug':group.slug})
 					},
 					{
-						label: 'pages.document.document_create.title'|trans
+						label: document.title,
+						href: path('group_document_get', {'groupSlug':group.slug, 'documentId':document.id})
+					},
+					{
+						label: 'pages.document.document_edit.title'|trans
 					}
 				]} %}
 			</section>
@@ -32,9 +36,9 @@
 			<section class="group-form">
 				{% include 'forms/document/document-form.html.twig' with ({
 					'form':form,
-					'form_submit':'pages.document.document_create.button',
-					'document':false,
-					'delete':false,
+					'form_submit':'pages.document.document_edit.button',
+					'document':document,
+					'delete':true
 				}) %}
 			</section>
 		</div>

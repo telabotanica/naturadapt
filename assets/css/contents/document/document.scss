@@ -2,6 +2,15 @@
  * DOCUMENTS LIST
  *************************************************/
 
+.documents-folder--name {
+	padding:       padding_vertical() padding_horizontal();
+
+	border-bottom: 1px solid $color_grey_border;
+
+	@include font_title_bold;
+	font-size:     rem(16px);
+}
+
 .documents-list {
 	@include clearulli(true);
 
@@ -11,9 +20,13 @@
 }
 
 .document__teaser {
-	position:  relative;
+	position:    relative;
 
-	font-size: rem(16px);
+	display:     flex;
+	flex-flow:   row nowrap;
+	align-items: center;
+
+	font-size:   rem(16px);
 
 	&:focus,
 	&:hover {
@@ -26,6 +39,8 @@
 	}
 
 	.document-infos {
+		flex-grow:   1;
+
 		display:     flex;
 		flex-flow:   row nowrap;
 		align-items: center;

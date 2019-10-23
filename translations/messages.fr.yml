@@ -137,6 +137,9 @@ forms:
         title:
             label: "Nom du document"
             placeholder: ""
+        folder:
+            label: "Dossier"
+            placeholder: "(non classé)"
 
 pages:
     user:
@@ -280,6 +283,10 @@ pages:
             title: "Envoi d’un document"
             link: "Ajouter un document"
             button: "Envoyer le document"
+        document_edit:
+            title: "Modification d’un document"
+            link: "Modifier"
+            button: "Enregistrer les modifications"
         view:
             date: "Le %s"
 
