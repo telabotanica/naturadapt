@@ -41,6 +41,10 @@ class UrlManager {
 	public function pageUrlFromId ( $id ) {
 		$page = $this->manager->getRepository( Page::class )->findOneBy( [ 'id' => $id ] );
 
+		if ( empty( $page ) || empty( $page->getUsergroup() ) || empty( $page->getSlug() ) ) {
+			return '';
+		}
+
 		return $this->urlGenerator->generate( 'group_page_index', [
 				'groupSlug' => $page->getUsergroup()->getSlug(),
 				'pageSlug'  => $page->getSlug(),
@@ -50,6 +54,10 @@ class UrlManager {
 	public function articleUrlFromId ( $id ) {
 		$article = $this->manager->getRepository( Article::class )->findOneBy( [ 'id' => $id ] );
 
+		if ( empty( $article ) || empty( $article->getUsergroup() ) || empty( $article->getSlug() ) ) {
+			return '';
+		}
+
 		return $this->urlGenerator->generate( 'group_article_index', [
 				'groupSlug'   => $article->getUsergroup()->getSlug(),
 				'articleSlug' => $article->getSlug(),
@@ -57,10 +65,14 @@ class UrlManager {
 	}
 
 	public function documentUrlFromId ( $id ) {
-		$doc = $this->manager->getRepository( Document::class )->findOneBy( [ 'id' => $id ] );
+		$document = $this->manager->getRepository( Document::class )->findOneBy( [ 'id' => $id ] );
+
+		if ( empty( $document ) || empty( $document->getUsergroup() ) ) {
+			return '';
+		}
 
 		return $this->urlGenerator->generate( 'group_document_get', [
-				'groupSlug'  => $doc->getUsergroup()->getSlug(),
+				'groupSlug'  => $document->getUsergroup()->getSlug(),
 				'documentId' => $id,
 		] );
 	}
