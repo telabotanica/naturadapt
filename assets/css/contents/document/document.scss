@@ -2,13 +2,17 @@
  * DOCUMENTS LIST
  *************************************************/
 
+.documents-folder {
+	margin: 0 0 padding_vertical();
+}
+
 .documents-folder--name {
 	padding:       padding_vertical() padding_horizontal();
 
 	border-bottom: 1px solid $color_grey_border;
 
 	@include font_title_bold;
-	font-size:     rem(16px);
+	font-size:     rem(20px);
 }
 
 .documents-list {
