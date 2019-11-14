@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Document;
 use App\Entity\DocumentFolder;
 use App\Service\FileManager;
+use App\Service\FileMimeManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -44,19 +45,11 @@ class DocumentType extends AbstractType {
 						'constraints' => [
 								new File( [
 										'maxSize'          => $maxFileSize,
-										'mimeTypes'        => [
-												'application/pdf',
-												'application/x-pdf',
-												'application/msword',
-												'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-												'application/vnd.ms-excel',
-												'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-												'application/vnd.oasis.opendocument.text',
-												'application/vnd.oasis.opendocument.spreadsheet',
-												'image/gif',
-												'image/png',
-												'image/jpeg',
-										],
+										'mimeTypes'        => array_merge(
+												FileMimeManager::getMimes( FileMimeManager::DOCUMENTS ),
+												FileMimeManager::getMimes( FileMimeManager::PDF ),
+												FileMimeManager::getMimes( FileMimeManager::IMAGES )
+										),
 										'mimeTypesMessage' => 'filetype_incorrect',
 								] ),
 						],

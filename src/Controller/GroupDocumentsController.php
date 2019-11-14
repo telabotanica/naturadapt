@@ -11,6 +11,8 @@ use App\Form\DocumentType;
 use App\Security\GroupDocumentVoter;
 use App\Security\GroupVoter;
 use App\Service\FileManager;
+use App\Service\FileMimeManager;
+use App\Service\SlugGenerator;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -20,6 +22,56 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class GroupDocumentsController extends AbstractController {
+	/**
+	 * @param \App\Entity\Document $document
+	 * @param                      $filters
+	 *
+	 * @return bool
+	 */
+	private function match ( Document $document, $filters ) {
+		// Keywords
+
+		$matchKeywords = FALSE;
+
+		if ( !empty( $filters[ 'keywords' ] ) ) {
+			$title = SlugGenerator::slugify( $document->getTitle() . '-' . $document->getFile()->getName() );
+
+			foreach ( $filters[ 'keywords' ] as $keyword ) {
+				$matchKeywords = $matchKeywords || ( strpos( $title, $keyword ) !== FALSE );
+			}
+		}
+		else {
+			$matchKeywords = TRUE;
+		}
+
+		if ( !$matchKeywords ) {
+			return FALSE;
+		}
+
+		// Filetype
+
+		$matchFiletype = FALSE;
+
+		if ( !empty( $filters[ 'filetype' ] ) ) {
+			$matchFiletype = FALSE;
+
+			foreach ( $filters[ 'filetype' ] as $type ) {
+				$matchFiletype = $matchFiletype || ( in_array( $document->getFile()->getType(), FileMimeManager::getMimes( $type ) ) );
+			}
+		}
+		else {
+			$matchFiletype = TRUE;
+		}
+
+		if ( !$matchFiletype ) {
+			return FALSE;
+		}
+
+		//
+
+		return $matchFiletype && $matchKeywords;
+	}
+
 	/**************************************************
 	 * DOCUMENTS
 	 **************************************************/
@@ -52,17 +104,23 @@ class GroupDocumentsController extends AbstractController {
 		// Filters
 
 		$filters = $request->query->get( 'form', [] );
+		unset( $filters[ 'submit' ] );
 
-		$form = $this->createFormBuilder()
+		if ( !empty( $filters[ 'query' ] ) ) {
+			$filters[ 'keywords' ] = explode( '-', SlugGenerator::slugify( $filters[ 'query' ] ) );
+			unset( $filters[ 'query' ] );
+		}
+
+		$form = $this->createFormBuilder( NULL, [ 'csrf_protection' => FALSE ] )
 					 ->setMethod( 'get' )
 					 ->add( 'filetype', ChoiceType::class, [
 							 'required' => FALSE,
 							 'expanded' => TRUE,
 							 'multiple' => TRUE,
 							 'choices'  => [
-									 'pages.document.list.types.docs'   => 'docs',
-									 'pages.document.list.types.pdf'    => 'pdf',
-									 'pages.document.list.types.images' => 'images',
+									 'pages.document.list.types.' . FileMimeManager::DOCUMENTS => FileMimeManager::DOCUMENTS,
+									 'pages.document.list.types.' . FileMimeManager::PDF       => FileMimeManager::PDF,
+									 'pages.document.list.types.' . FileMimeManager::IMAGES    => FileMimeManager::IMAGES,
 							 ],
 					 ] )
 					 ->add( 'query', SearchType::class, [
@@ -77,9 +135,29 @@ class GroupDocumentsController extends AbstractController {
 
 		$folders = $group->getDocumentFolders();
 
+		foreach ( $folders as $folder ) {
+			$count = 0;
+			foreach ( $folder->getDocuments() as $document ) {
+				if ( !$this->match( $document, $filters ) ) {
+					$folder->removeDocument( $document );
+				}
+				else {
+					$count++;
+				}
+			}
+
+			if ( empty( $count ) ) {
+				$folders->removeElement( $folder );
+			}
+		}
+
 		// Documents
 
 		$documents = $manager->getRepository( Document::class )->findRootDocuments( $group );
+
+		$documents = array_filter( $documents, function ( $document ) use ( $filters ) {
+			return $this->match( $document, $filters );
+		} );
 
 		return $this->render( 'pages/document/documents-index.html.twig', [
 				'group'     => $group,
