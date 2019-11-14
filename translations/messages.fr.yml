@@ -283,6 +283,7 @@ pages:
                 pdf: "PDF"
                 docs: "Documents"
                 images: "Images"
+            toggle: "Ouvrir / Fermer"
         document_create:
             title: "Envoi d’un document"
             link: "Ajouter un document"

@@ -26,6 +26,7 @@ import './ui/input-file-prefill';
 import './ui/see-more';
 import './ui/sibling-toggle';
 import './ui/wysiwyg';
+import './ui/documents-folding';
 //
 import './user/profile';
 import './user/dashboard';

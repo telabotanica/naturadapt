@@ -51,7 +51,10 @@
 					</div>
 					{% for folder in folders %}
 						<div class="documents-folder">
-							<div class="documents-folder--name">{{ folder.title }}</div>
+							<div class="documents-folder--name">
+								<span>{{ folder.title }}</span>
+								<button type="button" class="list-toggle"><span>{{ 'pages.document.list.toggle'|trans }}</span></button>
+							</div>
 							<ul class="documents-list">
 								{% for document in folder.documents %}
 									<li>
