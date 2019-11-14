@@ -49,6 +49,15 @@
 					<div class="form-row form-row__no-gap">
 						{{ form_widget(form.query, {'attr': {'placeholder': 'pages.document.list.query.placeholder'}}) }}
 					</div>
+					{% if documents is not empty %}
+						<ul class="documents-list">
+							{% for document in documents %}
+								<li>
+									{% include 'contents/document/document--teaser.html.twig' with {'document':document} %}
+								</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
 					{% for folder in folders %}
 						<div class="documents-folder">
 							<div class="documents-folder--name">
@@ -64,15 +73,6 @@
 							</ul>
 						</div>
 					{% endfor %}
-					{% if documents is not empty %}
-						<ul class="documents-list">
-							{% for document in documents %}
-								<li>
-									{% include 'contents/document/document--teaser.html.twig' with {'document':document} %}
-								</li>
-							{% endfor %}
-						</ul>
-					{% endif %}
 					{% include 'components/pager.html.twig' %}
 				</div>
 			</div>
