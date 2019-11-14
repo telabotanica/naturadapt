@@ -1,6 +1,6 @@
-import ready from 'mf-js/modules/dom/ready';
+import domready from 'mf-js/modules/dom/ready';
 
-ready( () => Array.from( document.querySelectorAll( '.file-preview' ) ).forEach( ( element ) => {
+domready( () => Array.from( document.querySelectorAll( '.file-preview' ) ).forEach( ( element ) => {
 	const preview = element.querySelector( '.file-preview--img' );
 	const input   = element.querySelector( '[type="file"]' );
 

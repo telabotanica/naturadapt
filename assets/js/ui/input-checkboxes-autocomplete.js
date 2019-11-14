@@ -1,9 +1,9 @@
-import ready from 'mf-js/modules/dom/ready';
+import domready from 'mf-js/modules/dom/ready';
 import autocomplete from 'autocomplete.js';
 
 const normalizeKey = str => str.normalize( 'NFD' ).replace( /[\u0300-\u036f]/g, "" ).toLocaleLowerCase();
 
-ready( () => Array.from( document.querySelectorAll( '.checkboxes-autocomplete' ) ).forEach( ( element ) => {
+domready( () => Array.from( document.querySelectorAll( '.checkboxes-autocomplete' ) ).forEach( ( element ) => {
 	const checkboxes = Array.from( element.querySelectorAll( 'input[type="checkbox"]' ) );
 
 	// Create of values and labels and hide original elements

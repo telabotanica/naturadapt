@@ -1,6 +1,6 @@
-import ready from 'mf-js/modules/dom/ready';
+import domready from 'mf-js/modules/dom/ready';
 
-ready( () => Array.from( document.querySelectorAll( '[data-see-more]' ) ).forEach( ( button ) => {
+domready( () => Array.from( document.querySelectorAll( '[data-see-more]' ) ).forEach( ( button ) => {
 	const element = button.nextElementSibling;
 
 	button.addEventListener( 'click', () => {

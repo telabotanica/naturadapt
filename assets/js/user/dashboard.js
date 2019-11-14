@@ -1,6 +1,6 @@
-import ready from 'mf-js/modules/dom/ready';
+import domready from 'mf-js/modules/dom/ready';
 
-ready( () => Array.from( document.querySelectorAll( '.user-dashboard' ) ).forEach( ( dashboard ) => {
+domready( () => Array.from( document.querySelectorAll( '.user-dashboard' ) ).forEach( ( dashboard ) => {
 	const tabs         = Array.from( dashboard.querySelectorAll( '.user-dashboard--tabs li' ) );
 	const tabsContents = tabs.map( ( tab ) => {
 		const button = tab.querySelector( 'button[data-for]' );

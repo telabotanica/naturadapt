@@ -1,6 +1,6 @@
-import ready from 'mf-js/modules/dom/ready';
+import domready from 'mf-js/modules/dom/ready';
 
-ready( () => Array.from( document.querySelectorAll( '.form-row__file' ) ).forEach( ( fileUpload ) => {
+domready( () => Array.from( document.querySelectorAll( '.form-row__file' ) ).forEach( ( fileUpload ) => {
 	const fileElement = fileUpload.querySelector( 'input[type="file"]' );
 
 	if ( !fileElement ) {

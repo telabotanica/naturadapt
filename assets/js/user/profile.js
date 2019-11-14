@@ -1,4 +1,4 @@
-import ready from 'mf-js/modules/dom/ready';
+import domready from 'mf-js/modules/dom/ready';
 import autocomplete from 'autocomplete.js';
 
 function get_places( element ) {
@@ -15,7 +15,7 @@ function get_places( element ) {
 	} );
 }
 
-ready( () => {
+domready( () => {
 	Array.from( document.querySelectorAll( '[name="user_profile"]' ) ).forEach( ( form ) => {
 		// City autocomplete
 
