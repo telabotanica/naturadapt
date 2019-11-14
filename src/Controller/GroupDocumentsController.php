@@ -121,6 +121,7 @@ class GroupDocumentsController extends AbstractController {
 									 'pages.document.list.types.' . FileMimeManager::DOCUMENTS => FileMimeManager::DOCUMENTS,
 									 'pages.document.list.types.' . FileMimeManager::PDF       => FileMimeManager::PDF,
 									 'pages.document.list.types.' . FileMimeManager::IMAGES    => FileMimeManager::IMAGES,
+									 'pages.document.list.types.' . FileMimeManager::ARCHIVES  => FileMimeManager::ARCHIVES,
 							 ],
 					 ] )
 					 ->add( 'query', SearchType::class, [

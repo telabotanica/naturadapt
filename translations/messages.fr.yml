@@ -283,6 +283,7 @@ pages:
                 pdf: "PDF"
                 docs: "Documents"
                 images: "Images"
+                archives: "Archives"
             toggle: "Ouvrir / Fermer"
         document_create:
             title: "Envoi d’un document"

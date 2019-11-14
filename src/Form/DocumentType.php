@@ -48,7 +48,8 @@ class DocumentType extends AbstractType {
 										'mimeTypes'        => array_merge(
 												FileMimeManager::getMimes( FileMimeManager::DOCUMENTS ),
 												FileMimeManager::getMimes( FileMimeManager::PDF ),
-												FileMimeManager::getMimes( FileMimeManager::IMAGES )
+												FileMimeManager::getMimes( FileMimeManager::IMAGES ),
+												FileMimeManager::getMimes( FileMimeManager::ARCHIVES )
 										),
 										'mimeTypesMessage' => 'filetype_incorrect',
 								] ),
