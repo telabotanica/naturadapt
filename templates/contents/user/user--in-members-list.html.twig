@@ -17,7 +17,7 @@
 		{% set classes = classes|merge([ 'user__admin']) %}
 	{% endif %}
 {% endif %}
-<div class="{{ classes|join(' ') }}" style="--color: {{ user.name|color }}">
+<div class="{{ classes|join(' ') }}">
 	<a class="user-infos" href="{{ path('member', {'user_id':user.id}) }}">
 		{% if (admin is defined) and admin %}
 			<div class="user--admin"><span>{{ 'pages.user.is_admin'|trans }}</span></div>
