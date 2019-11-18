@@ -1,0 +1,9 @@
+<div class="group-events">
+	<ul>
+		{% for logEvent in logEvents %}
+			<li>
+				{% include 'contents/logevent/logevent--in-dashboard.html.twig' with {'logEvent': logEvent} %}
+			</li>
+		{% endfor %}
+	</ul>
+</div>

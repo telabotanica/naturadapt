@@ -214,6 +214,9 @@ pages:
             title: "Ce groupe est privé"
             body: "Votre demande d’inscription au groupe sera soumise à l’acceptation des administrateurs. Il peut ainsi se passer plusieurs jours avant que vous ne receviez votre invitation."
         home: "Accueil du groupe"
+        tabs:
+            home: "Vue d’ensemble"
+            events: "Dernières activités"
         groups:
             title: "Groupes"
         pages:
@@ -237,7 +240,8 @@ pages:
         soon:
             title: "Bientôt"
             hint: "Cette fonction est en cours de développement, vous pourrez bientôt discuter à l'intérieur de ce groupe au sein de la plateforme et par e-mail."
-
+        events:
+            title: "Activités"
     page:
         list:
             title: "Pages"
@@ -328,6 +332,10 @@ pages:
                 title: "Biographie"
             groups:
                 title: "Groupes"
+
+    event:
+        list:
+            title: "Activités"
 
 messages:
     user:
