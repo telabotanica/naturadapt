@@ -357,10 +357,6 @@ class UserController extends AbstractController {
 		 */
 		$user = $this->getUser();
 
-		if ( empty( $user->getName() ) ) {
-			return $this->redirectToRoute( 'user_profile_create' );
-		}
-
 		$groups = array_map( function ( UsergroupMembership $membership ) {
 			return $membership->getUsergroup();
 		}, iterator_to_array( $user->getUsergroupMemberships() ) );
