@@ -124,7 +124,7 @@ class MemberController extends AbstractController {
 	}
 
 	/**
-	 * @Route("/members/{user_id}/delete")
+	 * @Route("/members/{user_id}/delete", name="member_delete")
 	 *
 	 * @param                                            $user_id
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
