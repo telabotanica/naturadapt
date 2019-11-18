@@ -330,13 +330,15 @@
 	}
 
 	.group-events {
-		position:  relative;
+		position: relative;
 
 		@include clearulli;
 
-		max-width: (2 / 3) * 100%;
-		margin:    0 auto;
-
+		@include large-or-more {
+			max-width: (2 / 3) * 100%;
+			margin:    0 auto;
+		}
+		
 		&::before {
 			content:     '';
 			position:    absolute;
