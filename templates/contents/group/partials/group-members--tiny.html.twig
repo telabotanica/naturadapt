@@ -1,5 +1,5 @@
 {% set maxVisibleUsers = 5 %}
-<div class="group-members group-members__tiny">
+<a href="{{ path('group_members_index', {'groupSlug':group.slug}) }}" class="group-members group-members__tiny">
 	<ul>
 		{% for member in group.members|slice(0, maxVisibleUsers) %}
 			<li>
@@ -11,4 +11,4 @@
 	{% if count_plus > 0 %}
 		<div class="members-count">{{ count_plus }}</div>
 	{% endif %}
-</div>
+</a>
