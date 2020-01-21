@@ -68,6 +68,7 @@ class DocumentType extends AbstractType {
 				] )
 				->add( 'title', TextType::class, [
 						'required' => FALSE,
+						'attr'     => [ 'maxlength' => 100 ],
 				] )
 				->add( 'submit', SubmitType::class );
 	}
