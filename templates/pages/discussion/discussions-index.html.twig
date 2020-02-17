@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'pages.discussion.list.title'|trans }} - {{ group.name }} | {{ community.name }}{% endblock %}
+
+{% block main %}
+	<section class="main main__discussions-index">
+		<div class="main--content content-container">
+			{% include 'components/app-flashes.html.twig' %}
+
+			<div class="panel">
+				<h1 class="h1">{{ 'pages.discussion.list.title'|trans }}</h1>
+
+				{% if is_granted(constant('App\\Security\\GroupDiscussionVoter::CREATE'), group) %}
+					<div class="panel--edit">
+						<a class="cta__inverted" href="{{ path('group_discussion_new', {'groupSlug':group.slug}) }}">{{ 'pages.discussion.discussion_create.link'|trans }}</a>
+					</div>
+				{% endif %}
+			</div>
+
+			{% include 'components/breadcrumb.html.twig' with {'items':[
+				{
+					label: 'pages.group.groups.title'|trans,
+					href: path('groups_index')
+				},
+				{
+					label: group.name,
+					href: path('group_index', {'groupSlug':group.slug})
+				},
+				{
+					label: 'pages.group.discussions.title'|trans,
+				}
+			]} %}
+
+			<section class="discussions-list">
+				<div class="discussions-list--headers discussions-list--row">
+					<div>{{ 'pages.discussion.list.subjects'|trans }}</div>
+					<div>{{ 'pages.discussion.list.messages_count'|trans }}</div>
+					<div>{{ 'pages.discussion.list.activity'|trans }}</div>
+				</div>
+				<ul>
+					{% for discussion in group.discussions %}
+						<li>
+							{% include 'contents/discussion/discussion--teaser.html.twig' with {'discussion':discussion} %}
+						</li>
+					{% endfor %}
+				</ul>
+			</section>
+		</div>
+	</section>
+{% endblock %}

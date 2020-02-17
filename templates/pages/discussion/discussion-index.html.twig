@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ discussion.title }} - {{ group.name }} | {{ community.name }}{% endblock %}
+
+{% block main %}
+	<section class="main main__discussion-index">
+		{% include 'contents/discussion/discussion--full.html.twig' with {'group':group, 'discussion':discussion} %}
+	</section>
+
+	{% if form %}
+		<div class="main__group-page main__group-page__edit content-container">
+			<section class="group-form">
+				{% include 'forms/discussion/message-form.html.twig' with ({
+					'form':form,
+					'form_submit':'pages.discussion.discussion_create.button',
+					'upload':upload
+				}) %}
+			</section>
+		</div>
+	{% endif %}
+{% endblock %}

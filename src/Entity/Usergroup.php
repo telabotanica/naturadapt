@@ -113,93 +113,100 @@ class Usergroup {
 	 */
 	private $documentFolders;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Discussion", mappedBy="usergroup", orphanRemoval=true)
+	 * @ORM\OrderBy({"activeAt"="DESC"})
+     */
+    private $discussions;
+
 	public function __construct () {
-		$this->categories      = new ArrayCollection();
-		$this->members         = new ArrayCollection();
-		$this->pages           = new ArrayCollection();
-		$this->files           = new ArrayCollection();
-		$this->documents       = new ArrayCollection();
-		$this->articles        = new ArrayCollection();
-		$this->logEvents       = new ArrayCollection();
-		$this->documentFolders = new ArrayCollection();
-	}
+               		$this->categories      = new ArrayCollection();
+               		$this->members         = new ArrayCollection();
+               		$this->pages           = new ArrayCollection();
+               		$this->files           = new ArrayCollection();
+               		$this->documents       = new ArrayCollection();
+               		$this->articles        = new ArrayCollection();
+               		$this->logEvents       = new ArrayCollection();
+               		$this->documentFolders = new ArrayCollection();
+                 $this->discussions = new ArrayCollection();
+               	}
 
 	public function getId (): ?int {
-		return $this->id;
-	}
+               		return $this->id;
+               	}
 
 	public function getName (): ?string {
-		return $this->name;
-	}
+               		return $this->name;
+               	}
 
 	public function setName ( string $name ): self {
-		$this->name = $name;
+               		$this->name = $name;
 
-		return $this;
-	}
+               		return $this;
+               	}
 
 	public function getDescription (): ?string {
-		return $this->description;
-	}
+               		return $this->description;
+               	}
 
 	public function setDescription ( string $description ): self {
-		$this->description = $description;
+               		$this->description = $description;
 
-		return $this;
-	}
+               		return $this;
+               	}
 
 	public function getPresentation (): ?string {
-		return $this->presentation;
-	}
+               		return $this->presentation;
+               	}
 
 	public function setPresentation ( ?string $presentation ): self {
-		$this->presentation = $presentation;
+               		$this->presentation = $presentation;
 
-		return $this;
-	}
+               		return $this;
+               	}
 
 	public function getVisibility (): ?string {
-		return $this->visibility;
-	}
+               		return $this->visibility;
+               	}
 
 	public function setVisibility ( string $visibility ): self {
-		$this->visibility = $visibility;
+               		$this->visibility = $visibility;
 
-		return $this;
-	}
+               		return $this;
+               	}
 
 	public function getActiveApps (): ?array {
-		return $this->activeApps;
-	}
+               		return $this->activeApps;
+               	}
 
 	public function setActiveApps ( array $activeApps ): self {
-		$this->activeApps = $activeApps;
+               		$this->activeApps = $activeApps;
 
-		return $this;
-	}
+               		return $this;
+               	}
 
 	/**
 	 * @return Collection|Category[]
 	 */
 	public function getCategories (): Collection {
-		return $this->categories;
-	}
+               		return $this->categories;
+               	}
 
 	public function addCategory ( Category $category ): self {
-		if ( !$this->categories->contains( $category ) ) {
-			$this->categories[] = $category;
-		}
+               		if ( !$this->categories->contains( $category ) ) {
+               			$this->categories[] = $category;
+               		}
 
-		return $this;
-	}
+               		return $this;
+               	}
 
 	public function removeCategory ( Category $category ): self {
-		if ( $this->categories->contains( $category ) ) {
-			$this->categories->removeElement( $category );
-		}
+               		if ( $this->categories->contains( $category ) ) {
+               			$this->categories->removeElement( $category );
+               		}
 
-		return $this;
-	}
+               		return $this;
+               	}
 
 	/**
 	 * @param string $status
@@ -207,10 +214,10 @@ class Usergroup {
 	 * @return Collection|UsergroupMembership[]
 	 */
 	public function getMembers ( $status = UsergroupMembership::STATUS_MEMBER ): Collection {
-		return $this->members->filter( function ( UsergroupMembership $membership ) use ( $status ) {
-			return $membership->getStatus() === $status;
-		} );
-	}
+               		return $this->members->filter( function ( UsergroupMembership $membership ) use ( $status ) {
+               			return $membership->getStatus() === $status;
+               		} );
+               	}
 
 	/**
 	 * @param string $role
@@ -218,237 +225,268 @@ class Usergroup {
 	 * @return Collection|UsergroupMembership[]
 	 */
 	public function getMembersByRole ( $role = UsergroupMembership::ROLE_USER ): Collection {
-		return $this->members->filter( function ( UsergroupMembership $membership ) use ( $role ) {
-			return $membership->getRole() === $role;
-		} );
-	}
+               		return $this->members->filter( function ( UsergroupMembership $membership ) use ( $role ) {
+               			return $membership->getRole() === $role;
+               		} );
+               	}
 
 	public function addMember ( UsergroupMembership $member ): self {
-		if ( !$this->members->contains( $member ) ) {
-			$this->members[] = $member;
-			$member->setUsergroup( $this );
-		}
+               		if ( !$this->members->contains( $member ) ) {
+               			$this->members[] = $member;
+               			$member->setUsergroup( $this );
+               		}
 
-		return $this;
-	}
+               		return $this;
+               	}
 
 	public function removeMember ( UsergroupMembership $member ): self {
-		if ( $this->members->contains( $member ) ) {
-			$this->members->removeElement( $member );
-			// set the owning side to null (unless already changed)
-			if ( $member->getUsergroup() === $this ) {
-				$member->setUsergroup( NULL );
-			}
-		}
+               		if ( $this->members->contains( $member ) ) {
+               			$this->members->removeElement( $member );
+               			// set the owning side to null (unless already changed)
+               			if ( $member->getUsergroup() === $this ) {
+               				$member->setUsergroup( NULL );
+               			}
+               		}
 
-		return $this;
-	}
+               		return $this;
+               	}
 
 	/**
 	 * @return Collection|Page[]
 	 */
 	public function getPages (): Collection {
-		return $this->pages;
-	}
+               		return $this->pages;
+               	}
 
 	public function addPage ( Page $usergroupPage ): self {
-		if ( !$this->pages->contains( $usergroupPage ) ) {
-			$this->pages[] = $usergroupPage;
-			$usergroupPage->setUsergroup( $this );
-		}
+               		if ( !$this->pages->contains( $usergroupPage ) ) {
+               			$this->pages[] = $usergroupPage;
+               			$usergroupPage->setUsergroup( $this );
+               		}
 
-		return $this;
-	}
+               		return $this;
+               	}
 
 	public function removePage ( Page $usergroupPage ): self {
-		if ( $this->pages->contains( $usergroupPage ) ) {
-			$this->pages->removeElement( $usergroupPage );
-			// set the owning side to null (unless already changed)
-			if ( $usergroupPage->getUsergroup() === $this ) {
-				$usergroupPage->setUsergroup( NULL );
-			}
-		}
+               		if ( $this->pages->contains( $usergroupPage ) ) {
+               			$this->pages->removeElement( $usergroupPage );
+               			// set the owning side to null (unless already changed)
+               			if ( $usergroupPage->getUsergroup() === $this ) {
+               				$usergroupPage->setUsergroup( NULL );
+               			}
+               		}
 
-		return $this;
-	}
+               		return $this;
+               	}
 
 	public function getSlug (): ?string {
-		return $this->slug;
-	}
+               		return $this->slug;
+               	}
 
 	public function setSlug ( string $slug ): self {
-		$this->slug = substr( $slug, 0, 100 );
+               		$this->slug = substr( $slug, 0, 100 );
 
-		return $this;
-	}
+               		return $this;
+               	}
 
 	/**
 	 * @return Collection|File[]
 	 */
 	public function getFiles (): Collection {
-		return $this->files;
-	}
+               		return $this->files;
+               	}
 
 	public function addFile ( File $file ): self {
-		if ( !$this->files->contains( $file ) ) {
-			$this->files[] = $file;
-			$file->setUsergroup( $this );
-		}
+               		if ( !$this->files->contains( $file ) ) {
+               			$this->files[] = $file;
+               			$file->setUsergroup( $this );
+               		}
 
-		return $this;
-	}
+               		return $this;
+               	}
 
 	public function removeFile ( File $file ): self {
-		if ( $this->files->contains( $file ) ) {
-			$this->files->removeElement( $file );
-			// set the owning side to null (unless already changed)
-			if ( $file->getUsergroup() === $this ) {
-				$file->setUsergroup( NULL );
-			}
-		}
+               		if ( $this->files->contains( $file ) ) {
+               			$this->files->removeElement( $file );
+               			// set the owning side to null (unless already changed)
+               			if ( $file->getUsergroup() === $this ) {
+               				$file->setUsergroup( NULL );
+               			}
+               		}
 
-		return $this;
-	}
+               		return $this;
+               	}
 
 	public function getCreatedAt (): ?\DateTimeInterface {
-		return $this->createdAt;
-	}
+               		return $this->createdAt;
+               	}
 
 	public function setCreatedAt ( \DateTimeInterface $createdAt ): self {
-		$this->createdAt = $createdAt;
+               		$this->createdAt = $createdAt;
 
-		return $this;
-	}
+               		return $this;
+               	}
 
 	public function getLogo (): ?File {
-		return $this->logo;
-	}
+               		return $this->logo;
+               	}
 
 	public function setLogo ( ?File $logo ): self {
-		$this->logo = $logo;
+               		$this->logo = $logo;
 
-		return $this;
-	}
+               		return $this;
+               	}
 
 	public function getCover (): ?File {
-		return $this->cover;
-	}
+               		return $this->cover;
+               	}
 
 	public function setCover ( ?File $cover ): self {
-		$this->cover = $cover;
+               		$this->cover = $cover;
 
-		return $this;
-	}
+               		return $this;
+               	}
 
 	/**
 	 * @return Collection|Document[]
 	 */
 	public function getDocuments (): Collection {
-		return $this->documents;
-	}
+               		return $this->documents;
+               	}
 
 	public function addDocument ( Document $document ): self {
-		if ( !$this->documents->contains( $document ) ) {
-			$this->documents[] = $document;
-			$document->setUsergroup( $this );
-		}
+               		if ( !$this->documents->contains( $document ) ) {
+               			$this->documents[] = $document;
+               			$document->setUsergroup( $this );
+               		}
 
-		return $this;
-	}
+               		return $this;
+               	}
 
 	public function removeDocument ( Document $document ): self {
-		if ( $this->documents->contains( $document ) ) {
-			$this->documents->removeElement( $document );
-			// set the owning side to null (unless already changed)
-			if ( $document->getUsergroup() === $this ) {
-				$document->setUsergroup( NULL );
-			}
-		}
+               		if ( $this->documents->contains( $document ) ) {
+               			$this->documents->removeElement( $document );
+               			// set the owning side to null (unless already changed)
+               			if ( $document->getUsergroup() === $this ) {
+               				$document->setUsergroup( NULL );
+               			}
+               		}
 
-		return $this;
-	}
+               		return $this;
+               	}
 
 	/**
 	 * @return Collection|Article[]
 	 */
 	public function getArticles (): Collection {
-		return $this->articles;
-	}
+               		return $this->articles;
+               	}
 
 	public function addArticle ( Article $article ): self {
-		if ( !$this->articles->contains( $article ) ) {
-			$this->articles[] = $article;
-			$article->setUsergroup( $this );
-		}
+               		if ( !$this->articles->contains( $article ) ) {
+               			$this->articles[] = $article;
+               			$article->setUsergroup( $this );
+               		}
 
-		return $this;
-	}
+               		return $this;
+               	}
 
 	public function removeArticle ( Article $article ): self {
-		if ( $this->articles->contains( $article ) ) {
-			$this->articles->removeElement( $article );
-			// set the owning side to null (unless already changed)
-			if ( $article->getUsergroup() === $this ) {
-				$article->setUsergroup( NULL );
-			}
-		}
+               		if ( $this->articles->contains( $article ) ) {
+               			$this->articles->removeElement( $article );
+               			// set the owning side to null (unless already changed)
+               			if ( $article->getUsergroup() === $this ) {
+               				$article->setUsergroup( NULL );
+               			}
+               		}
 
-		return $this;
-	}
+               		return $this;
+               	}
 
 	/**
 	 * @return Collection|LogEvent[]
 	 */
 	public function getLogEvents (): Collection {
-		return $this->logEvents;
-	}
+               		return $this->logEvents;
+               	}
 
 	public function addLogEvent ( LogEvent $logEvent ): self {
-		if ( !$this->logEvents->contains( $logEvent ) ) {
-			$this->logEvents[] = $logEvent;
-			$logEvent->setUsergroup( $this );
-		}
+               		if ( !$this->logEvents->contains( $logEvent ) ) {
+               			$this->logEvents[] = $logEvent;
+               			$logEvent->setUsergroup( $this );
+               		}
 
-		return $this;
-	}
+               		return $this;
+               	}
 
 	public function removeLogEvent ( LogEvent $logEvent ): self {
-		if ( $this->logEvents->contains( $logEvent ) ) {
-			$this->logEvents->removeElement( $logEvent );
-			// set the owning side to null (unless already changed)
-			if ( $logEvent->getUsergroup() === $this ) {
-				$logEvent->setUsergroup( NULL );
-			}
-		}
+               		if ( $this->logEvents->contains( $logEvent ) ) {
+               			$this->logEvents->removeElement( $logEvent );
+               			// set the owning side to null (unless already changed)
+               			if ( $logEvent->getUsergroup() === $this ) {
+               				$logEvent->setUsergroup( NULL );
+               			}
+               		}
 
-		return $this;
-	}
+               		return $this;
+               	}
 
 	/**
 	 * @return Collection|DocumentFolder[]
 	 */
 	public function getDocumentFolders (): Collection {
-		return $this->documentFolders;
-	}
+               		return $this->documentFolders;
+               	}
 
 	public function addDocumentFolder ( DocumentFolder $documentFolder ): self {
-		if ( !$this->documentFolders->contains( $documentFolder ) ) {
-			$this->documentFolders[] = $documentFolder;
-			$documentFolder->setUsergroup( $this );
-		}
+               		if ( !$this->documentFolders->contains( $documentFolder ) ) {
+               			$this->documentFolders[] = $documentFolder;
+               			$documentFolder->setUsergroup( $this );
+               		}
 
-		return $this;
-	}
+               		return $this;
+               	}
 
 	public function removeDocumentFolder ( DocumentFolder $documentFolder ): self {
-		if ( $this->documentFolders->contains( $documentFolder ) ) {
-			$this->documentFolders->removeElement( $documentFolder );
-			// set the owning side to null (unless already changed)
-			if ( $documentFolder->getUsergroup() === $this ) {
-				$documentFolder->setUsergroup( NULL );
-			}
-		}
+               		if ( $this->documentFolders->contains( $documentFolder ) ) {
+               			$this->documentFolders->removeElement( $documentFolder );
+               			// set the owning side to null (unless already changed)
+               			if ( $documentFolder->getUsergroup() === $this ) {
+               				$documentFolder->setUsergroup( NULL );
+               			}
+               		}
 
-		return $this;
-	}
+               		return $this;
+               	}
+
+    /**
+     * @return Collection|Discussion[]
+     */
+    public function getDiscussions(): Collection
+    {
+        return $this->discussions;
+    }
+
+    public function addDiscussion(Discussion $discussion): self
+    {
+        if (!$this->discussions->contains($discussion)) {
+            $this->discussions[] = $discussion;
+            $discussion->setUsergroup($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDiscussion(Discussion $discussion): self
+    {
+        if ($this->discussions->contains($discussion)) {
+            $this->discussions->removeElement($discussion);
+            // set the owning side to null (unless already changed)
+            if ($discussion->getUsergroup() === $this) {
+                $discussion->setUsergroup(null);
+            }
+        }
+
+        return $this;
+    }
 }

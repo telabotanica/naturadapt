@@ -12,6 +12,7 @@
         "knplabs/knp-gaufrette-bundle": "^0.5.3",
         "knplabs/knp-time-bundle": "^1.9",
         "liip/imagine-bundle": "^2.1",
+        "ramsey/uuid": "^3.9",
         "sensio/framework-extra-bundle": "^5.2",
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "4.2.*",
