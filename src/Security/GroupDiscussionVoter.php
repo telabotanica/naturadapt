@@ -37,7 +37,7 @@ class GroupDiscussionVoter extends Voter {
 			return TRUE;
 		}
 
-		if ( in_array( $attribute, [ self::READ, self::EDIT, self::DELETE ] ) && ( $subject instanceof Discussion ) ) {
+		if ( in_array( $attribute, [ self::READ, self::PARTICIPATE, self::EDIT, self::DELETE ] ) && ( $subject instanceof Discussion ) ) {
 			return TRUE;
 		}
 
@@ -53,13 +53,20 @@ class GroupDiscussionVoter extends Voter {
 
 		switch ( $attribute ) {
 			case self::CREATE:
-			case self::PARTICIPATE:
 				/**
 				 * @var \App\Entity\Usergroup $group
 				 */
 				$group = $subject;
 
 				return $this->security->isGranted( GroupVoter::PARTICIPATE, $group );
+
+			case self::PARTICIPATE:
+				/**
+				 * @var \App\Entity\Discussion $discussion
+				 */
+				$discussion = $subject;
+
+				return $this->security->isGranted( GroupVoter::PARTICIPATE, $discussion->getUsergroup() );
 
 			case self::READ:
 				/**
