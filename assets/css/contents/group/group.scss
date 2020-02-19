@@ -303,6 +303,57 @@
 		}
 	}
 
+	.group-tabs {
+		margin-bottom: rem(40px);
+
+		@include clearulli;
+
+		ul {
+			display:         flex;
+			flex-flow:       row nowrap;
+			justify-content: space-between;
+			align-items:     flex-start;
+		}
+
+		a {
+			display:         block;
+			padding:         rem(10px) 0;
+
+			text-decoration: none;
+
+			@include font_default_bold;
+			font-size:       font_size_default();
+			color:           $color_default;
+
+			border-bottom:   3px solid transparent;
+		}
+
+		.active a {
+			color:        $color_action;
+			border-color: $color_action;
+		}
+	}
+
+	.group-events {
+		position: relative;
+
+		@include clearulli;
+
+		@include large-or-more {
+			max-width: (2 / 3) * 100%;
+			margin:    0 auto;
+		}
+
+		&::before {
+			content:     '';
+			position:    absolute;
+			top:         0;
+			bottom:      0;
+			left:        rem(24px);
+			border-left: 1px solid #DBDEE4;
+		}
+	}
+
 	.group-apps {
 		@include columns;
 

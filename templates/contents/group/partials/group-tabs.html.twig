@@ -1,0 +1,15 @@
+<div class="columns__33-66">
+	<nav class="group-tabs">
+		<ul>
+			<li{% if (logEvents is not defined) or not logEvents %} class="active"{% endif %}>
+				<a href="{{ path('group_index', {'groupSlug':group.slug}) }}">{{ 'pages.group.tabs.home'|trans }}</a>
+			</li>
+			<li {% if (logEvents is defined) and logEvents %} class="active"{% endif %}>
+				<a href="{{ path('group_events_index', {'groupSlug':group.slug}) }}">{{ 'pages.group.tabs.events'|trans }}</a>
+			</li>
+		</ul>
+	</nav>
+	<div>
+		<!-- Search -->
+	</div>
+</div>
