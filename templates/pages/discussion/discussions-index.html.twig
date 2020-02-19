@@ -31,10 +31,12 @@
 				}
 			]} %}
 
-			<section class="discussions-introduction">
-				<h2 class="h3">{{ 'pages.discussion.list.introduction.title'|trans }}</h2>
-				{{ 'pages.discussion.list.introduction.body'|trans|format(email, email, group.name)|raw }}
-			</section>
+			{% if is_granted(constant('App\\Security\\GroupDiscussionVoter::CREATE'), group) %}
+				<section class="discussions-introduction">
+					<h2 class="h3">{{ 'pages.discussion.list.introduction.title'|trans }}</h2>
+					{{ 'pages.discussion.list.introduction.body'|trans|format(email, email, group.name)|raw }}
+				</section>
+			{% endif %}
 
 			<section class="discussions-list">
 				<div class="discussions-list--headers discussions-list--row">
