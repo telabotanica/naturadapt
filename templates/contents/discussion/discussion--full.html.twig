@@ -1,0 +1,38 @@
+{% set classes = ['discussion', 'discussion__full'] %}
+<div class="{{ classes|join(' ') }}">
+	<div class="main--content content-container">
+		{% include 'components/app-flashes.html.twig' %}
+
+		<div class="panel">
+			<h1 class="h1">{{ discussion.title }}</h1>
+		</div>
+
+		{% include 'components/breadcrumb.html.twig' with {'items':[
+			{
+				label: 'pages.group.groups.title'|trans,
+				href: path('groups_index')
+			},
+			{
+				label: group.name,
+				href: path('group_index', {'groupSlug':discussion.usergroup.slug})
+			},
+			{
+				label: 'pages.group.discussions.title'|trans,
+				href: path('group_discussions_index', {'groupSlug':discussion.usergroup.slug})
+			},
+			{
+				label: discussion.title,
+			}
+		]} %}
+
+		<section class="messages-list">
+			<ul>
+				{% for message in discussion.messages %}
+					<li>
+						{% include 'contents/discussion/message--full.html.twig' with {'message':message} %}
+					</li>
+				{% endfor %}
+			</ul>
+		</section>
+	</div>
+</div>

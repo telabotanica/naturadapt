@@ -1,0 +1,16 @@
+{{ form_start(form) }}
+<div class="form-rows">
+	<div class="form-row form-row__field wysiwyg-editor" data-upload="{{ upload }}">
+		{{ form_label(form.body, 'forms.discussion.answer.label', {'label_attr': {'class': 'h2'}}) }}
+		{{ form_widget(form.body, {'attr': {'placeholder': 'forms.discussion.body.placeholder'}}) }}
+	</div>
+</div>
+<div class="form-row__mandatory">{{ 'forms.mandatory'|trans }}</div>
+<div class="form-row form-row__submit">
+	{{ form_widget(form.submit, {'label': form_submit}) }}
+	{% if (delete is defined) and (delete) and is_granted(constant('App\\Security\\GroupDiscussionVoter::DELETE'), discussion) %}
+		<a class="cta__inverted" href="{{ path('group_discussion_delete', {'groupSlug':group.slug, 'discussionSlug':discussion.slug}) }}">{{ 'ui.delete'|trans }}</a>
+	{% endif %}
+	<span class="hint">{{ 'pages.discussion.discussion_create.hint'|trans }}</span>
+</div>
+{{ form_end(form) }}

@@ -22,6 +22,11 @@ class LogEvent {
 	public const PAGE_EDIT   = 'page:edit';
 	public const PAGE_DELETE = 'page:delete';
 
+	public const DISCUSSION_CREATE      = 'discussion:create';
+	public const DISCUSSION_EDIT        = 'discussion:edit';
+	public const DISCUSSION_DELETE      = 'discussion:delete';
+	public const DISCUSSION_PARTICIPATE = 'discussion:participate';
+
 	public const ARTICLE_CREATE = 'article:create';
 	public const ARTICLE_EDIT   = 'article:edit';
 	public const ARTICLE_DELETE = 'article:delete';

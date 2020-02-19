@@ -1,0 +1,48 @@
+{% set classes = ['message', 'message__full', message.masked ? 'message__masked', 'message_visible'] %}
+{% if (not message.masked) or (is_granted(constant('App\\Security\\GroupDiscussionVoter::EDIT'), message.discussion)) %}
+	<div class="{{ classes|join(' ') }}">
+		<div class="message--header">
+			{% include 'contents/user/partials/user--avatar.html.twig' with{'user':message.author} %}
+
+			<div class="message--author">
+				<div class="user--name">{{ message.author.name }}</div>
+				<div class="message--date">{{ message.createdAt|ago|capitalize }}</div>
+			</div>
+
+			{% if is_granted(constant('App\\Security\\GroupDiscussionVoter::EDIT'), message.discussion) %}
+				<div class="in-list-admin-panel">
+					<button class="sibling-toggle" type="button" title="{{ 'ui.settings'|trans|escape('html_attr') }}">
+						<span>{{ 'ui.settings'|trans }}</span>
+					</button>
+					<ul aria-hidden="true">
+						{% if not message.masked %}
+							<li>
+								<a class="hide_message"
+								   href="{{ path('group_message_hide', {
+									   'groupSlug':message.discussion.usergroup.slug,
+									   'messageId':message.id,
+								   }) }}" title="{{ 'pages.discussion.actions.hide_message'|trans|escape('html_attr') }}">
+									<span>{{ 'pages.discussion.actions.hide_message'|trans }}</span>
+								</a>
+							</li>
+						{% endif %}
+						{% if message.masked %}
+							<li>
+								<a class="show_message"
+								   href="{{ path('group_message_show', {
+									   'groupSlug':message.discussion.usergroup.slug,
+									   'messageId':message.id,
+								   }) }}" title="{{ 'pages.discussion.actions.show_message'|trans|escape('html_attr') }}">
+									<span>{{ 'pages.discussion.actions.show_message'|trans }}</span>
+								</a>
+							</li>
+						{% endif %}
+					</ul>
+				</div>
+			{% endif %}
+		</div>
+		<div class="message--body">
+			{{ message.body|raw }}
+		</div>
+	</div>
+{% endif %}

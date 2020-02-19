@@ -11,6 +11,9 @@
 	@include clearulli;
 
 	a {
+		color:           inherit;
+		text-decoration: none;
+
 		&::before {
 			content:         '';
 			display:         inline-block;
@@ -24,11 +27,13 @@
 			@import "../_assets/settings-2.svg";
 		}
 
+		&.show_message::before,
 		&.pending_set_member::before,
 		&.banned_set_member::before {
 			@import "../_assets/checked.svg";
 		}
 
+		&.hide_message::before,
 		&.pending_set_remove::before,
 		&.banned_set_remove::before,
 		&.member_set_remove::before,

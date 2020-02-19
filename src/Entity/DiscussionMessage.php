@@ -1,0 +1,100 @@
+<?php
+
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(repositoryClass="App\Repository\DiscussionMessageRepository")
+ */
+class DiscussionMessage {
+	/**
+	 * @ORM\Id()
+	 * @ORM\GeneratedValue()
+	 * @ORM\Column(type="integer")
+	 */
+	private $id;
+
+	/**
+	 * @ORM\ManyToOne(targetEntity="App\Entity\Discussion", inversedBy="discussionMessages")
+	 * @ORM\JoinColumn(nullable=false)
+	 */
+	private $discussion;
+
+	/**
+	 * @ORM\ManyToOne(targetEntity="App\Entity\User")
+	 * @ORM\JoinColumn(nullable=false)
+	 */
+	private $author;
+
+	/**
+	 * @ORM\Column(type="text", nullable=true)
+	 */
+	private $body;
+
+	/**
+	 * @ORM\Column(type="datetime")
+	 */
+	private $createdAt;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $masked;
+
+	public function getId (): ?int {
+         		return $this->id;
+         	}
+
+	public function getDiscussion (): ?Discussion {
+         		return $this->discussion;
+         	}
+
+	public function setDiscussion ( ?Discussion $discussion ): self {
+         		$this->discussion = $discussion;
+         
+         		return $this;
+         	}
+
+	public function getAuthor (): ?User {
+         		return $this->author;
+         	}
+
+	public function setAuthor ( ?User $author ): self {
+         		$this->author = $author;
+         
+         		return $this;
+         	}
+
+	public function getBody (): ?string {
+         		return $this->body;
+         	}
+
+	public function setBody ( ?string $body ): self {
+         		$this->body = trim( $body );
+         
+         		return $this;
+         	}
+
+	public function getCreatedAt (): ?\DateTimeInterface {
+         		return $this->createdAt;
+         	}
+
+	public function setCreatedAt ( \DateTimeInterface $createdAt ): self {
+         		$this->createdAt = $createdAt;
+         
+         		return $this;
+         	}
+
+    public function getMasked(): ?bool
+    {
+        return $this->masked;
+    }
+
+    public function setMasked(?bool $masked): self
+    {
+        $this->masked = $masked;
+
+        return $this;
+    }
+}
