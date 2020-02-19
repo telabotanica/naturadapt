@@ -45,7 +45,7 @@ class UrlManager {
 	public function pageUrlFromId ( $id ) {
 		$page = $this->manager->getRepository( Page::class )->findOneBy( [ 'id' => $id ] );
 
-		if ( empty( $page ) ) {
+		if ( empty( $page ) || empty( $page->getUsergroup() ) || empty( $page->getSlug() ) ) {
 			return '';
 		}
 
@@ -71,7 +71,7 @@ class UrlManager {
 	public function articleUrlFromId ( $id ) {
 		$article = $this->manager->getRepository( Article::class )->findOneBy( [ 'id' => $id ] );
 
-		if ( empty( $article ) ) {
+		if ( empty( $article ) || empty( $article->getUsergroup() ) || empty( $article->getSlug() ) ) {
 			return '';
 		}
 
@@ -84,7 +84,7 @@ class UrlManager {
 	public function documentUrlFromId ( $id ) {
 		$document = $this->manager->getRepository( Document::class )->findOneBy( [ 'id' => $id ] );
 
-		if ( empty( $document ) ) {
+		if ( empty( $document ) || empty( $document->getUsergroup() ) ) {
 			return '';
 		}
 
