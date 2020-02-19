@@ -9,6 +9,8 @@ parameters:
     postmark:
         server_token: '%env(string:POSTMARK_SERVER_TOKEN)%'
         sender_signature: '%env(string:POSTMARK_SENDER)%'
+        list_domain: '%env(string:POSTMARK_LIST_DOMAIN)%'
+        inbound_key: '%env(string:POSTMARK_INBOUND_KEY)%'
 
 services:
     # default configuration for services in *this* file

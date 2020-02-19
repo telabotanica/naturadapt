@@ -31,6 +31,11 @@
 				}
 			]} %}
 
+			<section class="discussions-introduction">
+				<h2 class="h3">{{ 'pages.discussion.list.introduction.title'|trans }}</h2>
+				{{ 'pages.discussion.list.introduction.body'|trans|format(email, email, group.name)|raw }}
+			</section>
+
 			<section class="discussions-list">
 				<div class="discussions-list--headers discussions-list--row">
 					<div>{{ 'pages.discussion.list.subjects'|trans }}</div>
