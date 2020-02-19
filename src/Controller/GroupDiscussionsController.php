@@ -6,7 +6,9 @@ use App\Entity\Discussion;
 use App\Entity\DiscussionMessage;
 use App\Entity\DiscussionRevision;
 use App\Entity\LogEvent;
+use App\Entity\User;
 use App\Entity\Usergroup;
+use App\Entity\UsergroupMembership;
 use App\Form\DiscussionMessageType;
 use App\Form\DiscussionType;
 use App\Security\GroupDiscussionVoter;
@@ -16,6 +18,7 @@ use App\Service\SlugGenerator;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -51,6 +54,7 @@ class GroupDiscussionsController extends AbstractController {
 
 		return $this->render( 'pages/discussion/discussions-index.html.twig', [
 				'group' => $group,
+				'email' => $group->getSlug() . '@' . ( $this->getParameter( 'postmark' )[ 'list_domain' ] ),
 		] );
 	}
 
@@ -408,5 +412,129 @@ class GroupDiscussionsController extends AbstractController {
 		$this->addFlash( 'notice', 'messages.discussion.message_shown' );
 
 		return $this->redirectToRoute( 'group_discussion_index', [ 'groupSlug' => $group->getSlug(), 'discussionUuid' => $discussion->getUuid() ] );
+	}
+
+	/**
+	 * @Route("/ws/list/inbound/{key}", name="webservice_list_inbound")
+	 * @param                                            $key
+	 * @param \Symfony\Component\HttpFoundation\Request  $request
+	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 *
+	 * @return string
+	 * @throws \Exception
+	 */
+	public function webserviceInbound (
+			$key,
+			Request $request,
+			ObjectManager $manager
+	) {
+		if ( $key !== $this->getParameter( 'postmark' )[ 'inbound_key' ] ) {
+			return new JsonResponse( [ 'status' => 'Invalid API key' ] );
+		}
+
+		$data = json_decode( $request->getContent(), TRUE );
+
+		$slug      = explode( '+', explode( '@', $data[ 'OriginalRecipient' ] )[ 0 ] )[ 0 ];
+		$hash      = $data[ 'MailboxHash' ];
+		$userEmail = $data[ 'From' ];
+		$subject   = $data[ 'Subject' ];
+		$body      = $data[ 'StrippedTextReply' ];
+
+		/**
+		 * @var \App\Entity\User $user
+		 */
+		$user = $manager->getRepository( User::class )
+						->findOneBy( [ 'email' => $userEmail ] );
+
+		if ( !$user ) {
+			return new JsonResponse( [ 'status' => 'The user does not exist' ] );
+		}
+
+		/**
+		 * @var \App\Entity\Usergroup $group
+		 */
+		$group = $manager->getRepository( Usergroup::class )
+						 ->findOneBy( [ 'slug' => $slug ] );
+
+		if ( !$group ) {
+			return new JsonResponse( [ 'status' => 'The group does not exist' ] );
+		}
+
+		if ( !$manager->getRepository( UsergroupMembership::class )->isMember( $user, $group ) ) {
+			return new JsonResponse( [ 'status' => 'This user can not participate' ] );
+		}
+
+		$discussion = FALSE;
+
+		if ( !empty( $hash ) ) {
+			/**
+			 * @var \App\Entity\Discussion $discussion
+			 */
+			$discussion = $manager->getRepository( Discussion::class )
+								  ->findOneBy( [ 'uuid' => $hash ] );
+
+			if ( !$discussion ) {
+				return new JsonResponse( [ 'status' => 'The discussion does not exist' ] );
+			}
+
+			$group = $discussion->getUsergroup();
+		}
+
+		if ( $discussion ) {
+			$discussionMessage = new DiscussionMessage();
+			$discussionMessage->setDiscussion( $discussion );
+			$discussionMessage->getDiscussion()->setActiveAt( new \DateTime() );
+			$discussionMessage->setCreatedAt( new \DateTime() );
+			$discussionMessage->setAuthor( $user );
+			$discussionMessage->setBody( $body );
+			$manager->persist( $discussionMessage );
+			$manager->flush();
+
+			// Log Event
+
+			$log = new LogEvent();
+			$log->setType( LogEvent::DISCUSSION_PARTICIPATE );
+			$log->setUser( $user );
+			$log->setUsergroup( $group );
+			$log->setCreatedAt( new \DateTime() );
+			$log->setData( [ 'discussion' => $discussion->getId(), 'message' => $discussionMessage->getId(), 'title' => $discussion->getTitle() ] );
+			$manager->persist( $log );
+			$manager->flush();
+
+			return new JsonResponse( [ 'status' => 'message created' ] );
+		}
+		else {
+			$discussion = new Discussion();
+			$discussion->setUuid( \Ramsey\Uuid\Uuid::uuid4() );
+			$discussion->setTitle( $subject );
+			$discussion->setAuthor( $user );
+			$discussion->setUsergroup( $group );
+			$discussion->setCreatedAt( new \DateTime() );
+			$manager->persist( $discussion );
+			$manager->flush();
+
+			$discussionMessage = new DiscussionMessage();
+			$discussionMessage->setDiscussion( $discussion );
+			$discussionMessage->getDiscussion()->setActiveAt( new \DateTime() );
+			$discussionMessage->setCreatedAt( new \DateTime() );
+			$discussionMessage->setAuthor( $user );
+			$discussionMessage->setBody( $body );
+			$manager->persist( $discussionMessage );
+
+			// Log Event
+
+			$log = new LogEvent();
+			$log->setType( LogEvent::DISCUSSION_CREATE );
+			$log->setUser( $user );
+			$log->setUsergroup( $group );
+			$log->setCreatedAt( new \DateTime() );
+			$log->setData( [ 'discussion' => $discussion->getId(), 'title' => $discussion->getTitle() ] );
+			$manager->persist( $log );
+			$manager->flush();
+
+			// --
+
+			return new JsonResponse( [ 'status' => 'discussion created' ] );
+		}
 	}
 }
