@@ -28,7 +28,7 @@
 
 	<div class="group-app group-app__discussions">
 		<h2 class="h4">
-			<a href="{{ path('group_index', {'groupSlug':group.slug}) }}">{{ 'pages.group.discussions.title'|trans }}</a>
+			<a href="{{ path('group_discussions_index', {'groupSlug':group.slug}) }}">{{ 'pages.group.discussions.title'|trans }}</a>
 			<span class="count">{{ group.discussions|length }}</span>
 		</h2>
 		{% if group.discussions is not empty %}
