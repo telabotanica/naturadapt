@@ -16,6 +16,7 @@ use App\Security\GroupVoter;
 use App\Service\FileManager;
 use App\Service\SlugGenerator;
 use Doctrine\Common\Persistence\ObjectManager;
+use EmailReplyParser\Parser\EmailParser;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -438,7 +439,9 @@ class GroupDiscussionsController extends AbstractController {
 		$hash      = $data[ 'MailboxHash' ];
 		$userEmail = $data[ 'From' ];
 		$subject   = $data[ 'Subject' ];
-		$body      = $data[ 'StrippedTextReply' ];
+
+		$fragments = ( new EmailParser() )->parse( $data[ 'TextBody' ] )->getFragments();
+		$body      = nl2br( current( $fragments )->getContent() );
 
 		/**
 		 * @var \App\Entity\User $user

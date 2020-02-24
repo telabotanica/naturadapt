@@ -507,6 +507,9 @@
     "wildbit/swiftmailer-postmark": {
         "version": "3.0.2"
     },
+    "willdurand/email-reply-parser": {
+        "version": "2.8.0"
+    },
     "zendframework/zend-code": {
         "version": "3.3.1"
     },

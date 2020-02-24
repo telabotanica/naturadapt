@@ -37,7 +37,8 @@
         "symfony/yaml": "4.2.*",
         "twig/extensions": "^1.5",
         "wildbit/postmark-php": "^2.6",
-        "wildbit/swiftmailer-postmark": "^3.0"
+        "wildbit/swiftmailer-postmark": "^3.0",
+        "willdurand/email-reply-parser": "^2.8"
     },
     "require-dev": {
         "symfony/browser-kit": "4.2.*",
