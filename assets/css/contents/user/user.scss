@@ -164,7 +164,8 @@
 	margin-bottom:   column_gap();
 
 	.user--avatar {
-		width: rem(150px);
+		width:  rem(150px);
+		height: rem(150px);
 
 		@include medium-or-more {
 			margin-right: column_gap();
