@@ -1,0 +1,17 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block title %}{{ subject }}{% endblock %}
+
+{% block preheader %}{% endblock %}
+
+{% block body %}
+	<h1>Bonjour {{ user.displayName }},</h1>
+
+	<p>{{ author.displayName }} a démarré une discussion dans le groupe <strong>{{ group.name }}&nbsp;:</strong></p>
+
+	<div style="margin: 1rem; padding: 1rem; border: 1px solid #999999;">
+		{{ body|raw }}
+	</div>
+
+	{% include 'components/email-signature.html.twig' %}
+{% endblock %}

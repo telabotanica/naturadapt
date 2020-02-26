@@ -13,6 +13,7 @@ use App\Form\DiscussionMessageType;
 use App\Form\DiscussionType;
 use App\Security\GroupDiscussionVoter;
 use App\Security\GroupVoter;
+use App\Service\DiscussionSender;
 use App\Service\FileManager;
 use App\Service\SlugGenerator;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -71,6 +72,7 @@ class GroupDiscussionsController extends AbstractController {
 	 * @param \App\Service\FileManager                                   $fileManager
 	 * @param \App\Service\SlugGenerator                                 $slugGenerator
 	 * @param \Symfony\Component\Routing\Generator\UrlGeneratorInterface $router
+	 * @param \App\Service\DiscussionSender                              $sender
 	 *
 	 * @return string
 	 * @throws \Exception
@@ -81,7 +83,8 @@ class GroupDiscussionsController extends AbstractController {
 			ObjectManager $manager,
 			FileManager $fileManager,
 			SlugGenerator $slugGenerator,
-			UrlGeneratorInterface $router
+			UrlGeneratorInterface $router,
+			DiscussionSender $sender
 	) {
 		/**
 		 * @var \App\Entity\Usergroup $group
@@ -121,6 +124,10 @@ class GroupDiscussionsController extends AbstractController {
 			$discussionMessage->setBody( $form->get( 'body' )->getData() );
 			$manager->persist( $discussionMessage );
 
+			// Send Notifications
+
+			$sender->sendDiscussionMessage( $discussionMessage, TRUE );
+
 			// Log Event
 
 			$log = new LogEvent();
@@ -153,8 +160,8 @@ class GroupDiscussionsController extends AbstractController {
 	 * @param                                                            $discussionUuid
 	 * @param \Symfony\Component\HttpFoundation\Request                  $request
 	 * @param \Doctrine\Common\Persistence\ObjectManager                 $manager
-	 *
 	 * @param \Symfony\Component\Routing\Generator\UrlGeneratorInterface $router
+	 * @param \App\Service\DiscussionSender                              $sender
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 * @throws \Exception
@@ -164,7 +171,8 @@ class GroupDiscussionsController extends AbstractController {
 			$discussionUuid,
 			Request $request,
 			ObjectManager $manager,
-			UrlGeneratorInterface $router
+			UrlGeneratorInterface $router,
+			DiscussionSender $sender
 	) {
 		/**
 		 * @var \App\Entity\Usergroup $group
@@ -204,6 +212,10 @@ class GroupDiscussionsController extends AbstractController {
 				$discussionMessage->setBody( $form->get( 'body' )->getData() );
 				$manager->persist( $discussionMessage );
 				$manager->flush();
+
+				// Send Notifications
+
+				$sender->sendDiscussionMessage( $discussionMessage );
 
 				// Log Event
 
@@ -420,6 +432,7 @@ class GroupDiscussionsController extends AbstractController {
 	 * @param                                            $key
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
 	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \App\Service\DiscussionSender              $sender
 	 *
 	 * @return string
 	 * @throws \Exception
@@ -427,7 +440,8 @@ class GroupDiscussionsController extends AbstractController {
 	public function webserviceInbound (
 			$key,
 			Request $request,
-			ObjectManager $manager
+			ObjectManager $manager,
+			DiscussionSender $sender
 	) {
 		if ( $key !== $this->getParameter( 'postmark' )[ 'inbound_key' ] ) {
 			return new JsonResponse( [ 'status' => 'Invalid API key' ] );
@@ -440,7 +454,8 @@ class GroupDiscussionsController extends AbstractController {
 		$userEmail = $data[ 'From' ];
 		$subject   = $data[ 'Subject' ];
 
-		$fragments = ( new EmailParser() )->parse( $data[ 'TextBody' ] )->getFragments();
+		$emailBody = !empty( $data[ 'TextBody' ] ) ? $data[ 'TextBody' ] : strip_tags( $data[ 'HtmlBody' ] );
+		$fragments = ( new EmailParser() )->parse( $emailBody )->getFragments();
 		$body      = nl2br( current( $fragments )->getContent() );
 
 		/**
@@ -493,6 +508,10 @@ class GroupDiscussionsController extends AbstractController {
 			$manager->persist( $discussionMessage );
 			$manager->flush();
 
+			// Send Notifications
+
+			$sender->sendDiscussionMessage( $discussionMessage );
+
 			// Log Event
 
 			$log = new LogEvent();
@@ -523,6 +542,10 @@ class GroupDiscussionsController extends AbstractController {
 			$discussionMessage->setAuthor( $user );
 			$discussionMessage->setBody( $body );
 			$manager->persist( $discussionMessage );
+
+			// Send Notifications
+
+			$sender->sendDiscussionMessage( $discussionMessage, TRUE );
 
 			// Log Event
 

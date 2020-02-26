@@ -11,6 +11,7 @@ parameters:
         sender_signature: '%env(string:POSTMARK_SENDER)%'
         list_domain: '%env(string:POSTMARK_LIST_DOMAIN)%'
         inbound_key: '%env(string:POSTMARK_INBOUND_KEY)%'
+        bulk_token: '%env(string:POSTMARK_BULK_TOKEN)%'
 
 services:
     # default configuration for services in *this* file
@@ -44,7 +45,15 @@ services:
     App\Service\Community:
         arguments: ['%env(string:COMMUNITY_SLUG)%']
 
+    App\Service\DiscussionSender:
+        arguments: ['@postmark_bulk', '%postmark%']
+
     postmark:
         class: \Postmark\Transport
         arguments:
             - '%env(string:POSTMARK_SERVER_TOKEN)%'
+            -
+    postmark_bulk:
+        class: \App\Postmark\BulkTransport
+        arguments:
+            - '%env(string:POSTMARK_BULK_TOKEN)%'
