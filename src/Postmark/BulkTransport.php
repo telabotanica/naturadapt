@@ -13,6 +13,10 @@ class BulkTransport extends Transport {
 	 * @return bool|int
 	 */
 	public function sendMultiple ( array $messages ) {
+		if ( empty( $this->serverToken ) ) {
+			return TRUE;
+		}
+
 		$client = $this->getHttpClient();
 
 		if ( $evt = $this->_eventDispatcher->createSendEvent( $this, $messages[ 0 ] ) ) {
