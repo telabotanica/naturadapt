@@ -1,17 +1,10 @@
-{% extends 'emails/base.html.twig' %}
+{% extends 'emails/discussion-new.html.twig' %}
 
-{% block title %}{{ subject }}{% endblock %}
-
-{% block preheader %}{% endblock %}
-
-{% block body %}
-	<h1>Bonjour {{ user.displayName }},</h1>
-
-	<p>{{ author.displayName }} a répondu dans la discussion <strong>{{ subject }}</strong> sur <strong>{{ group.name }}</strong>&nbsp;:</p>
-
-	<div style="margin: 1rem 0; padding: 1rem; border: 1px solid #999999;">
-		{{ body|raw }}
-	</div>
-
-	{% include 'components/email-signature.html.twig' %}
+{% block introduction %}
+	<p>
+		{{ message.author.displayName }} a répondu dans la discussion
+		<a href="{{ path('group_discussion_index', {'groupSlug':message.discussion.usergroup.slug, 'discussionUuid':message.discussion.uuid}) }}">{{ message.discussion.title }}</a>
+		du groupe
+		<a href="{{ path('group_index', {'groupSlug':message.discussion.usergroup.slug}) }}">{{ message.discussion.usergroup.name }}</a>&nbsp;:
+	</p>
 {% endblock %}

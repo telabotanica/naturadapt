@@ -44,21 +44,20 @@ class DiscussionSender {
 		 * @var \App\Entity\UsergroupMembership $membership
 		 */
 		foreach ( $to as $membership ) {
-			$user = $membership->getUser();
+			if ( $membership->shouldReceiveDiscussionsEmails() ) {
+				$user = $membership->getUser();
 
-			$body = $this->twig->render( $first ? 'emails/discussion-new.html.twig' : 'emails/discussion-message.html.twig', [
-					'user'    => $user,
-					'group'   => $discussionMessage->getDiscussion()->getUsergroup(),
-					'author'  => $discussionMessage->getAuthor(),
-					'subject' => $subject,
-					'body'    => $discussionMessage->getBody(),
-			] );
+				$body = $this->twig->render( $first ? 'emails/discussion-new.html.twig' : 'emails/discussion-message.html.twig', [
+						'user'    => $user,
+						'message' => $discussionMessage,
+				] );
 
-			$messages[] = ( new \Swift_Message( $subject ) )
-					->setFrom( $from )
-					->setTo( $user->getEmail() )
-					->setReplyTo( $discussionMessage->getDiscussion()->getUsergroup()->getSlug() . '+' . $discussionMessage->getDiscussion()->getUuid() . '@' . $this->params[ 'list_domain' ] )
-					->setBody( $body, 'text/html' );
+				$messages[] = ( new \Swift_Message( $subject ) )
+						->setFrom( $from )
+						->setTo( $user->getEmail() )
+						->setReplyTo( $discussionMessage->getDiscussion()->getUsergroup()->getSlug() . '+' . $discussionMessage->getDiscussion()->getUuid() . '@' . $this->params[ 'list_domain' ] )
+						->setBody( $body, 'text/html' );
+			}
 		}
 
 		return $this->transport->sendMultiple( $messages );
