@@ -346,6 +346,14 @@ class GroupController extends AbstractController {
 				$manager->remove( $page );
 			}
 
+			foreach ( $group->getArticles() as $article ) {
+				$manager->remove( $article );
+			}
+
+			foreach ( $group->getDiscussions() as $discussion ) {
+				$manager->remove( $discussion );
+			}
+
 			foreach ( $group->getDocuments() as $document ) {
 				$manager->remove( $document );
 			}
