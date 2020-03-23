@@ -18,11 +18,6 @@ class UrlManager {
 	 */
 	private $urlGenerator;
 
-	/**
-	 * @var \Gaufrette\Filesystem $filesystem
-	 */
-	private $filesystem;
-
 	public function __construct ( ObjectManager $manager, UrlGeneratorInterface $urlGenerator ) {
 		$this->manager      = $manager;
 		$this->urlGenerator = $urlGenerator;

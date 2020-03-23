@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use Swift_Message;
+
 class EmailSender {
 	/**
 	 * @var \Swift_Mailer
@@ -13,7 +15,7 @@ class EmailSender {
 	}
 
 	public function send ( $from, $to, $subject, $message ) {
-		$message = ( new \Swift_Message( $subject ) )
+		$message = ( new Swift_Message( $subject ) )
 				->setFrom( $from )
 				->setTo( $to )
 				->setBody( $message, 'text/html' );

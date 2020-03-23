@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use Transliterator;
 
 class SlugGenerator {
 	private $manager;
@@ -20,7 +21,7 @@ class SlugGenerator {
 	 */
 	public static function slugify ( $string ) {
 		$rule           = 'NFD; [:Nonspacing Mark:] Remove; NFC';
-		$transliterator = \Transliterator::create( $rule );
+		$transliterator = Transliterator::create( $rule );
 		$string         = $transliterator->transliterate( $string );
 		$string         = strtolower( trim( strip_tags( $string ) ) );
 		$string         = preg_replace( '/[^a-z0-9]/', '-', $string );

@@ -12,6 +12,7 @@ use App\Security\GroupPageVoter;
 use App\Security\GroupVoter;
 use App\Service\FileManager;
 use App\Service\SlugGenerator;
+use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -26,6 +27,10 @@ class GroupPagesController extends AbstractController {
 
 	/**
 	 * @Route("/groups/{groupSlug}/pages", name="group_pages_index")
+	 * @param                                            $groupSlug
+	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 *
+	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function groupPagesIndex (
 			$groupSlug,
@@ -97,7 +102,7 @@ class GroupPagesController extends AbstractController {
 		if ( $form->isSubmitted() && $form->isValid() ) {
 			$page->setAuthor( $this->getUser() );
 			$page->setUsergroup( $group );
-			$page->setCreatedAt( new \DateTime() );
+			$page->setCreatedAt( new DateTime() );
 			$page->setSlug( $slugGenerator->generateSlug( $page->getTitle(), Page::class, 'slug', [ 'usergroup' => $group ] ) );
 
 			$manager->persist( $page );
@@ -123,7 +128,7 @@ class GroupPagesController extends AbstractController {
 			$revision = new PageRevision();
 			$revision->setUser( $user );
 			$revision->setPage( $page );
-			$revision->setCreatedAt( new \DateTime() );
+			$revision->setCreatedAt( new DateTime() );
 			$revision->setData( [ 'title' => $page->getTitle(), 'body' => $page->getBody() ] );
 			$manager->persist( $revision );
 
@@ -135,7 +140,7 @@ class GroupPagesController extends AbstractController {
 			$log->setType( LogEvent::PAGE_CREATE );
 			$log->setUser( $this->getUser() );
 			$log->setUsergroup( $group );
-			$log->setCreatedAt( new \DateTime() );
+			$log->setCreatedAt( new DateTime() );
 			$log->setData( [ 'page' => $page->getId(), 'title' => $page->getTitle() ] );
 			$manager->persist( $log );
 			$manager->flush();
@@ -208,7 +213,7 @@ class GroupPagesController extends AbstractController {
 		$form->handleRequest( $request );
 
 		if ( $form->isSubmitted() && $form->isValid() ) {
-			$page->setEditedAt( new \DateTime() );
+			$page->setEditedAt( new DateTime() );
 
 			// Cover
 			$uploadFile = $form->get( 'coverfile' )->getData();
@@ -234,7 +239,7 @@ class GroupPagesController extends AbstractController {
 			$revision = new PageRevision();
 			$revision->setUser( $user );
 			$revision->setPage( $page );
-			$revision->setCreatedAt( new \DateTime() );
+			$revision->setCreatedAt( new DateTime() );
 			$revision->setData( [ 'title' => $page->getTitle(), 'body' => $page->getBody() ] );
 			$manager->persist( $revision );
 
@@ -246,7 +251,7 @@ class GroupPagesController extends AbstractController {
 			$log->setType( LogEvent::PAGE_EDIT );
 			$log->setUser( $this->getUser() );
 			$log->setUsergroup( $group );
-			$log->setCreatedAt( new \DateTime() );
+			$log->setCreatedAt( new DateTime() );
 			$log->setData( [ 'page' => $page->getId(), 'title' => $page->getTitle() ] );
 			$manager->persist( $log );
 			$manager->flush();
@@ -318,6 +323,7 @@ class GroupPagesController extends AbstractController {
 	 * @param \App\Service\FileManager                   $fileManager
 	 *
 	 * @return string
+	 * @throws \Exception
 	 */
 	public function groupPageDelete (
 			$groupSlug,
@@ -367,7 +373,7 @@ class GroupPagesController extends AbstractController {
 			$log->setType( LogEvent::PAGE_DELETE );
 			$log->setUser( $this->getUser() );
 			$log->setUsergroup( $group );
-			$log->setCreatedAt( new \DateTime() );
+			$log->setCreatedAt( new DateTime() );
 			$log->setData( [ 'page' => $page->getId(), 'title' => $page->getTitle() ] );
 			$manager->persist( $log );
 

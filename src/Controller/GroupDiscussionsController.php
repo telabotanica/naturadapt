@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Discussion;
 use App\Entity\DiscussionMessage;
-use App\Entity\DiscussionRevision;
 use App\Entity\LogEvent;
 use App\Entity\User;
 use App\Entity\Usergroup;
@@ -14,10 +13,10 @@ use App\Form\DiscussionType;
 use App\Security\GroupDiscussionVoter;
 use App\Security\GroupVoter;
 use App\Service\DiscussionSender;
-use App\Service\FileManager;
-use App\Service\SlugGenerator;
+use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
 use EmailReplyParser\Parser\EmailParser;
+use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -69,8 +68,6 @@ class GroupDiscussionsController extends AbstractController {
 	 * @param                                                            $groupSlug
 	 * @param \Symfony\Component\HttpFoundation\Request                  $request
 	 * @param \Doctrine\Common\Persistence\ObjectManager                 $manager
-	 * @param \App\Service\FileManager                                   $fileManager
-	 * @param \App\Service\SlugGenerator                                 $slugGenerator
 	 * @param \Symfony\Component\Routing\Generator\UrlGeneratorInterface $router
 	 * @param \App\Service\DiscussionSender                              $sender
 	 *
@@ -81,8 +78,6 @@ class GroupDiscussionsController extends AbstractController {
 			$groupSlug,
 			Request $request,
 			ObjectManager $manager,
-			FileManager $fileManager,
-			SlugGenerator $slugGenerator,
 			UrlGeneratorInterface $router,
 			DiscussionSender $sender
 	) {
@@ -98,28 +93,23 @@ class GroupDiscussionsController extends AbstractController {
 
 		$this->denyAccessUnlessGranted( GroupDiscussionVoter::CREATE, $group );
 
-		/**
-		 * @var \App\Entity\User $user
-		 */
-		$user = $this->getUser();
-
 		$discussion = new Discussion();
 		$form       = $this->createForm( DiscussionType::class, $discussion );
 
 		$form->handleRequest( $request );
 
 		if ( $form->isSubmitted() && $form->isValid() ) {
-			$discussion->setUuid( \Ramsey\Uuid\Uuid::uuid4() );
+			$discussion->setUuid( Uuid::uuid4() );
 			$discussion->setAuthor( $this->getUser() );
 			$discussion->setUsergroup( $group );
-			$discussion->setCreatedAt( new \DateTime() );
+			$discussion->setCreatedAt( new DateTime() );
 			$manager->persist( $discussion );
 			$manager->flush();
 
 			$discussionMessage = new DiscussionMessage();
 			$discussionMessage->setDiscussion( $discussion );
-			$discussionMessage->getDiscussion()->setActiveAt( new \DateTime() );
-			$discussionMessage->setCreatedAt( new \DateTime() );
+			$discussionMessage->getDiscussion()->setActiveAt( new DateTime() );
+			$discussionMessage->setCreatedAt( new DateTime() );
 			$discussionMessage->setAuthor( $this->getUser() );
 			$discussionMessage->setBody( $form->get( 'body' )->getData() );
 			$manager->persist( $discussionMessage );
@@ -134,7 +124,7 @@ class GroupDiscussionsController extends AbstractController {
 			$log->setType( LogEvent::DISCUSSION_CREATE );
 			$log->setUser( $this->getUser() );
 			$log->setUsergroup( $group );
-			$log->setCreatedAt( new \DateTime() );
+			$log->setCreatedAt( new DateTime() );
 			$log->setData( [ 'discussion' => $discussion->getId(), 'title' => $discussion->getTitle() ] );
 			$manager->persist( $log );
 			$manager->flush();
@@ -206,8 +196,8 @@ class GroupDiscussionsController extends AbstractController {
 
 			if ( $form->isSubmitted() && $form->isValid() ) {
 				$discussionMessage->setDiscussion( $discussion );
-				$discussionMessage->getDiscussion()->setActiveAt( new \DateTime() );
-				$discussionMessage->setCreatedAt( new \DateTime() );
+				$discussionMessage->getDiscussion()->setActiveAt( new DateTime() );
+				$discussionMessage->setCreatedAt( new DateTime() );
 				$discussionMessage->setAuthor( $this->getUser() );
 				$discussionMessage->setBody( $form->get( 'body' )->getData() );
 				$manager->persist( $discussionMessage );
@@ -223,7 +213,7 @@ class GroupDiscussionsController extends AbstractController {
 				$log->setType( LogEvent::DISCUSSION_PARTICIPATE );
 				$log->setUser( $this->getUser() );
 				$log->setUsergroup( $group );
-				$log->setCreatedAt( new \DateTime() );
+				$log->setCreatedAt( new DateTime() );
 				$log->setData( [ 'discussion' => $discussion->getId(), 'message' => $discussionMessage->getId(), 'title' => $discussion->getTitle() ] );
 				$manager->persist( $log );
 				$manager->flush();
@@ -305,7 +295,7 @@ class GroupDiscussionsController extends AbstractController {
 			$log->setType( LogEvent::DISCUSSION_DELETE );
 			$log->setUser( $this->getUser() );
 			$log->setUsergroup( $group );
-			$log->setCreatedAt( new \DateTime() );
+			$log->setCreatedAt( new DateTime() );
 			$log->setData( [ 'discussion' => $discussion->getId(), 'title' => $discussion->getTitle() ] );
 			$manager->persist( $log );
 
@@ -329,7 +319,6 @@ class GroupDiscussionsController extends AbstractController {
 	 * @Route("/groups/{groupSlug}/message/{messageId}/hide", name="group_message_hide")
 	 * @param                                            $groupSlug
 	 * @param                                            $messageId
-	 * @param \Symfony\Component\HttpFoundation\Request  $request
 	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
 	 *
 	 * @return string
@@ -338,7 +327,6 @@ class GroupDiscussionsController extends AbstractController {
 	public function groupMessageHide (
 			$groupSlug,
 			$messageId,
-			Request $request,
 			ObjectManager $manager
 	) {
 		/**
@@ -380,7 +368,6 @@ class GroupDiscussionsController extends AbstractController {
 	 * @Route("/groups/{groupSlug}/message/{messageId}/show", name="group_message_show")
 	 * @param                                            $groupSlug
 	 * @param                                            $messageId
-	 * @param \Symfony\Component\HttpFoundation\Request  $request
 	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
 	 *
 	 * @return string
@@ -389,7 +376,6 @@ class GroupDiscussionsController extends AbstractController {
 	public function groupMessageShow (
 			$groupSlug,
 			$messageId,
-			Request $request,
 			ObjectManager $manager
 	) {
 		/**
@@ -501,8 +487,8 @@ class GroupDiscussionsController extends AbstractController {
 		if ( $discussion ) {
 			$discussionMessage = new DiscussionMessage();
 			$discussionMessage->setDiscussion( $discussion );
-			$discussionMessage->getDiscussion()->setActiveAt( new \DateTime() );
-			$discussionMessage->setCreatedAt( new \DateTime() );
+			$discussionMessage->getDiscussion()->setActiveAt( new DateTime() );
+			$discussionMessage->setCreatedAt( new DateTime() );
 			$discussionMessage->setAuthor( $user );
 			$discussionMessage->setBody( $body );
 			$manager->persist( $discussionMessage );
@@ -518,7 +504,7 @@ class GroupDiscussionsController extends AbstractController {
 			$log->setType( LogEvent::DISCUSSION_PARTICIPATE );
 			$log->setUser( $user );
 			$log->setUsergroup( $group );
-			$log->setCreatedAt( new \DateTime() );
+			$log->setCreatedAt( new DateTime() );
 			$log->setData( [ 'discussion' => $discussion->getId(), 'message' => $discussionMessage->getId(), 'title' => $discussion->getTitle() ] );
 			$manager->persist( $log );
 			$manager->flush();
@@ -527,18 +513,18 @@ class GroupDiscussionsController extends AbstractController {
 		}
 		else {
 			$discussion = new Discussion();
-			$discussion->setUuid( \Ramsey\Uuid\Uuid::uuid4() );
+			$discussion->setUuid( Uuid::uuid4() );
 			$discussion->setTitle( $subject );
 			$discussion->setAuthor( $user );
 			$discussion->setUsergroup( $group );
-			$discussion->setCreatedAt( new \DateTime() );
+			$discussion->setCreatedAt( new DateTime() );
 			$manager->persist( $discussion );
 			$manager->flush();
 
 			$discussionMessage = new DiscussionMessage();
 			$discussionMessage->setDiscussion( $discussion );
-			$discussionMessage->getDiscussion()->setActiveAt( new \DateTime() );
-			$discussionMessage->setCreatedAt( new \DateTime() );
+			$discussionMessage->getDiscussion()->setActiveAt( new DateTime() );
+			$discussionMessage->setCreatedAt( new DateTime() );
 			$discussionMessage->setAuthor( $user );
 			$discussionMessage->setBody( $body );
 			$manager->persist( $discussionMessage );
@@ -553,7 +539,7 @@ class GroupDiscussionsController extends AbstractController {
 			$log->setType( LogEvent::DISCUSSION_CREATE );
 			$log->setUser( $user );
 			$log->setUsergroup( $group );
-			$log->setCreatedAt( new \DateTime() );
+			$log->setCreatedAt( new DateTime() );
 			$log->setData( [ 'discussion' => $discussion->getId(), 'title' => $discussion->getTitle() ] );
 			$manager->persist( $log );
 			$manager->flush();

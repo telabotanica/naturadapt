@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Throwable;
 
 class GroupFilesController extends AbstractController {
 	/**
@@ -71,10 +72,15 @@ class GroupFilesController extends AbstractController {
 			return new JsonResponse( [ 'url' => $router->generate( 'file_get', [ 'fileId' => $file->getId() ] ) ] );
 		}
 
-		return new Response( $this->get( 'twig' )
-								  ->createTemplate( '{{form(form)}}' )
-								  ->render( [ 'form' => $form->createView() ] )
-		);
+		try {
+			return new Response( $this->get( 'twig' )
+									  ->createTemplate( '{{form(form)}}' )
+									  ->render( [ 'form' => $form->createView() ] )
+			);
+		} catch ( Throwable $e ) {
+		}
+
+		return new Response( '' );
 	}
 
 	/**
@@ -88,7 +94,8 @@ class GroupFilesController extends AbstractController {
 	public function getFile (
 			$fileId,
 			ObjectManager $manager,
-			FileManager $fileManager ) {
+			FileManager $fileManager
+	) {
 		/**
 		 * @var  \App\Entity\File $file
 		 */

@@ -11,6 +11,7 @@ use App\Security\GroupVoter;
 use App\Service\Community;
 use App\Service\FileManager;
 use App\Service\SlugGenerator;
+use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -79,14 +80,14 @@ class GroupController extends AbstractController {
 
 		if ( $form->isSubmitted() && $form->isValid() ) {
 			$group->setSlug( $slugGenerator->generateSlug( $group->getName(), Usergroup::class, 'slug' ) );
-			$group->setCreatedAt( new \DateTime() );
+			$group->setCreatedAt( new DateTime() );
 
 			$manager->persist( $group );
 
 			$membership = new UsergroupMembership();
 			$membership->setUsergroup( $group );
 			$membership->setUser( $user );
-			$membership->setJoinedAt( new \DateTime() );
+			$membership->setJoinedAt( new DateTime() );
 			$membership->setRole( UsergroupMembership::ROLE_ADMIN );
 			$membership->setStatus( UsergroupMembership::STATUS_MEMBER );
 
@@ -134,7 +135,7 @@ class GroupController extends AbstractController {
 			$log->setType( LogEvent::GROUP_CREATE );
 			$log->setUser( $this->getUser() );
 			$log->setUsergroup( $group );
-			$log->setCreatedAt( new \DateTime() );
+			$log->setCreatedAt( new DateTime() );
 			$log->setData( [ 'name' => $group->getName() ] );
 			$manager->persist( $log );
 			$manager->flush();
@@ -160,6 +161,7 @@ class GroupController extends AbstractController {
 	 * @param \App\Service\FileManager                   $fileManager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
+	 * @throws \Exception
 	 */
 	public function groupEdit (
 			$groupSlug,
@@ -258,7 +260,7 @@ class GroupController extends AbstractController {
 			$log->setType( LogEvent::GROUP_EDIT );
 			$log->setUser( $this->getUser() );
 			$log->setUsergroup( $group );
-			$log->setCreatedAt( new \DateTime() );
+			$log->setCreatedAt( new DateTime() );
 			$log->setData( [ 'name' => $group->getName(), 'modifications' => $modifications ] );
 			$manager->persist( $log );
 			$manager->flush();
@@ -307,6 +309,7 @@ class GroupController extends AbstractController {
 	 * @param \App\Service\FileManager                   $fileManager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
+	 * @throws \Exception
 	 */
 	public function groupDelete (
 			$groupSlug,
@@ -372,7 +375,7 @@ class GroupController extends AbstractController {
 			$log = new LogEvent();
 			$log->setType( LogEvent::GROUP_DELETE );
 			$log->setUser( $this->getUser() );
-			$log->setCreatedAt( new \DateTime() );
+			$log->setCreatedAt( new DateTime() );
 			$log->setData( [ 'name' => $group->getName() ] );
 			$manager->persist( $log );
 

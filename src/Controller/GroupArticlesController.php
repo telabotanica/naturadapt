@@ -11,6 +11,7 @@ use App\Security\GroupArticleVoter;
 use App\Security\GroupVoter;
 use App\Service\FileManager;
 use App\Service\SlugGenerator;
+use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -99,7 +100,7 @@ class GroupArticlesController extends AbstractController {
 		if ( $form->isSubmitted() && $form->isValid() ) {
 			$article->setAuthor( $this->getUser() );
 			$article->setUsergroup( $group );
-			$article->setCreatedAt( new \DateTime() );
+			$article->setCreatedAt( new DateTime() );
 			$article->setSlug( $slugGenerator->generateSlug( $article->getTitle(), Article::class, 'slug', [ 'usergroup' => $group ] ) );
 
 			$manager->persist( $article );
@@ -128,7 +129,7 @@ class GroupArticlesController extends AbstractController {
 			$log->setType( LogEvent::ARTICLE_CREATE );
 			$log->setUser( $this->getUser() );
 			$log->setUsergroup( $group );
-			$log->setCreatedAt( new \DateTime() );
+			$log->setCreatedAt( new DateTime() );
 			$log->setData( [ 'article' => $article->getId(), 'title' => $article->getTitle() ] );
 			$manager->persist( $log );
 			$manager->flush();
@@ -201,7 +202,7 @@ class GroupArticlesController extends AbstractController {
 		$form->handleRequest( $request );
 
 		if ( $form->isSubmitted() && $form->isValid() ) {
-			$article->setEditedAt( new \DateTime() );
+			$article->setEditedAt( new DateTime() );
 
 			// Cover
 			$uploadFile = $form->get( 'coverfile' )->getData();
@@ -230,7 +231,7 @@ class GroupArticlesController extends AbstractController {
 			$log->setType( LogEvent::ARTICLE_EDIT );
 			$log->setUser( $this->getUser() );
 			$log->setUsergroup( $group );
-			$log->setCreatedAt( new \DateTime() );
+			$log->setCreatedAt( new DateTime() );
 			$log->setData( [ 'article' => $article->getId(), 'title' => $article->getTitle() ] );
 			$manager->persist( $log );
 			$manager->flush();
@@ -302,6 +303,7 @@ class GroupArticlesController extends AbstractController {
 	 * @param \App\Service\FileManager                   $fileManager
 	 *
 	 * @return string
+	 * @throws \Exception
 	 */
 	public function groupArticleDelete (
 			$groupSlug,
@@ -353,7 +355,7 @@ class GroupArticlesController extends AbstractController {
 			$log->setType( LogEvent::ARTICLE_DELETE );
 			$log->setUser( $this->getUser() );
 			$log->setUsergroup( $group );
-			$log->setCreatedAt( new \DateTime() );
+			$log->setCreatedAt( new DateTime() );
 			$log->setData( [ 'article' => $article->getId(), 'title' => $article->getTitle() ] );
 			$manager->persist( $log );
 

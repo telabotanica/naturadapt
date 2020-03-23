@@ -10,6 +10,7 @@ use App\Security\GroupVoter;
 use App\Security\UserVoter;
 use App\Service\EmailSender;
 use App\Service\UsergroupMembersManager;
+use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -128,7 +129,7 @@ class GroupMembersController extends AbstractController {
 
 		if ( !empty( $membership ) ) {
 			if ( $membership->getStatus() === UsergroupMembership::STATUS_BANNED ) {
-				$this->addFlash( 'messages.group.user_banned' );
+				$this->addFlash( 'warning', 'messages.group.user_banned' );
 			}
 
 			return $this->redirectToRoute( 'group_index', [ 'groupSlug' => $groupSlug ] );
@@ -138,7 +139,7 @@ class GroupMembersController extends AbstractController {
 		$membership->setUsergroup( $group );
 		$membership->setUser( $user );
 		$membership->setRole( UsergroupMembership::ROLE_USER );
-		$membership->setJoinedAt( new \DateTime() );
+		$membership->setJoinedAt( new DateTime() );
 
 		if ( $this->isGranted( GroupVoter::JOIN, $group ) ) {
 			$membership->setStatus( UsergroupMembership::STATUS_MEMBER );
@@ -149,7 +150,7 @@ class GroupMembersController extends AbstractController {
 			$log->setType( LogEvent::USER_JOIN );
 			$log->setUser( $this->getUser() );
 			$log->setUsergroup( $group );
-			$log->setCreatedAt( new \DateTime() );
+			$log->setCreatedAt( new DateTime() );
 			$manager->persist( $log );
 
 			// --
@@ -241,7 +242,7 @@ class GroupMembersController extends AbstractController {
 					$manager->persist( $membership );
 				}
 
-				$membership->setJoinedAt( new \DateTime() );
+				$membership->setJoinedAt( new DateTime() );
 				$membership->setStatus( UsergroupMembership::STATUS_MEMBER );
 
 				$this->addFlash( 'notice', 'messages.group.user_set_member' );
@@ -252,7 +253,7 @@ class GroupMembersController extends AbstractController {
 				$log->setType( LogEvent::USER_JOIN );
 				$log->setUser( $membership->getUser() );
 				$log->setUsergroup( $group );
-				$log->setCreatedAt( new \DateTime() );
+				$log->setCreatedAt( new DateTime() );
 				$log->setData( [ 'admin' => $this->getUser()->getId() ] );
 				$manager->persist( $log );
 
@@ -288,7 +289,7 @@ class GroupMembersController extends AbstractController {
 					$log->setType( LogEvent::USER_ADMIN );
 					$log->setUser( $membership->getUser() );
 					$log->setUsergroup( $group );
-					$log->setCreatedAt( new \DateTime() );
+					$log->setCreatedAt( new DateTime() );
 					$log->setData( [ 'admin' => $this->getUser()->getId() ] );
 					$manager->persist( $log );
 					// --

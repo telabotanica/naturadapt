@@ -13,6 +13,7 @@ use App\Security\GroupVoter;
 use App\Service\FileManager;
 use App\Service\FileMimeManager;
 use App\Service\SlugGenerator;
+use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -49,8 +50,6 @@ class GroupDocumentsController extends AbstractController {
 		}
 
 		// Filetype
-
-		$matchFiletype = FALSE;
 
 		if ( !empty( $filters[ 'filetype' ] ) ) {
 			$matchFiletype = FALSE;
@@ -180,6 +179,7 @@ class GroupDocumentsController extends AbstractController {
 	 * @param \App\Service\FileManager                   $fileManager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
+	 * @throws \Exception
 	 */
 	public function documentNew (
 			$groupSlug,
@@ -214,7 +214,7 @@ class GroupDocumentsController extends AbstractController {
 		if ( $form->isSubmitted() && $form->isValid() ) {
 			$document->setUser( $user );
 			$document->setUsergroup( $group );
-			$document->setCreatedAt( new \DateTime() );
+			$document->setCreatedAt( new DateTime() );
 
 			$folderTitle = trim( $form->get( 'folderTitle' )->getData() );
 
@@ -265,7 +265,7 @@ class GroupDocumentsController extends AbstractController {
 			$log->setType( LogEvent::DOCUMENT_CREATE );
 			$log->setUser( $this->getUser() );
 			$log->setUsergroup( $group );
-			$log->setCreatedAt( new \DateTime() );
+			$log->setCreatedAt( new DateTime() );
 			$log->setData( [ 'document' => $document->getId(), 'title' => $document->getTitle() ] );
 			$manager->persist( $log );
 			$manager->flush();
@@ -402,7 +402,7 @@ class GroupDocumentsController extends AbstractController {
 			$log->setType( LogEvent::DOCUMENT_EDIT );
 			$log->setUser( $this->getUser() );
 			$log->setUsergroup( $group );
-			$log->setCreatedAt( new \DateTime() );
+			$log->setCreatedAt( new DateTime() );
 			$log->setData( [ 'document' => $document->getId(), 'title' => $document->getTitle() ] );
 			$manager->persist( $log );
 			$manager->flush();
@@ -470,6 +470,7 @@ class GroupDocumentsController extends AbstractController {
 	 * @param \App\Service\FileManager                   $fileManager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
+	 * @throws \Exception
 	 */
 	public function documentDelete (
 			$groupSlug,
@@ -510,7 +511,7 @@ class GroupDocumentsController extends AbstractController {
 			$log->setType( LogEvent::DOCUMENT_DELETE );
 			$log->setUser( $this->getUser() );
 			$log->setUsergroup( $document->getUsergroup() );
-			$log->setCreatedAt( new \DateTime() );
+			$log->setCreatedAt( new DateTime() );
 			$log->setData( [ 'document' => $document->getId(), 'title' => $document->getTitle() ] );
 			$manager->persist( $log );
 

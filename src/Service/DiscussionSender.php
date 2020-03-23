@@ -4,6 +4,8 @@ namespace App\Service;
 
 use App\Entity\DiscussionMessage;
 use App\Postmark\BulkTransport;
+use Swift_Message;
+use Throwable;
 use Twig\Environment;
 
 class DiscussionSender {
@@ -32,6 +34,8 @@ class DiscussionSender {
 	/**
 	 * @param \App\Entity\DiscussionMessage $discussionMessage
 	 * @param bool                          $first
+	 *
+	 * @return bool|int
 	 */
 	public function sendDiscussionMessage ( DiscussionMessage $discussionMessage, $first = FALSE ) {
 		$subject = ( $first ? '' : 'Re: ' ) . $discussionMessage->getDiscussion()->getTitle();
@@ -47,12 +51,16 @@ class DiscussionSender {
 			if ( $membership->shouldReceiveDiscussionsEmails() ) {
 				$user = $membership->getUser();
 
-				$body = $this->twig->render( $first ? 'emails/discussion-new.html.twig' : 'emails/discussion-message.html.twig', [
-						'user'    => $user,
-						'message' => $discussionMessage,
-				] );
+				try {
+					$body = $this->twig->render( $first ? 'emails/discussion-new.html.twig' : 'emails/discussion-message.html.twig', [
+							'user'    => $user,
+							'message' => $discussionMessage,
+					] );
+				} catch ( Throwable $e ) {
+					$body = '';
+				}
 
-				$messages[] = ( new \Swift_Message( $subject ) )
+				$messages[] = ( new Swift_Message( $subject ) )
 						->setFrom( $from )
 						->setTo( $user->getEmail() )
 						->setReplyTo( $discussionMessage->getDiscussion()->getUsergroup()->getSlug() . '+' . $discussionMessage->getDiscussion()->getUuid() . '@' . $this->params[ 'list_domain' ] )
