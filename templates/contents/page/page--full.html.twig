@@ -1,5 +1,5 @@
 {% set classes = ['page', 'page__full'] %}
-<div class="{{ classes|join(' ') }}" style="--color: {{ page.usergroup.name|color }}">
+<div class="{{ classes|join(' ') }}">
 	{% set hasCover = ((page.cover is defined) and (page.cover is not empty))
 		or ((page.usergroup.cover is defined) and (page.usergroup.cover is not empty)) %}
 

@@ -1,6 +1,6 @@
-import ready from 'mf-js/modules/dom/ready';
+import domready from 'mf-js/modules/dom/ready';
 
-ready( () => Array.from( document.querySelectorAll( 'input[type="file"][data-prefill]' ) ).forEach( ( fileElement ) => {
+domready( () => Array.from( document.querySelectorAll( 'input[type="file"][data-prefill]' ) ).forEach( ( fileElement ) => {
 	const prefillElements = Array.from( document.querySelectorAll( fileElement.getAttribute( 'data-prefill' ) ) );
 
 	fileElement.addEventListener( 'change', ( e ) => {

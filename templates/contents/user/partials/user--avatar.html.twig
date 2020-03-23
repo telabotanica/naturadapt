@@ -1,5 +1,5 @@
 {% set hasAvatar = (user.avatar is defined) and user.avatar %}
-<div class="user--avatar {{ hasAvatar ? '' : 'user--avatar__empty' }}">
+<div class="user--avatar{% if not hasAvatar %} user--avatar__empty{% endif %}" {% if not hasAvatar %}style="--color: {{ user.name|color }}"{% endif %}>
 	{% if filter is not defined %}
 		{% set filter = 'avatar' %}
 	{% endif %}

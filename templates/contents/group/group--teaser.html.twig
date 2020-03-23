@@ -1,7 +1,8 @@
 {% set classes = ['group', 'group__teaser', 'group__' ~ group.visibility] %}
-<div class="{{ classes|join(' ') }}" style="--color: {{ group.name|color }}">
+{% set hasCover = (group.cover is defined) and (group.cover is not empty) %}
+<div class="{{ classes|join(' ') }}" {% if not hasCover %}style="--color: {{ group.name|color }}"{% endif %}>
 	<div class="group-illustration">
-		{% if (group.cover is defined) and (group.cover is not empty) %}
+		{% if hasCover %}
 			<img src="{{ group.cover.path | imagine_filter('cover_teaser') }}" alt="">
 		{% endif %}
 	</div>

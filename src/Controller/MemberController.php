@@ -9,7 +9,6 @@ use App\Service\UsergroupMembersManager;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -74,14 +73,12 @@ class MemberController extends AbstractController {
 	 *
 	 * @param                                            $user_id
 	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
-	 * @param \App\Service\FileManager                   $fileManager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\BinaryFileResponse|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function member (
 			$user_id,
-			ObjectManager $manager,
-			FileManager $fileManager
+			ObjectManager $manager
 	) {
 		if ( !$this->isGranted( UserVoter::LOGGED ) ) {
 			$this->addFlash( 'notice', 'messages.user.login_requested' );
@@ -90,7 +87,7 @@ class MemberController extends AbstractController {
 		$this->denyAccessUnlessGranted( UserVoter::LOGGED );
 
 		$user = $manager->getRepository( User::class )
-						->findOneById( $user_id );
+						->findOneBy( [ 'id' => $user_id ] );
 
 		return $this->render( 'pages/member/member-profile.html.twig', [ 'user' => $user ] );
 	}
@@ -110,7 +107,7 @@ class MemberController extends AbstractController {
 			FileManager $fileManager
 	) {
 		$user = $manager->getRepository( User::class )
-						->findOneById( $user_id );
+						->findOneBy( [ 'id' => $user_id ] );
 
 		if ( !empty( $user ) ) {
 			$file = $user->getAvatar();
@@ -124,7 +121,7 @@ class MemberController extends AbstractController {
 	}
 
 	/**
-	 * @Route("/members/{user_id}/delete")
+	 * @Route("/members/{user_id}/delete", name="member_delete")
 	 *
 	 * @param                                            $user_id
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
@@ -151,7 +148,7 @@ class MemberController extends AbstractController {
 
 		if ( $form->isSubmitted() && $form->isValid() ) {
 			$user = $manager->getRepository( User::class )
-							->findOneById( $user_id );
+							->findOneBy( [ 'id' => $user_id ] );
 
 			$manager->remove( $user );
 			$manager->flush();

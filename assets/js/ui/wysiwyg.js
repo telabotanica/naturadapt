@@ -1,4 +1,4 @@
-import ready from 'mf-js/modules/dom/ready';
+import domready from 'mf-js/modules/dom/ready';
 
 class UploadAdapter {
 	constructor( loader, uploadURL ) {
@@ -77,7 +77,7 @@ class UploadAdapter {
 	}
 }
 
-ready( () => {
+domready( () => {
 	const wysiwygs = Array.from( document.querySelectorAll( '.wysiwyg-editor' ) );
 
 	if ( wysiwygs.length > 0 ) {

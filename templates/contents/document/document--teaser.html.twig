@@ -17,4 +17,19 @@
 			<span>{{ 'pages.document.view.date'|trans|format(document.createdAt|localizeddate('short', 'none', app.request.locale)) }}</span>
 		</div>
 	</a>
+
+	{% if is_granted(constant('App\\Security\\GroupDocumentVoter::EDIT'), document) %}
+		<div class="in-list-admin-panel">
+			<ul>
+				<li>
+					<a href="{{ path('group_document_edit', {
+						'groupSlug':group.slug,
+						'documentId':document.id
+					}) }}" title="{{ 'pages.document.document_edit.link'|trans|escape('html_attr') }}">
+						<span>{{ 'pages.document.document_edit.link'|trans }}</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	{% endif %}
 </div>

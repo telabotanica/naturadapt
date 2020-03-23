@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Document;
+use App\Entity\Usergroup;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -17,22 +18,20 @@ class DocumentRepository extends ServiceEntityRepository {
 		parent::__construct( $registry, Document::class );
 	}
 
-	// /**
-	//  * @return Document[] Returns an array of Document objects
-	//  */
-	/*
-	public function findByExampleField($value)
-	{
-		return $this->createQueryBuilder('d')
-			->andWhere('d.exampleField = :val')
-			->setParameter('val', $value)
-			->orderBy('d.id', 'ASC')
-			->setMaxResults(10)
-			->getQuery()
-			->getResult()
-		;
+	/**
+	 * @param \App\Entity\Usergroup $group
+	 *
+	 * @return Document[] Returns an array of Document objects
+	 */
+	public function findRootDocuments ( Usergroup $group ) {
+		return $this->createQueryBuilder( 'd' )
+					->andWhere( 'd.usergroup = :group' )
+					->setParameter( 'group', $group )
+					->andWhere( 'd.folder IS NULL' )
+					->orderBy( 'd.title', 'ASC' )
+					->getQuery()
+					->getResult();
 	}
-	*/
 
 	/*
 	public function findOneBySomeField($value): ?Document

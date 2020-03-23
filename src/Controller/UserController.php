@@ -341,13 +341,11 @@ class UserController extends AbstractController {
 	/**
 	 * @Route("/user/dashboard", name="user_dashboard")
 	 *
-	 * @param \Symfony\Component\HttpFoundation\Request  $request
 	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function dashboard (
-			Request $request,
 			ObjectManager $manager
 	) {
 		$this->denyAccessUnlessGranted( UserVoter::LOGGED );
@@ -356,10 +354,6 @@ class UserController extends AbstractController {
 		 * @var User $user
 		 */
 		$user = $this->getUser();
-
-		if ( empty( $user->getName() ) ) {
-			return $this->redirectToRoute( 'user_profile_create' );
-		}
 
 		$groups = array_map( function ( UsergroupMembership $membership ) {
 			return $membership->getUsergroup();
@@ -610,14 +604,12 @@ class UserController extends AbstractController {
 	/**
 	 * @Route("/user/email-change/{token}", name="user_email_confirm")
 	 *
-	 * @param \Symfony\Component\HttpFoundation\Request  $request
 	 * @param string                                     $token
 	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function emailChangeConfirm (
-			Request $request,
 			string $token,
 			ObjectManager $manager
 	) {

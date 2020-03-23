@@ -3,9 +3,9 @@
 namespace App\Service;
 
 use App\Entity\Article;
+use App\Entity\Discussion;
 use App\Entity\Document;
 use App\Entity\Page;
-use App\Entity\User;
 use App\Entity\Usergroup;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -18,11 +18,6 @@ class UrlManager {
 	 */
 	private $urlGenerator;
 
-	/**
-	 * @var \Gaufrette\Filesystem $filesystem
-	 */
-	private $filesystem;
-
 	public function __construct ( ObjectManager $manager, UrlGeneratorInterface $urlGenerator ) {
 		$this->manager      = $manager;
 		$this->urlGenerator = $urlGenerator;
@@ -34,6 +29,10 @@ class UrlManager {
 
 	public function usergroupUrlFromId ( $id ) {
 		$group = $this->manager->getRepository( Usergroup::class )->findOneBy( [ 'id' => $id ] );
+
+		if ( empty( $group ) ) {
+			return '';
+		}
 
 		return $this->urlGenerator->generate( 'group_index', [ 'groupSlug' => $group->getSlug() ] );
 	}
@@ -48,6 +47,19 @@ class UrlManager {
 		return $this->urlGenerator->generate( 'group_page_index', [
 				'groupSlug' => $page->getUsergroup()->getSlug(),
 				'pageSlug'  => $page->getSlug(),
+		] );
+	}
+
+	public function discussionUrlFromId ( $id ) {
+		$discussion = $this->manager->getRepository( Discussion::class )->findOneBy( [ 'id' => $id ] );
+
+		if ( empty( $discussion ) ) {
+			return '';
+		}
+
+		return $this->urlGenerator->generate( 'group_discussion_index', [
+				'groupSlug'      => $discussion->getUsergroup()->getSlug(),
+				'discussionUuid' => $discussion->getUuid(),
 		] );
 	}
 

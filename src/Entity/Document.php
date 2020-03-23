@@ -45,6 +45,11 @@ class Document {
 	 */
 	private $createdAt;
 
+	/**
+	 * @ORM\ManyToOne(targetEntity="App\Entity\DocumentFolder", inversedBy="documents")
+	 */
+	private $folder;
+
 	public function getId (): ?int {
 		return $this->id;
 	}
@@ -94,7 +99,7 @@ class Document {
 	}
 
 	public function setTitle ( ?string $title ): self {
-		$this->title = $title;
+		$this->title = mb_substr( $title, 0, 100 );
 
 		return $this;
 	}
@@ -105,6 +110,16 @@ class Document {
 
 	public function setCreatedAt ( \DateTimeInterface $createdAt ): self {
 		$this->createdAt = $createdAt;
+
+		return $this;
+	}
+
+	public function getFolder (): ?DocumentFolder {
+		return $this->folder;
+	}
+
+	public function setFolder ( ?DocumentFolder $folder ): self {
+		$this->folder = $folder;
 
 		return $this;
 	}

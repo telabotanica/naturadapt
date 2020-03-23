@@ -164,7 +164,8 @@
 	margin-bottom:   column_gap();
 
 	.user--avatar {
-		width: rem(150px);
+		width:  rem(150px);
+		height: rem(150px);
 
 		@include medium-or-more {
 			margin-right: column_gap();
@@ -387,106 +388,6 @@
 		@include medium-or-less {
 			margin-top: .8em;
 			font-size:  (12 / 16) * 1em;
-		}
-	}
-
-	.user-admin-panel {
-		font-size: (14 / 18) * 1em;
-	}
-
-	.user-admin-panel {
-		position:     relative;
-		margin-right: rem(10px);
-
-		@include clearulli;
-
-		a {
-			&::before {
-				content:         '';
-				display:         inline-block;
-				width:           rem(17px);
-				height:          rem(17px);
-				border-radius:   50%;
-				background-size: 100% 100%;
-			}
-
-			&.pending_set_member::before,
-			&.banned_set_member::before {
-				@import "../../_assets/checked.svg";
-			}
-
-			&.pending_set_remove::before,
-			&.banned_set_remove::before,
-			&.member_set_remove::before,
-			&.admin_set_user::before {
-				@import "../../_assets/cancel.svg";
-			}
-
-			&.member_set_banned::before {
-				@import "../../_assets/minus.svg";
-			}
-
-			&.member_set_admin::before {
-				@import "../../_assets/star.svg";
-			}
-		}
-
-		.sibling-toggle {
-			@include button-reset;
-
-			display:         inline-block;
-			width:           rem(17px);
-			height:          rem(17px);
-			border-radius:   50%;
-			background-size: 100% 100%;
-			@import "../../_assets/settings-2.svg";
-
-			span {
-				@include visually-hidden;
-			}
-		}
-
-		.sibling-toggle + [aria-hidden] {
-			position:    absolute;
-			top:         100%;
-			right:       0;
-
-			@include card_shadow;
-			padding:     .5em;
-			font-size:   rem(14px);
-
-			white-space: nowrap;
-
-			a {
-				span {
-					position: relative;
-					top:      -.2em;
-				}
-
-				&:focus,
-				&:hover {
-					span {
-						text-decoration: underline;
-					}
-				}
-			}
-
-			&[aria-hidden="true"] {
-				display: none;
-			}
-		}
-
-		ul:not([aria-hidden]) {
-			li {
-				display:     inline-block;
-				margin-left: rem(4px);
-			}
-
-			a {
-				span {
-					@include visually-hidden;
-				}
-			}
 		}
 	}
 }

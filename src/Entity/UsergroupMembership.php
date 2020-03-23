@@ -120,4 +120,11 @@ class UsergroupMembership {
 
 		return $this;
 	}
+
+	/**
+	 * @return bool
+	 */
+	public function shouldReceiveDiscussionsEmails () {
+		return ( $this->getStatus() === UsergroupMembership::STATUS_MEMBER ) && empty( $this->getNotificationsSettings()[ 'unsubscribed' ] );
+	}
 }

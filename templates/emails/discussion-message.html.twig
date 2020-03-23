@@ -1,0 +1,10 @@
+{% extends 'emails/discussion-new.html.twig' %}
+
+{% block introduction %}
+	<p>
+		{{ message.author.displayName }} a répondu dans la discussion
+		<a href="{{ path('group_discussion_index', {'groupSlug':message.discussion.usergroup.slug, 'discussionUuid':message.discussion.uuid}) }}">{{ message.discussion.title }}</a>
+		du groupe
+		<a href="{{ path('group_index', {'groupSlug':message.discussion.usergroup.slug}) }}">{{ message.discussion.usergroup.name }}</a>&nbsp;:
+	</p>
+{% endblock %}

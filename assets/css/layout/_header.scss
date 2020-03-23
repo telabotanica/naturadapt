@@ -180,6 +180,8 @@
 	position: relative;
 	display:  inline-block;
 
+	@include clearulli;
+
 	.connexion {
 		@include cta-style($color_action, true);
 	}

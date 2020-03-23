@@ -1,5 +1,5 @@
 {% set classes = ['group', 'group__full'] %}
-<div class="{{ classes|join(' ') }}" style="--color: {{ group.name|color }}">
+<div class="{{ classes|join(' ') }}">
 	<div class="main--content content-container">
 		{% include 'components/app-flashes.html.twig' %}
 
@@ -18,6 +18,12 @@
 			{% endif %}
 		</div>
 
-		{% include 'contents/group/partials/group-apps.html.twig' with {'group':group} %}
+		{% include 'contents/group/partials/group-tabs.html.twig' with {'group':group, 'logEvents':logEvents} %}
+
+		{% if (logEvents is defined) and logEvents %}
+			{% include 'contents/group/partials/group-events.html.twig' with {'group':group, 'logEvents':logEvents} %}
+		{% else %}
+			{% include 'contents/group/partials/group-apps.html.twig' with {'group':group} %}
+		{% endif %}
 	</div>
 </div>

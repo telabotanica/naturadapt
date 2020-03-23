@@ -28,14 +28,28 @@
 
 	<div class="group-app group-app__discussions">
 		<h2 class="h4">
-			<a href="{{ path('group_index', {'groupSlug':group.slug}) }}">{{ 'pages.group.discussions.title'|trans }}</a>
-			<span class="count">{{ 'pages.group.soon.title'|trans }}</span>
+			<a href="{{ path('group_discussions_index', {'groupSlug':group.slug}) }}">{{ 'pages.group.discussions.title'|trans }}</a>
+			<span class="count">{{ group.discussions|length }}</span>
 		</h2>
-		<div class="create-new">
-			<div>
-				<p class="hint">{{ 'pages.group.soon.hint'|trans }}</p>
+		{% if group.discussions is not empty %}
+			<ul class="items-list">
+				{% for discussion in group.discussions|slice(0, 5) %}
+					<li>
+						{% include 'contents/discussion/discussion--in-items-list.html.twig' with {'discussion':discussion} %}
+					</li>
+				{% endfor %}
+			</ul>
+			<div class="see-all">
+				<a href="{{ path('group_discussions_index', {'groupSlug':group.slug}) }}">{{ 'ui.see_all'|trans }}</a>
 			</div>
-		</div>
+		{% else %}
+			<div class="create-new">
+				<div>
+					<p class="hint">{{ 'pages.group.discussions.empty'|trans }}</p>
+					<p><a href="{{ path('group_discussion_new', {'groupSlug':group.slug}) }}">{{ 'pages.discussion.discussion_create.link'|trans }}</a></p>
+				</div>
+			</div>
+		{% endif %}
 	</div>
 
 	<div class="group-app group-app__articles">

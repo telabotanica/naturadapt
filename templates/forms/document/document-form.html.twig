@@ -8,12 +8,21 @@
 		{{ form_label(form.filefile, 'forms.document.file.button', {'label_attr': {'class': 'submit-style submit-style__inverted'}}) }}
 		<div class="form_errors">{{ form_errors(form.filefile) }}</div>
 	</div>
-	<div class="form-row form-row__field">
-		{{ form_label(form.title, 'forms.document.title.label') }}
-		{{ form_widget(form.title, {'attr': {'placeholder': 'forms.document.title.placeholder'}}) }}
+	<div class="columns__66-33">
+		<div class="form-row form-row__field">
+			{{ form_label(form.title, 'forms.document.title.label') }}
+			{{ form_widget(form.title, {'attr': {'placeholder': 'forms.document.title.placeholder'}}) }}
+		</div>
+		<div class="form-row form-row__field">
+			{{ form_label(form.folderTitle, 'forms.document.folder.label') }}
+			{{ form_widget(form.folderTitle, {'attr': {'placeholder': 'forms.document.folder.placeholder'}}) }}
+		</div>
 	</div>
 </div>
 <div class="form-row form-row__submit">
 	{{ form_widget(form.submit, {'label': form_submit}) }}
+	{% if (delete is defined) and (delete) and is_granted(constant('App\\Security\\GroupDocumentVoter::DELETE'), document) %}
+		<a class="cta__inverted" href="{{ path('group_document_delete', {'groupSlug':group.slug, 'documentId':document.id}) }}">{{ 'ui.delete'|trans }}</a>
+	{% endif %}
 </div>
 {{ form_end(form) }}

@@ -117,6 +117,17 @@ forms:
             label: "Contenu de la page"
             placeholder: ""
 
+    discussion:
+        title:
+            label: "Titre du sujet"
+            placeholder: "Saisissez le titre du sujet ici…"
+        body:
+            label: "Votre message"
+            placeholder: "Saississez votre contenu ici…"
+        answer:
+            label: "Votre réponse"
+            placeholder: "Saississez votre contenu ici…"
+
     article:
         cover:
             label: "Ajouter une image qui sera utilisée en Entête de l’actualité (facultatif)"
@@ -137,6 +148,9 @@ forms:
         title:
             label: "Nom du document"
             placeholder: ""
+        folder:
+            label: "Dossier"
+            placeholder: "(non classé)"
 
 pages:
     user:
@@ -186,6 +200,7 @@ pages:
             contact: "Contacter par e-mail"
             link: "Mon profil"
         is_admin: "Administrateur"
+
     group:
         group_create:
             title: "Créer un groupe"
@@ -211,20 +226,23 @@ pages:
             title: "Ce groupe est privé"
             body: "Votre demande d’inscription au groupe sera soumise à l’acceptation des administrateurs. Il peut ainsi se passer plusieurs jours avant que vous ne receviez votre invitation."
         home: "Accueil du groupe"
+        tabs:
+            home: "Vue d’ensemble"
+            events: "Dernières activités"
         groups:
             title: "Groupes"
         pages:
             title: "Pages"
             empty: "Créer votre première page"
+        discussions:
+            title: "Discussions"
+            empty: "Créer votre première discussion"
         articles:
             title: "Actualités"
             empty: "Aucune actualité disponible"
         documents:
             title: "Documents"
             empty: "Vous n’avez aucun document"
-        discussions:
-            title: "Discussions"
-            empty: "Vous n’avez pas de discussion en cours"
         members:
             title: "Membres"
         members_pending:
@@ -234,7 +252,8 @@ pages:
         soon:
             title: "Bientôt"
             hint: "Cette fonction est en cours de développement, vous pourrez bientôt discuter à l'intérieur de ce groupe au sein de la plateforme et par e-mail."
-
+        events:
+            title: "Activités"
     page:
         list:
             title: "Pages"
@@ -251,6 +270,32 @@ pages:
             date_edited: "Édité le %s"
             members: "{1}1 membre|]1,Inf]%count% membres"
             pages_index: "Index"
+
+    discussion:
+        list:
+            title: "Listes de discussion"
+            subjects: "Sujets"
+            messages_count: "Nb messages"
+            activity: "Dernière activité"
+            introduction:
+                title: "Comment ça marche ?"
+                body: "<p>Chaque liste de discussion a un mail dédié (par exemple <a href=\"mailto:%s\">%s</a> pour le groupe <strong>%s</strong>), auquel on peut écrire pour lancer une discussion.</p><p>Vous pouvez également lancer une discussion depuis cette interface web</p>"
+        discussion_create:
+            title: "Créer un sujet"
+            link: "Créer un sujet"
+            hint: "Votre message sera envoyé par mail aux membres du groupe."
+            button: "Envoyer"
+        discussion_edit:
+            title: "Édition de la discussion"
+            link: "Modifier la discussion"
+            button: "Enregistrer les modifications"
+        view:
+            active: "Actif %s"
+            date: "Créée le %s"
+            date_edited: "Éditée le %s"
+        actions:
+            hide_message: "Masquer le message"
+            show_message: "Afficher le message"
 
     article:
         list:
@@ -276,10 +321,20 @@ pages:
             query:
                 placeholder: "Chercher un document par nom…"
             search: "Filtrer"
+            types:
+                pdf: "PDF"
+                docs: "Documents"
+                images: "Images"
+                archives: "Archives"
+            toggle: "Ouvrir / Fermer"
         document_create:
             title: "Envoi d’un document"
             link: "Ajouter un document"
             button: "Envoyer le document"
+        document_edit:
+            title: "Modification d’un document"
+            link: "Modifier"
+            button: "Enregistrer les modifications"
         view:
             date: "Le %s"
 
@@ -316,6 +371,10 @@ pages:
             groups:
                 title: "Groupes"
 
+    event:
+        list:
+            title: "Activités"
+
 messages:
     user:
         already_connected: "Vous êtes déjà connecté·e."
@@ -334,8 +393,9 @@ messages:
         password_token_unknown: "Ce token est inconnu."
         password_successful: "Mot de passe mis à jour, vous pouvez désormais vous identifier."
         password_updated: "Votre mot de passe a été mis à jour."
-        profile_created: "Votre profil a été créé"
-        profile_updated: "Votre profil a été mis à jour"
+        profile_created: "Votre profil a été créé."
+        profile_updated: "Votre profil a été mis à jour."
+        profile_required: "Pour commencer, complétez le profil ci-dessous."
         login_requested: "Vous devez vous inscrire ou vous connecter pour voir cette page."
         email_change_sent: "Un email de confirmation du changement d’adresse vous a été envoyé. Regardez la boite de reception de votre nouvelle adresse."
         email_change_successful: "Votre adresse e-mail a été modifiée."
@@ -358,6 +418,15 @@ messages:
         page_created: "La page a été créée"
         page_updated: "La page a été mise à jour"
         page_deleted: "La page a été supprimée"
+
+    discussion:
+        discussion_created: "La discussion a été créée"
+        message_created: "Le message a été posté sur la liste"
+        discussion_updated: "La discussion a été mise à jour"
+        discussion_deleted: "La discussion a été supprimée"
+
+        message_hidden: "Le message est masqué"
+        message_shown: "Le message est affiché"
 
     article:
         article_created: "L’article a été créé"
@@ -390,6 +459,11 @@ logevents:
     page_create: "%1$s a créé la page %3$s dans le groupe %2$s"
     page_edit: "%1$s a modifié la page %3$s dans le groupe %2$s"
     page_delete: "%1$s a supprimé la page %3$s dans le groupe %2$s"
+
+    discussion_create: "%1$s a créé la discussion %3$s dans le groupe %2$s"
+    discussion_edit: "%1$s a modifié la discussion %3$s dans le groupe %2$s"
+    discussion_delete: "%1$s a supprimé la discussion %3$s dans le groupe %2$s"
+    discussion_participate: "%1$s a participé à la discussion %3$s dans le groupe %2$s"
 
     article_create: "%1$s a créé l’actualité %3$s dans le groupe %2$s"
     article_edit: "%1$s a modifié l’actualité %3$s dans le groupe %2$s"

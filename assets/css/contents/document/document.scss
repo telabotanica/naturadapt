@@ -2,8 +2,73 @@
  * DOCUMENTS LIST
  *************************************************/
 
+.documents-folder {
+	margin: padding_vertical() 0;
+}
+
+.documents-folder--name {
+	position:      relative;
+	display:       flex;
+	flex-flow:     row nowrap;
+	align-items:   center;
+
+	padding:       padding_vertical() padding_horizontal();
+
+	border-bottom: 1px solid $color_grey_border;
+
+	span {
+		flex:      1;
+
+		@include font_title_bold;
+		font-size: rem(20px);
+	}
+
+	.list-toggle {
+		@include button-reset;
+
+		display: block;
+
+		&::before {
+			content:             '';
+			display:             block;
+			width:               1em;
+			height:              1em;
+
+			$color:              $color_default;
+			@import '../../_assets/folding.svg';
+			background-repeat:   no-repeat;
+			background-position: center center;
+
+			transition:          transform .15s ease-in-out;
+		}
+
+		&:not([data-list-aria-expanded="false"])::before {
+			transform: rotate(-180deg);
+		}
+
+		&::after {
+			content:  '';
+			position: absolute;
+			top:      0;
+			right:    0;
+			bottom:   0;
+			left:     0;
+		}
+
+		span {
+			@include visually-hidden;
+		}
+	}
+}
+
 .documents-list {
 	@include clearulli(true);
+
+	overflow: hidden;
+
+	&[aria-expanded="false"] {
+		max-height: 0;
+	}
 
 	> li {
 		border-bottom: 1px solid $color_grey_border;
@@ -11,9 +76,13 @@
 }
 
 .document__teaser {
-	position:  relative;
+	position:    relative;
 
-	font-size: rem(16px);
+	display:     flex;
+	flex-flow:   row nowrap;
+	align-items: center;
+
+	font-size:   rem(16px);
 
 	&:focus,
 	&:hover {
@@ -26,6 +95,8 @@
 	}
 
 	.document-infos {
+		flex-grow:   1;
+
 		display:     flex;
 		flex-flow:   row nowrap;
 		align-items: center;
@@ -59,9 +130,9 @@
 	}
 
 	.document--title {
+		flex-grow:     1;
 		padding:       0 padding_horizontal();
 
-		width:         rem(215px);
 		overflow:      hidden;
 		text-overflow: ellipsis;
 
@@ -69,6 +140,8 @@
 	}
 
 	.document--date {
+		width: rem(120px);
+
 		color: $color_grey_neutral;
 	}
 }
