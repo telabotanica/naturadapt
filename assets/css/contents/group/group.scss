@@ -189,7 +189,9 @@
 	}
 
 	.group-members {
-		margin-top: padding_vertical('small');
+		margin-top:      padding_vertical('small');
+
+		text-decoration: none;
 	}
 }
 
