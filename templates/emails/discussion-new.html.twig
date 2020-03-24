@@ -10,9 +10,9 @@
 	{% block introduction %}
 		<p>
 			{{ message.author.displayName }} a démarré une discussion
-			<a href="{{ path('group_discussion_index', {'groupSlug':message.discussion.usergroup.slug, 'discussionUuid':message.discussion.uuid}) }}">{{ message.discussion.title }}</a>
+			<a href="{{ absolute_url(path('group_discussion_index', {'groupSlug':message.discussion.usergroup.slug, 'discussionUuid':message.discussion.uuid})) }}">{{ message.discussion.title }}</a>
 			dans le groupe
-			<a href="{{ path('group_index', {'groupSlug':message.discussion.usergroup.slug}) }}">{{ message.discussion.usergroup.name }}</a>&nbsp;:
+			<a href="{{ absolute_url(path('group_index', {'groupSlug':message.discussion.usergroup.slug})) }}">{{ message.discussion.usergroup.name }}</a>&nbsp;:
 		</p>
 	{% endblock %}
 
@@ -20,7 +20,7 @@
 		{{ message.body|raw }}
 	</div>
 
-	<p>Retrouvez cette discussion en ligne : <a href="{{ path('group_discussion_index', {'groupSlug':message.discussion.usergroup.slug, 'discussionUuid':message.discussion.uuid}) }}">{{ message.discussion.title }}</a></p>
+	<p>Retrouvez cette discussion en ligne : <a href="{{ absolute_url(path('group_discussion_index', {'groupSlug':message.discussion.usergroup.slug, 'discussionUuid':message.discussion.uuid})) }}">{{ message.discussion.title }}</a></p>
 
 	{% include 'components/email-signature.html.twig' %}
 {% endblock %}
