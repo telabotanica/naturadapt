@@ -447,7 +447,7 @@ class GroupDiscussionsController extends AbstractController {
 						: strip_tags( $data[ 'HtmlBody' ] );
 
 		// Replace nobreaking space with simple space
-		$emailBody = str_replace( 'crit :', 'crit :', $emailBody );
+		$emailBody = str_replace( "\u{00a0}", ' ', $emailBody );
 		$email     = ( new EmailParser() )->parse( $emailBody );
 		$fragments = $email->getFragments();
 		$body      = trim( current( $fragments )->getContent() );
