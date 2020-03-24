@@ -440,9 +440,17 @@ class GroupDiscussionsController extends AbstractController {
 		$userEmail = $data[ 'From' ];
 		$subject   = $data[ 'Subject' ];
 
-		$emailBody = !empty( $data[ 'TextBody' ] ) ? $data[ 'TextBody' ] : strip_tags( $data[ 'HtmlBody' ] );
-		$fragments = ( new EmailParser() )->parse( $emailBody )->getFragments();
-		$body      = nl2br( current( $fragments )->getContent() );
+		$emailBody = !empty( $data[ 'StrippedTextBody' ] )
+				? $data[ 'StrippedTextBody' ]
+				: !empty( $data[ 'TextBody' ] )
+						? $data[ 'TextBody' ]
+						: strip_tags( $data[ 'HtmlBody' ] );
+
+		// Replace nobreaking space with simple space
+		$emailBody = str_replace( 'crit :', 'crit :', $emailBody );
+		$email     = ( new EmailParser() )->parse( $emailBody );
+		$fragments = $email->getFragments();
+		$body      = trim( current( $fragments )->getContent() );
 
 		/**
 		 * @var \App\Entity\User $user
@@ -490,7 +498,7 @@ class GroupDiscussionsController extends AbstractController {
 			$discussionMessage->getDiscussion()->setActiveAt( new DateTime() );
 			$discussionMessage->setCreatedAt( new DateTime() );
 			$discussionMessage->setAuthor( $user );
-			$discussionMessage->setBody( $body );
+			$discussionMessage->setBody( nl2br( $body ) );
 			$manager->persist( $discussionMessage );
 			$manager->flush();
 
@@ -526,7 +534,7 @@ class GroupDiscussionsController extends AbstractController {
 			$discussionMessage->getDiscussion()->setActiveAt( new DateTime() );
 			$discussionMessage->setCreatedAt( new DateTime() );
 			$discussionMessage->setAuthor( $user );
-			$discussionMessage->setBody( $body );
+			$discussionMessage->setBody( nl2br( $body ) );
 			$manager->persist( $discussionMessage );
 
 			// Send Notifications
