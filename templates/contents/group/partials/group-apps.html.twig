@@ -110,7 +110,7 @@
 			<span class="count">{{ group.members|length }}</span>
 		</h2>
 		<ul class="items-list">
-			{% for member in group.members|slice(0, 5) %}
+			{% for member in group.membersWithName|slice(0, 5) %}
 				<li>
 					{% include 'contents/user/user--in-items-list.html.twig' with {'user':member.user, 'admin':user_group_relation.isAdmin(member.user, group)} %}
 				</li>
