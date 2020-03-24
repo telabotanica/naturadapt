@@ -91,6 +91,12 @@ class GroupDiscussionsController extends AbstractController {
 			throw $this->createNotFoundException( 'The group does not exist' );
 		}
 
+		if ( !$this->isGranted( GroupDiscussionVoter::CREATE, $group ) ) {
+			$this->addFlash( 'notice', 'messages.discussion.join_required' );
+
+			return $this->redirectToRoute( 'group_discussions_index', [ 'groupSlug' => $groupSlug ] );
+		}
+
 		$this->denyAccessUnlessGranted( GroupDiscussionVoter::CREATE, $group );
 
 		$discussion = new Discussion();

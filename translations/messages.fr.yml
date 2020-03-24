@@ -420,6 +420,8 @@ messages:
         page_deleted: "La page a été supprimée"
 
     discussion:
+        join_required: "Vous devez rejoindre le groupe pour créer un sujet."
+
         discussion_created: "La discussion a été créée"
         message_created: "Le message a été posté sur la liste"
         discussion_updated: "La discussion a été mise à jour"
