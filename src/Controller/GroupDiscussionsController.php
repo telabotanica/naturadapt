@@ -563,4 +563,61 @@ class GroupDiscussionsController extends AbstractController {
 			return new JsonResponse( [ 'status' => 'discussion created' ] );
 		}
 	}
+
+	/**************************************************
+	 * SUBSCRIPTION
+	 **************************************************/
+
+	/**
+	 * @Route("/groups/{groupSlug}/notifications/{status}", name="group_discussions_notifications")
+	 * @param                                            $groupSlug
+	 * @param                                            $status
+	 * @param \Symfony\Component\HttpFoundation\Request  $request
+	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 *
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+	 */
+	public function groupNotifications (
+			$groupSlug,
+			$status,
+			Request $request,
+			ObjectManager $manager
+	) {
+		/**
+		 * @var \App\Entity\Usergroup $group
+		 */
+		$group = $manager->getRepository( Usergroup::class )
+						 ->findOneBy( [ 'slug' => $groupSlug ] );
+
+		if ( !$group ) {
+			throw $this->createNotFoundException( 'The group does not exist' );
+		}
+
+		$user = $this->getUser();
+
+		if ( !$user ) {
+			throw $this->createNotFoundException( 'The user does not exist' );
+		}
+
+		$membership = $manager->getRepository( UsergroupMembership::class )
+							  ->getMembership( $user, $group );
+
+		if ( $membership ) {
+			$settings = $membership->getNotificationsSettings();
+			switch ( $status ) {
+				case 'unsubscribe':
+					$settings[ 'unsubscribed' ] = TRUE;
+					$this->addFlash( 'notice', 'messages.discussion.notifications.unsubscribe' );
+					break;
+
+				default:
+					unset( $settings[ 'unsubscribed' ] );
+					$this->addFlash( 'notice', 'messages.discussion.notifications.subscribe' );
+			}
+			$membership->setNotificationsSettings( $settings );
+			$manager->flush();
+		}
+
+		return $this->redirectToRoute( 'group_index', [ 'groupSlug' => $groupSlug ] );
+	}
 }

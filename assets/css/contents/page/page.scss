@@ -246,7 +246,7 @@
 				margin-right: padding_horizontal('small');
 			}
 
-			.group-join--action {
+			.group-member-status {
 				margin-top: rem(10px);
 			}
 		}
@@ -297,17 +297,7 @@
 		text-transform: uppercase;
 	}
 
-	.group-join--action {
+	.group-member-status {
 		margin-top: padding_vertical();
-
-		span {
-			@include cta-style($color_action, true);
-			width: 100%;
-		}
-
-		a {
-			@include cta-style;
-			width: 100%;
-		}
 	}
 }

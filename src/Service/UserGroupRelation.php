@@ -32,6 +32,11 @@ class UserGroupRelation {
 							 ->isMember( $user, $group );
 	}
 
+	public function isSubscribed ( ?User $user, Usergroup $group ) {
+		return $this->manager->getRepository( UsergroupMembership::class )
+							 ->isSubscribed( $user, $group );
+	}
+
 	public function isBanned ( ?User $user, Usergroup $group ) {
 		return $this->manager->getRepository( UsergroupMembership::class )
 							 ->isBanned( $user, $group );
