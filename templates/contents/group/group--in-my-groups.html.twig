@@ -1,0 +1,21 @@
+{% set classes = ['group', 'group__in-my-groups', 'group__' ~ group.visibility] %}
+{% set hasCover = (group.cover is defined) and (group.cover is not empty) %}
+<div class="{{ classes|join(' ') }}" {% if not hasCover %}style="--color: {{ group.name|color }}"{% endif %}>
+	<div class="group-logo">
+		{% if (group.logo is defined) and (group.logo is not empty) %}
+			<img src="{{ group.logo.path | imagine_filter('logo') }}" alt="">
+		{% endif %}
+	</div>
+
+	<div class="group-content">
+		<h2 class="group-name h3">
+			<a href="{{ path('group_index', {'groupSlug': group.slug}) }}">{{ group.name }}</a>
+		</h2>
+
+		<div class="group-description">
+			{{ group.description }}
+		</div>
+	</div>
+
+	{% include 'contents/group/partials/group-join-button.html.twig' with {'group':group} %}
+</div>

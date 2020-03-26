@@ -24,6 +24,14 @@
 	}
 }
 
+.my-groups-list {
+	@include clearulli(true);
+
+	> li:not(:last-child) {
+		margin-bottom: column_gap();
+	}
+}
+
 /**************************************************
 * GROUP
 **************************************************/
@@ -72,134 +80,6 @@
 	.group-members {
 		position: relative;
 		display:  block;
-	}
-}
-
-.group-member-status {
-	position: relative;
-	z-index:  2;
-
-	.member {
-		@include cta-style($color_action, true);
-		width:         100%;
-		padding-left:  0;
-		padding-right: 0;
-		white-space:   nowrap;
-	}
-
-	.join {
-		@include cta-style();
-		width: 100%;
-	}
-
-	.banned,
-	.pending {
-		@include cta-style($color_action, true);
-		width: 100%;
-	}
-
-	&--selector {
-		position: relative;
-
-		@include clearulli();
-
-		[data-toggle-element] {
-			&::before {
-				content:             '';
-				display:             inline-block;
-				vertical-align:      baseline;
-				width:               rem(7px);
-				height:              rem(12px);
-				margin-right:        .5em;
-				margin-bottom:       rem(-1px);
-
-				@include picto-arrow($color_action, 7, 12, 2);
-				background-repeat:   no-repeat;
-				background-position: center;
-
-				transform:           rotate(-90deg);
-			}
-
-			&:focus,
-			&:hover {
-				&::before {
-					@include picto-arrow(#ffffff, 7, 12, 2);
-				}
-			}
-		}
-
-		.choices {
-			position: absolute;
-			top:      100%;
-			left:     0;
-			right:    0;
-			@include card_shadow;
-
-			a {
-				display:         block;
-				padding:         1rem;
-
-				text-decoration: none;
-
-				&:focus,
-				&:hover {
-					background-color: $color_grey_lighter;
-				}
-			}
-
-			li:not(:last-child) a {
-				&::after {
-					content:       '';
-					display:       block;
-					position:      relative;
-					top:           1rem;
-					border-bottom: 1px solid $color_grey_lighter;
-				}
-			}
-
-			.title {
-				display:   block;
-				@include font_default_bold;
-				font-size: rem(16px);
-			}
-
-			li.active .title {
-				&::before {
-					content:        '';
-					display:        inline-block;
-					vertical-align: baseline;
-					margin-right:   .5em;
-					margin-bottom:  .25em;
-					width:          .8em;
-					height:         .5em;
-					border-left:    2px solid $color_action;
-					border-bottom:  2px solid $color_action;
-					transform:      rotate(-45deg);
-				}
-			}
-
-			.title__warning {
-				color: $color_orange_red;
-			}
-
-			.description {
-				display:   block;
-				font-size: rem(14px);
-				color:     $color_grey_neutral;
-			}
-		}
-
-		&:not([aria-expanded="true"]) {
-			[data-toggle-element] {
-				&::before {
-					transform: rotate(90deg);
-				}
-			}
-
-			.choices {
-				display: none;
-			}
-		}
 	}
 }
 
@@ -420,6 +300,9 @@
 	}
 
 	.group-member-status {
+		position:       relative;
+		z-index:        2;
+
 		margin-bottom:  padding_vertical();
 		padding-bottom: padding_vertical();
 		border-bottom:  1px solid $color_grey_border;
@@ -600,6 +483,57 @@
 }
 
 /**************************************************
+* GROUP ON MY GROUPS
+**************************************************/
+
+.group__in-my-groups {
+	display:         flex;
+	flex-flow:       row nowrap;
+	justify-content: space-between;
+	align-items:     center;
+
+	.group-logo {
+		margin-right: padding_horizontal('small');
+		width:        rem(40px);
+		height:       rem(40px);
+
+		@include medium-or-more {
+			margin-right: column_gap();
+			width:        rem(80px);
+			height:       rem(80px);
+		}
+	}
+
+	.group-content {
+		flex: 1;
+	}
+
+	.group-name {
+		@include font_default_bold;
+		margin: 0;
+
+		a {
+			text-decoration: none;
+		}
+	}
+
+	.group-description {
+		font-size: rem(14px);
+		color:     $color_grey_medium;
+	}
+
+	.group-member-status {
+		margin-left: padding_horizontal('small');
+		width:       rem(80px);
+
+		@include medium-or-more {
+			margin-left: column_gap();
+			width:       rem(180px);
+		}
+	}
+}
+
+/**************************************************
 * GROUP COMPONENTS
 **************************************************/
 
@@ -652,6 +586,136 @@
 
 		svg {
 			margin: auto;
+		}
+	}
+}
+
+
+.group-member-status {
+	.member {
+		@include cta-style($color_action, true);
+		width:         100%;
+		padding-left:  0;
+		padding-right: 0;
+		white-space:   nowrap;
+	}
+
+	.join {
+		@include cta-style();
+		width: 100%;
+	}
+
+	.banned,
+	.pending {
+		@include cta-style($color_action, true);
+		width: 100%;
+	}
+
+	&--selector {
+		position: relative;
+
+		@include clearulli();
+
+		[data-toggle-element] {
+			&::before {
+				content:             '';
+				display:             inline-block;
+				vertical-align:      baseline;
+				width:               rem(7px);
+				height:              rem(12px);
+				margin-right:        .5em;
+				margin-bottom:       rem(-1px);
+
+				@include picto-arrow($color_action, 7, 12, 2);
+				background-repeat:   no-repeat;
+				background-position: center;
+
+				transform:           rotate(-90deg);
+			}
+
+			&:focus,
+			&:hover {
+				&::before {
+					@include picto-arrow(#ffffff, 7, 12, 2);
+				}
+			}
+		}
+
+		.choices {
+			position: absolute;
+			top:      100%;
+			left:     0;
+			right:    0;
+			@include card_shadow;
+
+			a {
+				display:         block;
+				padding:         1rem;
+
+				text-decoration: none;
+
+				&:focus,
+				&:hover {
+					background-color: $color_grey_lighter;
+				}
+			}
+
+			li:not(:last-child) a {
+				&::after {
+					content:       '';
+					display:       block;
+					position:      relative;
+					top:           1rem;
+					border-bottom: 1px solid $color_grey_lighter;
+				}
+			}
+
+			.title {
+				display:   block;
+				@include font_default_bold;
+				font-size: rem(16px);
+			}
+
+			li.active .title {
+				&::before {
+					content:        '';
+					display:        inline-block;
+					vertical-align: baseline;
+					margin-right:   .5em;
+					margin-bottom:  .25em;
+					width:          .8em;
+					height:         .5em;
+					border-left:    2px solid $color_action;
+					border-bottom:  2px solid $color_action;
+					transform:      rotate(-45deg);
+				}
+			}
+
+			.title__warning {
+				color: $color_orange_red;
+			}
+
+			.description {
+				display:   block;
+				font-size: rem(14px);
+				color:     $color_grey_neutral;
+			}
+		}
+
+		&[aria-expanded="true"] {
+			z-index: 1;
+		}
+
+		&:not([aria-expanded="true"]) {
+			[data-toggle-element] {
+				&::before {
+					transform: rotate(90deg);
+				}
+			}
+
+			.choices {
+				display: none;
+			}
 		}
 	}
 }

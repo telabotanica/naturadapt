@@ -6,7 +6,8 @@ ui:
     see_all: "Tout voir"
     delete: "Supprimer"
     settings: "Paramètres"
-    confirm: "Êtes-vous sûr ?"
+    ask_confirm: "Êtes-vous sûr(e) ?"
+    confirm: "Confirmer"
     cancel: "Annuler"
 
 forms:
@@ -200,6 +201,10 @@ pages:
             contact: "Contacter par e-mail"
             link: "Mon profil"
         is_admin: "Administrateur"
+        my_groups:
+            title: "Mes groupes"
+            introduction: "Gérez rapidement vos adhésions aux groupes"
+            link: "Mes groupes"
 
     group:
         group_create:
