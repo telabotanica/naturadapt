@@ -8,13 +8,13 @@
 			{% endif %}
 			<ul class="choices">
 				<li{% if user_group_relation.isSubscribed(app.user, group) %} class="active"{% endif %}>
-					<a href="{{ path('group_discussions_notifications', {'groupSlug': group.slug, 'status':'subscribe'}) }}">
+					<a href="{{ path('group_discussions_notifications', {'groupSlug': group.slug, 'status':'subscribe', 'redirect': redirect is defined ? redirect : null}) }}">
 						<span class="title">{{ 'pages.group.is_member'|trans }}</span>
 						<span class="description">{{ 'pages.group.is_member_description'|trans }}</span>
 					</a>
 				</li>
 				<li{% if not user_group_relation.isSubscribed(app.user, group) %} class="active"{% endif %}>
-					<a href="{{ path('group_discussions_notifications', {'groupSlug': group.slug, 'status':'unsubscribe'}) }}">
+					<a href="{{ path('group_discussions_notifications', {'groupSlug': group.slug, 'status':'unsubscribe', 'redirect': redirect is defined ? redirect : null}) }}">
 						<span class="title">{{ 'pages.group.is_member_unsubscribed'|trans }}</span>
 						<span class="description">{{ 'pages.group.is_member_unsubscribed_description'|trans }}</span>
 					</a>

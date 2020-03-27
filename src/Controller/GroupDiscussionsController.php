@@ -569,9 +569,10 @@ class GroupDiscussionsController extends AbstractController {
 	 **************************************************/
 
 	/**
-	 * @Route("/groups/{groupSlug}/notifications/{status}", name="group_discussions_notifications")
+	 * @Route("/groups/{groupSlug}/notifications/{status}/{redirect}", name="group_discussions_notifications")
 	 * @param                                            $groupSlug
 	 * @param                                            $status
+	 * @param string                                     $redirect
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
 	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
 	 *
@@ -580,6 +581,7 @@ class GroupDiscussionsController extends AbstractController {
 	public function groupNotifications (
 			$groupSlug,
 			$status,
+			$redirect = 'group',
 			Request $request,
 			ObjectManager $manager
 	) {
@@ -618,6 +620,13 @@ class GroupDiscussionsController extends AbstractController {
 			$manager->flush();
 		}
 
-		return $this->redirectToRoute( 'group_index', [ 'groupSlug' => $groupSlug ] );
+		switch ( $redirect ) {
+			case 'groups':
+				return $this->redirectToRoute( 'user_groups' );
+				break;
+
+			default:
+				return $this->redirectToRoute( 'group_index', [ 'groupSlug' => $groupSlug ] );
+		}
 	}
 }
