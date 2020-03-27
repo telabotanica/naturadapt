@@ -50,106 +50,104 @@ class Discussion {
 	 */
 	private $messages;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $activeAt;
+	/**
+	 * @ORM\Column(type="datetime", nullable=true)
+	 */
+	private $activeAt;
 
 	public function __construct () {
-         		$this->messages = new ArrayCollection();
-         	}
+		$this->messages = new ArrayCollection();
+	}
 
 	public function getId (): ?int {
-         		return $this->id;
-         	}
+		return $this->id;
+	}
 
 	public function getUuid (): ?string {
-         		return $this->uuid;
-         	}
+		return $this->uuid;
+	}
 
 	public function setUuid ( string $uuid ): self {
-         		$this->uuid = $uuid;
-         
-         		return $this;
-         	}
+		$this->uuid = $uuid;
+
+		return $this;
+	}
 
 	public function getUsergroup (): ?Usergroup {
-         		return $this->usergroup;
-         	}
+		return $this->usergroup;
+	}
 
 	public function setUsergroup ( ?Usergroup $usergroup ): self {
-         		$this->usergroup = $usergroup;
-         
-         		return $this;
-         	}
+		$this->usergroup = $usergroup;
+
+		return $this;
+	}
 
 	public function getAuthor (): ?User {
-         		return $this->author;
-         	}
+		return $this->author;
+	}
 
 	public function setAuthor ( ?User $author ): self {
-         		$this->author = $author;
-         
-         		return $this;
-         	}
+		$this->author = $author;
+
+		return $this;
+	}
 
 	public function getTitle (): ?string {
-         		return $this->title;
-         	}
+		return $this->title;
+	}
 
 	public function setTitle ( string $title ): self {
-         		$this->title = trim( $title );
-         
-         		return $this;
-         	}
+		$this->title = trim( $title );
+
+		return $this;
+	}
 
 	public function getCreatedAt (): ?\DateTimeInterface {
-         		return $this->createdAt;
-         	}
+		return $this->createdAt;
+	}
 
 	public function setCreatedAt ( \DateTimeInterface $createdAt ): self {
-         		$this->createdAt = $createdAt;
-         
-         		return $this;
-         	}
+		$this->createdAt = $createdAt;
+
+		return $this;
+	}
 
 	/**
 	 * @return Collection|DiscussionMessage[]
 	 */
 	public function getMessages (): Collection {
-         		return $this->messages;
-         	}
+		return $this->messages;
+	}
 
 	public function addMessage ( DiscussionMessage $message ): self {
-         		if ( !$this->messages->contains( $message ) ) {
-         			$this->messages[] = $message;
-         			$message->setDiscussion( $this );
-         		}
-         
-         		return $this;
-         	}
+		if ( !$this->messages->contains( $message ) ) {
+			$this->messages[] = $message;
+			$message->setDiscussion( $this );
+		}
+
+		return $this;
+	}
 
 	public function removeMessage ( DiscussionMessage $message ): self {
-         		if ( $this->messages->contains( $message ) ) {
-         			$this->messages->removeElement( $message );
-         			// set the owning side to null (unless already changed)
-         			if ( $message->getDiscussion() === $this ) {
-         				$message->setDiscussion( NULL );
-         			}
-         		}
-         
-         		return $this;
-         	}
+		if ( $this->messages->contains( $message ) ) {
+			$this->messages->removeElement( $message );
+			// set the owning side to null (unless already changed)
+			if ( $message->getDiscussion() === $this ) {
+				$message->setDiscussion( NULL );
+			}
+		}
 
-    public function getActiveAt(): ?\DateTimeInterface
-    {
-        return $this->activeAt;
-    }
+		return $this;
+	}
 
-    public function setActiveAt(?\DateTimeInterface $activeAt): self
-    {
-        $this->activeAt = $activeAt;
+	public function getActiveAt (): ?\DateTimeInterface {
+		return $this->activeAt;
+	}
 
-        return $this;
-    }
+	public function setActiveAt ( ?\DateTimeInterface $activeAt ): self {
+		$this->activeAt = $activeAt;
+
+		return $this;
+	}
 }

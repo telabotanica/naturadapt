@@ -264,6 +264,7 @@ pages:
             hint: "Cette fonction est en cours de développement, vous pourrez bientôt discuter à l'intérieur de ce groupe au sein de la plateforme et par e-mail."
         events:
             title: "Activités"
+
     page:
         list:
             title: "Pages"
@@ -306,6 +307,7 @@ pages:
         actions:
             hide_message: "Masquer le message"
             show_message: "Afficher le message"
+        attachments: "Pièces jointes"
 
     article:
         list:
