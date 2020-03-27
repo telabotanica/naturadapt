@@ -11,7 +11,7 @@
 		</a>
 	</div>
 	<div class="header--pages">
-		<button class="sibling-toggle" type="button" data-sibling-toggle="aria-expanded">
+		<button class="toggle-button" type="button" data-toggle-element="sibling" data-toggle-attribute="aria-expanded">
 			<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="17" height="13" viewBox="0 0 17 13">
 				<use xlink:href="#menu"/>
 			</svg>
@@ -27,7 +27,7 @@
 	<div class="header--user">
 		{% if is_granted(constant('App\\Security\\UserVoter::LOGGED')) %}
 			<div class="header--user-menu">
-				<button class="sibling-toggle" type="button">{% include 'contents/user/user--tiny.html.twig' with {'user':app.user} %}</button>
+				<button class="toggle-button" type="button" data-toggle-element="sibling">{% include 'contents/user/user--tiny.html.twig' with {'user':app.user} %}</button>
 				<div class="links" aria-hidden="true">
 					<ul>
 						<li><a href="{{ path('user_dashboard') }}">{{ 'pages.user.dashboard.link'|trans }}</a></li>

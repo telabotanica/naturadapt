@@ -1,10 +1,10 @@
 <div class="group-member-status">
 	{% if user_group_relation.isMember(app.user, group) %}
-		<div class="group-member-status--selector">
+		<div class="group-member-status--selector" data-toggle-attribute="aria-expanded" data-toggle-listen-others="true|false" data-toggle-listen-esc="false">
 			{% if user_group_relation.isSubscribed(app.user, group) %}
-				<button class="member" data-toggle-element="parent" data-toggle-attribute="aria-expanded">{{ 'pages.group.is_member'|trans }}</button>
+				<button class="member" data-toggle-element="parent">{{ 'pages.group.is_member'|trans }}</button>
 			{% else %}
-				<button class="member" data-toggle-element="parent" data-toggle-attribute="aria-expanded">{{ 'pages.group.is_member_unsubscribed'|trans }}</button>
+				<button class="member" data-toggle-element="parent">{{ 'pages.group.is_member_unsubscribed'|trans }}</button>
 			{% endif %}
 			<ul class="choices">
 				<li{% if user_group_relation.isSubscribed(app.user, group) %} class="active"{% endif %}>

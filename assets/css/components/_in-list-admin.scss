@@ -50,7 +50,7 @@
 		}
 	}
 
-	.sibling-toggle {
+	.toggle-button {
 		@include button-reset;
 
 		display:         inline-block;
@@ -65,7 +65,7 @@
 		}
 	}
 
-	.sibling-toggle + [aria-hidden] {
+	.toggle-button + [aria-hidden] {
 		position:    absolute;
 		top:         100%;
 		right:       0;

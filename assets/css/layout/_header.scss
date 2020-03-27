@@ -78,7 +78,7 @@
 	@include medium-or-less {
 		order: 3;
 
-		.sibling-toggle {
+		.toggle-button {
 			@include button-reset;
 
 			margin-left: padding_horizontal();
@@ -90,7 +90,7 @@
 				transition:        stroke-dashoffset 1s ease-in-out;
 			}
 
-			&:not([data-sibling-aria-expanded="true"]) svg {
+			&:not([data-toggle-element-aria-expanded="true"]) svg {
 				stroke-dashoffset: 0;
 			}
 		}
@@ -136,7 +136,7 @@
 		flex-basis: 50%;
 		padding:    padding_vertical() 0;
 
-		.sibling-toggle {
+		.toggle-button {
 			display: none;
 		}
 
@@ -196,7 +196,7 @@
 		}
 	}
 
-	.sibling-toggle {
+	.toggle-button {
 		@include button-reset;
 	}
 

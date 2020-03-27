@@ -108,10 +108,10 @@
 				</div>
 			{% else %}
 				<div class="in-list-admin-panel">
-					<button class="sibling-toggle" type="button" title="{{ 'ui.settings'|trans|escape('html_attr') }}">
+					<button class="toggle-button" type="button" data-toggle-element="sibling" title="{{ 'ui.settings'|trans|escape('html_attr') }}">
 						<span>{{ 'ui.settings'|trans }}</span>
 					</button>
-					<ul aria-hidden="true">
+					<ul aria-hidden="true" data-toggle-listen-others="false|true" data-toggle-listen-group="admin-panel" data-toggle-listen-esc="true">
 						<li>
 							<a class="member_set_admin"
 							   href="{{ path('group_member_admin', {
