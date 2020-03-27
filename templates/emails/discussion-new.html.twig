@@ -37,7 +37,11 @@
 
 	<p>Retrouvez cette discussion en ligne : <a href="{{ absolute_url(path('group_discussion_index', {'groupSlug':message.discussion.usergroup.slug, 'discussionUuid':message.discussion.uuid})) }}">{{ message.discussion.title }}</a></p>
 
-	<p class="sub">Vous pouvez gérer toutes vos préférences de notification par e-mail sur votre page "<a href="{{ absolute_url(path('user_groups')) }}">Mes groupes</a>"</p>
-
 	{% include 'components/email-signature.html.twig' %}
+
+	<p class="sub">Si vous ne souhaitez plus recevoir de notifications pour les discussions du groupe <strong>{{ message.discussion.usergroup.name }}</strong>,
+		<a href="{{ absolute_url(path('group_discussions_notifications', {'groupSlug': message.discussion.usergroup.slug, 'status':'unsubscribe', 'redirect':'group', 'hash': hash_generator.generateUserHash(user)})) }}">cliquez-ici pour vous désabonner directement</a>.
+	</p>
+
+	<p class="sub">Retrouvez toutes vos préférences de notification par e-mail sur votre page "<a href="{{ absolute_url(path('user_groups')) }}">Mes groupes</a>"</p>
 {% endblock %}

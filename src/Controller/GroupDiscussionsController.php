@@ -15,6 +15,7 @@ use App\Security\GroupDiscussionVoter;
 use App\Security\GroupVoter;
 use App\Service\DiscussionSender;
 use App\Service\FileManager;
+use App\Service\HashGenerator;
 use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
 use EmailReplyParser\Parser\EmailParser;
@@ -618,11 +619,13 @@ class GroupDiscussionsController extends AbstractController {
 	 **************************************************/
 
 	/**
-	 * @Route("/groups/{groupSlug}/notifications/{status}/{redirect}", name="group_discussions_notifications")
+	 * @Route("/groups/{groupSlug}/notifications/{status}/{redirect}/{hash}", name="group_discussions_notifications")
 	 * @param                                            $groupSlug
 	 * @param                                            $status
 	 * @param string                                     $redirect
+	 * @param string                                     $hash
 	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \App\Service\HashGenerator                 $hashGenerator
 	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
@@ -630,7 +633,9 @@ class GroupDiscussionsController extends AbstractController {
 			$groupSlug,
 			$status,
 			$redirect = 'group',
-			ObjectManager $manager
+			$hash = '',
+			ObjectManager $manager,
+			HashGenerator $hashGenerator
 	) {
 		/**
 		 * @var \App\Entity\Usergroup $group
@@ -642,7 +647,12 @@ class GroupDiscussionsController extends AbstractController {
 			throw $this->createNotFoundException( 'The group does not exist' );
 		}
 
-		$user = $this->getUser();
+		if ( empty( $hash ) ) {
+			$user = $this->getUser();
+		}
+		else {
+			$user = $hashGenerator->getUserFromHash( $hash );
+		}
 
 		if ( !$user ) {
 			throw $this->createNotFoundException( 'The user does not exist' );
