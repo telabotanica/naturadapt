@@ -488,14 +488,23 @@
 
 .group__in-my-groups {
 	display:         flex;
-	flex-flow:       row nowrap;
+
+	flex-flow:       row wrap;
+
+	@include medium-or-more {
+		flex-flow: row nowrap;
+	}
+
 	justify-content: space-between;
 	align-items:     center;
 
 	.group-logo {
-		margin-right: padding_horizontal('small');
-		width:        rem(40px);
-		height:       rem(40px);
+		@include small-or-less {
+			margin-right:  padding_horizontal('small');
+			margin-bottom: padding_vertical('small');
+			width:         rem(40px);
+			height:        rem(40px);
+		}
 
 		@include medium-or-more {
 			margin-right: column_gap();
@@ -506,11 +515,19 @@
 
 	.group-content {
 		flex: 1;
+
+		@include small-or-less {
+			margin-bottom: padding_vertical('small');
+		}
 	}
 
 	.group-name {
 		@include font_default_bold;
 		margin: 0;
+
+		@include small-or-less {
+			font-size: rem(18px);
+		}
 
 		a {
 			text-decoration: none;
@@ -523,8 +540,11 @@
 	}
 
 	.group-member-status {
-		margin-left: padding_horizontal('small');
-		width:       rem(80px);
+		@include small-or-less {
+			flex:      0 0 100%;
+			width:     100%;
+			max-width: 100%;
+		}
 
 		@include medium-or-more {
 			margin-left: column_gap();
