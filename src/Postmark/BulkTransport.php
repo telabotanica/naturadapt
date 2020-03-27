@@ -29,19 +29,31 @@ class BulkTransport extends Transport {
 		$v = $this->version;
 		$o = $this->os;
 
-		$response = $client->request( 'POST', 'https://api.postmarkapp.com/email/batch', [
-				'headers'     => [
-						'X-Postmark-Server-Token' => $this->serverToken,
-						'Content-Type'            => 'application/json',
-						'User-Agent'              => "swiftmailer-postmark (PHP Version: $v, OS: $o)",
-				],
-				'json'        => array_map( function ( $message ) {
-					return $this->getMessagePayload( $message );
-				}, $messages ),
-				'http_errors' => FALSE,
-		] );
+		$total          = count( $messages );
+		$sendSuccessful = TRUE;
+		$loop           = 0;
+		$messagesPool   = [];
 
-		$sendSuccessful = $response->getStatusCode() == 200;
+		foreach ( $messages as $message ) {
+			$loop++;
+
+			$messagesPool[] = $this->getMessagePayload( $message );
+
+			if ( ( ( $loop % 500 ) === 0 ) || ( $loop >= $total ) ) {
+				$response       = $client->request( 'POST', 'https://api.postmarkapp.com/email/batch', [
+						'headers'     => [
+								'X-Postmark-Server-Token' => $this->serverToken,
+								'Content-Type'            => 'application/json',
+								'User-Agent'              => "swiftmailer-postmark (PHP Version: $v, OS: $o)",
+						],
+						'json'        => $messagesPool,
+						'http_errors' => FALSE,
+				] );
+				$sendSuccessful = $sendSuccessful && ( $response->getStatusCode() == 200 );
+
+				$messagesPool = [];
+			}
+		}
 
 		if ( $evt && $sendSuccessful ) {
 			$evt->setResult( \Swift_Events_SendEvent::RESULT_SUCCESS );
@@ -49,7 +61,7 @@ class BulkTransport extends Transport {
 		}
 
 		return $sendSuccessful
-				? count( $messages )
+				? $total
 				: 0;
 	}
 
