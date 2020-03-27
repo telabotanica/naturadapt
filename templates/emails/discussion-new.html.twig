@@ -22,7 +22,7 @@
 
 	<p>Retrouvez cette discussion en ligne : <a href="{{ absolute_url(path('group_discussion_index', {'groupSlug':message.discussion.usergroup.slug, 'discussionUuid':message.discussion.uuid})) }}">{{ message.discussion.title }}</a></p>
 
-	<p class="sub">Vous pouvez gérer toutes vos préférences de notification par e-mail sur votre page "<a href="{{ path('user_groups') }}">Mes groupes</a>"</p>
+	<p class="sub">Vous pouvez gérer toutes vos préférences de notification par e-mail sur votre page "<a href="{{ absolute_url(path('user_groups')) }}">Mes groupes</a>"</p>
 
 	{% include 'components/email-signature.html.twig' %}
 {% endblock %}
