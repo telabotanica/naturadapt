@@ -8,6 +8,13 @@
 		{{ form_label(form.body, 'forms.discussion.body.label', {'label_attr': {'class': 'h2'}}) }}
 		{{ form_widget(form.body, {'attr': {'placeholder': 'forms.discussion.body.placeholder'}}) }}
 	</div>
+	<div class="form-row form-row__file">
+		{{ form_label(form.attachment, 'forms.document.file.label') }}
+		<div class="hint">{{ 'forms.document.file.hint'|trans|format(form.attachment.vars.attr['data-max-size']) }}</div>
+		{{ form_widget(form.attachment, { 'attr': {'data-prefill': '#document_title'} }) }}
+		{{ form_label(form.attachment, 'forms.document.file.button', {'label_attr': {'class': 'submit-style submit-style__inverted'}}) }}
+		<div class="form_errors">{{ form_errors(form.attachment) }}</div>
+	</div>
 </div>
 <div class="form-row__mandatory">{{ 'forms.mandatory'|trans }}</div>
 <div class="form-row form-row__submit">

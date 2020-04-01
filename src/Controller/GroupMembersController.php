@@ -13,6 +13,7 @@ use App\Service\UsergroupMembersManager;
 use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -309,5 +310,61 @@ class GroupMembersController extends AbstractController {
 		$manager->flush();
 
 		return $this->redirectToRoute( 'group_members_index', [ 'groupSlug' => $groupSlug ] );
+	}
+
+	/**
+	 * @Route("/groups/{groupSlug}/quit", name="group_member_quit")
+	 * @param                                            $groupSlug
+	 * @param \Symfony\Component\HttpFoundation\Request  $request
+	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 *
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+	 */
+	public function groupMemberQuit (
+			$groupSlug,
+			Request $request,
+			ObjectManager $manager
+	) {
+		/**
+		 * @var \App\Entity\Usergroup $group
+		 */
+		$group = $manager->getRepository( Usergroup::class )
+						 ->findOneBy( [ 'slug' => $groupSlug ] );
+
+		if ( !$group ) {
+			throw $this->createNotFoundException( 'The group does not exist' );
+		}
+
+		$user = $this->getUser();
+
+		if ( !$user ) {
+			throw $this->createNotFoundException( 'The user does not exist' );
+		}
+
+		$membership = $manager->getRepository( UsergroupMembership::class )
+							  ->getMembership( $user, $group );
+
+		// Confirmation form
+
+		$form = $this->createFormBuilder()
+					 ->add( 'submit', SubmitType::class )
+					 ->getForm();
+
+		$form->handleRequest( $request );
+
+		if ( $form->isSubmitted() && $form->isValid() ) {
+			if ( !empty( $membership ) ) {
+				$manager->remove( $membership );
+				$manager->flush();
+
+				$this->addFlash( 'notice', 'messages.group.quit' );
+
+				return $this->redirectToRoute( 'group_index', [ 'groupSlug' => $groupSlug ] );
+			}
+		}
+
+		return $this->render( 'pages/confirm.html.twig', [
+				'form' => $form->createView(),
+		] );
 	}
 }

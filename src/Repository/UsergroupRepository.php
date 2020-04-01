@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Usergroup;
-use App\Entity\UsergroupMembership;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 

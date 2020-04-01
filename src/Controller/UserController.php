@@ -638,4 +638,24 @@ class UserController extends AbstractController {
 
 		return $this->redirectToRoute( 'user_dashboard' );
 	}
+
+	/**
+	 * @Route("/user/groups", name="user_groups")
+	 *
+	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 *
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+	 */
+	public function userGroups (
+			ObjectManager $manager
+	) {
+		$this->denyAccessUnlessGranted( UserVoter::LOGGED );
+
+		/**
+		 * @var User $user
+		 */
+		$user = $this->getUser();
+
+		return $this->render( 'pages/user/my-groups.html.twig', [ 'user' => $user ] );
+	}
 }

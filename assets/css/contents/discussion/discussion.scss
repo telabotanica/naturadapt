@@ -184,6 +184,16 @@
 	.message--body {
 	}
 
+	.message--attachments {
+		h4 {
+			margin: 0;
+			@include visually-hidden;
+		}
+
+		margin-top: padding_vertical();
+		border-top: 1px solid $color_grey_border;
+	}
+
 	&.message__masked {
 		.message--author,
 		.message--body {

@@ -6,7 +6,8 @@ ui:
     see_all: "Tout voir"
     delete: "Supprimer"
     settings: "Paramètres"
-    confirm: "Êtes-vous sûr ?"
+    ask_confirm: "Êtes-vous sûr(e) ?"
+    confirm: "Confirmer"
     cancel: "Annuler"
 
 forms:
@@ -200,6 +201,10 @@ pages:
             contact: "Contacter par e-mail"
             link: "Mon profil"
         is_admin: "Administrateur"
+        my_groups:
+            title: "Mes groupes"
+            introduction: "Gérez rapidement vos adhésions aux groupes"
+            link: "Mes groupes"
 
     group:
         group_create:
@@ -216,12 +221,17 @@ pages:
             private: "Groupe privé"
             created_at: "Créé le %s"
             active_ago: "Actif %s"
-        is_member: "Inscrit"
+        is_member: "Abonné(e)"
+        is_member_description: "Vous recevez toutes les discussions de ce groupe par e-mail."
+        is_member_unsubscribed: "Membre"
+        is_member_unsubscribed_description: "Vous pouvez accéder au groupe mais vous ne recevez pas d’email."
         is_banned: "Vous avez été banni de ce groupe"
         is_pending: "Votre demande d’inscription est en attente"
         join_button:
             public: "Rejoindre le groupe"
             private: "Demande d’inscription"
+        leave_button: "Quitter le groupe"
+        leave_description: "Vous n’aurez plus accès au groupe."
         restricted:
             title: "Ce groupe est privé"
             body: "Votre demande d’inscription au groupe sera soumise à l’acceptation des administrateurs. Il peut ainsi se passer plusieurs jours avant que vous ne receviez votre invitation."
@@ -254,6 +264,7 @@ pages:
             hint: "Cette fonction est en cours de développement, vous pourrez bientôt discuter à l'intérieur de ce groupe au sein de la plateforme et par e-mail."
         events:
             title: "Activités"
+
     page:
         list:
             title: "Pages"
@@ -296,6 +307,7 @@ pages:
         actions:
             hide_message: "Masquer le message"
             show_message: "Afficher le message"
+        attachments: "Pièces jointes"
 
     article:
         list:
@@ -402,6 +414,7 @@ messages:
 
     group:
         joined: "Vous avez rejoint ce groupe."
+        quit: "Vous avez quitté le groupe"
         access_denied: "Vous n’avez pas accès à ce groupe."
         user_set_admin: "L’utilisateur est maintenant administrateur du groupe."
         user_set_user: "L’utilisateur est maintenant membre du groupe."
@@ -420,6 +433,11 @@ messages:
         page_deleted: "La page a été supprimée"
 
     discussion:
+        join_required: "Vous devez rejoindre le groupe pour créer un sujet."
+        notifications:
+            subscribe: "Vous recevrez les notifications par e-mail pour ce groupe"
+            unsubscribe: "Vous ne recevrez plus les notifications par e-mail pour ce groupe"
+
         discussion_created: "La discussion a été créée"
         message_created: "Le message a été posté sur la liste"
         discussion_updated: "La discussion a été mise à jour"

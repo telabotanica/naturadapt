@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Discussion;
 use App\Entity\DiscussionMessage;
+use App\Entity\File;
 use App\Entity\LogEvent;
 use App\Entity\User;
 use App\Entity\Usergroup;
@@ -13,6 +14,8 @@ use App\Form\DiscussionType;
 use App\Security\GroupDiscussionVoter;
 use App\Security\GroupVoter;
 use App\Service\DiscussionSender;
+use App\Service\FileManager;
+use App\Service\HashGenerator;
 use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
 use EmailReplyParser\Parser\EmailParser;
@@ -68,6 +71,7 @@ class GroupDiscussionsController extends AbstractController {
 	 * @param                                                            $groupSlug
 	 * @param \Symfony\Component\HttpFoundation\Request                  $request
 	 * @param \Doctrine\Common\Persistence\ObjectManager                 $manager
+	 * @param \App\Service\FileManager                                   $fileManager
 	 * @param \Symfony\Component\Routing\Generator\UrlGeneratorInterface $router
 	 * @param \App\Service\DiscussionSender                              $sender
 	 *
@@ -78,6 +82,7 @@ class GroupDiscussionsController extends AbstractController {
 			$groupSlug,
 			Request $request,
 			ObjectManager $manager,
+			FileManager $fileManager,
 			UrlGeneratorInterface $router,
 			DiscussionSender $sender
 	) {
@@ -89,6 +94,12 @@ class GroupDiscussionsController extends AbstractController {
 
 		if ( !$group ) {
 			throw $this->createNotFoundException( 'The group does not exist' );
+		}
+
+		if ( !$this->isGranted( GroupDiscussionVoter::CREATE, $group ) ) {
+			$this->addFlash( 'notice', 'messages.discussion.join_required' );
+
+			return $this->redirectToRoute( 'group_discussions_index', [ 'groupSlug' => $groupSlug ] );
 		}
 
 		$this->denyAccessUnlessGranted( GroupDiscussionVoter::CREATE, $group );
@@ -113,6 +124,23 @@ class GroupDiscussionsController extends AbstractController {
 			$discussionMessage->setAuthor( $this->getUser() );
 			$discussionMessage->setBody( $form->get( 'body' )->getData() );
 			$manager->persist( $discussionMessage );
+			$manager->flush();
+
+			// File
+			$uploadFile = $form->get( 'attachment' )->getData();
+
+			if ( !empty( $uploadFile ) ) {
+				/**
+				 * @var \App\Service\UsergroupFileManager $groupFileManager
+				 */
+				$groupFileManager = $fileManager->getManager( File::USERGROUP_FILES );
+				$file             = $groupFileManager->createFromUploadedFile( $uploadFile, $this->getUser(), $group );
+				$manager->persist( $file );
+				$manager->flush();
+
+				$discussionMessage->addFile( $file );
+				$manager->flush();
+			}
 
 			// Send Notifications
 
@@ -150,6 +178,7 @@ class GroupDiscussionsController extends AbstractController {
 	 * @param                                                            $discussionUuid
 	 * @param \Symfony\Component\HttpFoundation\Request                  $request
 	 * @param \Doctrine\Common\Persistence\ObjectManager                 $manager
+	 * @param \App\Service\FileManager                                   $fileManager
 	 * @param \Symfony\Component\Routing\Generator\UrlGeneratorInterface $router
 	 * @param \App\Service\DiscussionSender                              $sender
 	 *
@@ -161,6 +190,7 @@ class GroupDiscussionsController extends AbstractController {
 			$discussionUuid,
 			Request $request,
 			ObjectManager $manager,
+			FileManager $fileManager,
 			UrlGeneratorInterface $router,
 			DiscussionSender $sender
 	) {
@@ -203,6 +233,22 @@ class GroupDiscussionsController extends AbstractController {
 				$manager->persist( $discussionMessage );
 				$manager->flush();
 
+				// File
+				$uploadFile = $form->get( 'attachment' )->getData();
+
+				if ( !empty( $uploadFile ) ) {
+					/**
+					 * @var \App\Service\UsergroupFileManager $groupFileManager
+					 */
+					$groupFileManager = $fileManager->getManager( File::USERGROUP_FILES );
+					$file             = $groupFileManager->createFromUploadedFile( $uploadFile, $this->getUser(), $group );
+					$manager->persist( $file );
+					$manager->flush();
+
+					$discussionMessage->addFile( $file );
+					$manager->flush();
+				}
+
 				// Send Notifications
 
 				$sender->sendDiscussionMessage( $discussionMessage );
@@ -244,6 +290,7 @@ class GroupDiscussionsController extends AbstractController {
 	 * @param                                            $discussionUuid
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
 	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \App\Service\FileManager                   $fileManager
 	 *
 	 * @return string
 	 * @throws \Exception
@@ -252,7 +299,8 @@ class GroupDiscussionsController extends AbstractController {
 			$groupSlug,
 			$discussionUuid,
 			Request $request,
-			ObjectManager $manager
+			ObjectManager $manager,
+			FileManager $fileManager
 	) {
 		/**
 		 * @var \App\Entity\Usergroup $group
@@ -286,6 +334,11 @@ class GroupDiscussionsController extends AbstractController {
 
 		if ( $form->isSubmitted() && $form->isValid() ) {
 			foreach ( $discussion->getMessages() as $message ) {
+				foreach ( $message->getFiles() as $file ) {
+					$fileManager->deleteFile( $file );
+					$manager->remove( $file );
+				}
+
 				$manager->remove( $message );
 			}
 
@@ -418,6 +471,7 @@ class GroupDiscussionsController extends AbstractController {
 	 * @param                                            $key
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
 	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \App\Service\FileManager                   $fileManager
 	 * @param \App\Service\DiscussionSender              $sender
 	 *
 	 * @return string
@@ -427,6 +481,7 @@ class GroupDiscussionsController extends AbstractController {
 			$key,
 			Request $request,
 			ObjectManager $manager,
+			FileManager $fileManager,
 			DiscussionSender $sender
 	) {
 		if ( $key !== $this->getParameter( 'postmark' )[ 'inbound_key' ] ) {
@@ -440,9 +495,17 @@ class GroupDiscussionsController extends AbstractController {
 		$userEmail = $data[ 'From' ];
 		$subject   = $data[ 'Subject' ];
 
-		$emailBody = !empty( $data[ 'TextBody' ] ) ? $data[ 'TextBody' ] : strip_tags( $data[ 'HtmlBody' ] );
-		$fragments = ( new EmailParser() )->parse( $emailBody )->getFragments();
-		$body      = nl2br( current( $fragments )->getContent() );
+		$emailBody = !empty( $data[ 'StrippedTextBody' ] )
+				? $data[ 'StrippedTextBody' ]
+				: !empty( $data[ 'TextBody' ] )
+						? $data[ 'TextBody' ]
+						: strip_tags( $data[ 'HtmlBody' ] );
+
+		// Replace nobreaking space with simple space
+		$emailBody = str_replace( "\u{00a0}", ' ', $emailBody );
+		$email     = ( new EmailParser() )->parse( $emailBody );
+		$fragments = $email->getFragments();
+		$body      = trim( current( $fragments )->getContent() );
 
 		/**
 		 * @var \App\Entity\User $user
@@ -484,34 +547,9 @@ class GroupDiscussionsController extends AbstractController {
 			$group = $discussion->getUsergroup();
 		}
 
-		if ( $discussion ) {
-			$discussionMessage = new DiscussionMessage();
-			$discussionMessage->setDiscussion( $discussion );
-			$discussionMessage->getDiscussion()->setActiveAt( new DateTime() );
-			$discussionMessage->setCreatedAt( new DateTime() );
-			$discussionMessage->setAuthor( $user );
-			$discussionMessage->setBody( $body );
-			$manager->persist( $discussionMessage );
-			$manager->flush();
+		$createDiscussion = !$discussion;
 
-			// Send Notifications
-
-			$sender->sendDiscussionMessage( $discussionMessage );
-
-			// Log Event
-
-			$log = new LogEvent();
-			$log->setType( LogEvent::DISCUSSION_PARTICIPATE );
-			$log->setUser( $user );
-			$log->setUsergroup( $group );
-			$log->setCreatedAt( new DateTime() );
-			$log->setData( [ 'discussion' => $discussion->getId(), 'message' => $discussionMessage->getId(), 'title' => $discussion->getTitle() ] );
-			$manager->persist( $log );
-			$manager->flush();
-
-			return new JsonResponse( [ 'status' => 'message created' ] );
-		}
-		else {
+		if ( $createDiscussion ) {
 			$discussion = new Discussion();
 			$discussion->setUuid( Uuid::uuid4() );
 			$discussion->setTitle( $subject );
@@ -520,33 +558,132 @@ class GroupDiscussionsController extends AbstractController {
 			$discussion->setCreatedAt( new DateTime() );
 			$manager->persist( $discussion );
 			$manager->flush();
+		}
 
-			$discussionMessage = new DiscussionMessage();
-			$discussionMessage->setDiscussion( $discussion );
-			$discussionMessage->getDiscussion()->setActiveAt( new DateTime() );
-			$discussionMessage->setCreatedAt( new DateTime() );
-			$discussionMessage->setAuthor( $user );
-			$discussionMessage->setBody( $body );
-			$manager->persist( $discussionMessage );
+		$discussionMessage = new DiscussionMessage();
+		$discussionMessage->setDiscussion( $discussion );
+		$discussionMessage->getDiscussion()->setActiveAt( new DateTime() );
+		$discussionMessage->setCreatedAt( new DateTime() );
+		$discussionMessage->setAuthor( $user );
+		$discussionMessage->setBody( nl2br( $body ) );
+		$manager->persist( $discussionMessage );
+		$manager->flush();
 
-			// Send Notifications
+		if ( !empty( $data[ 'Attachments' ] ) ) {
+			foreach ( $data[ 'Attachments' ] as $attachment ) {
+				/**
+				 * @var \App\Service\UsergroupFileManager $groupFileManager
+				 */
+				$groupFileManager = $fileManager->getManager( File::USERGROUP_FILES );
 
-			$sender->sendDiscussionMessage( $discussionMessage, TRUE );
+				$filename = $groupFileManager->writeFile( $attachment[ 'Name' ], $group, base64_decode( chunk_split( $attachment[ 'Content' ] ) ) );
 
-			// Log Event
+				$file = new File();
+				$file->setFilesystem( File::USERGROUP_FILES );
+				$file->setUser( $user );
+				$file->setUsergroup( $group );
+				$file->setName( $attachment[ 'Name' ] );
+				$file->setPath( $filename );
+				$file->setType( $attachment[ 'ContentType' ] );
+				$file->setSize( $attachment[ 'ContentLength' ] );
 
-			$log = new LogEvent();
-			$log->setType( LogEvent::DISCUSSION_CREATE );
-			$log->setUser( $user );
-			$log->setUsergroup( $group );
-			$log->setCreatedAt( new DateTime() );
-			$log->setData( [ 'discussion' => $discussion->getId(), 'title' => $discussion->getTitle() ] );
-			$manager->persist( $log );
+				$manager->persist( $file );
+				$manager->flush();
+
+				$discussionMessage->addFile( $file );
+			}
+
 			$manager->flush();
+		}
 
-			// --
+		// Send Notifications
 
-			return new JsonResponse( [ 'status' => 'discussion created' ] );
+		$sender->sendDiscussionMessage( $discussionMessage, $createDiscussion );
+
+		// Log Event
+
+		$log = new LogEvent();
+		$log->setType( $createDiscussion ? LogEvent::DISCUSSION_CREATE : LogEvent::DISCUSSION_PARTICIPATE );
+		$log->setUser( $user );
+		$log->setUsergroup( $group );
+		$log->setCreatedAt( new DateTime() );
+		$log->setData( [ 'discussion' => $discussion->getId(), 'message' => $discussionMessage->getId(), 'title' => $discussion->getTitle() ] );
+		$manager->persist( $log );
+		$manager->flush();
+
+		return new JsonResponse( [ 'status' => $createDiscussion ? 'discussion created' : 'message created' ] );
+	}
+
+	/**************************************************
+	 * SUBSCRIPTION
+	 **************************************************/
+
+	/**
+	 * @Route("/groups/{groupSlug}/notifications/{status}/{redirect}/{hash}", name="group_discussions_notifications")
+	 * @param                                            $groupSlug
+	 * @param                                            $status
+	 * @param string                                     $redirect
+	 * @param string                                     $hash
+	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \App\Service\HashGenerator                 $hashGenerator
+	 *
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+	 */
+	public function groupNotifications (
+			$groupSlug,
+			$status,
+			$redirect = 'group',
+			$hash = '',
+			ObjectManager $manager,
+			HashGenerator $hashGenerator
+	) {
+		/**
+		 * @var \App\Entity\Usergroup $group
+		 */
+		$group = $manager->getRepository( Usergroup::class )
+						 ->findOneBy( [ 'slug' => $groupSlug ] );
+
+		if ( !$group ) {
+			throw $this->createNotFoundException( 'The group does not exist' );
+		}
+
+		if ( empty( $hash ) ) {
+			$user = $this->getUser();
+		}
+		else {
+			$user = $hashGenerator->getUserFromHash( $hash );
+		}
+
+		if ( !$user ) {
+			throw $this->createNotFoundException( 'The user does not exist' );
+		}
+
+		$membership = $manager->getRepository( UsergroupMembership::class )
+							  ->getMembership( $user, $group );
+
+		if ( $membership ) {
+			$settings = $membership->getNotificationsSettings();
+			switch ( $status ) {
+				case 'unsubscribe':
+					$settings[ 'unsubscribed' ] = TRUE;
+					$this->addFlash( 'notice', 'messages.discussion.notifications.unsubscribe' );
+					break;
+
+				default:
+					unset( $settings[ 'unsubscribed' ] );
+					$this->addFlash( 'notice', 'messages.discussion.notifications.subscribe' );
+			}
+			$membership->setNotificationsSettings( $settings );
+			$manager->flush();
+		}
+
+		switch ( $redirect ) {
+			case 'groups':
+				return $this->redirectToRoute( 'user_groups' );
+				break;
+
+			default:
+				return $this->redirectToRoute( 'group_index', [ 'groupSlug' => $groupSlug ] );
 		}
 	}
 }

@@ -61,8 +61,6 @@ class RedirectUserSubscriber implements EventSubscriberInterface {
 			$request = $event->getRequest();
 			$route   = $request->attributes->get( '_route' );
 
-			dump( $route );
-
 			switch ( TRUE ) {
 				case ( $route === 'homepage' ):
 				case ( $route === 'groups_index' ):

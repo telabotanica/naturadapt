@@ -33,6 +33,12 @@ class UsergroupMembershipRepository extends ServiceEntityRepository {
 		return !empty( $membership ) && ( $membership->getStatus() === UsergroupMembership::STATUS_MEMBER );
 	}
 
+	public function isSubscribed ( ?User $user, Usergroup $group ): bool {
+		$membership = $this->getMembership( $user, $group );
+
+		return !empty( $membership ) && ( $membership->shouldReceiveDiscussionsEmails() );
+	}
+
 	public function isBanned ( ?User $user, Usergroup $group ): bool {
 		$membership = $this->getMembership( $user, $group );
 

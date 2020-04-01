@@ -1,7 +1,7 @@
 {% set maxVisibleUsers = 5 %}
 <a href="{{ path('group_members_index', {'groupSlug':group.slug}) }}" class="group-members group-members__tiny">
 	<ul>
-		{% for member in group.members|slice(0, maxVisibleUsers) %}
+		{% for member in group.membersWithName|slice(0, maxVisibleUsers) %}
 			<li>
 				{% include 'contents/user/user--tiny.html.twig' with {'user':member.user, 'admin':user_group_relation.isAdmin(member.user, group)} %}
 			</li>

@@ -7,3 +7,5 @@ twig:
         community: '@App\Service\Community'
         user_group_relation: '@App\Service\UserGroupRelation'
         url_manager: '@App\Service\UrlManager'
+        hash_generator: '@App\Service\HashGenerator'
+

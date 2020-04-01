@@ -24,7 +24,7 @@ import './ui/input-file-preview';
 import './ui/input-file-name';
 import './ui/input-file-prefill';
 import './ui/see-more';
-import './ui/sibling-toggle';
+import './ui/element-toggle';
 import './ui/wysiwyg';
 import './ui/documents-folding';
 //

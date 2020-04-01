@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'pages.user.my_groups.title'|trans }} | {{ community.name }}{% endblock %}
+
+{% block main %}
+	<section class="main main__user-page main__user-page__my-groups">
+		<div class="main--content content-container">
+			<div class="thin">
+				{% include 'components/app-flashes.html.twig' %}
+
+				<h1 class="h2">{{ 'pages.user.my_groups.title'|trans }}</h1>
+
+				<section class="profile-form">
+					<p>{{ 'pages.user.my_groups.introduction'|trans }}</p>
+
+					{% if user.usergroupmemberships is not empty %}
+						<ul class="my-groups-list">
+							{% for membership in user.usergroupmemberships %}
+								{% if user_group_relation.isMember(user, membership.usergroup) %}
+									<li>
+										{% include 'contents/group/group--in-my-groups.html.twig' with {'group':membership.usergroup} %}
+									</li>
+								{% endif %}
+							{% endfor %}
+						</ul>
+					{% endif %}
+				</section>
+			</div>
+		</div>
+	</section>
+{% endblock %}

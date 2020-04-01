@@ -4,9 +4,9 @@
 	<section class="main main__confirm-page">
 		<div class="main--content content-container">
 			{{ form_start(form) }}
-			<h1>{{ 'ui.confirm'|trans }}</h1>
+			<h1>{{ 'ui.ask_confirm'|trans }}</h1>
 			<div class="form-row form-row__submit">
-				{{ form_widget(form.submit, {'label': 'ui.delete'|trans}) }}
+				{{ form_widget(form.submit, {'label': 'ui.confirm'|trans}) }}
 				<button class="cta__inverted" type="button" onclick="history.back();">{{ 'ui.cancel'|trans }}</button>
 			</div>
 			{{ form_end(form) }}

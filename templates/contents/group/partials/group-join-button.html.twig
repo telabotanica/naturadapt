@@ -1,6 +1,32 @@
-<div class="group-join--action">
+<div class="group-member-status">
 	{% if user_group_relation.isMember(app.user, group) %}
-		<span class="member">{{ 'pages.group.is_member'|trans }}</span>
+		<div class="group-member-status--selector" data-toggle-attribute="aria-expanded" data-toggle-listen-others="true|false" data-toggle-listen-esc="false">
+			{% if user_group_relation.isSubscribed(app.user, group) %}
+				<button class="member" data-toggle-element="parent">{{ 'pages.group.is_member'|trans }}</button>
+			{% else %}
+				<button class="member" data-toggle-element="parent">{{ 'pages.group.is_member_unsubscribed'|trans }}</button>
+			{% endif %}
+			<ul class="choices">
+				<li{% if user_group_relation.isSubscribed(app.user, group) %} class="active"{% endif %}>
+					<a href="{{ path('group_discussions_notifications', {'groupSlug': group.slug, 'status':'subscribe', 'redirect': redirect is defined ? redirect : null}) }}">
+						<span class="title">{{ 'pages.group.is_member'|trans }}</span>
+						<span class="description">{{ 'pages.group.is_member_description'|trans }}</span>
+					</a>
+				</li>
+				<li{% if not user_group_relation.isSubscribed(app.user, group) %} class="active"{% endif %}>
+					<a href="{{ path('group_discussions_notifications', {'groupSlug': group.slug, 'status':'unsubscribe', 'redirect': redirect is defined ? redirect : null}) }}">
+						<span class="title">{{ 'pages.group.is_member_unsubscribed'|trans }}</span>
+						<span class="description">{{ 'pages.group.is_member_unsubscribed_description'|trans }}</span>
+					</a>
+				</li>
+				<li>
+					<a href="{{ path('group_member_quit', {'groupSlug': group.slug}) }}">
+						<span class="title title__warning">{{ 'pages.group.leave_button'|trans }}</span>
+						<span class="description">{{ 'pages.group.leave_description'|trans }}</span>
+					</a>
+				</li>
+			</ul>
+		</div>
 	{% elseif user_group_relation.isBanned(app.user, group) %}
 		<span class="banned">{{ 'pages.group.is_banned'|trans }}</span>
 	{% elseif group.visibility == 'public' %}

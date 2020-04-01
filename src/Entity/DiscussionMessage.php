@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -37,64 +39,94 @@ class DiscussionMessage {
 	 */
 	private $createdAt;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $masked;
+	/**
+	 * @ORM\Column(type="boolean", nullable=true)
+	 */
+	private $masked;
+
+	/**
+	 * @ORM\ManyToMany(targetEntity="App\Entity\File")
+	 */
+	private $files;
+
+	public function __construct () {
+		$this->files = new ArrayCollection();
+	}
 
 	public function getId (): ?int {
-         		return $this->id;
-         	}
+		return $this->id;
+	}
 
 	public function getDiscussion (): ?Discussion {
-         		return $this->discussion;
-         	}
+		return $this->discussion;
+	}
 
 	public function setDiscussion ( ?Discussion $discussion ): self {
-         		$this->discussion = $discussion;
-         
-         		return $this;
-         	}
+		$this->discussion = $discussion;
+
+		return $this;
+	}
 
 	public function getAuthor (): ?User {
-         		return $this->author;
-         	}
+		return $this->author;
+	}
 
 	public function setAuthor ( ?User $author ): self {
-         		$this->author = $author;
-         
-         		return $this;
-         	}
+		$this->author = $author;
+
+		return $this;
+	}
 
 	public function getBody (): ?string {
-         		return $this->body;
-         	}
+		return $this->body;
+	}
 
 	public function setBody ( ?string $body ): self {
-         		$this->body = trim( $body );
-         
-         		return $this;
-         	}
+		$this->body = trim( $body );
+
+		return $this;
+	}
 
 	public function getCreatedAt (): ?\DateTimeInterface {
-         		return $this->createdAt;
-         	}
+		return $this->createdAt;
+	}
 
 	public function setCreatedAt ( \DateTimeInterface $createdAt ): self {
-         		$this->createdAt = $createdAt;
-         
-         		return $this;
-         	}
+		$this->createdAt = $createdAt;
 
-    public function getMasked(): ?bool
-    {
-        return $this->masked;
-    }
+		return $this;
+	}
 
-    public function setMasked(?bool $masked): self
-    {
-        $this->masked = $masked;
+	public function getMasked (): ?bool {
+		return $this->masked;
+	}
 
-        return $this;
-    }
+	public function setMasked ( ?bool $masked ): self {
+		$this->masked = $masked;
+
+		return $this;
+	}
+
+	/**
+	 * @return Collection|File[]
+	 */
+	public function getFiles (): Collection {
+		return $this->files;
+	}
+
+	public function addFile ( File $file ): self {
+		if ( !$this->files->contains( $file ) ) {
+			$this->files[] = $file;
+		}
+
+		return $this;
+	}
+
+	public function removeFile ( File $file ): self {
+		if ( $this->files->contains( $file ) ) {
+			$this->files->removeElement( $file );
+		}
+
+		return $this;
+	}
 }

@@ -11,7 +11,7 @@
 
 			{% if is_granted(constant('App\\Security\\GroupDiscussionVoter::EDIT'), message.discussion) %}
 				<div class="in-list-admin-panel">
-					<button class="sibling-toggle" type="button" title="{{ 'ui.settings'|trans|escape('html_attr') }}">
+					<button class="toggle-button" type="button" data-toggle-element="sibling" title="{{ 'ui.settings'|trans|escape('html_attr') }}">
 						<span>{{ 'ui.settings'|trans }}</span>
 					</button>
 					<ul aria-hidden="true">
@@ -44,5 +44,27 @@
 		<div class="message--body">
 			{{ message.body|raw }}
 		</div>
+		{% if message.files is not empty %}
+			<div class="message--attachments">
+				<h4>{{ 'pages.discussion.attachments'|trans }}</h4>
+				<ul class="documents-list">
+					{% for file in message.files %}
+						<li class="document__teaser">
+							<a class="document-infos" data-type="{{ file.type }}"
+							   href="{{ path('file_get', {'fileId': file.id}) }}"
+							   target="_blank">
+								<div class="document--icon">
+									<span>{{ file.name }}</span>
+								</div>
+
+								<div class="document--title">
+									<span>{{ file.name }}</span>
+								</div>
+							</a>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+		{% endif %}
 	</div>
 {% endif %}

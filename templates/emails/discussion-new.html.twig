@@ -10,9 +10,9 @@
 	{% block introduction %}
 		<p>
 			{{ message.author.displayName }} a démarré une discussion
-			<a href="{{ path('group_discussion_index', {'groupSlug':message.discussion.usergroup.slug, 'discussionUuid':message.discussion.uuid}) }}">{{ message.discussion.title }}</a>
+			<a href="{{ absolute_url(path('group_discussion_index', {'groupSlug':message.discussion.usergroup.slug, 'discussionUuid':message.discussion.uuid})) }}">{{ message.discussion.title }}</a>
 			dans le groupe
-			<a href="{{ path('group_index', {'groupSlug':message.discussion.usergroup.slug}) }}">{{ message.discussion.usergroup.name }}</a>&nbsp;:
+			<a href="{{ absolute_url(path('group_index', {'groupSlug':message.discussion.usergroup.slug})) }}">{{ message.discussion.usergroup.name }}</a>&nbsp;:
 		</p>
 	{% endblock %}
 
@@ -20,7 +20,28 @@
 		{{ message.body|raw }}
 	</div>
 
-	<p>Retrouvez cette discussion en ligne : <a href="{{ path('group_discussion_index', {'groupSlug':message.discussion.usergroup.slug, 'discussionUuid':message.discussion.uuid}) }}">{{ message.discussion.title }}</a></p>
+	{% if message.files is not empty %}
+		<h4 style="margin: 1rem 0;">{{ 'pages.discussion.attachments'|trans }}</h4>
+		<ul style="margin: 1rem 0; padding: 0; list-style: none; border-top: 1px solid #999999;">
+			{% for file in message.files %}
+				<li style="margin: 0; padding: .5em 0; border-bottom: 1px solid #999999;">
+					<a style="text-decoration: underline; font-style: italic;"
+					   href="{{ absolute_url(path('file_get', {'fileId': file.id})) }}"
+					   target="_blank">
+						{{ file.name }}
+					</a>
+				</li>
+			{% endfor %}
+		</ul>
+	{% endif %}
+
+	<p>Retrouvez cette discussion en ligne : <a href="{{ absolute_url(path('group_discussion_index', {'groupSlug':message.discussion.usergroup.slug, 'discussionUuid':message.discussion.uuid})) }}">{{ message.discussion.title }}</a></p>
 
 	{% include 'components/email-signature.html.twig' %}
+
+	<p class="sub">Si vous ne souhaitez plus recevoir de notifications pour les discussions du groupe <strong>{{ message.discussion.usergroup.name }}</strong>,
+		<a href="{{ absolute_url(path('group_discussions_notifications', {'groupSlug': message.discussion.usergroup.slug, 'status':'unsubscribe', 'redirect':'group', 'hash': hash_generator.generateUserHash(user)})) }}">cliquez-ici pour vous désabonner directement</a>.
+	</p>
+
+	<p class="sub">Retrouvez toutes vos préférences de notification par e-mail sur votre page "<a href="{{ absolute_url(path('user_groups')) }}">Mes groupes</a>"</p>
 {% endblock %}
