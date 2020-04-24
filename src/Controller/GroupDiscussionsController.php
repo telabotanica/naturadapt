@@ -110,58 +110,63 @@ class GroupDiscussionsController extends AbstractController {
 		$form->handleRequest( $request );
 
 		if ( $form->isSubmitted() && $form->isValid() ) {
-			$discussion->setUuid( Uuid::uuid4() );
-			$discussion->setAuthor( $this->getUser() );
-			$discussion->setUsergroup( $group );
-			$discussion->setCreatedAt( new DateTime() );
-			$manager->persist( $discussion );
-			$manager->flush();
-
-			$discussionMessage = new DiscussionMessage();
-			$discussionMessage->setDiscussion( $discussion );
-			$discussionMessage->getDiscussion()->setActiveAt( new DateTime() );
-			$discussionMessage->setCreatedAt( new DateTime() );
-			$discussionMessage->setAuthor( $this->getUser() );
-			$discussionMessage->setBody( $form->get( 'body' )->getData() );
-			$manager->persist( $discussionMessage );
-			$manager->flush();
-
-			// File
-			$uploadFile = $form->get( 'attachment' )->getData();
-
-			if ( !empty( $uploadFile ) ) {
-				/**
-				 * @var \App\Service\UsergroupFileManager $groupFileManager
-				 */
-				$groupFileManager = $fileManager->getManager( File::USERGROUP_FILES );
-				$file             = $groupFileManager->createFromUploadedFile( $uploadFile, $this->getUser(), $group );
-				$manager->persist( $file );
-				$manager->flush();
-
-				$discussionMessage->addFile( $file );
-				$manager->flush();
+			if ( empty( $form->get( 'body' )->getData() ) ) {
+				$this->addFlash( 'warning', 'messages.discussion.message_error' );
 			}
+			else {
+				$discussion->setUuid( Uuid::uuid4() );
+				$discussion->setAuthor( $this->getUser() );
+				$discussion->setUsergroup( $group );
+				$discussion->setCreatedAt( new DateTime() );
+				$manager->persist( $discussion );
+				$manager->flush();
 
-			// Send Notifications
+				$discussionMessage = new DiscussionMessage();
+				$discussionMessage->setDiscussion( $discussion );
+				$discussionMessage->getDiscussion()->setActiveAt( new DateTime() );
+				$discussionMessage->setCreatedAt( new DateTime() );
+				$discussionMessage->setAuthor( $this->getUser() );
+				$discussionMessage->setBody( $form->get( 'body' )->getData() );
+				$manager->persist( $discussionMessage );
+				$manager->flush();
 
-			$sender->sendDiscussionMessage( $discussionMessage, TRUE );
+				// File
+				$uploadFile = $form->get( 'attachment' )->getData();
 
-			// Log Event
+				if ( !empty( $uploadFile ) ) {
+					/**
+					 * @var \App\Service\UsergroupFileManager $groupFileManager
+					 */
+					$groupFileManager = $fileManager->getManager( File::USERGROUP_FILES );
+					$file             = $groupFileManager->createFromUploadedFile( $uploadFile, $this->getUser(), $group );
+					$manager->persist( $file );
+					$manager->flush();
 
-			$log = new LogEvent();
-			$log->setType( LogEvent::DISCUSSION_CREATE );
-			$log->setUser( $this->getUser() );
-			$log->setUsergroup( $group );
-			$log->setCreatedAt( new DateTime() );
-			$log->setData( [ 'discussion' => $discussion->getId(), 'title' => $discussion->getTitle() ] );
-			$manager->persist( $log );
-			$manager->flush();
+					$discussionMessage->addFile( $file );
+					$manager->flush();
+				}
 
-			// --
+				// Send Notifications
 
-			$this->addFlash( 'notice', 'messages.discussion.discussion_created' );
+				$sender->sendDiscussionMessage( $discussionMessage, TRUE );
 
-			return $this->redirectToRoute( 'group_discussions_index', [ 'groupSlug' => $group->getSlug() ] );
+				// Log Event
+
+				$log = new LogEvent();
+				$log->setType( LogEvent::DISCUSSION_CREATE );
+				$log->setUser( $this->getUser() );
+				$log->setUsergroup( $group );
+				$log->setCreatedAt( new DateTime() );
+				$log->setData( [ 'discussion' => $discussion->getId(), 'title' => $discussion->getTitle() ] );
+				$manager->persist( $log );
+				$manager->flush();
+
+				// --
+
+				$this->addFlash( 'notice', 'messages.discussion.discussion_created' );
+
+				return $this->redirectToRoute( 'group_discussions_index', [ 'groupSlug' => $group->getSlug() ] );
+			}
 		}
 
 		return $this->render( 'pages/discussion/discussion-create.html.twig', [
@@ -225,51 +230,56 @@ class GroupDiscussionsController extends AbstractController {
 			$form->handleRequest( $request );
 
 			if ( $form->isSubmitted() && $form->isValid() ) {
-				$discussionMessage->setDiscussion( $discussion );
-				$discussionMessage->getDiscussion()->setActiveAt( new DateTime() );
-				$discussionMessage->setCreatedAt( new DateTime() );
-				$discussionMessage->setAuthor( $this->getUser() );
-				$discussionMessage->setBody( $form->get( 'body' )->getData() );
-				$manager->persist( $discussionMessage );
-				$manager->flush();
-
-				// File
-				$uploadFile = $form->get( 'attachment' )->getData();
-
-				if ( !empty( $uploadFile ) ) {
-					/**
-					 * @var \App\Service\UsergroupFileManager $groupFileManager
-					 */
-					$groupFileManager = $fileManager->getManager( File::USERGROUP_FILES );
-					$file             = $groupFileManager->createFromUploadedFile( $uploadFile, $this->getUser(), $group );
-					$manager->persist( $file );
-					$manager->flush();
-
-					$discussionMessage->addFile( $file );
-					$manager->flush();
+				if ( empty( $form->get( 'body' )->getData() ) ) {
+					$this->addFlash( 'warning', 'messages.discussion.message_error' );
 				}
+				else {
+					$discussionMessage->setDiscussion( $discussion );
+					$discussionMessage->getDiscussion()->setActiveAt( new DateTime() );
+					$discussionMessage->setCreatedAt( new DateTime() );
+					$discussionMessage->setAuthor( $this->getUser() );
+					$discussionMessage->setBody( $form->get( 'body' )->getData() );
+					$manager->persist( $discussionMessage );
+					$manager->flush();
 
-				// Send Notifications
+					// File
+					$uploadFile = $form->get( 'attachment' )->getData();
 
-				$sender->sendDiscussionMessage( $discussionMessage );
+					if ( !empty( $uploadFile ) ) {
+						/**
+						 * @var \App\Service\UsergroupFileManager $groupFileManager
+						 */
+						$groupFileManager = $fileManager->getManager( File::USERGROUP_FILES );
+						$file             = $groupFileManager->createFromUploadedFile( $uploadFile, $this->getUser(), $group );
+						$manager->persist( $file );
+						$manager->flush();
 
-				// Log Event
+						$discussionMessage->addFile( $file );
+						$manager->flush();
+					}
 
-				$log = new LogEvent();
-				$log->setType( LogEvent::DISCUSSION_PARTICIPATE );
-				$log->setUser( $this->getUser() );
-				$log->setUsergroup( $group );
-				$log->setCreatedAt( new DateTime() );
-				$log->setData( [ 'discussion' => $discussion->getId(), 'message' => $discussionMessage->getId(), 'title' => $discussion->getTitle() ] );
-				$manager->persist( $log );
-				$manager->flush();
+					// Send Notifications
 
-				// --
+					$sender->sendDiscussionMessage( $discussionMessage );
 
-				$this->addFlash( 'notice', 'messages.discussion.message_created' );
+					// Log Event
 
-				$discussionMessage = new DiscussionMessage();
-				$form              = $this->createForm( DiscussionMessageType::class, $discussionMessage );
+					$log = new LogEvent();
+					$log->setType( LogEvent::DISCUSSION_PARTICIPATE );
+					$log->setUser( $this->getUser() );
+					$log->setUsergroup( $group );
+					$log->setCreatedAt( new DateTime() );
+					$log->setData( [ 'discussion' => $discussion->getId(), 'message' => $discussionMessage->getId(), 'title' => $discussion->getTitle() ] );
+					$manager->persist( $log );
+					$manager->flush();
+
+					// --
+
+					$this->addFlash( 'notice', 'messages.discussion.message_created' );
+
+					$discussionMessage = new DiscussionMessage();
+					$form              = $this->createForm( DiscussionMessageType::class, $discussionMessage );
+				}
 			}
 		}
 		else {

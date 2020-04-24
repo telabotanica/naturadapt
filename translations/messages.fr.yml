@@ -440,6 +440,7 @@ messages:
 
         discussion_created: "La discussion a été créée"
         message_created: "Le message a été posté sur la liste"
+        message_error: "Votre message n’a pas pû être posté, veuillez réessayer"
         discussion_updated: "La discussion a été mise à jour"
         discussion_deleted: "La discussion a été supprimée"
 
