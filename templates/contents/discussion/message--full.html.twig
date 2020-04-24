@@ -37,6 +37,17 @@
 								</a>
 							</li>
 						{% endif %}
+						{% if is_granted(constant('App\\Security\\GroupDiscussionVoter::DELETE'), message.discussion) %}
+							<li>
+								<a class="delete_message"
+								   href="{{ path('group_message_delete', {
+									   'groupSlug':message.discussion.usergroup.slug,
+									   'messageId':message.id,
+								   }) }}" title="{{ 'pages.discussion.actions.delete_message'|trans|escape('html_attr') }}">
+									<span>{{ 'pages.discussion.actions.delete_message'|trans }}</span>
+								</a>
+							</li>
+						{% endif %}
 					</ul>
 				</div>
 			{% endif %}

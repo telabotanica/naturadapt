@@ -379,6 +379,73 @@ class GroupDiscussionsController extends AbstractController {
 	}
 
 	/**
+	 * @Route("/groups/{groupSlug}/message/{messageId}/delete", name="group_message_delete")
+	 * @param                                            $groupSlug
+	 * @param                                            $messageId
+	 * @param \Symfony\Component\HttpFoundation\Request  $request
+	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \App\Service\FileManager                   $fileManager
+	 *
+	 * @return string
+	 */
+	public function groupMessageDelete (
+			$groupSlug,
+			$messageId,
+			Request $request,
+			ObjectManager $manager,
+			FileManager $fileManager
+	) {
+		/**
+		 * @var \App\Entity\Usergroup $group
+		 */
+		$group = $manager->getRepository( Usergroup::class )
+						 ->findOneBy( [ 'slug' => $groupSlug ] );
+
+		if ( !$group ) {
+			throw $this->createNotFoundException( 'The group does not exist' );
+		}
+
+		/**
+		 * @var \App\Entity\DiscussionMessage $message
+		 */
+		$message = $manager->getRepository( DiscussionMessage::class )
+						   ->findOneBy( [ 'id' => $messageId ] );
+
+		if ( !$message ) {
+			throw $this->createNotFoundException( 'The message does not exist' );
+		}
+
+		// Delete confirmation form
+
+		$form = $this->createFormBuilder()
+					 ->add( 'submit', SubmitType::class )
+					 ->getForm();
+
+		$form->handleRequest( $request );
+
+		if ( $form->isSubmitted() && $form->isValid() ) {
+			$discussion = $message->getDiscussion();
+
+			foreach ( $message->getFiles() as $file ) {
+				$fileManager->deleteFile( $file );
+				$manager->remove( $file );
+			}
+
+			$manager->remove( $message );
+
+			$manager->flush();
+
+			$this->addFlash( 'notice', 'messages.discussion.message_deleted' );
+
+			return $this->redirectToRoute( 'group_discussion_index', [ 'groupSlug' => $group->getSlug(), 'discussionUuid' => $discussion->getUuid() ] );
+		}
+
+		return $this->render( 'pages/confirm.html.twig', [
+				'form' => $form->createView(),
+		] );
+	}
+
+	/**
 	 * @Route("/groups/{groupSlug}/message/{messageId}/hide", name="group_message_hide")
 	 * @param                                            $groupSlug
 	 * @param                                            $messageId
