@@ -163,16 +163,29 @@
 		color:           $color_grey_light;
 	}
 
-	.user--avatar {
-		flex:         0 0 rem(40px);
-		width:        rem(40px);
-		height:       rem(40px);
+	.message--author--avatar {
+		flex:            0 0 rem(40px);
+		margin-right:    padding_horizontal();
 
-		margin-right: padding_horizontal();
+		text-decoration: none;
+
+		.user--avatar {
+			width:  rem(40px);
+			height: rem(40px);
+		}
 	}
 
 	.message--author {
 		flex: 1;
+
+		a {
+			text-decoration: none;
+
+			&:hover,
+			&:focus {
+				text-decoration: underline;
+			}
+		}
 	}
 
 	.user--name {

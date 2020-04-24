@@ -2,10 +2,12 @@
 {% if (not message.masked) or (is_granted(constant('App\\Security\\GroupDiscussionVoter::EDIT'), message.discussion)) %}
 	<div class="{{ classes|join(' ') }}">
 		<div class="message--header">
-			{% include 'contents/user/partials/user--avatar.html.twig' with{'user':message.author} %}
+			<a class="message--author--avatar" href="{{ path('member', {'user_id':message.author.id}) }}">
+				{% include 'contents/user/partials/user--avatar.html.twig' with{'user':message.author} %}
+			</a>
 
 			<div class="message--author">
-				<div class="user--name">{{ message.author.name }}</div>
+				<div class="user--name"><a href="{{ path('member', {'user_id':message.author.id}) }}">{{ message.author.name }}</a></div>
 				<div class="message--date">{{ message.createdAt|ago|capitalize }}</div>
 			</div>
 
