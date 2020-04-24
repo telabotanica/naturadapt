@@ -27,6 +27,7 @@ import './ui/see-more';
 import './ui/element-toggle';
 import './ui/wysiwyg';
 import './ui/documents-folding';
+import './ui/url-to-link';
 //
 import './user/profile';
 import './user/dashboard';
