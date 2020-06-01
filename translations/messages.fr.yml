@@ -307,6 +307,7 @@ pages:
         actions:
             hide_message: "Masquer le message"
             show_message: "Afficher le message"
+            delete_message: "Supprimer le message"
         attachments: "Pièces jointes"
 
     article:
@@ -440,6 +441,8 @@ messages:
 
         discussion_created: "La discussion a été créée"
         message_created: "Le message a été posté sur la liste"
+        message_deleted: "Le message a été supprimé"
+        message_error: "Votre message n’a pas pû être posté, veuillez réessayer"
         discussion_updated: "La discussion a été mise à jour"
         discussion_deleted: "La discussion a été supprimée"
 

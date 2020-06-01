@@ -2,10 +2,12 @@
 {% if (not message.masked) or (is_granted(constant('App\\Security\\GroupDiscussionVoter::EDIT'), message.discussion)) %}
 	<div class="{{ classes|join(' ') }}">
 		<div class="message--header">
-			{% include 'contents/user/partials/user--avatar.html.twig' with{'user':message.author} %}
+			<a class="message--author--avatar" href="{{ path('member', {'user_id':message.author.id}) }}">
+				{% include 'contents/user/partials/user--avatar.html.twig' with{'user':message.author} %}
+			</a>
 
 			<div class="message--author">
-				<div class="user--name">{{ message.author.name }}</div>
+				<div class="user--name"><a href="{{ path('member', {'user_id':message.author.id}) }}">{{ message.author.name }}</a></div>
 				<div class="message--date">{{ message.createdAt|ago|capitalize }}</div>
 			</div>
 
@@ -34,6 +36,17 @@
 									   'messageId':message.id,
 								   }) }}" title="{{ 'pages.discussion.actions.show_message'|trans|escape('html_attr') }}">
 									<span>{{ 'pages.discussion.actions.show_message'|trans }}</span>
+								</a>
+							</li>
+						{% endif %}
+						{% if is_granted(constant('App\\Security\\GroupDiscussionVoter::DELETE'), message.discussion) %}
+							<li>
+								<a class="delete_message"
+								   href="{{ path('group_message_delete', {
+									   'groupSlug':message.discussion.usergroup.slug,
+									   'messageId':message.id,
+								   }) }}" title="{{ 'pages.discussion.actions.delete_message'|trans|escape('html_attr') }}">
+									<span>{{ 'pages.discussion.actions.delete_message'|trans }}</span>
 								</a>
 							</li>
 						{% endif %}

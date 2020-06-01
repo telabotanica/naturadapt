@@ -33,7 +33,7 @@
 			@import "../_assets/checked.svg";
 		}
 
-		&.hide_message::before,
+		&.delete_message::before,
 		&.pending_set_remove::before,
 		&.banned_set_remove::before,
 		&.member_set_remove::before,
@@ -41,6 +41,7 @@
 			@import "../_assets/cancel.svg";
 		}
 
+		&.hide_message::before,
 		&.member_set_banned::before {
 			@import "../_assets/minus.svg";
 		}
@@ -67,6 +68,7 @@
 
 	.toggle-button + [aria-hidden] {
 		position:    absolute;
+		z-index:     1;
 		top:         100%;
 		right:       0;
 
