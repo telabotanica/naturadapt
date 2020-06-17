@@ -19,23 +19,30 @@
 				<li>
 					<span>Menu</span>
 					<ul>
-						<li><a href="{{ path('homepage') }}">{{ 'ui.home'|trans }}</a></li>
+<li><a href="{{ path('homepage') }}">{{ 'ui.home'|trans }}</a></li>
 						<li><a href="{{ path('user_login') }}">{{ 'pages.user.login.link'|trans }} / {{ 'pages.user.register.link'|trans }}</a></li>
+						<li><a href="{{ path('groups_index') }}">Groupes</a></li>
+						<li><a href="{{ path('members') }}">Annuaire</a></li>
+						<li><a href="{{ path('group_page_index', { groupSlug: 'communaute', pageSlug: 'ressources' }) }}">Ressources</a></li>
+				
 					</ul>
 				</li>
 				<li>
-					<span>Liens utiles</span>
+					<span>En savoir plus</span>
 					<ul>
 						<li><a href="{{ path('group_page_index', { groupSlug: 'communaute', pageSlug: 'newsletter' }) }}">Newsletter</a></li>
-						<li><a href="{{ path('groups_index') }}">Groupes</a></li>
-						<li><a href="/members">Annuaire</a></li>
+						<li><a href="{{ path('group_page_index', { groupSlug: 'communaute', pageSlug: 'a-propos-du-projet-natur-adapt' }) }}">A propos du projet Natur’Adapt</a></li>
+						<li><a href="{{ path('group_page_index', { groupSlug: 'communaute', pageSlug: 'a-propos-de-la-plateforme' }) }}">A propos de la plateforme</a></li>
+						<li><a href="{{ path('group_page_index', { groupSlug: 'communaute', pageSlug: 'charte-de-la-plateforme' }) }}">Charte de la plateforme</a></li>
+						<li><a href="{{ path('group_page_index', { groupSlug: 'plateforme-web', pageSlug: 'mentions-legales' }) }}">Mentions légales</a></li>
+					
 					</ul>
 				</li>
 				<li>
 					<span>Aide</span>
 					<ul>
-						<li><a href="/groups/plateforme-web/pages/trucs-et-astuces">Trucs et astuces</a></li>
-						<li><a href="/groups/plateforme-web/pages/regles">Règles</a></li>
+						<li><a href="{{ path('group_page_index', { groupSlug: 'communaute', pageSlug: 'tutoriels-d-utilisation-de-la-plateforme' }) }}">Tutoriels d'utilisation de la plateforme</a></li>
+						<li><a href="{{ path('group_page_index', { groupSlug: 'plateforme-web', pageSlug: 'regles' }) }}">Règles d'utilisation de la plateforme</a></li>
 						<li><a href="mailto:support@naturadapt.com">Signaler un problème</a></li>
 					</ul>
 				</li>
