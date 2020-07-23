@@ -8,6 +8,7 @@ use App\Entity\Usergroup;
 use App\Entity\UsergroupMembership;
 use App\Security\GroupVoter;
 use App\Security\UserVoter;
+use App\Service\Community;
 use App\Service\EmailSender;
 use App\Service\UsergroupMembersManager;
 use DateTime;
@@ -105,14 +106,15 @@ class GroupMembersController extends AbstractController {
 	 * @param                                            $groupSlug
 	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
 	 * @param \App\Service\EmailSender                   $mailer
+	 * @param \App\Service\Community                     $communityService
 	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
-	 * @throws \Exception
 	 */
 	public function groupMemberNew (
 			$groupSlug,
 			ObjectManager $manager,
-			EmailSender $mailer
+			EmailSender $mailer,
+			Community $communityService
 	) {
 		if ( !$this->isGranted( UserVoter::LOGGED ) ) {
 			$this->addFlash( 'notice', 'messages.user.login_requested' );
@@ -123,6 +125,9 @@ class GroupMembersController extends AbstractController {
 		$group = $manager->getRepository( Usergroup::class )
 						 ->findOneBy( [ 'slug' => $groupSlug ] );
 
+		/**
+		 * @var User $user
+		 */
 		$user = $this->getUser();
 
 		$membership = $manager->getRepository( UsergroupMembership::class )
@@ -179,7 +184,7 @@ class GroupMembersController extends AbstractController {
 				);
 
 				$mailer->send(
-						$this->getParameter( 'plateform' )[ 'from' ],
+						[ $this->getParameter( 'plateform' )[ 'from' ] => $communityService->getName() ],
 						$admin->getEmail(),
 						$mailer->getSubjectFromTitle( $message ),
 						$message
