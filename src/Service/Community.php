@@ -30,12 +30,4 @@ class Community {
 	public function getGroup () {
 		return $this->group;
 	}
-
-	public function getName () {
-		if ( $this->group ) {
-			return $this->group->getName();
-		}
-
-		return 'NaturAdapt';
-	}
 }

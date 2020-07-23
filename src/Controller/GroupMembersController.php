@@ -107,7 +107,6 @@ class GroupMembersController extends AbstractController {
 	 * @param \App\Service\EmailSender                   $mailer
 	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
-	 * @throws \Exception
 	 */
 	public function groupMemberNew (
 			$groupSlug,
@@ -123,6 +122,9 @@ class GroupMembersController extends AbstractController {
 		$group = $manager->getRepository( Usergroup::class )
 						 ->findOneBy( [ 'slug' => $groupSlug ] );
 
+		/**
+		 * @var User $user
+		 */
 		$user = $this->getUser();
 
 		$membership = $manager->getRepository( UsergroupMembership::class )
@@ -179,7 +181,7 @@ class GroupMembersController extends AbstractController {
 				);
 
 				$mailer->send(
-						$this->getParameter( 'plateform' )[ 'from' ],
+						[ $this->getParameter( 'plateform' )[ 'from' ] => $this->getParameter( 'plateform' )[ 'name' ] ],
 						$admin->getEmail(),
 						$mailer->getSubjectFromTitle( $message ),
 						$message

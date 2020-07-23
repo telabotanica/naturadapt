@@ -7,7 +7,7 @@
 {% block body %}
 	<h1>Bonjour {{ user.displayName }},</h1>
 
-	<p>Cliquez sur le bouton suivant pour confirmer le changement d’adresse e-mail pour votre compte <strong>{{ community.name }}</strong> :</p>
+	<p>Cliquez sur le bouton suivant pour confirmer le changement d’adresse e-mail pour votre compte <strong>{{ plateform.name }}</strong> :</p>
 
 	{% include 'components/email-button.html.twig' with {'url':url, 'label':'Confirmer'} %}
 

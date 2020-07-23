@@ -88,7 +88,6 @@ class UserController extends AbstractController {
 	 * @param \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface   $passwordEncoder
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
-	 * @throws \Exception
 	 */
 	public function register (
 			Request $request,
@@ -136,7 +135,7 @@ class UserController extends AbstractController {
 			] );
 
 			$mailer->send(
-					$this->getParameter( 'plateform' )[ 'from' ],
+					[ $this->getParameter( 'plateform' )[ 'from' ] => $this->getParameter( 'plateform' )[ 'name' ] ],
 					$user->getEmail(),
 					$mailer->getSubjectFromTitle( $message ),
 					$message
@@ -283,7 +282,7 @@ class UserController extends AbstractController {
 			] );
 
 			$mailer->send(
-					$this->getParameter( 'plateform' )[ 'from' ],
+					[ $this->getParameter( 'plateform' )[ 'from' ] => $this->getParameter( 'plateform' )[ 'name' ] ],
 					$user->getEmail(),
 					$mailer->getSubjectFromTitle( $message ),
 					$message
@@ -541,7 +540,7 @@ class UserController extends AbstractController {
 				] );
 
 				$mailer->send(
-						$this->getParameter( 'plateform' )[ 'from' ],
+						[ $this->getParameter( 'plateform' )[ 'from' ] => $this->getParameter( 'plateform' )[ 'name' ] ],
 						$user->getEmail(),
 						$mailer->getSubjectFromTitle( $message ),
 						$message
@@ -555,7 +554,7 @@ class UserController extends AbstractController {
 				] );
 
 				$mailer->send(
-						$this->getParameter( 'plateform' )[ 'from' ],
+						[ $this->getParameter( 'plateform' )[ 'from' ] => $this->getParameter( 'plateform' )[ 'name' ] ],
 						$vars[ 'email_new' ],
 						$mailer->getSubjectFromTitle( $message ),
 						$message
