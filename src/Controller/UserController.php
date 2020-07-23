@@ -86,7 +86,6 @@ class UserController extends AbstractController {
 	 * @param \App\Service\EmailSender                                                $mailer
 	 * @param \Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface $tokenGenerator
 	 * @param \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface   $passwordEncoder
-	 * @param \App\Service\Community                                                  $communityService
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
@@ -95,8 +94,7 @@ class UserController extends AbstractController {
 			ObjectManager $manager,
 			EmailSender $mailer,
 			TokenGeneratorInterface $tokenGenerator,
-			UserPasswordEncoderInterface $passwordEncoder,
-			Community $communityService
+			UserPasswordEncoderInterface $passwordEncoder
 	) {
 		if ( $request->isMethod( 'POST' ) && ( $request->request->get( 'action' ) === 'register' ) ) {
 			$userRepository = $manager->getRepository( User::class );
@@ -137,7 +135,7 @@ class UserController extends AbstractController {
 			] );
 
 			$mailer->send(
-					[ $this->getParameter( 'plateform' )[ 'from' ] => $communityService->getName() ],
+					[ $this->getParameter( 'plateform' )[ 'from' ] => $this->getParameter( 'plateform' )[ 'name' ] ],
 					$user->getEmail(),
 					$mailer->getSubjectFromTitle( $message ),
 					$message
@@ -238,7 +236,6 @@ class UserController extends AbstractController {
 	 * @param \Symfony\Component\HttpFoundation\Request                               $request
 	 * @param \Doctrine\Common\Persistence\ObjectManager                              $manager
 	 * @param \App\Service\EmailSender                                                $mailer
-	 * @param \App\Service\Community                                                  $communityService
 	 * @param \Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface $tokenGenerator
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
@@ -247,7 +244,6 @@ class UserController extends AbstractController {
 			Request $request,
 			ObjectManager $manager,
 			EmailSender $mailer,
-			Community $communityService,
 			TokenGeneratorInterface $tokenGenerator
 	) {
 		if ( $request->isMethod( 'POST' ) ) {
@@ -286,7 +282,7 @@ class UserController extends AbstractController {
 			] );
 
 			$mailer->send(
-					[ $this->getParameter( 'plateform' )[ 'from' ] => $communityService->getName() ],
+					[ $this->getParameter( 'plateform' )[ 'from' ] => $this->getParameter( 'plateform' )[ 'name' ] ],
 					$user->getEmail(),
 					$mailer->getSubjectFromTitle( $message ),
 					$message
@@ -488,7 +484,6 @@ class UserController extends AbstractController {
 	 * @param \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface   $passwordEncoder
 	 * @param \Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface $tokenGenerator
 	 * @param \App\Service\EmailSender                                                $mailer
-	 * @param \App\Service\Community                                                  $communityService
 	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
@@ -497,8 +492,7 @@ class UserController extends AbstractController {
 			ObjectManager $manager,
 			UserPasswordEncoderInterface $passwordEncoder,
 			TokenGeneratorInterface $tokenGenerator,
-			EmailSender $mailer,
-			Community $communityService
+			EmailSender $mailer
 	) {
 		$this->denyAccessUnlessGranted( UserVoter::LOGGED );
 
@@ -546,7 +540,7 @@ class UserController extends AbstractController {
 				] );
 
 				$mailer->send(
-						[ $this->getParameter( 'plateform' )[ 'from' ] => $communityService->getName() ],
+						[ $this->getParameter( 'plateform' )[ 'from' ] => $this->getParameter( 'plateform' )[ 'name' ] ],
 						$user->getEmail(),
 						$mailer->getSubjectFromTitle( $message ),
 						$message
@@ -560,7 +554,7 @@ class UserController extends AbstractController {
 				] );
 
 				$mailer->send(
-						[ $this->getParameter( 'plateform' )[ 'from' ] => $communityService->getName() ],
+						[ $this->getParameter( 'plateform' )[ 'from' ] => $this->getParameter( 'plateform' )[ 'name' ] ],
 						$vars[ 'email_new' ],
 						$mailer->getSubjectFromTitle( $message ),
 						$message
