@@ -1,29 +1,29 @@
 {
 	"devDependencies": {
 		"@ckeditor/ckeditor5-build-classic": "^18.0.0",
-		"@symfony/webpack-encore":           "^0.29.1",
-		"autocomplete.js":                   "^0.37.1",
-		"autoprefixer":                      "^9.7.6",
-		"core-js":                           "^3.6.5",
-		"mf-js":                             "^2.0.6",
-		"node-sass":                         "^4.13.1",
-		"node-sass-svg":                     "^1.1.1",
-		"places.js":                         "^1.18.1",
-		"postcss-loader":                    "^3.0.0",
-		"sass-loader":                       "^7.3.1",
-		"tar":                               "^4.4.13",
-		"webpack-notifier":                  "^1.8.0"
+		"@symfony/webpack-encore": "^0.31.0",
+		"autocomplete.js": "^0.37.1",
+		"autoprefixer": "^9.7.6",
+		"core-js": "^3.6.5",
+		"mf-js": "^2.0.6",
+		"node-sass": "^4.14.1",
+		"node-sass-svg": "^1.1.1",
+		"places.js": "^1.18.1",
+		"postcss-loader": "^3.0.0",
+		"sass-loader": "^7.3.1",
+		"tar": "^4.4.13",
+		"webpack-notifier": "^1.8.0"
 	},
-	"license":         "UNLICENSED",
-	"private":         true,
-	"scripts":         {
+	"license": "UNLICENSED",
+	"private": true,
+	"scripts": {
 		"dev-server": "encore dev-server",
-		"dev":        "encore dev",
-		"watch":      "encore dev --watch",
-		"build":      "encore production --progress",
-		"test":       "php bin/console doctrine:migrations:migrate --no-interaction --env=test ; php bin/console doctrine:fixtures:load --no-interaction --env=test ; ./bin/phpunit"
+		"dev": "encore dev",
+		"watch": "encore dev --watch",
+		"build": "encore production --progress",
+		"test": "php bin/console doctrine:migrations:migrate --no-interaction --env=test ; php bin/console doctrine:fixtures:load --no-interaction --env=test ; ./bin/phpunit"
 	},
-	"browserslist":    [
+	"browserslist": [
 		"last 3 major versions",
 		"> 1%",
 		"IE 10",
