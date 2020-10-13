@@ -22,7 +22,9 @@
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i" rel="stylesheet">
 		{{ encore_entry_link_tags('app') }}
 	{% endblock %}
-	<script async defer data-domain="naturadapt.com" src="https://plausible.io/js/plausible.js"></script>
+	{% if $this->getParameter( 'plateform' )[ 'analytics' ] %}
+		<script async defer data-domain="naturadapt.com" src="https://plausible.io/js/plausible.js"></script>
+	{% endif %}
 </head>
 
 <body>
