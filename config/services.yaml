@@ -7,6 +7,7 @@ parameters:
     plateform:
         name: '%env(string:PLATEFORM_NAME)%'
         from: '%env(string:POSTMARK_SENDER)%'
+        analytics: '%env(bool:ANALYTICS_ENABLED)%'
     postmark:
         server_token: '%env(string:POSTMARK_SERVER_TOKEN)%'
         sender_signature: '%env(string:POSTMARK_SENDER)%'
