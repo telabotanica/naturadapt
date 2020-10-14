@@ -4,7 +4,7 @@ namespace App\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class RedirectDomainsSubscriber implements EventSubscriberInterface {
@@ -17,7 +17,7 @@ class RedirectDomainsSubscriber implements EventSubscriberInterface {
 		];
 	}
 
-	public function onKernelRequest ( GetResponseEvent $event ) {
+	public function onKernelRequest ( RequestEvent $event ) {
 		$request = $event->getRequest();
 		$host    = $request->getHost();
 

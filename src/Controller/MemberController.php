@@ -6,7 +6,7 @@ use App\Entity\User;
 use App\Security\UserVoter;
 use App\Service\FileManager;
 use App\Service\UsergroupMembersManager;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -72,13 +72,13 @@ class MemberController extends AbstractController {
 	 * @Route("/members/{user_id}", name="member")
 	 *
 	 * @param                                            $user_id
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\BinaryFileResponse|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function member (
 			$user_id,
-			ObjectManager $manager
+            EntityManagerInterface $manager
 	) {
 		if ( !$this->isGranted( UserVoter::LOGGED ) ) {
 			$this->addFlash( 'notice', 'messages.user.login_requested' );
@@ -96,14 +96,14 @@ class MemberController extends AbstractController {
 	 * @Route("/members/{user_id}/avatar", name="member_avatar")
 	 *
 	 * @param                                            $user_id
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 * @param \App\Service\FileManager                   $fileManager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\BinaryFileResponse|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function memberAvatar (
 			$user_id,
-			ObjectManager $manager,
+            EntityManagerInterface $manager,
 			FileManager $fileManager
 	) {
 		$user = $manager->getRepository( User::class )
@@ -125,14 +125,14 @@ class MemberController extends AbstractController {
 	 *
 	 * @param                                            $user_id
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\BinaryFileResponse|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function memberDelete (
 			$user_id,
 			Request $request,
-			ObjectManager $manager
+            EntityManagerInterface $manager
 	) {
 		if ( !$this->getUser() || !$this->getUser()->isAdmin() ) {
 			return $this->redirectToRoute( 'homepage' );

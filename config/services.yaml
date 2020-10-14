@@ -24,13 +24,18 @@ services:
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
-        resource: '../src/*'
-        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+            - '../src/Tests/'
+            - '../src/Migrations/'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
     App\Controller\:
-        resource: '../src/Controller'
+        resource: '../src/Controller/'
         tags: ['controller.service_arguments']
 
     # add more service definitions when explicit configuration is needed
@@ -51,11 +56,10 @@ services:
         arguments: ['@postmark_bulk', '%postmark%']
 
     postmark:
-        class: \Postmark\Transport
+        class: Postmark\Transport
         arguments:
             - '%env(string:POSTMARK_SERVER_TOKEN)%'
-            -
     postmark_bulk:
-        class: \App\Postmark\BulkTransport
+        class: App\Postmark\BulkTransport
         arguments:
             - '%env(string:POSTMARK_BULK_TOKEN)%'

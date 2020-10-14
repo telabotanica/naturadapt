@@ -13,7 +13,7 @@ use App\Security\GroupVoter;
 use App\Service\FileManager;
 use App\Service\SlugGenerator;
 use DateTime;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,13 +28,13 @@ class GroupPagesController extends AbstractController {
 	/**
 	 * @Route("/groups/{groupSlug}/pages", name="group_pages_index")
 	 * @param                                            $groupSlug
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function groupPagesIndex (
 			$groupSlug,
-			ObjectManager $manager
+            EntityManagerInterface $manager
 	) {
 		/**
 		 * @var \App\Entity\Usergroup $group
@@ -61,7 +61,7 @@ class GroupPagesController extends AbstractController {
 	 * @Route("/groups/{groupSlug}/pages/new", name="group_page_new")
 	 * @param                                                            $groupSlug
 	 * @param \Symfony\Component\HttpFoundation\Request                  $request
-	 * @param \Doctrine\Common\Persistence\ObjectManager                 $manager
+     * @param \Doctrine\ORM\EntityManagerInterface                       $manager
 	 * @param \App\Service\FileManager                                   $fileManager
 	 * @param \App\Service\SlugGenerator                                 $slugGenerator
 	 * @param \Symfony\Component\Routing\Generator\UrlGeneratorInterface $router
@@ -72,7 +72,7 @@ class GroupPagesController extends AbstractController {
 	public function groupPageNew (
 			$groupSlug,
 			Request $request,
-			ObjectManager $manager,
+            EntityManagerInterface $manager,
 			FileManager $fileManager,
 			SlugGenerator $slugGenerator,
 			UrlGeneratorInterface $router
@@ -165,7 +165,7 @@ class GroupPagesController extends AbstractController {
 	 * @param                                                            $groupSlug
 	 * @param                                                            $pageSlug
 	 * @param \Symfony\Component\HttpFoundation\Request                  $request
-	 * @param \Doctrine\Common\Persistence\ObjectManager                 $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface                       $manager
 	 *
 	 * @param \App\Service\FileManager                                   $fileManager
 	 * @param \Symfony\Component\Routing\Generator\UrlGeneratorInterface $router
@@ -177,7 +177,7 @@ class GroupPagesController extends AbstractController {
 			$groupSlug,
 			$pageSlug,
 			Request $request,
-			ObjectManager $manager,
+            EntityManagerInterface $manager,
 			FileManager $fileManager,
 			UrlGeneratorInterface $router
 	) {
@@ -275,14 +275,14 @@ class GroupPagesController extends AbstractController {
 	 * @Route("/groups/{groupSlug}/pages/{pageSlug}", name="group_page_index")
 	 * @param                                            $groupSlug
 	 * @param                                            $pageSlug
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function groupPageIndex (
 			$groupSlug,
 			$pageSlug,
-			ObjectManager $manager
+            EntityManagerInterface $manager
 	) {
 		/**
 		 * @var \App\Entity\Usergroup $group
@@ -319,7 +319,7 @@ class GroupPagesController extends AbstractController {
 	 * @param                                            $groupSlug
 	 * @param                                            $pageSlug
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 * @param \App\Service\FileManager                   $fileManager
 	 *
 	 * @return string
@@ -329,7 +329,7 @@ class GroupPagesController extends AbstractController {
 			$groupSlug,
 			$pageSlug,
 			Request $request,
-			ObjectManager $manager,
+            EntityManagerInterface $manager,
 			FileManager $fileManager
 	) {
 		/**

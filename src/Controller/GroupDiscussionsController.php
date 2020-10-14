@@ -17,7 +17,7 @@ use App\Service\DiscussionSender;
 use App\Service\FileManager;
 use App\Service\HashGenerator;
 use DateTime;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use EmailReplyParser\Parser\EmailParser;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -36,13 +36,13 @@ class GroupDiscussionsController extends AbstractController {
 	 * @Route("/groups/{groupSlug}/discussions", name="group_discussions_index")
 	 *
 	 * @param                                            $groupSlug
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function groupDiscussionsIndex (
 			$groupSlug,
-			ObjectManager $manager
+            EntityManagerInterface $manager
 	) {
 		/**
 		 * @var \App\Entity\Usergroup $group
@@ -70,7 +70,7 @@ class GroupDiscussionsController extends AbstractController {
 	 * @Route("/groups/{groupSlug}/discussions/new", name="group_discussion_new")
 	 * @param                                                            $groupSlug
 	 * @param \Symfony\Component\HttpFoundation\Request                  $request
-	 * @param \Doctrine\Common\Persistence\ObjectManager                 $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface                       $manager
 	 * @param \App\Service\FileManager                                   $fileManager
 	 * @param \Symfony\Component\Routing\Generator\UrlGeneratorInterface $router
 	 * @param \App\Service\DiscussionSender                              $sender
@@ -81,7 +81,7 @@ class GroupDiscussionsController extends AbstractController {
 	public function groupDiscussionNew (
 			$groupSlug,
 			Request $request,
-			ObjectManager $manager,
+            EntityManagerInterface $manager,
 			FileManager $fileManager,
 			UrlGeneratorInterface $router,
 			DiscussionSender $sender
@@ -182,7 +182,7 @@ class GroupDiscussionsController extends AbstractController {
 	 * @param                                                            $groupSlug
 	 * @param                                                            $discussionUuid
 	 * @param \Symfony\Component\HttpFoundation\Request                  $request
-	 * @param \Doctrine\Common\Persistence\ObjectManager                 $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface                       $manager
 	 * @param \App\Service\FileManager                                   $fileManager
 	 * @param \Symfony\Component\Routing\Generator\UrlGeneratorInterface $router
 	 * @param \App\Service\DiscussionSender                              $sender
@@ -194,7 +194,7 @@ class GroupDiscussionsController extends AbstractController {
 			$groupSlug,
 			$discussionUuid,
 			Request $request,
-			ObjectManager $manager,
+            EntityManagerInterface $manager,
 			FileManager $fileManager,
 			UrlGeneratorInterface $router,
 			DiscussionSender $sender
@@ -299,7 +299,7 @@ class GroupDiscussionsController extends AbstractController {
 	 * @param                                            $groupSlug
 	 * @param                                            $discussionUuid
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 * @param \App\Service\FileManager                   $fileManager
 	 *
 	 * @return string
@@ -309,7 +309,7 @@ class GroupDiscussionsController extends AbstractController {
 			$groupSlug,
 			$discussionUuid,
 			Request $request,
-			ObjectManager $manager,
+            EntityManagerInterface $manager,
 			FileManager $fileManager
 	) {
 		/**
@@ -383,7 +383,7 @@ class GroupDiscussionsController extends AbstractController {
 	 * @param                                            $groupSlug
 	 * @param                                            $messageId
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 * @param \App\Service\FileManager                   $fileManager
 	 *
 	 * @return string
@@ -392,7 +392,7 @@ class GroupDiscussionsController extends AbstractController {
 			$groupSlug,
 			$messageId,
 			Request $request,
-			ObjectManager $manager,
+            EntityManagerInterface $manager,
 			FileManager $fileManager
 	) {
 		/**
@@ -449,7 +449,7 @@ class GroupDiscussionsController extends AbstractController {
 	 * @Route("/groups/{groupSlug}/message/{messageId}/hide", name="group_message_hide")
 	 * @param                                            $groupSlug
 	 * @param                                            $messageId
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 *
 	 * @return string
 	 * @throws \Exception
@@ -457,7 +457,7 @@ class GroupDiscussionsController extends AbstractController {
 	public function groupMessageHide (
 			$groupSlug,
 			$messageId,
-			ObjectManager $manager
+            EntityManagerInterface $manager
 	) {
 		/**
 		 * @var \App\Entity\Usergroup $group
@@ -498,7 +498,7 @@ class GroupDiscussionsController extends AbstractController {
 	 * @Route("/groups/{groupSlug}/message/{messageId}/show", name="group_message_show")
 	 * @param                                            $groupSlug
 	 * @param                                            $messageId
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 *
 	 * @return string
 	 * @throws \Exception
@@ -506,7 +506,7 @@ class GroupDiscussionsController extends AbstractController {
 	public function groupMessageShow (
 			$groupSlug,
 			$messageId,
-			ObjectManager $manager
+            EntityManagerInterface $manager
 	) {
 		/**
 		 * @var \App\Entity\Usergroup $group
@@ -547,7 +547,7 @@ class GroupDiscussionsController extends AbstractController {
 	 * @Route("/ws/list/inbound/{key}", name="webservice_list_inbound")
 	 * @param                                            $key
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 * @param \App\Service\FileManager                   $fileManager
 	 * @param \App\Service\DiscussionSender              $sender
 	 *
@@ -557,7 +557,7 @@ class GroupDiscussionsController extends AbstractController {
 	public function webserviceInbound (
 			$key,
 			Request $request,
-			ObjectManager $manager,
+            EntityManagerInterface $manager,
 			FileManager $fileManager,
 			DiscussionSender $sender
 	) {
@@ -574,9 +574,12 @@ class GroupDiscussionsController extends AbstractController {
 
 		$emailBody = !empty( $data[ 'StrippedTextBody' ] )
 				? $data[ 'StrippedTextBody' ]
-				: !empty( $data[ 'TextBody' ] )
+				: (
+				    !empty( $data[ 'TextBody' ] )
 						? $data[ 'TextBody' ]
-						: strip_tags( $data[ 'HtmlBody' ] );
+						: strip_tags( $data[ 'HtmlBody' ] )
+                )
+        ;
 
 		// Replace nobreaking space with simple space
 		$emailBody = str_replace( "\u{00a0}", ' ', $emailBody );
@@ -701,7 +704,7 @@ class GroupDiscussionsController extends AbstractController {
 	 * @param                                            $status
 	 * @param string                                     $redirect
 	 * @param string                                     $hash
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 * @param \App\Service\HashGenerator                 $hashGenerator
 	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
@@ -709,10 +712,10 @@ class GroupDiscussionsController extends AbstractController {
 	public function groupNotifications (
 			$groupSlug,
 			$status,
+            EntityManagerInterface $manager,
+            HashGenerator $hashGenerator,
 			$redirect = 'group',
-			$hash = '',
-			ObjectManager $manager,
-			HashGenerator $hashGenerator
+			$hash = ''
 	) {
 		/**
 		 * @var \App\Entity\Usergroup $group

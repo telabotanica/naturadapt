@@ -14,7 +14,7 @@ use App\Service\FileManager;
 use App\Service\FileMimeManager;
 use App\Service\SlugGenerator;
 use DateTime;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
@@ -79,14 +79,14 @@ class GroupDocumentsController extends AbstractController {
 	 * @Route("/groups/{groupSlug}/documents", name="group_documents_index")
 	 * @param                                            $groupSlug
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function documentsIndex (
 			$groupSlug,
 			Request $request,
-			ObjectManager $manager
+            EntityManagerInterface $manager
 	) {
 		/**
 		 * @var \App\Entity\Usergroup $group
@@ -175,7 +175,7 @@ class GroupDocumentsController extends AbstractController {
 	 * @Route("/groups/{groupSlug}/documents/new", name="group_document_new")
 	 * @param                                            $groupSlug
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 * @param \App\Service\FileManager                   $fileManager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
@@ -184,7 +184,7 @@ class GroupDocumentsController extends AbstractController {
 	public function documentNew (
 			$groupSlug,
 			Request $request,
-			ObjectManager $manager,
+            EntityManagerInterface $manager,
 			FileManager $fileManager
 	) {
 		/**
@@ -288,7 +288,7 @@ class GroupDocumentsController extends AbstractController {
 	 * @param                                            $groupSlug
 	 * @param                                            $documentId
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 * @param \App\Service\FileManager                   $fileManager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
@@ -298,7 +298,7 @@ class GroupDocumentsController extends AbstractController {
 			$groupSlug,
 			$documentId,
 			Request $request,
-			ObjectManager $manager,
+            EntityManagerInterface $manager,
 			FileManager $fileManager
 	) {
 		/**
@@ -425,7 +425,7 @@ class GroupDocumentsController extends AbstractController {
 	 * @Route("/groups/{groupSlug}/documents/{documentId}/get", name="group_document_get")
 	 * @param                                            $groupSlug
 	 * @param                                            $documentId
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 * @param \App\Service\FileManager                   $fileManager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
@@ -433,7 +433,7 @@ class GroupDocumentsController extends AbstractController {
 	public function documentGet (
 			$groupSlug,
 			$documentId,
-			ObjectManager $manager,
+            EntityManagerInterface $manager,
 			FileManager $fileManager
 	) {
 		/**
@@ -466,7 +466,7 @@ class GroupDocumentsController extends AbstractController {
 	 * @param                                            $groupSlug
 	 * @param                                            $documentId
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 * @param \App\Service\FileManager                   $fileManager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
@@ -476,7 +476,7 @@ class GroupDocumentsController extends AbstractController {
 			$groupSlug,
 			$documentId,
 			Request $request,
-			ObjectManager $manager,
+            EntityManagerInterface $manager,
 			FileManager $fileManager
 	) {
 		/**

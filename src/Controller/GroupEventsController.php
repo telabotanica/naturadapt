@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Usergroup;
 use App\Security\GroupVoter;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -16,13 +16,13 @@ class GroupEventsController extends AbstractController {
 	/**
 	 * @Route("/groups/{groupSlug}/events", name="group_events_index")
 	 * @param                                            $groupSlug
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function eventsIndex (
 			$groupSlug,
-			ObjectManager $manager
+            EntityManagerInterface $manager
 	) {
 		/**
 		 * @var $group \App\Entity\Usergroup

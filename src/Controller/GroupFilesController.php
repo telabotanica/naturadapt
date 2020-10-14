@@ -8,7 +8,7 @@ use App\Entity\Usergroup;
 use App\Form\UploadType;
 use App\Security\GroupFileVoter;
 use App\Service\FileManager;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +22,7 @@ class GroupFilesController extends AbstractController {
 	 * @Route("/file/upload/{groupId}", name="file_upload")
 	 * @param                                                            $groupId
 	 * @param \Symfony\Component\HttpFoundation\Request                  $request
-	 * @param \Doctrine\Common\Persistence\ObjectManager                 $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface                       $manager
 	 * @param \App\Service\FileManager                                   $fileManager
 	 * @param \Symfony\Component\Routing\Generator\UrlGeneratorInterface $router
 	 *
@@ -31,7 +31,7 @@ class GroupFilesController extends AbstractController {
 	public function uploadFile (
 			$groupId,
 			Request $request,
-			ObjectManager $manager,
+            EntityManagerInterface $manager,
 			FileManager $fileManager,
 			UrlGeneratorInterface $router
 	) {
@@ -86,14 +86,14 @@ class GroupFilesController extends AbstractController {
 	/**
 	 * @Route("/file/get/{fileId}", name="file_get")
 	 * @param                                            $fileId
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 * @param \App\Service\FileManager                   $fileManager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
 	 */
 	public function getFile (
 			$fileId,
-			ObjectManager $manager,
+            EntityManagerInterface $manager,
 			FileManager $fileManager
 	) {
 		/**

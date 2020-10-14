@@ -12,7 +12,7 @@ use App\Service\Community;
 use App\Service\FileManager;
 use App\Service\SlugGenerator;
 use DateTime;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,14 +25,14 @@ class GroupController extends AbstractController {
 
 	/**
 	 * @Route("/groups", name="groups_index")
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 * @param \App\Service\Community                     $community
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function groupsIndex (
-			ObjectManager $manager,
-			Community $community
+        EntityManagerInterface $manager,
+        Community $community
 	) {
 		$groups = $manager->getRepository( Usergroup::class )
 						  ->getGroupsWithMembers( $community->getGroup() );
@@ -49,7 +49,7 @@ class GroupController extends AbstractController {
 	/**
 	 * @Route("/groups/new", name="group_new")
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 * @param \App\Service\FileManager                   $fileManager
 	 * @param \App\Service\SlugGenerator                 $slugGenerator
 	 *
@@ -58,7 +58,7 @@ class GroupController extends AbstractController {
 	 */
 	public function groupNew (
 			Request $request,
-			ObjectManager $manager,
+            EntityManagerInterface $manager,
 			FileManager $fileManager,
 			SlugGenerator $slugGenerator
 	) {
@@ -157,7 +157,7 @@ class GroupController extends AbstractController {
 	 * @Route("/groups/{groupSlug}/edit", name="group_edit")
 	 * @param                                            $groupSlug
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 * @param \App\Service\FileManager                   $fileManager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
@@ -166,7 +166,7 @@ class GroupController extends AbstractController {
 	public function groupEdit (
 			$groupSlug,
 			Request $request,
-			ObjectManager $manager,
+            EntityManagerInterface $manager,
 			FileManager $fileManager
 	) {
 		/**
@@ -281,11 +281,11 @@ class GroupController extends AbstractController {
 	/**
 	 * @Route("/groups/{groupSlug}", name="group_index")
 	 * @param                                            $groupSlug
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function groupIndex ( $groupSlug, ObjectManager $manager ) {
+	public function groupIndex ( $groupSlug, EntityManagerInterface $manager ) {
 		/**
 		 * @var $group \App\Entity\Usergroup
 		 */
@@ -305,7 +305,7 @@ class GroupController extends AbstractController {
 	 * @Route("/groups/{groupSlug}/delete", name="group_delete")
 	 * @param                                            $groupSlug
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 * @param \App\Service\FileManager                   $fileManager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
@@ -314,7 +314,7 @@ class GroupController extends AbstractController {
 	public function groupDelete (
 			$groupSlug,
 			Request $request,
-			ObjectManager $manager,
+            EntityManagerInterface $manager,
 			FileManager $fileManager
 	) {
 		/**

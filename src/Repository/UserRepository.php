@@ -7,7 +7,7 @@ use App\Entity\UsergroupMembership;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr\Orx;
 use Doctrine\ORM\QueryBuilder;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method User|null find( $id, $lockMode = NULL, $lockVersion = NULL )
@@ -16,7 +16,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method User[]    findBy( array $criteria, array $orderBy = NULL, $limit = NULL, $offset = NULL )
  */
 class UserRepository extends ServiceEntityRepository {
-	public function __construct ( RegistryInterface $registry ) {
+	public function __construct ( ManagerRegistry $registry ) {
 		parent::__construct( $registry, User::class );
 	}
 

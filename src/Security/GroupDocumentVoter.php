@@ -5,7 +5,7 @@ namespace App\Security;
 use App\Entity\Document;
 use App\Entity\User;
 use App\Entity\Usergroup;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;
@@ -17,7 +17,7 @@ class GroupDocumentVoter extends Voter {
 	const DELETE = 'group:document:delete';
 
 	/**
-	 * @var \Doctrine\Common\Persistence\ObjectManager
+	 * @var \Doctrine\ORM\EntityManagerInterface
 	 */
 	private $manager;
 
@@ -26,7 +26,7 @@ class GroupDocumentVoter extends Voter {
 	 */
 	private $security;
 
-	public function __construct ( ObjectManager $manager, Security $security ) {
+	public function __construct ( EntityManagerInterface $manager, Security $security ) {
 		$this->manager  = $manager;
 		$this->security = $security;
 	}
