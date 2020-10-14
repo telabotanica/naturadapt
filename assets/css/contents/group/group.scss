@@ -218,11 +218,12 @@
 
 
 	.main--header--image {
-		background-color: $color_grey_lighter;
+		background-color: $color_grey_dark;
 		overflow:         hidden;
 
 		img {
 			filter:    blur(20px);
+			opacity:   0.7;
 			transform: scale(1.1);
 		}
 	}
