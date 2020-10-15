@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Site;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,13 +13,13 @@ class SearchController extends AbstractController {
 	 * @Route("/search/site/{query}", name="search_site")
 	 *
 	 * @param                                            $query
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function searchSite (
 			$query,
-			ObjectManager $manager
+            EntityManagerInterface $manager
 	) {
 		$query = trim( $query );
 

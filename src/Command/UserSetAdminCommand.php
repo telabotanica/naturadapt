@@ -3,7 +3,7 @@
 namespace App\Command;
 
 use App\Entity\User;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -14,7 +14,7 @@ class UserSetAdminCommand extends Command {
 
 	private $manager;
 
-	public function __construct ( ObjectManager $manager ) {
+	public function __construct ( EntityManagerInterface $manager ) {
 		$this->manager = $manager;
 
 		parent::__construct();
@@ -31,7 +31,7 @@ class UserSetAdminCommand extends Command {
 
 	protected function execute ( InputInterface $input, OutputInterface $output ) {
 		/**
-		 * @var ObjectManager $manager
+		 * @var EntityManagerInterface $manager
 		 */
 		$manager = $this->manager;
 

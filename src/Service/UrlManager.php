@@ -7,7 +7,7 @@ use App\Entity\Discussion;
 use App\Entity\Document;
 use App\Entity\Page;
 use App\Entity\Usergroup;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class UrlManager {
@@ -18,7 +18,7 @@ class UrlManager {
 	 */
 	private $urlGenerator;
 
-	public function __construct ( ObjectManager $manager, UrlGeneratorInterface $urlGenerator ) {
+	public function __construct ( EntityManagerInterface $manager, UrlGeneratorInterface $urlGenerator ) {
 		$this->manager      = $manager;
 		$this->urlGenerator = $urlGenerator;
 	}

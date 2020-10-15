@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\PageRevision;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method PageRevision|null find( $id, $lockMode = NULL, $lockVersion = NULL )
@@ -13,7 +13,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method PageRevision[]    findBy( array $criteria, array $orderBy = NULL, $limit = NULL, $offset = NULL )
  */
 class PageRevisionRepository extends ServiceEntityRepository {
-	public function __construct ( RegistryInterface $registry ) {
+	public function __construct ( ManagerRegistry $registry ) {
 		parent::__construct( $registry, PageRevision::class );
 	}
 

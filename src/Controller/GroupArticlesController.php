@@ -12,7 +12,7 @@ use App\Security\GroupVoter;
 use App\Service\FileManager;
 use App\Service\SlugGenerator;
 use DateTime;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,13 +27,13 @@ class GroupArticlesController extends AbstractController {
 	/**
 	 * @Route("/groups/{groupSlug}/articles", name="group_articles_index")
 	 * @param                                            $groupSlug
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function groupArticlesIndex (
 			$groupSlug,
-			ObjectManager $manager
+            EntityManagerInterface $manager
 	) {
 		/**
 		 * @var \App\Entity\Usergroup $group
@@ -60,7 +60,7 @@ class GroupArticlesController extends AbstractController {
 	 * @Route("/groups/{groupSlug}/articles/new", name="group_article_new")
 	 * @param                                                            $groupSlug
 	 * @param \Symfony\Component\HttpFoundation\Request                  $request
-	 * @param \Doctrine\Common\Persistence\ObjectManager                 $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface                       $manager
 	 * @param \App\Service\FileManager                                   $fileManager
 	 * @param \App\Service\SlugGenerator                                 $slugGenerator
 	 * @param \Symfony\Component\Routing\Generator\UrlGeneratorInterface $router
@@ -71,7 +71,7 @@ class GroupArticlesController extends AbstractController {
 	public function groupArticleNew (
 			$groupSlug,
 			Request $request,
-			ObjectManager $manager,
+            EntityManagerInterface $manager,
 			FileManager $fileManager,
 			SlugGenerator $slugGenerator,
 			UrlGeneratorInterface $router
@@ -154,7 +154,7 @@ class GroupArticlesController extends AbstractController {
 	 * @param                                                            $groupSlug
 	 * @param                                                            $articleSlug
 	 * @param \Symfony\Component\HttpFoundation\Request                  $request
-	 * @param \Doctrine\Common\Persistence\ObjectManager                 $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface                       $manager
 	 *
 	 * @param \App\Service\FileManager                                   $fileManager
 	 * @param \Symfony\Component\Routing\Generator\UrlGeneratorInterface $router
@@ -166,7 +166,7 @@ class GroupArticlesController extends AbstractController {
 			$groupSlug,
 			$articleSlug,
 			Request $request,
-			ObjectManager $manager,
+            EntityManagerInterface $manager,
 			FileManager $fileManager,
 			UrlGeneratorInterface $router
 	) {
@@ -255,14 +255,14 @@ class GroupArticlesController extends AbstractController {
 	 * @Route("/groups/{groupSlug}/articles/{articleSlug}", name="group_article_index")
 	 * @param                                            $groupSlug
 	 * @param                                            $articleSlug
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function groupArticleIndex (
 			$groupSlug,
 			$articleSlug,
-			ObjectManager $manager
+            EntityManagerInterface $manager
 	) {
 		/**
 		 * @var \App\Entity\Usergroup $group
@@ -299,7 +299,7 @@ class GroupArticlesController extends AbstractController {
 	 * @param                                            $groupSlug
 	 * @param                                            $articleSlug
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 * @param \App\Service\FileManager                   $fileManager
 	 *
 	 * @return string
@@ -309,7 +309,7 @@ class GroupArticlesController extends AbstractController {
 			$groupSlug,
 			$articleSlug,
 			Request $request,
-			ObjectManager $manager,
+            EntityManagerInterface $manager,
 			FileManager $fileManager
 	) {
 		/**

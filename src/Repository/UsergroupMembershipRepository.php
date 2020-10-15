@@ -6,7 +6,7 @@ use App\Entity\User;
 use App\Entity\Usergroup;
 use App\Entity\UsergroupMembership;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method UsergroupMembership|null find( $id, $lockMode = NULL, $lockVersion = NULL )
@@ -15,7 +15,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method UsergroupMembership[]    findBy( array $criteria, array $orderBy = NULL, $limit = NULL, $offset = NULL )
  */
 class UsergroupMembershipRepository extends ServiceEntityRepository {
-	public function __construct ( RegistryInterface $registry ) {
+	public function __construct ( ManagerRegistry $registry ) {
 		parent::__construct( $registry, UsergroupMembership::class );
 	}
 

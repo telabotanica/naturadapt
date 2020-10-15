@@ -3,7 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Usergroup;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 class Community {
 	/**
@@ -15,11 +15,11 @@ class Community {
 	 * Community constructor.
 	 *
 	 * @param                                            $slug
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 */
 	public function __construct (
 			$slug,
-			ObjectManager $manager
+            EntityManagerInterface $manager
 	) {
 		if ( !empty( $slug ) ) {
 			$this->group = $manager->getRepository( Usergroup::class )

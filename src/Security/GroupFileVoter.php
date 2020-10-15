@@ -5,7 +5,7 @@ namespace App\Security;
 use App\Entity\File;
 use App\Entity\User;
 use App\Entity\Usergroup;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;
@@ -16,7 +16,7 @@ class GroupFileVoter extends Voter {
 	const DELETE = 'group:file:delete';
 
 	/**
-	 * @var \Doctrine\Common\Persistence\ObjectManager
+	 * @var \Doctrine\ORM\EntityManagerInterface
 	 */
 	private $manager;
 
@@ -25,7 +25,7 @@ class GroupFileVoter extends Voter {
 	 */
 	private $security;
 
-	public function __construct ( ObjectManager $manager, Security $security ) {
+	public function __construct ( EntityManagerInterface $manager, Security $security ) {
 		$this->manager  = $manager;
 		$this->security = $security;
 	}
