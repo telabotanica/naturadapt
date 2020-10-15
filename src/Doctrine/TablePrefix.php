@@ -22,7 +22,7 @@ class TablePrefix implements EventSubscriber {
 	public function loadClassMetadata ( LoadClassMetadataEventArgs $eventArgs ) {
 		$classMetadata = $eventArgs->getClassMetadata();
 
-		if ( $classMetadata->getTableName() === $this->params->get( 'doctrine_migrations.storage.table_storage.table_name' ) ) {
+		if ( $classMetadata->getTableName() === $this->params->get( 'migrations_table_name' ) ) {
 			return;
 		}
 
