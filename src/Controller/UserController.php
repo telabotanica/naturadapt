@@ -221,7 +221,7 @@ class UserController extends AbstractController {
 		$tokenStorage->setToken( $token );
 		$session->set( '_security_main', serialize( $token ) );
 		$event = new InteractiveLoginEvent( $request, $token );
-		$eventDispatcher->dispatch( 'security.interactive_login', $event );
+		$eventDispatcher->dispatch( $event, 'security.interactive_login' );
 
 		// Redirect to profile
 
