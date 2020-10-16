@@ -597,6 +597,10 @@ class GroupDiscussionsController extends AbstractController {
 			return new JsonResponse( [ 'status' => 'The user does not exist' ] );
 		}
 
+        if ( $user->getStatus() !== User::STATUS_ACTIVE ) {
+            return new JsonResponse( [ 'status' => 'The user is disabled' ] );
+        }
+
 		/**
 		 * @var \App\Entity\Usergroup $group
 		 */

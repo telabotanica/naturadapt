@@ -232,6 +232,12 @@ class GroupMembersController extends AbstractController {
 			throw $this->createNotFoundException( 'The user does not exist' );
 		}
 
+        if ( $user->getStatus() !== User::STATUS_ACTIVE ) {
+            $this->addFlash( 'error', 'messages.user.inactive' );
+
+            return $this->redirectToRoute( 'group_members_index', [ 'groupSlug' => $groupSlug ] );
+        }
+
 		$membership = $manager->getRepository( UsergroupMembership::class )
 							  ->getMembership( $user, $group );
 

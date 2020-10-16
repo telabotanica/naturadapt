@@ -14,11 +14,13 @@ use App\Security\UserVoter;
 use App\Service\Community;
 use App\Service\EmailSender;
 use App\Service\FileManager;
+use App\Service\SoftDelete;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -323,6 +325,12 @@ class UserController extends AbstractController {
 
 				return $this->redirectToRoute( 'homepage' );
 			}
+
+            if ( $user->getStatus() !== User::STATUS_ACTIVE ) {
+                $this->addFlash( 'error', 'messages.user.inactive' );
+
+                return $this->redirectToRoute( 'homepage' );
+            }
 
 			$user->setPassword( $passwordEncoder->encodePassword( $user, $request->request->get( 'password' ) ) );
 			$user->setResetToken( NULL );
@@ -657,4 +665,46 @@ class UserController extends AbstractController {
 
 		return $this->render( 'pages/user/my-groups.html.twig', [ 'user' => $user ] );
 	}
+
+    /**
+     * @Route("/user/delete", name="user_delete")
+     *
+     * @param EntityManagerInterface $manager
+     * @param FileManager            $fileManager
+     * @param SoftDelete             $softDelete
+     * @return RedirectResponse
+     */
+    public function userDelete(
+            EntityManagerInterface $manager,
+            FileManager $fileManager,
+            SoftDelete $softDelete
+    ) {
+        if (!$this->isGranted(UserVoter::LOGGED)) {
+            return $this->redirectToRoute('user_login');
+        }
+
+        /**
+         * @var User $user
+         */
+        $user = $this->getUser();
+
+        if (User::STATUS_ACTIVE !== $user->getStatus()) {
+            $this->addFlash('error', 'messages.user.not_active');
+
+            return $this->redirectToRoute('homepage');
+        }
+
+        // delete file avatar
+        $avatar = $user->getAvatar();
+        if($avatar) {
+            $fileManager->deleteFile($avatar);
+            $manager->remove($avatar);
+        }
+        $softDelete->setUserDeleted($user);
+        $manager->flush();
+
+        $this->addFlash('notice', 'messages.user.account_deleted');
+
+        return $this->redirectToRoute('user_logout');
+    }
 }

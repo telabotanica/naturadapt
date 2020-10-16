@@ -79,6 +79,10 @@ forms:
         password_confirm:
             label: "Confirmation du mot de passe"
             placeholder: ""
+        user_account_delete:
+            title: "Supprimer mon compte"
+            informations_message: "Si vous supprimez votre compte, vos contributions sur la plateforme seront préservées mais votre nom n'apparaîtra plus. Vous ne serez plus listé dans l'annuaire des membres. Vous ne pourrez plus vous connecter."
+            warning_message: "Attention, cette opération est irréversible."
 
     group:
         name:
@@ -412,6 +416,8 @@ messages:
         login_requested: "Vous devez vous inscrire ou vous connecter pour voir cette page."
         email_change_sent: "Un email de confirmation du changement d’adresse vous a été envoyé. Regardez la boite de reception de votre nouvelle adresse."
         email_change_successful: "Votre adresse e-mail a été modifiée."
+        not_active: "Cet utilisateur n’est pas activé."
+        account_deleted: "Votre compte a bien été supprimé."
 
     group:
         joined: "Vous avez rejoint ce groupe."
@@ -493,3 +499,7 @@ logevents:
     document_create: "%1$s a ajouté le document %3$s dans le groupe %2$s"
     document_edit: "%1$s a mis à jour le document %3$s dans le groupe %2$s"
     document_delete: "%1$s a supprimé le document %3$s dans le groupe %2$s"
+
+database_data:
+    user:
+        user_deleted_name: 'Ancien utilisateur n°%1$d'

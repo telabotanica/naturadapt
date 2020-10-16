@@ -1,3 +1,4 @@
+{% set isDisabled = constant('App\\Entity\\User::STATUS_ACTIVE') != user.status %}
 {% set classes = ['user', 'user__in-members-list'] %}
 {% if (group is defined) %}
 	{% set isPending = user_group_relation.isPending(user, group) %}
@@ -21,7 +22,7 @@
 	or ((group is defined) and is_granted(constant('App\\Security\\GroupVoter::ADMIN'), group))
 	or app.user.isAdmin %}
 	<div class="{{ classes|join(' ') }}">
-		<a class="user-infos" href="{{ path('member', {'user_id':user.id}) }}">
+		<a class="user-infos{{ isDisabled ? ' disabled' }}" href="{{ path('member', {'user_id':user.id}) }}">
 			{% if (admin is defined) and admin %}
 				<div class="user--admin"><span>{{ 'pages.user.is_admin'|trans }}</span></div>
 			{% endif %}
@@ -44,16 +45,18 @@
 			{% if isPending %}
 				<div class="in-list-admin-panel">
 					<ul>
-						<li>
-							<a class="pending_set_member"
-							   href="{{ path('group_member_admin', {
-								   'groupSlug':group.slug,
-								   'userId':user.id,
-								   'status':constant('App\\Entity\\UsergroupMembership::STATUS_MEMBER')
-							   }) }}" title="{{ 'pages.member.actions.pending_set_member'|trans|escape('html_attr') }}">
-								<span>{{ 'pages.member.actions.pending_set_member'|trans }}</span>
-							</a>
-						</li>
+						{% if not isDisabled %}
+							<li>
+								<a class="pending_set_member"
+								   href="{{ path('group_member_admin', {
+									   'groupSlug':group.slug,
+									   'userId':user.id,
+									   'status':constant('App\\Entity\\UsergroupMembership::STATUS_MEMBER')
+								   }) }}" title="{{ 'pages.member.actions.pending_set_member'|trans|escape('html_attr') }}">
+									<span>{{ 'pages.member.actions.pending_set_member'|trans }}</span>
+								</a>
+							</li>
+						{% endif %}
 						<li>
 							<a class="pending_set_remove"
 							   href="{{ path('group_member_admin', {
@@ -112,16 +115,18 @@
 						<span>{{ 'ui.settings'|trans }}</span>
 					</button>
 					<ul aria-hidden="true" data-toggle-listen-others="false|true" data-toggle-listen-group="admin-panel" data-toggle-listen-esc="true">
-						<li>
-							<a class="member_set_admin"
-							   href="{{ path('group_member_admin', {
-								   'groupSlug':group.slug,
-								   'userId':user.id,
-								   'status':constant('App\\Entity\\UsergroupMembership::ROLE_ADMIN')
-							   }) }}" title="{{ 'pages.member.actions.member_set_admin'|trans|escape('html_attr') }}">
-								<span>{{ 'pages.member.actions.member_set_admin'|trans }}</span>
-							</a>
-						</li>
+						{% if not isDisabled %}
+							<li>
+								<a class="member_set_admin"
+								   href="{{ path('group_member_admin', {
+									   'groupSlug':group.slug,
+									   'userId':user.id,
+									   'status':constant('App\\Entity\\UsergroupMembership::ROLE_ADMIN')
+								   }) }}" title="{{ 'pages.member.actions.member_set_admin'|trans|escape('html_attr') }}">
+									<span>{{ 'pages.member.actions.member_set_admin'|trans }}</span>
+								</a>
+							</li>
+						{% endif %}
 						<li>
 							<a class="member_set_remove"
 							   href="{{ path('group_member_admin', {
