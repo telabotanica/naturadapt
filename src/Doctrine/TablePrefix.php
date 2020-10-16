@@ -4,15 +4,15 @@ namespace App\Doctrine;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class TablePrefix implements EventSubscriber {
 	protected $prefix = '';
-	protected $container;
+	protected $params;
 
-	public function __construct ( string $prefix, ContainerInterface $container ) {
+	public function __construct ( string $prefix, ParameterBagInterface $params ) {
 		$this->prefix    = $prefix;
-		$this->container = $container;
+		$this->params = $params;
 	}
 
 	public function getSubscribedEvents () {
@@ -22,7 +22,7 @@ class TablePrefix implements EventSubscriber {
 	public function loadClassMetadata ( LoadClassMetadataEventArgs $eventArgs ) {
 		$classMetadata = $eventArgs->getClassMetadata();
 
-		if ( $classMetadata->getTableName() === $this->container->getParameter( 'doctrine_migrations.table_name' ) ) {
+		if ( $classMetadata->getTableName() === $this->params->get( 'migrations_table_name' ) ) {
 			return;
 		}
 

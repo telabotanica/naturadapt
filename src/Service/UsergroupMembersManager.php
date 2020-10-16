@@ -5,7 +5,7 @@ namespace App\Service;
 use App\Entity\Skill;
 use App\Entity\User;
 use App\Repository\SkillRepository;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -18,7 +18,7 @@ class UsergroupMembersManager {
 	private $manager;
 	private $formFactory;
 
-	public function __construct ( ObjectManager $manager, ContainerInterface $container ) {
+	public function __construct ( EntityManagerInterface $manager, ContainerInterface $container ) {
 		$this->manager     = $manager;
 		$this->formFactory = $container->get( 'form.factory' );
 	}

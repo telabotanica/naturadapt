@@ -5,13 +5,13 @@ namespace App\Service;
 use App\Entity\User;
 use App\Entity\Usergroup;
 use App\Entity\UsergroupMembership;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 class UserGroupRelation {
 	private $manager;
 
 	public function __construct (
-			ObjectManager $manager
+        EntityManagerInterface $manager
 	) {
 		$this->manager = $manager;
 	}

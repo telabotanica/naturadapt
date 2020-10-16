@@ -11,7 +11,7 @@ use App\Security\UserVoter;
 use App\Service\EmailSender;
 use App\Service\UsergroupMembersManager;
 use DateTime;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +23,7 @@ class GroupMembersController extends AbstractController {
 	 * @Route("/groups/{groupSlug}/members", name="group_members_index")
 	 * @param                                            $groupSlug
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 * @param \App\Service\UsergroupMembersManager       $usergroupMembersManager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
@@ -31,7 +31,7 @@ class GroupMembersController extends AbstractController {
 	public function groupMembers (
 			$groupSlug,
 			Request $request,
-			ObjectManager $manager,
+            EntityManagerInterface $manager,
 			UsergroupMembersManager $usergroupMembersManager
 	) {
 		if ( !$this->isGranted( UserVoter::LOGGED ) ) {
@@ -103,14 +103,14 @@ class GroupMembersController extends AbstractController {
 	/**
 	 * @Route("/groups/{groupSlug}/members/new", name="group_member_new")
 	 * @param                                            $groupSlug
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 * @param \App\Service\EmailSender                   $mailer
 	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 */
 	public function groupMemberNew (
 			$groupSlug,
-			ObjectManager $manager,
+            EntityManagerInterface $manager,
 			EmailSender $mailer
 	) {
 		if ( !$this->isGranted( UserVoter::LOGGED ) ) {
@@ -202,7 +202,7 @@ class GroupMembersController extends AbstractController {
 	 * @param                                            $groupSlug
 	 * @param                                            $userId
 	 * @param                                            $status
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 * @throws \Exception
@@ -211,7 +211,7 @@ class GroupMembersController extends AbstractController {
 			$groupSlug,
 			$userId,
 			$status,
-			ObjectManager $manager
+            EntityManagerInterface $manager
 	) {
 		/**
 		 * @var \App\Entity\Usergroup $group
@@ -318,14 +318,14 @@ class GroupMembersController extends AbstractController {
 	 * @Route("/groups/{groupSlug}/quit", name="group_member_quit")
 	 * @param                                            $groupSlug
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function groupMemberQuit (
 			$groupSlug,
 			Request $request,
-			ObjectManager $manager
+            EntityManagerInterface $manager
 	) {
 		/**
 		 * @var \App\Entity\Usergroup $group

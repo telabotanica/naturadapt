@@ -3,13 +3,13 @@
 namespace App\Service;
 
 use App\Entity\User;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class HashGenerator {
 
 	/**
-	 * @var \Doctrine\Common\Persistence\ObjectManager
+	 * @var \Doctrine\ORM\EntityManagerInterface
 	 */
 	private $manager;
 
@@ -21,12 +21,12 @@ class HashGenerator {
 	/**
 	 * HashGenerator constructor.
 	 *
-	 * @param \Doctrine\Common\Persistence\ObjectManager                            $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface                                  $manager
 	 * @param \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface $passwordEncoder
 	 */
 	public function __construct (
-			ObjectManager $manager,
-			UserPasswordEncoderInterface $passwordEncoder
+        EntityManagerInterface $manager,
+        UserPasswordEncoderInterface $passwordEncoder
 	) {
 		$this->manager         = $manager;
 		$this->passwordEncoder = $passwordEncoder;

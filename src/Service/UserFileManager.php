@@ -4,7 +4,7 @@ namespace App\Service;
 
 use App\Entity\File;
 use App\Entity\User;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -17,7 +17,7 @@ class UserFileManager {
 	 */
 	private $filesystem;
 
-	public function __construct ( ObjectManager $manager, ContainerInterface $container ) {
+	public function __construct ( EntityManagerInterface $manager, ContainerInterface $container ) {
 		$this->manager    = $manager;
 		$this->filesystem = $container->get( 'gaufrette.userfiles_filesystem' );
 	}

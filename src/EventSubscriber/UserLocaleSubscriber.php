@@ -4,7 +4,7 @@ namespace App\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Http\SecurityEvents;
@@ -14,8 +14,8 @@ use Symfony\Component\Security\Http\SecurityEvents;
  * Stores the locale of the user in the session after the login.
  */
 class UserLocaleSubscriber implements EventSubscriberInterface {
-	private $defaultLocale;
-	private $session;
+    private $defaultLocale;
+    private $session;
 
 	public function __construct ( $defaultLocale, SessionInterface $session ) {
 		$this->defaultLocale = $defaultLocale;
@@ -30,7 +30,7 @@ class UserLocaleSubscriber implements EventSubscriberInterface {
 		];
 	}
 
-	public function onKernelRequest ( GetResponseEvent $event ) {
+	public function onKernelRequest ( RequestEvent $event ) {
 		$request = $event->getRequest();
 
 		if ( !$request->hasPreviousSession() ) {

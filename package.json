@@ -10,6 +10,7 @@
 		"node-sass-svg": "^1.1.1",
 		"places.js": "^1.18.1",
 		"postcss-loader": "^3.0.0",
+		"regenerator-runtime": "^0.13.7",
 		"sass-loader": "^7.3.1",
 		"tar": "^4.4.13",
 		"webpack-notifier": "^1.8.0"
@@ -28,5 +29,6 @@
 		"> 1%",
 		"IE 10",
 		"iOS 8"
-	]
+	],
+	"dependencies": {}
 }

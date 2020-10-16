@@ -3,7 +3,7 @@
 namespace App\Command;
 
 use App\Entity\Skill;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -13,7 +13,7 @@ class ImportSkillsCommand extends Command {
 
 	private $manager;
 
-	public function __construct ( ObjectManager $manager ) {
+	public function __construct ( EntityManagerInterface $manager ) {
 		$this->manager = $manager;
 
 		parent::__construct();
@@ -27,7 +27,7 @@ class ImportSkillsCommand extends Command {
 
 	protected function execute ( InputInterface $input, OutputInterface $output ) {
 		/**
-		 * @var ObjectManager $manager
+		 * @var EntityManagerInterface $manager
 		 */
 		$manager = $this->manager;
 

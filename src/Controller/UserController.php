@@ -15,7 +15,7 @@ use App\Service\Community;
 use App\Service\EmailSender;
 use App\Service\FileManager;
 use DateTime;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -82,7 +82,7 @@ class UserController extends AbstractController {
 	 * @Route("/user/register", name="user_register")
 	 *
 	 * @param \Symfony\Component\HttpFoundation\Request                               $request
-	 * @param \Doctrine\Common\Persistence\ObjectManager                              $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface;                                   $manager
 	 * @param \App\Service\EmailSender                                                $mailer
 	 * @param \Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface $tokenGenerator
 	 * @param \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface   $passwordEncoder
@@ -91,7 +91,7 @@ class UserController extends AbstractController {
 	 */
 	public function register (
 			Request $request,
-			ObjectManager $manager,
+			EntityManagerInterface $manager,
 			EmailSender $mailer,
 			TokenGeneratorInterface $tokenGenerator,
 			UserPasswordEncoderInterface $passwordEncoder
@@ -154,7 +154,7 @@ class UserController extends AbstractController {
 	 *
 	 * @param \Symfony\Component\HttpFoundation\Request                                           $request
 	 * @param string                                                                              $token
-	 * @param \Doctrine\Common\Persistence\ObjectManager                                          $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface;                                               $manager
 	 * @param \Symfony\Component\HttpFoundation\Session\SessionInterface                          $session
 	 * @param \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $tokenStorage
 	 * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface                         $eventDispatcher
@@ -166,7 +166,7 @@ class UserController extends AbstractController {
 	public function activate (
 			Request $request,
 			string $token,
-			ObjectManager $manager,
+			EntityManagerInterface $manager,
 			SessionInterface $session,
 			TokenStorageInterface $tokenStorage,
 			EventDispatcherInterface $eventDispatcher,
@@ -221,7 +221,7 @@ class UserController extends AbstractController {
 		$tokenStorage->setToken( $token );
 		$session->set( '_security_main', serialize( $token ) );
 		$event = new InteractiveLoginEvent( $request, $token );
-		$eventDispatcher->dispatch( 'security.interactive_login', $event );
+		$eventDispatcher->dispatch( $event, 'security.interactive_login' );
 
 		// Redirect to profile
 
@@ -234,7 +234,7 @@ class UserController extends AbstractController {
 	 * @Route("/user/password", name="user_forgotten_password")
 	 *
 	 * @param \Symfony\Component\HttpFoundation\Request                               $request
-	 * @param \Doctrine\Common\Persistence\ObjectManager                              $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface;                                   $manager
 	 * @param \App\Service\EmailSender                                                $mailer
 	 * @param \Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface $tokenGenerator
 	 *
@@ -242,7 +242,7 @@ class UserController extends AbstractController {
 	 */
 	public function forgottenPassword (
 			Request $request,
-			ObjectManager $manager,
+			EntityManagerInterface $manager,
 			EmailSender $mailer,
 			TokenGeneratorInterface $tokenGenerator
 	) {
@@ -301,7 +301,7 @@ class UserController extends AbstractController {
 	 *
 	 * @param \Symfony\Component\HttpFoundation\Request                             $request
 	 * @param string                                                                $token
-	 * @param \Doctrine\Common\Persistence\ObjectManager                            $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface;                                 $manager
 	 * @param \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface $passwordEncoder
 	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
@@ -309,7 +309,7 @@ class UserController extends AbstractController {
 	public function resetPassword (
 			Request $request,
 			string $token,
-			ObjectManager $manager,
+			EntityManagerInterface $manager,
 			UserPasswordEncoderInterface $passwordEncoder
 	) {
 		if ( $request->isMethod( 'POST' ) ) {
@@ -340,12 +340,12 @@ class UserController extends AbstractController {
 	/**
 	 * @Route("/user/dashboard", name="user_dashboard")
 	 *
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface;      $manager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function dashboard (
-			ObjectManager $manager
+			EntityManagerInterface $manager
 	) {
 		$this->denyAccessUnlessGranted( UserVoter::LOGGED );
 
@@ -368,7 +368,7 @@ class UserController extends AbstractController {
 			$template,
 			$confirmation,
 			Request $request,
-			ObjectManager $manager,
+			EntityManagerInterface $manager,
 			FileManager $fileManager
 	) {
 		$this->denyAccessUnlessGranted( UserVoter::LOGGED );
@@ -434,14 +434,14 @@ class UserController extends AbstractController {
 	 * @Route("/user/profile/create", name="user_profile_create")
 	 *
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface;      $manager
 	 * @param \App\Service\FileManager                   $fileManager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function profileCreate (
 			Request $request,
-			ObjectManager $manager,
+			EntityManagerInterface $manager,
 			FileManager $fileManager
 	) {
 		return $this->profileCreateEdit(
@@ -457,14 +457,14 @@ class UserController extends AbstractController {
 	 * @Route("/user/profile/edit", name="user_profile_edit")
 	 *
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface;      $manager
 	 * @param \App\Service\FileManager                   $fileManager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function profileEdit (
 			Request $request,
-			ObjectManager $manager,
+			EntityManagerInterface $manager,
 			FileManager $fileManager
 	) {
 		return $this->profileCreateEdit(
@@ -480,7 +480,7 @@ class UserController extends AbstractController {
 	 * @Route("/user/parameters/edit", name="user_parameters_edit")
 	 *
 	 * @param \Symfony\Component\HttpFoundation\Request                               $request
-	 * @param \Doctrine\Common\Persistence\ObjectManager                              $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface;                                   $manager
 	 * @param \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface   $passwordEncoder
 	 * @param \Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface $tokenGenerator
 	 * @param \App\Service\EmailSender                                                $mailer
@@ -489,7 +489,7 @@ class UserController extends AbstractController {
 	 */
 	public function parametersEdit (
 			Request $request,
-			ObjectManager $manager,
+			EntityManagerInterface $manager,
 			UserPasswordEncoderInterface $passwordEncoder,
 			TokenGeneratorInterface $tokenGenerator,
 			EmailSender $mailer
@@ -604,13 +604,13 @@ class UserController extends AbstractController {
 	 * @Route("/user/email-change/{token}", name="user_email_confirm")
 	 *
 	 * @param string                                     $token
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface;      $manager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function emailChangeConfirm (
 			string $token,
-			ObjectManager $manager
+			EntityManagerInterface $manager
 	) {
 		$this->denyAccessUnlessGranted( UserVoter::LOGGED );
 
@@ -641,12 +641,12 @@ class UserController extends AbstractController {
 	/**
 	 * @Route("/user/groups", name="user_groups")
 	 *
-	 * @param \Doctrine\Common\Persistence\ObjectManager $manager
+	 * @param \Doctrine\ORM\EntityManagerInterface      $manager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
 	 */
 	public function userGroups (
-			ObjectManager $manager
+			EntityManagerInterface $manager
 	) {
 		$this->denyAccessUnlessGranted( UserVoter::LOGGED );
 
