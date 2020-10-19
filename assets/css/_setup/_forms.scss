@@ -232,6 +232,11 @@ input[type="submit"] {
 		padding-bottom: 0;
 	}
 
+	label a {
+		color: $color_action;
+		text-decoration: none;
+	}
+
 	input[type="checkbox"] {
 		position: absolute;
 		width:    0;

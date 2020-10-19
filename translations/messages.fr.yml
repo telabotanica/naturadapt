@@ -58,6 +58,8 @@ forms:
             label: "Votre site naturel"
             hint: "Parce que vous y travaillez, vous y habitez ou simplement si vous êtes particlièrement attaché·e à un site naturel en particulier"
             placeholder: "Exemple: Chaîne des puys…"
+        agree_tou:
+            label: "J'accepte les <a href=\"/groups/communaute/pages/charte-de-la-plateforme\" target=\"_blank\">CGU</a> et partage les valeurs de la <a href=\"/groups/plateforme-web/pages/mentions-legales\">Charte Natur'Adapt</a>"
 
     user_parameters:
         email_introduction:
@@ -394,6 +396,7 @@ messages:
         invalid_credentials: "Mot de passe incorrect"
         password_confirm_invalid: "Votre mot de passe et sa confirmation doivent être identiques"
         exists: "Cet utilisateur est déjà enregistré."
+        not_agreed_tou: "Vous devez accepter les conditions générales d'utilisation et la charte de la plateforme"
         unknown: "Cet utilisateur est inconnu."
         inactive: "Cet utilisateur est désactivé."
         not_activated: "Cet utilisateur n’a pas encore été activé."
