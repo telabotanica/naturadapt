@@ -106,10 +106,10 @@ class UserController extends AbstractController {
 			}
 
 			if ( !$request->request->get( 'agree_tou' ) ) {
-                $this->addFlash( 'error', 'messages.user.not_agreed_tou' );
+				$this->addFlash( 'error', 'messages.user.not_agreed_tou' );
 
-                return $this->redirectToRoute( 'user_login' );
-            }
+				return $this->redirectToRoute( 'user_login' );
+			}
 
 			$user = new User();
 			$user->setCreatedAt( new DateTime() );
