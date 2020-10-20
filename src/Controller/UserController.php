@@ -105,8 +105,8 @@ class UserController extends AbstractController {
 				return $this->redirectToRoute( 'user_login' );
 			}
 
-			if ( !$request->request->get( 'agree_tou' ) ) {
-				$this->addFlash( 'error', 'messages.user.not_agreed_tou' );
+			if ( !$request->request->get( 'agree_terms' ) ) {
+				$this->addFlash( 'error', 'messages.user.not_agreed_terms' );
 
 				return $this->redirectToRoute( 'user_login' );
 			}
@@ -117,7 +117,7 @@ class UserController extends AbstractController {
 			$user->setPassword( $passwordEncoder->encodePassword( $user, $request->request->get( 'password' ) ) );
 			$user->setRoles( [ User::ROLE_USER ] );
 			$user->setStatus( User::STATUS_PENDING );
-			$user->setHasAgreedTou(true);
+			$user->setHasAgreedTermsOfUse(true);
 
 			$token = $tokenGenerator->generateToken();
 			$user->setResetToken( $token );
