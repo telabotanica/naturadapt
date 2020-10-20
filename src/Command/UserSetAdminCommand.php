@@ -48,11 +48,11 @@ class UserSetAdminCommand extends Command {
 			return;
 		}
 
-        if ( $user->getStatus() !== User::STATUS_ACTIVE ) {
-            $output->writeln( 'User not active' );
+		if ( $user->getStatus() !== User::STATUS_ACTIVE ) {
+			$output->writeln( 'User not active' );
 
-            return;
-        }
+			return;
+		}
 
 		$user->setRoles( array_merge( $user->getRoles(), [ User::ROLE_ADMIN ] ) );
 		$manager->persist( $user );

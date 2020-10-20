@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Security\UserVoter;
 use App\Service\FileManager;
-use App\Service\SoftDelete;
+use App\Service\UserAnonymize;
 use App\Service\UsergroupMembersManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -81,7 +81,7 @@ class MemberController extends AbstractController {
 	 */
 	public function member (
 			$user_id,
-            EntityManagerInterface $manager
+			EntityManagerInterface $manager
 	) {
 		if ( !$this->isGranted( UserVoter::LOGGED ) ) {
 			$this->addFlash( 'notice', 'messages.user.login_requested' );
@@ -92,17 +92,17 @@ class MemberController extends AbstractController {
 		$user = $manager->getRepository( User::class )
 						->findOneBy( [ 'id' => $user_id ] );
 
-        if ( !$user ) {
-            $this->addFlash( 'error', 'messages.user.unknown' );
+		if ( !$user ) {
+			$this->addFlash( 'error', 'messages.user.unknown' );
 
-            return $this->redirectToRoute( 'homepage' );
-        }
+			return $this->redirectToRoute( 'homepage' );
+		}
 
-        if ( $user->getStatus() !== User::STATUS_ACTIVE ) {
-            $this->addFlash( 'error', 'messages.user.inactive' );
+		if ( $user->getStatus() !== User::STATUS_ACTIVE ) {
+			$this->addFlash( 'error', 'messages.user.inactive' );
 
-            return $this->redirectToRoute( 'homepage' );
-        }
+			return $this->redirectToRoute( 'homepage' );
+		}
 
 		return $this->render( 'pages/member/member-profile.html.twig', [ 'user' => $user ] );
 	}
@@ -118,7 +118,7 @@ class MemberController extends AbstractController {
 	 */
 	public function memberAvatar (
 			$user_id,
-            EntityManagerInterface $manager,
+			EntityManagerInterface $manager,
 			FileManager $fileManager
 	) {
 		$user = $manager->getRepository( User::class )
@@ -135,24 +135,22 @@ class MemberController extends AbstractController {
 		throw $this->createNotFoundException( 'User does not have an avatar' );
 	}
 
-    /**
-     * @Route("/members/{user_id}/delete", name="member_delete")
-     *
-     * @param                        $user_id
-     * @param Request                $request
-     * @param EntityManagerInterface $manager
-     * @param FileManager            $fileManager
-     * @param SoftDelete             $softDelete
-     * @return BinaryFileResponse|Response
-     */
+	/**
+	 * @Route("/members/{user_id}/delete", name="member_delete")
+	 *
+	 * @param                        $user_id
+	 * @param Request                $request
+	 * @param EntityManagerInterface $manager
+	 * @param UserAnonymize          $userAnonymize
+	 * @return BinaryFileResponse|Response
+	 */
 	public function memberDelete (
 			$user_id,
 			Request $request,
-            EntityManagerInterface $manager,
-            FileManager $fileManager,
-            SoftDelete $softDelete
+			EntityManagerInterface $manager,
+			UserAnonymize $userAnonymize
 	) {
-        $this->denyAccessUnlessGranted(User::ROLE_ADMIN);
+		$this->denyAccessUnlessGranted(User::ROLE_ADMIN);
 
 		// Delete confirmation form
 
@@ -166,25 +164,18 @@ class MemberController extends AbstractController {
 			$user = $manager->getRepository( User::class )
 							->findOneBy( [ 'id' => $user_id ] );
 
-            if ( !$user ) {
-                $this->addFlash( 'error', 'messages.user.unknown' );
+			if ( !$user ) {
+				$this->addFlash( 'error', 'messages.user.unknown' );
 
-                return $this->redirectToRoute( 'homepage' );
-            }
+				return $this->redirectToRoute( 'homepage' );
+			}
 
-            if ( $user->getStatus() === User::STATUS_DISABLED ) {
-                $this->addFlash( 'error', 'messages.user.inactive' );
+			if ( $user->getStatus() === User::STATUS_DISABLED ) {
+				$this->addFlash( 'error', 'messages.user.inactive' );
 
-                return $this->redirectToRoute( 'homepage' );
-            }
-
-            // delete file avatar
-            $avatar = $user->getAvatar();
-            if($avatar) {
-                $fileManager->deleteFile($avatar);
-                $manager->remove($avatar);
-            }
-            $softDelete->setUserDeleted($user);
+				return $this->redirectToRoute( 'homepage' );
+			}
+			$userAnonymize->anonymize();
 			$manager->flush();
 
 			$this->addFlash( 'notice', 'User deleted' );

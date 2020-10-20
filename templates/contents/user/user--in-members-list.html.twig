@@ -48,22 +48,22 @@
 						{% if not isDisabled %}
 							<li>
 								<a class="pending_set_member"
-								   href="{{ path('group_member_admin', {
-									   'groupSlug':group.slug,
-									   'userId':user.id,
-									   'status':constant('App\\Entity\\UsergroupMembership::STATUS_MEMBER')
-								   }) }}" title="{{ 'pages.member.actions.pending_set_member'|trans|escape('html_attr') }}">
+									href="{{ path('group_member_admin', {
+										'groupSlug':group.slug,
+										'userId':user.id,
+										'status':constant('App\\Entity\\UsergroupMembership::STATUS_MEMBER')
+									}) }}" title="{{ 'pages.member.actions.pending_set_member'|trans|escape('html_attr') }}">
 									<span>{{ 'pages.member.actions.pending_set_member'|trans }}</span>
 								</a>
 							</li>
 						{% endif %}
 						<li>
 							<a class="pending_set_remove"
-							   href="{{ path('group_member_admin', {
-								   'groupSlug':group.slug,
-								   'userId':user.id,
-								   'status':'remove'
-							   }) }}" title="{{ 'pages.member.actions.pending_set_remove'|trans|escape('html_attr') }}">
+								href="{{ path('group_member_admin', {
+									'groupSlug':group.slug,
+									'userId':user.id,
+									'status':'remove'
+								}) }}" title="{{ 'pages.member.actions.pending_set_remove'|trans|escape('html_attr') }}">
 								<span>{{ 'pages.member.actions.pending_remove'|trans }}</span>
 							</a>
 						</li>
@@ -74,21 +74,21 @@
 					<ul>
 						<li>
 							<a class="banned_set_member"
-							   href="{{ path('group_member_admin', {
-								   'groupSlug':group.slug,
-								   'userId':user.id,
-								   'status':constant('App\\Entity\\UsergroupMembership::STATUS_MEMBER')
-							   }) }}" title="{{ 'pages.member.actions.banned_set_member'|trans|escape('html_attr') }}">
+								href="{{ path('group_member_admin', {
+									'groupSlug':group.slug,
+									'userId':user.id,
+									'status':constant('App\\Entity\\UsergroupMembership::STATUS_MEMBER')
+								}) }}" title="{{ 'pages.member.actions.banned_set_member'|trans|escape('html_attr') }}">
 								<span>{{ 'pages.member.actions.banned_set_member'|trans }}</span>
 							</a>
 						</li>
 						<li>
 							<a class="banned_set_remove"
-							   href="{{ path('group_member_admin', {
-								   'groupSlug':group.slug,
-								   'userId':user.id,
-								   'status':'remove'
-							   }) }}" title="{{ 'pages.member.actions.banned_set_remove'|trans|escape('html_attr') }}">
+								href="{{ path('group_member_admin', {
+									'groupSlug':group.slug,
+									'userId':user.id,
+									'status':'remove'
+								}) }}" title="{{ 'pages.member.actions.banned_set_remove'|trans|escape('html_attr') }}">
 								<span>{{ 'pages.member.actions.banned_set_remove'|trans }}</span>
 							</a>
 						</li>
@@ -99,11 +99,11 @@
 					<ul>
 						<li>
 							<a class="admin_set_user"
-							   href="{{ path('group_member_admin', {
-								   'groupSlug':group.slug,
-								   'userId':user.id,
-								   'status':constant('App\\Entity\\UsergroupMembership::ROLE_USER')
-							   }) }}" title="{{ 'pages.member.actions.admin_set_user'|trans|escape('html_attr') }}">
+								href="{{ path('group_member_admin', {
+									'groupSlug':group.slug,
+									'userId':user.id,
+									'status':constant('App\\Entity\\UsergroupMembership::ROLE_USER')
+								}) }}" title="{{ 'pages.member.actions.admin_set_user'|trans|escape('html_attr') }}">
 								<span>{{ 'pages.member.actions.admin_set_user'|trans }}</span>
 							</a>
 						</li>
@@ -118,32 +118,32 @@
 						{% if not isDisabled %}
 							<li>
 								<a class="member_set_admin"
-								   href="{{ path('group_member_admin', {
-									   'groupSlug':group.slug,
-									   'userId':user.id,
-									   'status':constant('App\\Entity\\UsergroupMembership::ROLE_ADMIN')
-								   }) }}" title="{{ 'pages.member.actions.member_set_admin'|trans|escape('html_attr') }}">
+									href="{{ path('group_member_admin', {
+										'groupSlug':group.slug,
+										'userId':user.id,
+										'status':constant('App\\Entity\\UsergroupMembership::ROLE_ADMIN')
+									}) }}" title="{{ 'pages.member.actions.member_set_admin'|trans|escape('html_attr') }}">
 									<span>{{ 'pages.member.actions.member_set_admin'|trans }}</span>
 								</a>
 							</li>
 						{% endif %}
 						<li>
 							<a class="member_set_remove"
-							   href="{{ path('group_member_admin', {
-								   'groupSlug':group.slug,
-								   'userId':user.id,
-								   'status':'remove'
-							   }) }}" title="{{ 'pages.member.actions.member_set_remove'|trans|escape('html_attr') }}">
+								href="{{ path('group_member_admin', {
+									'groupSlug':group.slug,
+									'userId':user.id,
+									'status':'remove'
+								}) }}" title="{{ 'pages.member.actions.member_set_remove'|trans|escape('html_attr') }}">
 								<span>{{ 'pages.member.actions.member_set_remove'|trans }}</span>
 							</a>
 						</li>
 						<li>
 							<a class="member_set_banned"
-							   href="{{ path('group_member_admin', {
-								   'groupSlug':group.slug,
-								   'userId':user.id,
-								   'status':constant('App\\Entity\\UsergroupMembership::STATUS_BANNED')
-							   }) }}" title="{{ 'pages.member.actions.member_set_banned'|trans|escape('html_attr') }}">
+								href="{{ path('group_member_admin', {
+									'groupSlug':group.slug,
+									'userId':user.id,
+									'status':constant('App\\Entity\\UsergroupMembership::STATUS_BANNED')
+								}) }}" title="{{ 'pages.member.actions.member_set_banned'|trans|escape('html_attr') }}">
 								<span>{{ 'pages.member.actions.member_set_banned'|trans }}</span>
 							</a>
 						</li>

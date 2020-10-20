@@ -1,10 +1,5 @@
-{% set classes = ['user--name'] %}
-{% if constant('App\\Entity\\User::STATUS_ACTIVE') != logEvent.user.status %}
-	{% set classes = classes|merge(['disabled']) %}
-{% endif %}
-
 {{ ('logevents.' ~ (logEvent.type|replace({':': '_'})))|trans|format(
-	'<a class="' ~ classes|join(' ') ~ '" href="' ~ url_manager.userUrlFromId(logEvent.user.id) ~ '">' ~ logEvent.user.name ~ '</a>',
+	'<a class="' ~ getProfileLinkClasses(logEvent.user.status) ~ '" href="' ~ url_manager.userUrlFromId(logEvent.user.id) ~ '">' ~ logEvent.user.name ~ '</a>',
 	'<a class="group--name" href="' ~ url_manager.usergroupUrlFromId(logEvent.usergroup.id) ~ '">' ~ logEvent.usergroup.name ~ '</a>',
 	'<a class="article--name" href="' ~ url_manager.articleUrlFromId(logEvent.data.article) ~ '">' ~ logEvent.data.title ~ '</a>'
 )|raw }}

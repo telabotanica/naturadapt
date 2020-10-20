@@ -23,10 +23,10 @@
 						{% if not message.masked %}
 							<li>
 								<a class="hide_message"
-								   href="{{ path('group_message_hide', {
-									   'groupSlug':message.discussion.usergroup.slug,
-									   'messageId':message.id,
-								   }) }}" title="{{ 'pages.discussion.actions.hide_message'|trans|escape('html_attr') }}">
+									href="{{ path('group_message_hide', {
+										'groupSlug':message.discussion.usergroup.slug,
+										'messageId':message.id,
+									}) }}" title="{{ 'pages.discussion.actions.hide_message'|trans|escape('html_attr') }}">
 									<span>{{ 'pages.discussion.actions.hide_message'|trans }}</span>
 								</a>
 							</li>
@@ -34,10 +34,10 @@
 						{% if message.masked %}
 							<li>
 								<a class="show_message"
-								   href="{{ path('group_message_show', {
-									   'groupSlug':message.discussion.usergroup.slug,
-									   'messageId':message.id,
-								   }) }}" title="{{ 'pages.discussion.actions.show_message'|trans|escape('html_attr') }}">
+									href="{{ path('group_message_show', {
+										'groupSlug':message.discussion.usergroup.slug,
+										'messageId':message.id,
+									}) }}" title="{{ 'pages.discussion.actions.show_message'|trans|escape('html_attr') }}">
 									<span>{{ 'pages.discussion.actions.show_message'|trans }}</span>
 								</a>
 							</li>
@@ -45,10 +45,10 @@
 						{% if is_granted(constant('App\\Security\\GroupDiscussionVoter::DELETE'), message.discussion) %}
 							<li>
 								<a class="delete_message"
-								   href="{{ path('group_message_delete', {
-									   'groupSlug':message.discussion.usergroup.slug,
-									   'messageId':message.id,
-								   }) }}" title="{{ 'pages.discussion.actions.delete_message'|trans|escape('html_attr') }}">
+									href="{{ path('group_message_delete', {
+										'groupSlug':message.discussion.usergroup.slug,
+										'messageId':message.id,
+									}) }}" title="{{ 'pages.discussion.actions.delete_message'|trans|escape('html_attr') }}">
 									<span>{{ 'pages.discussion.actions.delete_message'|trans }}</span>
 								</a>
 							</li>
@@ -67,8 +67,8 @@
 					{% for file in message.files %}
 						<li class="document__teaser">
 							<a class="document-infos" data-type="{{ file.type }}"
-							   href="{{ path('file_get', {'fileId': file.id}) }}"
-							   target="_blank">
+								href="{{ path('file_get', {'fileId': file.id}) }}"
+								target="_blank">
 								<div class="document--icon">
 									<span>{{ file.name }}</span>
 								</div>

@@ -1,8 +1,5 @@
 {% set classes = ['user', 'user__in-items-list'] %}
-{% if constant('App\\Entity\\User::STATUS_ACTIVE') != user.status %}
-	{% set classes = classes|merge(['disabled']) %}
-{% endif %}
-<a class="{{ classes|join(' ') }}" href="{{ path('member', {'user_id':user.id}) }}">
+<a class="{{ getProfileLinkClasses(user.status, classes) }}" href="{{ path('member', {'user_id':user.id}) }}">
 	{% if (admin is defined) and admin %}
 		<div class="user--admin"><span>{{ 'pages.user.is_admin'|trans }}</span></div>
 	{% endif %}
