@@ -12,21 +12,38 @@
 				{% include 'components/app-flashes.html.twig' %}
 
 				<div class="narrow">
-					<h1 class="small-title">Groupes</h1>
+					<h1 class="small-title">{{ 'pages.group.groups.title'|trans }}</h1>
 
-					<p class="h1">Trouvez les groupes de discussion qui vous intéressent</p>
+					<p class="h1">{{ 'pages.group.groups.subtitle'|trans }}</p>
 
 					<p>
-						<a class="cta__white" href="{{ path('homepage') }}">En savoir plus</a>
+						<a class="cta__white" href="{{ path('homepage') }}">{{ 'ui.see_more'|trans }}</a>
 						{% if is_granted(constant('App\\Security\\GroupVoter::CREATE')) %}
-							<a class="cta__white" href="{{ path('group_new') }}">Créer un groupe</a>
+							<a class="cta__white" href="{{ path('group_new') }}">{{ 'pages.group.group_create.link'|trans }}</a>
 						{% endif %}
 					</p>
 				</div>
 			</div>
 		</div>
 		<div class="main--content content-container">
+			{% set displayableGroupsToActivate = user_group_relation.getGroupsUserCanAdmin(app.user, groupsToActivate) %}
+			{% if groupsToActivate is defined and displayableGroupsToActivate is not empty %}
+				<section class="groups-list">
+					<p class="small-title">{{ user_group_relation.isCommunityAdmin(app.user) ? 'pages.group.groups.list.pending.admins'|trans : 'pages.group.groups.list.pending.yours'|trans }}</p>
+					<ul>
+						{% for groupToActivate in displayableGroupsToActivate %}
+							<li>
+								{% include 'contents/group/group--teaser.html.twig' with {'group':groupToActivate} %}
+							</li>
+						{% endfor %}
+					</ul>
+				</section>
+			{% endif %}
+
 			<section class="groups-list">
+				{% if groupsToActivate is defined and displayableGroupsToActivate is not empty %}
+					<p class="small-title">{{ 'pages.group.groups.list.all'|trans }}</p>
+				{% endif %}
 				<ul>
 					{% for group in groups %}
 						<li>

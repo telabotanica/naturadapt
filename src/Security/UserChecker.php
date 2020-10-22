@@ -18,7 +18,7 @@ class UserChecker implements UserCheckerInterface {
 		}
 
 		if ( $user->getStatus() === User::STATUS_PENDING ) {
-			throw new CustomUserMessageAuthenticationException( 'messages.user.not_activated' );
+			throw new CustomUserMessageAuthenticationException( 'messages.user.pending' );
 		}
 	}
 

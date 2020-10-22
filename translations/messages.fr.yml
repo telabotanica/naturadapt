@@ -233,6 +233,10 @@ pages:
         is_member_unsubscribed_description: "Vous pouvez accéder au groupe mais vous ne recevez pas d’email."
         is_banned: "Vous avez été banni de ce groupe"
         is_pending: "Votre demande d’inscription est en attente"
+        delete_button: "Supprimer le groupe"
+        activation_button:
+            accept: "Accepter la création"
+            deny: "Refuser la création"
         join_button:
             public: "Rejoindre le groupe"
             private: "Demande d’inscription"
@@ -247,6 +251,12 @@ pages:
             events: "Dernières activités"
         groups:
             title: "Groupes"
+            subtitle: "Trouvez les groupes de discussion qui vous intéressent"
+            list:
+                all: "Groupes"
+                pending:
+                    yours: "Vos groupes en attente de validation"
+                    admins: "Groupes en attente de validation"
         pages:
             title: "Pages"
             empty: "Créer votre première page"
@@ -403,7 +413,7 @@ messages:
         not_agreed_terms: "Vous devez accepter les conditions générales d'utilisation et la charte de la plateforme"
         unknown: "Cet utilisateur est inconnu."
         inactive: "Cet utilisateur est désactivé."
-        not_activated: "Cet utilisateur n’a pas encore été activé."
+        pending: "Cet utilisateur n’a pas encore été activé."
         activation_sent: "Un email d’activation vous a été envoyé. Regardez votre boite de reception."
         activation_token_unknown: "Ce token est inconnu."
         activation_already_active: "Cet utilisateur est déjà activé."
@@ -433,7 +443,9 @@ messages:
         user_set_banned: "L’utilisateur a été banni du groupe."
         candidature_sent: "Votre demande a été transmise aux administrateurs du groupe."
         user_banned: "Vous avez été banni de ce groupe."
-        group_created: "Le groupe a été créé"
+        already_active: "Ce goupe a déjà été activé"
+        group_created: "Votre groupe a bien été créé, il est en cours de validation par un administrateur."
+        group_activated: "Le group a été activé"
         group_updated: "Les informations du groupe ont été mises à jour"
         group_deleted: "Le groupe a été supprimé"
 
@@ -477,6 +489,7 @@ logevents:
     user_admin: "%1$s est maintenant administrateur du groupe %2$s"
 
     group_create: "%1$s a créé le groupe %2$s"
+    group_activate: "%1$s a activé le groupe %2$s"
     group_edit: "%1$s a modifié les informations du groupe %2$s"
     group_edit_name: "%1$s a modifié le nom du groupe %2$s"
     group_edit_logo: "%1$s a modifié l’icône du groupe %2$s"

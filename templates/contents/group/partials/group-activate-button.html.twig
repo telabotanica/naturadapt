@@ -1,0 +1,8 @@
+<div class="group-activate-actions">
+	{% if user_group_relation.isCommunityAdmin(app.user) %}
+		<a class="cta" href="{{ path('group_activate', {'groupSlug':group.slug, 'mustActivate':1}) }}">{{ 'pages.group.activation_button.accept'|trans }}</a>
+		<a class="cta__inverted cta__red" href="{{ path('group_activate', {'groupSlug':group.slug, 'mustActivate':0}) }}">{{ 'pages.group.activation_button.deny'|trans }}</a>
+	{% elseif user_group_relation.isAdmin(app.user, group) %}
+		<a class="cta__inverted cta__red" href="{{ path('group_delete', {'groupSlug':group.slug})}}">{{ 'pages.group.delete_button'|trans }}</a>
+	{% endif %}
+</div>

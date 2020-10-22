@@ -14,9 +14,10 @@ class LogEvent {
 	public const USER_LEAVE    = 'user:leave';
 	public const USER_ADMIN    = 'user:admin';
 
-	public const GROUP_CREATE = 'group:create';
-	public const GROUP_EDIT   = 'group:edit';
-	public const GROUP_DELETE = 'group:delete';
+	public const GROUP_CREATE   = 'group:create';
+	public const GROUP_ACTIVATE = 'group:activate';
+	public const GROUP_EDIT     = 'group:edit';
+	public const GROUP_DELETE   = 'group:delete';
 
 	public const PAGE_CREATE = 'page:create';
 	public const PAGE_EDIT   = 'page:edit';

@@ -1,0 +1,21 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block title %}Demande d'activation d'un groupe{% endblock %}
+
+{% block preheader %}{% endblock %}
+
+{% block body %}
+	<h1>Bonjour {{ admin.displayName }},</h1>
+
+	<p>Votre demande d'activation du groupe <strong>{{ usergroup.name }}</strong>. a été {{ isActivated ? 'acceptée' : 'refusée' }}&nbsp;:</p>
+
+	{% if isActivated %}
+		<p>Vous pouvez dès à présent vous rendre sur votre nouveau groupe.</p>
+		{% include 'components/email-button.html.twig' with {'url':url, 'label':'Voir le groupe'} %}
+
+	{% else %}
+		<p>Le groupe a été supprimé.</p>
+	{% endif %}
+
+	{% include 'components/email-signature.html.twig' %}
+{% endblock %}
