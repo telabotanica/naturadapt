@@ -1,5 +1,5 @@
 {% set classes = ['user', 'user__teaser'] %}
-<a class="{{ getProfileLinkClasses(user.status, classes) }}" href="{{ path('member', {'user_id':user.id}) }}">
+<a class="{{ profileLinkClasses(user.status, classes) }}" href="{{ path('member', {'user_id':user.id}) }}">
 	{% include 'contents/user/partials/user--avatar.html.twig' with{'user':user} %}
 
 	<div class="user--infos">

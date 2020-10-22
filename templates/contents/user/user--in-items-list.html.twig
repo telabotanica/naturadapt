@@ -1,5 +1,5 @@
 {% set classes = ['user', 'user__in-items-list'] %}
-<a class="{{ getProfileLinkClasses(user.status, classes) }}" href="{{ path('member', {'user_id':user.id}) }}">
+<a class="{{ profileLinkClasses(user.status, classes) }}" href="{{ path('member', {'user_id':user.id}) }}">
 	{% if (admin is defined) and admin %}
 		<div class="user--admin"><span>{{ 'pages.user.is_admin'|trans }}</span></div>
 	{% endif %}

@@ -13,7 +13,7 @@ class ProfileLinkExtension extends AbstractExtension {
 
 	public function getFunctions () {
 		return [
-				new TwigFunction( 'userLinkClasses', [ $this, 'getProfileLinkClasses' ] ),
+				new TwigFunction( 'profileLinkClasses', [ $this, 'getProfileLinkClasses' ] ),
 		];
 	}
 
