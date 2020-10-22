@@ -22,6 +22,14 @@
 					]} %}
 				</section>
 
+				<section class="group-creation-info">
+					<p>
+						{{ 'pages.group.group_create.help.creation_info'|trans }}
+						<a href="{{ path('group_page_index', { 'groupSlug': 'plateforme-web', 'pageSlug': 'qui-peut-creer-des-groupes' }) }}">{{ 'pages.group.group_create.help.creation_info_link'|trans }}</a>
+					</p>
+					<p>{{ 'pages.group.group_create.help.creation_info'|trans }}</p>
+				</section>
+
 				<section class="group-form">
 					{% include 'forms/group/group-form.html.twig' with ({
 						'group':group,

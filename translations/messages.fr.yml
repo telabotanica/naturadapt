@@ -216,6 +216,10 @@ pages:
         group_create:
             title: "Créer un groupe"
             link: "Créer un groupe"
+            help:
+                creation_info: "Vous pouvez demander la création d'un nouveau groupe. Avant de commencer, jetez un oeil à la page"
+                creation_info_link: "Pourquoi créer un groupe ?"
+                validation_info: "Votre groupe devra être validé par un administrateur de la communauté avant d'apparaître sur le site."
             button: "Créer le groupe"
         group_edit:
             title: "Modifier le groupe"
