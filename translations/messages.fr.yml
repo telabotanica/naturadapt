@@ -59,7 +59,7 @@ forms:
             hint: "Parce que vous y travaillez, vous y habitez ou simplement si vous êtes particlièrement attaché·e à un site naturel en particulier"
             placeholder: "Exemple: Chaîne des puys…"
         agree_terms:
-            label: "J'accepte les <a href=\"/groups/communaute/pages/charte-de-la-plateforme\" target=\"_blank\">CGU</a> et partage les valeurs de la <a href=\"/groups/plateforme-web/pages/mentions-legales\">Charte Natur'Adapt</a>"
+            label: "J’accepte les <a href=\"/groups/communaute/pages/charte-de-la-plateforme\" target=\"_blank\">CGU</a> et partage les valeurs de la <a href=\"/groups/plateforme-web/pages/mentions-legales\">Charte Natur’Adapt</a>"
 
     user_parameters:
         email_introduction:
@@ -83,7 +83,7 @@ forms:
             placeholder: ""
         user_account_delete:
             title: "Supprimer mon compte"
-            informations_message: "Si vous supprimez votre compte, vos contributions sur la plateforme seront préservées mais votre nom n'apparaîtra plus. Vous ne serez plus listé dans l'annuaire des membres. Vous ne pourrez plus vous connecter."
+            informations_message: "Si vous supprimez votre compte, vos contributions sur la plateforme seront préservées mais votre nom n’apparaîtra plus. Vous ne serez plus listé dans l’annuaire des membres. Vous ne pourrez plus vous connecter."
             warning_message: "Attention, cette opération est irréversible."
 
     group:
@@ -198,7 +198,7 @@ pages:
         dashboard:
             welcome: "Bienvenue"
             hello: "Bonjour %s,"
-            slogan: "Voici l'activité récente de la communauté et de vos groupes."
+            slogan: "Voici l’activité récente de la communauté et de vos groupes."
             my_groups: "Mes groupes"
             notifications: "Notifications"
             link: "Tableau de bord"
@@ -217,9 +217,9 @@ pages:
             title: "Créer un groupe"
             link: "Créer un groupe"
             help:
-                creation_info: "Vous pouvez demander la création d'un nouveau groupe. Avant de commencer, jetez un oeil à la page"
+                creation_info: "Vous pouvez demander la création d’un nouveau groupe. Avant de commencer, jetez un œil à la page"
                 creation_info_link: "Pourquoi créer un groupe ?"
-                validation_info: "Votre groupe devra être validé par un administrateur de la communauté avant d'apparaître sur le site."
+                validation_info: "Votre groupe devra être validé par un administrateur de la communauté avant d’apparaître sur le site."
             button: "Créer le groupe"
         group_edit:
             title: "Modifier le groupe"
@@ -281,7 +281,7 @@ pages:
             title: "Bannis"
         soon:
             title: "Bientôt"
-            hint: "Cette fonction est en cours de développement, vous pourrez bientôt discuter à l'intérieur de ce groupe au sein de la plateforme et par e-mail."
+            hint: "Cette fonction est en cours de développement, vous pourrez bientôt discuter à l’intérieur de ce groupe au sein de la plateforme et par e-mail."
         events:
             title: "Activités"
 
@@ -414,7 +414,7 @@ messages:
         invalid_credentials: "Mot de passe incorrect"
         password_confirm_invalid: "Votre mot de passe et sa confirmation doivent être identiques"
         exists: "Cet utilisateur est déjà enregistré."
-        not_agreed_terms: "Vous devez accepter les conditions générales d'utilisation et la charte de la plateforme"
+        not_agreed_terms: "Vous devez accepter les conditions générales d’utilisation et la charte de la plateforme"
         unknown: "Cet utilisateur est inconnu."
         inactive: "Cet utilisateur est désactivé."
         pending: "Cet utilisateur n’a pas encore été activé."
@@ -447,9 +447,9 @@ messages:
         user_set_banned: "L’utilisateur a été banni du groupe."
         candidature_sent: "Votre demande a été transmise aux administrateurs du groupe."
         user_banned: "Vous avez été banni de ce groupe."
-        already_active: "Ce goupe a déjà été activé"
+        already_active: "Le groupe a déjà été activé"
         group_created: "Votre groupe a bien été créé, il est en cours de validation par un administrateur."
-        group_activated: "Le group a été activé"
+        group_activated: "Le groupe a été activé"
         group_updated: "Les informations du groupe ont été mises à jour"
         group_deleted: "Le groupe a été supprimé"
 
@@ -522,4 +522,4 @@ logevents:
 
 database_data:
     user:
-        user_deleted_name: 'Ancien utilisateur n°%1$d'
+        user_deleted_name: "Ancien utilisateur n°%1$d"

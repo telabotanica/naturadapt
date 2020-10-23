@@ -1,6 +1,6 @@
 {% extends 'emails/base.html.twig' %}
 
-{% block title %}Demande d'activation d'un groupe{% endblock %}
+{% block title %}Demande d’activation d’un groupe{% endblock %}
 
 {% block preheader %}{% endblock %}
 
@@ -12,7 +12,7 @@
 	{% include 'components/email-button.html.twig' with {'url':url, 'label':'Modérer la création d’un groupe'} %}
 
 	{% if multiple %}
-		<p>Si vous ne voyez pas de bouton pour accepter ou refuser la création du groupe, il est possible qu'un autre administrateur ait déjà répondu à cette demande.</p>
+		<p>Si vous ne voyez pas de bouton pour accepter ou refuser la création du groupe, il est possible qu’un autre administrateur ait déjà répondu à cette demande.</p>
 	{% endif %}
 
 	{% include 'components/email-signature.html.twig' %}
