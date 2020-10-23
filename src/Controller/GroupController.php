@@ -8,15 +8,20 @@ use App\Entity\Usergroup;
 use App\Entity\UsergroupMembership;
 use App\Form\UsergroupType;
 use App\Security\GroupVoter;
+use App\Security\UserVoter;
 use App\Service\Community;
+use App\Service\EmailSender;
 use App\Service\FileManager;
 use App\Service\SlugGenerator;
+use App\Service\UserGroupRelation;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class GroupController extends AbstractController {
 	/**************************************************
@@ -31,14 +36,17 @@ class GroupController extends AbstractController {
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function groupsIndex (
-        EntityManagerInterface $manager,
-        Community $community
+		EntityManagerInterface $manager,
+		Community $community
 	) {
-		$groups = $manager->getRepository( Usergroup::class )
-						  ->getGroupsWithMembers( $community->getGroup() );
+		$groupsManager = $manager->getRepository( Usergroup::class );
+
+		$groups = $groupsManager->getGroupsWithMembers( $community->getGroup(), true );
+		$groupsToActivate = $groupsManager->getGroupsWithMembers( false, false );
 
 		return $this->render( 'pages/group/groups-index.html.twig', [
 				'groups' => $groups,
+				'groupsToActivate' => $groupsToActivate,
 		] );
 	}
 
@@ -48,19 +56,26 @@ class GroupController extends AbstractController {
 
 	/**
 	 * @Route("/groups/new", name="group_new")
-	 * @param \Symfony\Component\HttpFoundation\Request  $request
-	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
-	 * @param \App\Service\FileManager                   $fileManager
-	 * @param \App\Service\SlugGenerator                 $slugGenerator
+	 *
+	 * @param \Symfony\Component\HttpFoundation\Request $request
+	 * @param \Doctrine\ORM\EntityManagerInterface      $manager
+	 * @param \App\Service\FileManager                  $fileManager
+	 * @param \App\Service\SlugGenerator                $slugGenerator
+	 * @param \App\Service\Community                    $community
+	 * @param \App\Service\UserGroupRelation            $userGroupRelation
+	 * @param \App\Service\EmailSender                  $mailer
 	 *
 	 * @return string
 	 * @throws \Exception
 	 */
 	public function groupNew (
 			Request $request,
-            EntityManagerInterface $manager,
+			EntityManagerInterface $manager,
 			FileManager $fileManager,
-			SlugGenerator $slugGenerator
+			SlugGenerator $slugGenerator,
+			Community $community,
+			UserGroupRelation $userGroupRelation,
+			EmailSender $mailer
 	) {
 		$this->denyAccessUnlessGranted( GroupVoter::CREATE );
 
@@ -68,6 +83,8 @@ class GroupController extends AbstractController {
 		 * @var \App\Entity\User $user
 		 */
 		$user = $this->getUser();
+
+		$doActivate = $userGroupRelation->isCommunityAdmin( $user );
 
 		/**
 		 * @var \App\Entity\Usergroup $group
@@ -81,6 +98,7 @@ class GroupController extends AbstractController {
 		if ( $form->isSubmitted() && $form->isValid() ) {
 			$group->setSlug( $slugGenerator->generateSlug( $group->getName(), Usergroup::class, 'slug' ) );
 			$group->setCreatedAt( new DateTime() );
+			$group->setIsActive( $doActivate );
 
 			$manager->persist( $group );
 
@@ -144,7 +162,37 @@ class GroupController extends AbstractController {
 
 			$this->addFlash( 'notice', 'messages.group.group_created' );
 
-			return $this->redirectToRoute( 'group_index', [ 'groupSlug' => $group->getSlug() ] );
+			if ( $doActivate ) {
+				$this->redirectToRoute( 'group_activate', [ 'groupSlug' => $group->getSlug(), 'doActivate' => TRUE ] );
+			} else {
+
+				$communityAdmins = $community->getGroup()->getMembersByRole( UsergroupMembership::ROLE_ADMIN );
+				$multiple = count( $communityAdmins ) > 1;
+
+				foreach ( $communityAdmins as $communityAdminMembership ) {
+					$communityAdmin = $communityAdminMembership->getUser();
+
+					$message = $this->renderView(
+						'emails/usergroup-activation.html.twig',
+						[
+							'admin'     => $communityAdmin,
+							'user'      => $user,
+							'usergroup' => $group,
+							'url'       => $this->generateUrl( 'group_index', [ 'groupSlug' => $group->getSlug() ], UrlGeneratorInterface::ABSOLUTE_URL ),
+							'multiple'  => $multiple,
+						]
+					);
+
+					$mailer->send(
+						[ $this->getParameter( 'plateform' )[ 'from' ] => $this->getParameter( 'plateform' )[ 'name' ] ],
+						$communityAdmin->getEmail(),
+						$mailer->getSubjectFromTitle( $message ),
+						$message
+					);
+				}
+			}
+
+			return $this->redirectToRoute( 'groups_index' );
 		}
 
 		return $this->render( 'pages/group/group-create.html.twig', [
@@ -154,7 +202,94 @@ class GroupController extends AbstractController {
 	}
 
 	/**
+	 * @Route("/groups/activate/{groupSlug}/action/{doActivate}", name="group_activate")
+	 *
+	 * @param                                      $groupSlug
+	 * @param                                      $doActivate
+	 * @param \Doctrine\ORM\EntityManagerInterface $manager
+	 * @param \App\Service\UserGroupRelation       $userGroupRelation
+	 * @param \App\Service\EmailSender             $mailer
+
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 * @throws \Exception
+	 */
+	public function groupActivate (
+		$groupSlug,
+		$doActivate,
+		EntityManagerInterface $manager,
+		UserGroupRelation $userGroupRelation,
+		EmailSender $mailer
+	) {
+		if (!$this->isGranted(UserVoter::LOGGED)) {
+			return $this->redirectToRoute('user_login');
+		}
+
+		if ( !$userGroupRelation->isCommunityAdmin( $this->getUser() ) ) {
+			throw new AccessDeniedHttpException( 'Your are not allowed to activate groups' );
+		}
+
+		$group = $manager->getRepository( Usergroup::class )
+			->findOneBy( [ 'slug' => $groupSlug ] );
+
+		if ( !$group ) {
+			throw $this->createNotFoundException( 'The group does not exist' );
+		}
+
+		if ( $group->getIsActive() ) {
+			$this->addFlash('error', 'messages.group.already_active');
+
+			return $this->redirectToRoute( 'group_index', [ 'groupSlug' => $groupSlug ] );
+		}
+
+		if ( !$doActivate ) {
+
+			return $this->redirectToRoute( 'group_delete', [ 'groupSlug' => $groupSlug ] );
+		} else {
+			$group->setIsActive( true );
+			$manager->flush();
+		}
+
+		$admins = $group->getMembersByRole( UsergroupMembership::ROLE_ADMIN );
+		foreach ( $admins as $adminMembership ) {
+			$admin = $adminMembership->getUser();
+
+			$message = $this->renderView(
+				'emails/usergroup-activation_answer.html.twig',
+				[
+					'admin'       => $admin,
+					'usergroup'   => $group,
+					'isActivated' => $doActivate,
+					'url'         => $this->generateUrl( 'group_index', [ 'groupSlug' => $groupSlug ], UrlGeneratorInterface::ABSOLUTE_URL ),
+				]
+			);
+
+			$mailer->send(
+				[ $this->getParameter( 'plateform' )[ 'from' ] => $this->getParameter( 'plateform' )[ 'name' ] ],
+				$admin->getEmail(),
+				$mailer->getSubjectFromTitle( $message ),
+				$message
+			);
+		}
+
+		// Log Event
+
+		$log = new LogEvent();
+		$log->setType( LogEvent::GROUP_ACTIVATE );
+		$log->setUser( $this->getUser() );
+		$log->setUsergroup( $group );
+		$log->setCreatedAt( new DateTime() );
+		$log->setData( [ 'name' => $group->getName() ] );
+		$manager->persist( $log );
+		$manager->flush();
+
+		$this->addFlash( 'notice', 'messages.group.group_activated' );
+
+		return $this->redirectToRoute( 'groups_index' );
+	}
+
+	/**
 	 * @Route("/groups/{groupSlug}/edit", name="group_edit")
+	 *
 	 * @param                                            $groupSlug
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
 	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
@@ -166,7 +301,7 @@ class GroupController extends AbstractController {
 	public function groupEdit (
 			$groupSlug,
 			Request $request,
-            EntityManagerInterface $manager,
+			EntityManagerInterface $manager,
 			FileManager $fileManager
 	) {
 		/**
@@ -280,20 +415,39 @@ class GroupController extends AbstractController {
 
 	/**
 	 * @Route("/groups/{groupSlug}", name="group_index")
+	 *
 	 * @param                                            $groupSlug
 	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
+	 * @param \App\Service\UserGroupRelation             $userGroupRelation
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function groupIndex ( $groupSlug, EntityManagerInterface $manager ) {
+	public function groupIndex (
+			$groupSlug,
+			EntityManagerInterface $manager,
+			UserGroupRelation $userGroupRelation
+	) {
 		/**
 		 * @var $group \App\Entity\Usergroup
 		 */
 		$group = $manager->getRepository( Usergroup::class )
 						 ->findOneBy( [ 'slug' => $groupSlug ] );
 
+		/**
+		 * @var $user \App\Entity\User
+		 */
+		$user = $this->getUser();
+
 		if ( !$group ) {
 			throw $this->createNotFoundException( 'The group does not exist' );
+		}
+
+		if (
+			!$group->getIsActive()
+			&& !$userGroupRelation->isCommunityAdmin( $user )
+			&& !$userGroupRelation->isAdmin( $user, $group )
+		) {
+			throw new AccessDeniedHttpException( 'You are not allowed to access pending groups' );
 		}
 
 		// Viewing rights is tested in the template
@@ -303,6 +457,7 @@ class GroupController extends AbstractController {
 
 	/**
 	 * @Route("/groups/{groupSlug}/delete", name="group_delete")
+	 *
 	 * @param                                            $groupSlug
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
 	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
@@ -314,7 +469,7 @@ class GroupController extends AbstractController {
 	public function groupDelete (
 			$groupSlug,
 			Request $request,
-            EntityManagerInterface $manager,
+			EntityManagerInterface $manager,
 			FileManager $fileManager
 	) {
 		/**

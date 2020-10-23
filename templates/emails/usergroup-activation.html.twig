@@ -1,0 +1,19 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block title %}Demande d’activation d’un groupe{% endblock %}
+
+{% block preheader %}{% endblock %}
+
+{% block body %}
+	<h1>Bonjour {{ admin.displayName }},</h1>
+
+	<p>{{ user.name }} a créé le groupe <strong>{{ usergroup.name }}</strong>. Rendez-vous sur la page du groupe pour accepter ou décliner son activation&nbsp;:</p>
+
+	{% include 'components/email-button.html.twig' with {'url':url, 'label':'Modérer la création d’un groupe'} %}
+
+	{% if multiple %}
+		<p>Si vous ne voyez pas de bouton pour accepter ou refuser la création du groupe, il est possible qu’un autre administrateur ait déjà répondu à cette demande.</p>
+	{% endif %}
+
+	{% include 'components/email-signature.html.twig' %}
+{% endblock %}

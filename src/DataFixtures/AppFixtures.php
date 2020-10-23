@@ -88,6 +88,7 @@ class AppFixtures extends Fixture {
 			$group->setPresentation( '<p>' . implode( '</p><p>', $faker->paragraphs( 10 ) ) . '</p>' );
 			$group->setVisibility( empty( rand( 0, 1 ) ) ? Usergroup::PRIVATE : Usergroup::PUBLIC );
 			$group->setCreatedAt( new \DateTime() );
+			$group->setIsActive(true);
 
 			$manager->persist( $group );
 			$manager->flush();

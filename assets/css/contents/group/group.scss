@@ -289,6 +289,10 @@
 		padding: 1rem;
 	}
 
+	.group-activate {
+		@extend .group-join;
+	}
+
 	.main--header + .main--content .group-join {
 		@include card_shadow;
 	}
@@ -307,6 +311,16 @@
 		margin-bottom:  padding_vertical();
 		padding-bottom: padding_vertical();
 		border-bottom:  1px solid $color_grey_border;
+	}
+
+	.group-activate-actions {
+		@extend .group-member-status;
+		display:        flex;
+		flex-direction: column;
+
+		a:not(:first-of-type) {
+			margin-top: 0.5rem;
+		}
 	}
 
 	.group-tabs {

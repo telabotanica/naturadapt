@@ -9,3 +9,5 @@ twig:
         user_group_relation: '@App\Service\UserGroupRelation'
         url_manager: '@App\Service\UrlManager'
         hash_generator: '@App\Service\HashGenerator'
+        plateform_group_slug: '%env(string:PLATEFORM_GROUP_SLUG)%'
+        group_creation_help_page: '%env(string:GROUP_CREATION_HELP_PAGE)%'
