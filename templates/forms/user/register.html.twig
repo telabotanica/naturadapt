@@ -8,6 +8,12 @@
 			<label for="register-form-password">{{ 'forms.user.password.label'|trans }}</label>
 			<input id="register-form-password" type="password" name="password" placeholder="{{ 'forms.user.password.placeholder'|trans }}" required>
 		</div>
+		<div class="form-row form-row__field">
+			<div class="form-row__checkboxes">
+				<input id="register-form-agree_terms" type="checkbox" name="agree_terms">
+				<label for="register-form-agree_terms">{{ 'forms.user.agree_terms.label'|trans|raw }}</label>
+			</div>
+		</div>
 	</div>
 	<div class="form-row form-row__submit">
 		<input type="hidden" name="action" value="register">

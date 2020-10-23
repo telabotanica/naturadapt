@@ -107,12 +107,19 @@ class UserController extends AbstractController {
 				return $this->redirectToRoute( 'user_login' );
 			}
 
+			if ( !$request->request->get( 'agree_terms' ) ) {
+				$this->addFlash( 'error', 'messages.user.not_agreed_terms' );
+
+				return $this->redirectToRoute( 'user_login' );
+			}
+
 			$user = new User();
 			$user->setCreatedAt( new DateTime() );
 			$user->setEmail( $request->request->get( 'email' ) );
 			$user->setPassword( $passwordEncoder->encodePassword( $user, $request->request->get( 'password' ) ) );
 			$user->setRoles( [ User::ROLE_USER ] );
 			$user->setStatus( User::STATUS_PENDING );
+			$user->setHasAgreedTermsOfUse(true);
 
 			$token = $tokenGenerator->generateToken();
 			$user->setResetToken( $token );

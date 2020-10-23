@@ -162,6 +162,13 @@ class User implements UserInterface {
 	 */
 	private $emailToken;
 
+	/**
+	 * Terms Of Use
+	 *
+	 * @ORM\Column(type="boolean", options={"default":"0"})
+	 */
+	private $hasAgreedTermsOfUse;
+
 	public function __construct () {
 		$this->usergroupMemberships = new ArrayCollection();
 		$this->skills               = new ArrayCollection();
@@ -518,6 +525,16 @@ class User implements UserInterface {
 
 	public function setEmailToken ( ?string $emailToken ): self {
 		$this->emailToken = $emailToken;
+
+		return $this;
+	}
+
+	public function getHasAgreedTermsOfUse (): bool {
+		return $this->hasAgreedTermsOfUse;
+	}
+
+	public function setHasAgreedTermsOfUse ( ?bool $hasAgreedTermsOfUse ): self {
+		$this->hasAgreedTermsOfUse = $hasAgreedTermsOfUse ?? false;
 
 		return $this;
 	}
