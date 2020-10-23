@@ -42,7 +42,7 @@ class GroupDiscussionsController extends AbstractController {
 	 */
 	public function groupDiscussionsIndex (
 			$groupSlug,
-            EntityManagerInterface $manager
+			EntityManagerInterface $manager
 	) {
 		/**
 		 * @var \App\Entity\Usergroup $group
@@ -81,7 +81,7 @@ class GroupDiscussionsController extends AbstractController {
 	public function groupDiscussionNew (
 			$groupSlug,
 			Request $request,
-            EntityManagerInterface $manager,
+			EntityManagerInterface $manager,
 			FileManager $fileManager,
 			UrlGeneratorInterface $router,
 			DiscussionSender $sender
@@ -194,7 +194,7 @@ class GroupDiscussionsController extends AbstractController {
 			$groupSlug,
 			$discussionUuid,
 			Request $request,
-            EntityManagerInterface $manager,
+			EntityManagerInterface $manager,
 			FileManager $fileManager,
 			UrlGeneratorInterface $router,
 			DiscussionSender $sender
@@ -309,7 +309,7 @@ class GroupDiscussionsController extends AbstractController {
 			$groupSlug,
 			$discussionUuid,
 			Request $request,
-            EntityManagerInterface $manager,
+			EntityManagerInterface $manager,
 			FileManager $fileManager
 	) {
 		/**
@@ -392,7 +392,7 @@ class GroupDiscussionsController extends AbstractController {
 			$groupSlug,
 			$messageId,
 			Request $request,
-            EntityManagerInterface $manager,
+			EntityManagerInterface $manager,
 			FileManager $fileManager
 	) {
 		/**
@@ -457,7 +457,7 @@ class GroupDiscussionsController extends AbstractController {
 	public function groupMessageHide (
 			$groupSlug,
 			$messageId,
-            EntityManagerInterface $manager
+			EntityManagerInterface $manager
 	) {
 		/**
 		 * @var \App\Entity\Usergroup $group
@@ -506,7 +506,7 @@ class GroupDiscussionsController extends AbstractController {
 	public function groupMessageShow (
 			$groupSlug,
 			$messageId,
-            EntityManagerInterface $manager
+			EntityManagerInterface $manager
 	) {
 		/**
 		 * @var \App\Entity\Usergroup $group
@@ -557,7 +557,7 @@ class GroupDiscussionsController extends AbstractController {
 	public function webserviceInbound (
 			$key,
 			Request $request,
-            EntityManagerInterface $manager,
+			EntityManagerInterface $manager,
 			FileManager $fileManager,
 			DiscussionSender $sender
 	) {
@@ -575,11 +575,11 @@ class GroupDiscussionsController extends AbstractController {
 		$emailBody = !empty( $data[ 'StrippedTextBody' ] )
 				? $data[ 'StrippedTextBody' ]
 				: (
-				    !empty( $data[ 'TextBody' ] )
+					!empty( $data[ 'TextBody' ] )
 						? $data[ 'TextBody' ]
 						: strip_tags( $data[ 'HtmlBody' ] )
-                )
-        ;
+				)
+		;
 
 		// Replace nobreaking space with simple space
 		$emailBody = str_replace( "\u{00a0}", ' ', $emailBody );
@@ -595,6 +595,10 @@ class GroupDiscussionsController extends AbstractController {
 
 		if ( !$user ) {
 			return new JsonResponse( [ 'status' => 'The user does not exist' ] );
+		}
+
+		if ( $user->getStatus() !== User::STATUS_ACTIVE ) {
+			return new JsonResponse( [ 'status' => 'The user is disabled' ] );
 		}
 
 		/**
@@ -712,8 +716,8 @@ class GroupDiscussionsController extends AbstractController {
 	public function groupNotifications (
 			$groupSlug,
 			$status,
-            EntityManagerInterface $manager,
-            HashGenerator $hashGenerator,
+			EntityManagerInterface $manager,
+			HashGenerator $hashGenerator,
 			$redirect = 'group',
 			$hash = ''
 	) {

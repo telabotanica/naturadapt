@@ -5,11 +5,14 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Security\UserVoter;
 use App\Service\FileManager;
+use App\Service\UserAnonymize;
 use App\Service\UsergroupMembersManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class MemberController extends AbstractController {
@@ -78,7 +81,7 @@ class MemberController extends AbstractController {
 	 */
 	public function member (
 			$user_id,
-            EntityManagerInterface $manager
+			EntityManagerInterface $manager
 	) {
 		if ( !$this->isGranted( UserVoter::LOGGED ) ) {
 			$this->addFlash( 'notice', 'messages.user.login_requested' );
@@ -88,6 +91,18 @@ class MemberController extends AbstractController {
 
 		$user = $manager->getRepository( User::class )
 						->findOneBy( [ 'id' => $user_id ] );
+
+		if ( !$user ) {
+			$this->addFlash( 'error', 'messages.user.unknown' );
+
+			return $this->redirectToRoute( 'homepage' );
+		}
+
+		if ( $user->getStatus() !== User::STATUS_ACTIVE ) {
+			$this->addFlash( 'error', 'messages.user.inactive' );
+
+			return $this->redirectToRoute( 'homepage' );
+		}
 
 		return $this->render( 'pages/member/member-profile.html.twig', [ 'user' => $user ] );
 	}
@@ -103,7 +118,7 @@ class MemberController extends AbstractController {
 	 */
 	public function memberAvatar (
 			$user_id,
-            EntityManagerInterface $manager,
+			EntityManagerInterface $manager,
 			FileManager $fileManager
 	) {
 		$user = $manager->getRepository( User::class )
@@ -123,20 +138,19 @@ class MemberController extends AbstractController {
 	/**
 	 * @Route("/members/{user_id}/delete", name="member_delete")
 	 *
-	 * @param                                            $user_id
-	 * @param \Symfony\Component\HttpFoundation\Request  $request
-	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
-	 *
-	 * @return \Symfony\Component\HttpFoundation\BinaryFileResponse|\Symfony\Component\HttpFoundation\Response
+	 * @param                        $user_id
+	 * @param Request                $request
+	 * @param EntityManagerInterface $manager
+	 * @param UserAnonymize          $userAnonymize
+	 * @return BinaryFileResponse|Response
 	 */
 	public function memberDelete (
 			$user_id,
 			Request $request,
-            EntityManagerInterface $manager
+			EntityManagerInterface $manager,
+			UserAnonymize $userAnonymize
 	) {
-		if ( !$this->getUser() || !$this->getUser()->isAdmin() ) {
-			return $this->redirectToRoute( 'homepage' );
-		}
+		$this->denyAccessUnlessGranted(User::ROLE_ADMIN);
 
 		// Delete confirmation form
 
@@ -150,7 +164,18 @@ class MemberController extends AbstractController {
 			$user = $manager->getRepository( User::class )
 							->findOneBy( [ 'id' => $user_id ] );
 
-			$manager->remove( $user );
+			if ( !$user ) {
+				$this->addFlash( 'error', 'messages.user.unknown' );
+
+				return $this->redirectToRoute( 'homepage' );
+			}
+
+			if ( $user->getStatus() === User::STATUS_DISABLED ) {
+				$this->addFlash( 'error', 'messages.user.inactive' );
+
+				return $this->redirectToRoute( 'homepage' );
+			}
+			$userAnonymize->anonymize();
 			$manager->flush();
 
 			$this->addFlash( 'notice', 'User deleted' );
