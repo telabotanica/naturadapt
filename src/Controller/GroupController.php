@@ -84,7 +84,7 @@ class GroupController extends AbstractController {
 		 */
 		$user = $this->getUser();
 
-		$mustActivate = $userGroupRelation->isCommunityAdmin( $user );
+		$doActivate = $userGroupRelation->isCommunityAdmin( $user );
 
 		/**
 		 * @var \App\Entity\Usergroup $group
@@ -98,7 +98,7 @@ class GroupController extends AbstractController {
 		if ( $form->isSubmitted() && $form->isValid() ) {
 			$group->setSlug( $slugGenerator->generateSlug( $group->getName(), Usergroup::class, 'slug' ) );
 			$group->setCreatedAt( new DateTime() );
-			$group->setIsActive( $mustActivate );
+			$group->setIsActive( $doActivate );
 
 			$manager->persist( $group );
 
@@ -162,8 +162,8 @@ class GroupController extends AbstractController {
 
 			$this->addFlash( 'notice', 'messages.group.group_created' );
 
-			if ( $mustActivate ) {
-				$this->redirectToRoute( 'group_activate', [ 'groupSlug' => $group->getSlug(), 'mustActivate' => TRUE ] );
+			if ( $doActivate ) {
+				$this->redirectToRoute( 'group_activate', [ 'groupSlug' => $group->getSlug(), 'doActivate' => TRUE ] );
 			} else {
 
 				$communityAdmins = $community->getGroup()->getMembersByRole( UsergroupMembership::ROLE_ADMIN );
@@ -202,10 +202,10 @@ class GroupController extends AbstractController {
 	}
 
 	/**
-	 * @Route("/groups/activate/{groupSlug}/action/{mustActivate}", name="group_activate")
+	 * @Route("/groups/activate/{groupSlug}/action/{doActivate}", name="group_activate")
 	 *
 	 * @param                                      $groupSlug
-	 * @param                                      $mustActivate
+	 * @param                                      $doActivate
 	 * @param \Doctrine\ORM\EntityManagerInterface $manager
 	 * @param \App\Service\UserGroupRelation       $userGroupRelation
 	 * @param \App\Service\EmailSender             $mailer
@@ -215,7 +215,7 @@ class GroupController extends AbstractController {
 	 */
 	public function groupActivate (
 		$groupSlug,
-		$mustActivate,
+		$doActivate,
 		EntityManagerInterface $manager,
 		UserGroupRelation $userGroupRelation,
 		EmailSender $mailer
@@ -241,7 +241,7 @@ class GroupController extends AbstractController {
 			return $this->redirectToRoute( 'group_index', [ 'groupSlug' => $groupSlug ] );
 		}
 
-		if ( !$mustActivate ) {
+		if ( !$doActivate ) {
 
 			return $this->redirectToRoute( 'group_delete', [ 'groupSlug' => $groupSlug ] );
 		} else {
@@ -258,7 +258,7 @@ class GroupController extends AbstractController {
 				[
 					'admin'       => $admin,
 					'usergroup'   => $group,
-					'isActivated' => $mustActivate,
+					'isActivated' => $doActivate,
 					'url'         => $this->generateUrl( 'group_index', [ 'groupSlug' => $groupSlug ], UrlGeneratorInterface::ABSOLUTE_URL ),
 				]
 			);
