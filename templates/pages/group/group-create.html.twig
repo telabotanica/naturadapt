@@ -23,11 +23,13 @@
 				</section>
 
 				<section class="group-creation-info">
-					<p>
-						{{ 'pages.group.group_create.help.creation_info'|trans }}
-						<a href="{{ path('group_page_index', { 'groupSlug': 'plateforme-web', 'pageSlug': 'qui-peut-creer-des-groupes' }) }}">{{ 'pages.group.group_create.help.creation_info_link'|trans }}</a>
-					</p>
-					<p>{{ 'pages.group.group_create.help.creation_info'|trans }}</p>
+					{% if plateform_group_slug is not empty and group_creation_help_page is not empty %}
+						<p>
+							{{ 'pages.group.group_create.help.creation_info'|trans }}
+							<a href="{{ path('group_page_index', { 'groupSlug': plateform_group_slug, 'pageSlug': group_creation_help_page }) }}">{{ 'pages.group.group_create.help.creation_info_link'|trans }}</a>
+						</p>
+					{% endif %}
+					<p>{{ 'pages.group.group_create.help.validation_info'|trans }}</p>
 				</section>
 
 				<section class="group-form">
