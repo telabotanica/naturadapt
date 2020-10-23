@@ -23,10 +23,10 @@
 				</section>
 
 				<section class="group-creation-info">
-					{% if plateform_group_slug is not empty and group_creation_help_page is not empty %}
+					{% if group_creation_help.group_slug is not empty and group_creation_help.page is not empty %}
 						<p>
 							{{ 'pages.group.group_create.help.creation_info'|trans }}
-							<a href="{{ path('group_page_index', { 'groupSlug': plateform_group_slug, 'pageSlug': group_creation_help_page }) }}">{{ 'pages.group.group_create.help.creation_info_link'|trans }}</a>
+							<a href="{{ path('group_page_index', { 'groupSlug': group_creation_help.group_slug, 'pageSlug': group_creation_help.page }) }}">{{ 'pages.group.group_create.help.creation_info_link'|trans }}</a>
 						</p>
 					{% endif %}
 					<p>{{ 'pages.group.group_create.help.validation_info'|trans }}</p>

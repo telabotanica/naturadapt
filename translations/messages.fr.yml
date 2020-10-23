@@ -59,7 +59,11 @@ forms:
             hint: "Parce que vous y travaillez, vous y habitez ou simplement si vous êtes particlièrement attaché·e à un site naturel en particulier"
             placeholder: "Exemple: Chaîne des puys…"
         agree_terms:
-            label: "J’accepte les <a href=\"/groups/communaute/pages/charte-de-la-plateforme\" target=\"_blank\">CGU</a> et partage les valeurs de la <a href=\"/groups/plateforme-web/pages/mentions-legales\">Charte Natur’Adapt</a>"
+            label:
+                agree: "J’accepte les "
+                terms_of_use: "CGU"
+                share_values: " et partage les valeurs de la "
+                charter: "Charte Natur’Adapt"
 
     user_parameters:
         email_introduction:

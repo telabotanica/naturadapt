@@ -11,7 +11,27 @@
 		<div class="form-row form-row__field">
 			<div class="form-row__checkboxes">
 				<input id="register-form-agree_terms" type="checkbox" name="agree_terms">
-				<label for="register-form-agree_terms">{{ 'forms.user.agree_terms.label'|trans|raw }}</label>
+				<label for="register-form-agree_terms">
+					{{ 'forms.user.agree_terms.label.agree'|trans|raw }}
+
+					{% if terms_of_use.group_slug is not empty and terms_of_use.page is not empty %}
+						<a href="{{ path('group_page_index', { 'groupSlug': terms_of_use.group_slug, 'pageSlug': terms_of_use.page }) }}" target="_blank">
+							{{ 'forms.user.agree_terms.label.terms_of_use'|trans|raw }}
+						</a>
+					{% else %}
+						{{ 'forms.user.agree_terms.label.terms_of_use'|trans|raw }}
+					{% endif %}
+
+					{{ 'forms.user.agree_terms.label.share_values'|trans|raw }}
+
+					{% if plateform_charter.group_slug is not empty and plateform_charter.page is not empty %}
+						<a href="{{ path('group_page_index', { 'groupSlug': plateform_charter.group_slug, 'pageSlug': plateform_charter.page }) }}" target="_blank">
+							{{ 'forms.user.agree_terms.label.charter'|trans|raw }}
+						</a>
+					{% else %}
+						{{ 'forms.user.agree_terms.label.charter'|trans|raw }}
+					{% endif %}
+				</label>
 			</div>
 		</div>
 	</div>
