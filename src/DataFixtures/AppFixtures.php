@@ -50,6 +50,7 @@ class AppFixtures extends Fixture {
 
             $user->setCountry( substr( $country, 3, 2 ) );
             $user->setInscriptionType( $inscriptionTypes[ rand( 0, count( $inscriptionTypes ) - 1 ) ] );
+            $user->setHasAgreedTermsOfUse(true);
 
             $manager->persist( $user );
             $manager->flush();
