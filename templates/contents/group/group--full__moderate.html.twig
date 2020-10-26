@@ -6,9 +6,21 @@
 		<div class="panel">
 			{% include 'contents/group/partials/group-infos.html.twig' with {'group':group} %}
 
+
+
 			<div class="group-activate">
 				{% include 'contents/group/partials/group-activate-button.html.twig' with {'group':group} %}
 				{% include 'contents/group/partials/group-members--tiny.html.twig' with {'group':group} %}
+			</div>
+		</div>
+		<div class="group-description">
+			<div class="group-description-text">
+				<p>{{ group.description }}</p>
+
+				{% if group.presentation is not empty %}
+					<button class="cta__inverted" type="button" data-see-more>{{ 'ui.see_more'|trans }}</button>
+					<div class="wysiwyg-content" aria-hidden="true">{{ group.presentation|raw }}</div>
+				{% endif %}
 			</div>
 		</div>
 	</div>
