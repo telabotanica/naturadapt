@@ -20,8 +20,8 @@
 		<ul aria-expanded="false">
 			<li><a href="{{ path('homepage') }}">À propos de la plateforme</a></li>
 			<li><a href="{{ path('groups_index') }}">Groupes</a></li>
-			{% if resources.group_slug is not empty and resources.page is not empty %}
-				<li><a href="{{ path('group_page_index', { 'groupSlug': resources.group_slug, 'pageSlug': resources.page }) }}">Ressources</a></li>
+			{% if resources.group_slug is not empty and resources.page_slug is not empty %}
+				<li><a href="{{ path('group_page_index', { 'groupSlug': resources.group_slug, 'pageSlug': resources.page_slug }) }}">Ressources</a></li>
 			{% endif %}
 			<li><a href="{{ path('members') }}">Annuaire</a></li>
 		</ul>

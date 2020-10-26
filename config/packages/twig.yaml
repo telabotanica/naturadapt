@@ -9,15 +9,15 @@ twig:
         user_group_relation: '@App\Service\UserGroupRelation'
         url_manager: '@App\Service\UrlManager'
         hash_generator: '@App\Service\HashGenerator'
-        plateform_charter:
-            group_slug:  '%env(string:PLATEFORM_CHARTER_PAGE_GROUP_SLUG)%'
-            page: '%env(string:PLATEFORM_CHARTER_PAGE)%'
+        platform_charter:
+            group_slug:  '%env(string:PLATFORM_CHARTER_PAGE_GROUP_SLUG)%'
+            page_slug: '%env(string:PLATFORM_CHARTER_PAGE_SLUG)%'
         terms_of_use:
             group_slug:  '%env(string:GROUP_CREATION_HELP_PAGE_GROUP_SLUG)%'
-            page: '%env(string:TERMS_OF_USE_PAGE)%'
+            page_slug: '%env(string:TERMS_OF_USE_PAGE_SLUG)%'
         group_creation_help:
             group_slug:  '%env(string:TERMS_OF_USE_PAGE_GROUP_SLUG)%'
-            page: '%env(string:GROUP_CREATION_HELP_PAGE)%'
+            page_slug: '%env(string:GROUP_CREATION_HELP_PAGE_SLUG)%'
         resources:
             group_slug: '%env(string:RESOURCES_PAGE_GROUP_SLUG)%'
-            page: '%env(string:RESOURCES_PAGE)%'
+            page_slug: '%env(string:RESOURCES_PAGE_SLUG)%'
