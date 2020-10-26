@@ -442,12 +442,8 @@ class GroupController extends AbstractController {
 			throw $this->createNotFoundException( 'The group does not exist' );
 		}
 
-		if (
-			!$group->getIsActive()
-			&& !$userGroupRelation->isCommunityAdmin( $user )
-			&& !$userGroupRelation->isAdmin( $user, $group )
-		) {
-			throw new AccessDeniedHttpException( 'You are not allowed to access pending groups' );
+		if ( !$group->getIsActive() ) {
+			$this->denyAccessUnlessGranted(GroupVoter::ADMIN, $group );
 		}
 
 		// Viewing rights is tested in the template
