@@ -14,22 +14,17 @@ class UserAnonymize {
 
 	private $fileManager;
 
-	private $user;
-
 	public function __construct (
 		EntityManagerInterface $manager,
 		TranslatorInterface $translator,
-		FileManager $fileManager,
-		User $user
+		FileManager $fileManager
 	) {
 		$this->manager = $manager;
 		$this->translator = $translator;
 		$this->fileManager = $fileManager;
-		$this->user = $user;
 	}
 
-	public function anonymize () {
-		$user = $this->user;
+	public function anonymize ( User $user ) {
 		$avatar = $user->getAvatar();
 		if($avatar) {
 			$this->fileManager->deleteFile($avatar);

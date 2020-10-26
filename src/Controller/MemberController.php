@@ -175,7 +175,7 @@ class MemberController extends AbstractController {
 
 				return $this->redirectToRoute( 'homepage' );
 			}
-			$userAnonymize->anonymize();
+			$userAnonymize->anonymize( $user );
 			$manager->flush();
 
 			$this->addFlash( 'notice', 'User deleted' );
