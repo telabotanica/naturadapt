@@ -8,6 +8,7 @@ use App\Entity\UsergroupMembership;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use App\Service\UserGroupRelation;
 
 class GroupVoter extends Voter {
 	const CREATE      = 'group:create';
@@ -23,8 +24,14 @@ class GroupVoter extends Voter {
 	 */
 	private $manager;
 
-	public function __construct ( EntityManagerInterface $manager ) {
+	/**
+	 * @var UserGroupRelation
+	 */
+	private $userGroupRelation;
+
+	public function __construct ( EntityManagerInterface $manager, UserGroupRelation $userGroupRelation ) {
 		$this->manager = $manager;
+		$this->userGroupRelation =$userGroupRelation;
 	}
 
 	protected function supports ( $attribute, $subject ) {
@@ -42,7 +49,7 @@ class GroupVoter extends Voter {
 	protected function voteOnAttribute ( $attribute, $subject, TokenInterface $token ) {
 		$user = $token->getUser();
 
-		if ( ( $user instanceof User ) && $user->isAdmin() ) {
+		if ( ( $user instanceof User ) && ( $user->isAdmin() || $this->userGroupRelation->isCommunityAdmin( $user ) ) ) {
 			return TRUE;
 		}
 
