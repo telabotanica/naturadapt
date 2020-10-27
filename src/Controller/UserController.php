@@ -698,7 +698,7 @@ class UserController extends AbstractController {
 
 			return $this->redirectToRoute('homepage');
 		}
-		$userAnonymize->anonymize();
+		$userAnonymize->anonymize( $user );
 		$manager->flush();
 
 		$this->addFlash('notice', 'messages.user.account_deleted');
