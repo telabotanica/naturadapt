@@ -37,23 +37,23 @@ jobs:
       - restore_cache:
           keys:
             # "composer.lock" can be used if it is committed to the repo
-            - v1-dependencies-{{ checksum "composer.json" }}
+            - composer-{{ .Environment.CACHE_VERSION }}-dependencies-{{ checksum "composer.json" }}
             # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
+            - composer-{{ .Environment.CACHE_VERSION }}-dependencies-
 
       - run: composer install -n --prefer-dist
 
       - save_cache:
-          key: v1-dependencies-{{ checksum "composer.json" }}
+          key: composer-{{ .Environment.CACHE_VERSION }}-dependencies-{{ checksum "composer.json" }}
           paths:
             - ./vendor
       - restore_cache:
           keys:
-            - node-v1-{{ checksum "package.json" }}
-            - node-v1-
+            - node-{{ .Environment.CACHE_VERSION }}-{{ checksum "package.json" }}
+            - node-{{ .Environment.CACHE_VERSION }}-
       - run: yarn install
       - save_cache:
-          key: node-v1-{{ checksum "package.json" }}
+          key: node-{{ .Environment.CACHE_VERSION }}-{{ checksum "package.json" }}
           paths:
             - node_modules
 
