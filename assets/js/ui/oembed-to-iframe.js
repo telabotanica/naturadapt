@@ -30,11 +30,11 @@ domready( () => Array.from( document.querySelectorAll( 'oembed' ) ).forEach( ( o
 	const VIMEO_URL_ORIGIN = 'https://player.vimeo.com/video/';
 	const YOUTUBE_URL_ORIGIN = 'https://www.youtube.com/embed/';
 	const attributes = {
+		width: 640,
 		height: 360,
 		frameborder: 0,
 		allow: 'autoplay; fullscreen;',
 		allowfullscreen: '',
-		style: 'width: 100%;'
 	};
 
 	let iframe = document.createElement( 'iframe' ),
