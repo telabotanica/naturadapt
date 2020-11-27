@@ -5062,7 +5062,7 @@
         },
         {
             "name": "symfony/mime",
-            "version": "v5.1.7",
+            "version": "v4.4.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/mime.git",
