@@ -47,6 +47,11 @@ class UserAnonymize {
 			] )
 		);
 
+		$userGroupMemberships = $user->getUsergroupMemberships();
+		foreach ($userGroupMemberships as $userGroupMembership) {
+			$user->removeUsergroupMembership($userGroupMembership);
+		}
+
 		$user->setStatus(User::STATUS_DISABLED);
 		$user->setZipCode(null);
 		$user->setCity(null);
