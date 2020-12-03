@@ -19,9 +19,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class GroupController extends AbstractController {
 	/**************************************************
@@ -225,7 +225,7 @@ class GroupController extends AbstractController {
 		}
 
 		if ( !$userGroupRelation->isCommunityAdmin( $this->getUser() ) ) {
-			throw new AccessDeniedHttpException( 'Your are not allowed to activate groups' );
+			throw new AccessDeniedException( 'Your are not allowed to activate groups' );
 		}
 
 		$group = $manager->getRepository( Usergroup::class )
