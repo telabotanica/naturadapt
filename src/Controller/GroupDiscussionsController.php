@@ -672,7 +672,6 @@ class GroupDiscussionsController extends AbstractController {
 				$file->setSize( $attachment[ 'ContentLength' ] );
 
 				$manager->persist( $file );
-				$manager->flush();
 
 				$discussionMessage->addFile( $file );
 			}
