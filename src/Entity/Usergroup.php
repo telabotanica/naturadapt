@@ -119,6 +119,11 @@ class Usergroup {
 	 */
 	private $discussions;
 
+	/**
+	 * @ORM\Column(type="boolean", options={"default":"1"})
+	 */
+	private $isActive;
+
 	public function __construct () {
 		$this->categories      = new ArrayCollection();
 		$this->members         = new ArrayCollection();
@@ -226,7 +231,7 @@ class Usergroup {
 	 */
 	public function getMembersWithName ( $status = UsergroupMembership::STATUS_MEMBER ): Collection {
 		return $this->getMembers( $status )->filter( function ( UsergroupMembership $membership ) {
-			return !empty( $membership->getUser()->getName() );
+			return !empty( $membership->getUser()->getName() && User::STATUS_DISABLED !== $membership->getUser()->getStatus() );
 		} );
 	}
 
@@ -494,6 +499,16 @@ class Usergroup {
 				$discussion->setUsergroup( NULL );
 			}
 		}
+
+		return $this;
+	}
+
+	public function getIsActive (): bool {
+		return $this->isActive;
+	}
+
+	public function setIsActive ( ?bool $isActive ): self {
+		$this->isActive = $isActive ?? false;
 
 		return $this;
 	}

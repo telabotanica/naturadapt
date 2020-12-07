@@ -34,6 +34,10 @@ img {
 	@include cta-style;
 }
 
+.cta__red {
+	@include cta-style($color_red);
+}
+
 .cta__white {
 	@include cta-style(white, true);
 }

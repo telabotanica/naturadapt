@@ -61,7 +61,7 @@
 			<div class="groups-list">
 				<ul>
 					{% for membership in user.usergroupmemberships %}
-						{% if user_group_relation.isMember(user, membership.usergroup) %}
+						{% if user_group_relation.isMember(user, membership.usergroup) and membership.usergroup.isActive %}
 							<li>
 								{% include 'contents/group/group--teaser.html.twig' with {'group':membership.usergroup} %}
 							</li>

@@ -8,12 +8,17 @@ use App\Entity\UsergroupMembership;
 use Doctrine\ORM\EntityManagerInterface;
 
 class UserGroupRelation {
+
 	private $manager;
 
+	private $community;
+
 	public function __construct (
-        EntityManagerInterface $manager
+		EntityManagerInterface $manager,
+		Community $community
 	) {
 		$this->manager = $manager;
+		$this->community = $community;
 	}
 
 	public function isAdmin ( ?User $user, Usergroup $group ) {
@@ -25,6 +30,15 @@ class UserGroupRelation {
 									->getMembership( $user, $group );
 
 		return !empty( $membership ) && ( $membership->getRole() === UsergroupMembership::ROLE_ADMIN );
+	}
+
+	public function isCommunityAdmin ( ?User $user ) {
+		$communityGroup = $this->community->getGroup();
+		if ( !$communityGroup ) {
+			return FALSE;
+		}
+
+		return $this->isAdmin( $user, $communityGroup );
 	}
 
 	public function isMember ( ?User $user, Usergroup $group ) {
@@ -45,5 +59,24 @@ class UserGroupRelation {
 	public function isPending ( ?User $user, Usergroup $group ) {
 		return $this->manager->getRepository( UsergroupMembership::class )
 							 ->isPending( $user, $group );
+	}
+
+	public function getGroupsUserCanAdmin ( ?User $user, array $groups ) {
+		if ( empty( $user ) || !( $user instanceof User ) ) {
+			return FALSE;
+		}
+
+		if ( $this->isCommunityAdmin( $user ) ) {
+			return $groups;
+		}
+
+		$groupsUserCanAdmin = [];
+		foreach ( $groups as $group ) {
+			if ( $this->isAdmin( $user, $group ) ) {
+				$groupsUserCanAdmin[] = $group;
+			}
+		}
+
+		return $groupsUserCanAdmin;
 	}
 }

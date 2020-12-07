@@ -1,0 +1,10 @@
+<div class="form-rows">
+	<h2 class="h2">{{ 'forms.user_parameters.user_account_delete.title'|trans }}</h2>
+	<section class="form-row">
+		<p>{{ 'forms.user_parameters.user_account_delete.informations_message'|trans }}</p>
+		<p>{{ 'forms.user_parameters.user_account_delete.warning_message'|trans }}</p>
+	</section>
+</div>
+<div class="form-row form-row__submit">
+	<a class="cta__red" href="{{ path('user_delete') }}" data-confirm-message="{{ 'ui.ask_confirm'|trans }}">{{ 'ui.delete'|trans }}</a>
+</div>

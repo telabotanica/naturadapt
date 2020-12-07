@@ -28,6 +28,8 @@ import './ui/element-toggle';
 import './ui/wysiwyg';
 import './ui/documents-folding';
 import './ui/url-to-link';
+import './ui/confirm';
+import './ui/oembed-to-iframe';
 //
 import './user/profile';
 import './user/dashboard';

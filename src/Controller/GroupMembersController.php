@@ -31,7 +31,7 @@ class GroupMembersController extends AbstractController {
 	public function groupMembers (
 			$groupSlug,
 			Request $request,
-            EntityManagerInterface $manager,
+			EntityManagerInterface $manager,
 			UsergroupMembersManager $usergroupMembersManager
 	) {
 		if ( !$this->isGranted( UserVoter::LOGGED ) ) {
@@ -110,7 +110,7 @@ class GroupMembersController extends AbstractController {
 	 */
 	public function groupMemberNew (
 			$groupSlug,
-            EntityManagerInterface $manager,
+			EntityManagerInterface $manager,
 			EmailSender $mailer
 	) {
 		if ( !$this->isGranted( UserVoter::LOGGED ) ) {
@@ -211,7 +211,7 @@ class GroupMembersController extends AbstractController {
 			$groupSlug,
 			$userId,
 			$status,
-            EntityManagerInterface $manager
+			EntityManagerInterface $manager
 	) {
 		/**
 		 * @var \App\Entity\Usergroup $group
@@ -230,6 +230,12 @@ class GroupMembersController extends AbstractController {
 
 		if ( !$user ) {
 			throw $this->createNotFoundException( 'The user does not exist' );
+		}
+
+		if ( $user->getStatus() !== User::STATUS_ACTIVE ) {
+			$this->addFlash( 'error', 'messages.user.inactive' );
+
+			return $this->redirectToRoute( 'group_members_index', [ 'groupSlug' => $groupSlug ] );
 		}
 
 		$membership = $manager->getRepository( UsergroupMembership::class )
@@ -325,7 +331,7 @@ class GroupMembersController extends AbstractController {
 	public function groupMemberQuit (
 			$groupSlug,
 			Request $request,
-            EntityManagerInterface $manager
+			EntityManagerInterface $manager
 	) {
 		/**
 		 * @var \App\Entity\Usergroup $group

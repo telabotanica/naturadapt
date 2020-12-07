@@ -14,11 +14,13 @@ use App\Security\UserVoter;
 use App\Service\Community;
 use App\Service\EmailSender;
 use App\Service\FileManager;
+use App\Service\UserAnonymize;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -105,12 +107,19 @@ class UserController extends AbstractController {
 				return $this->redirectToRoute( 'user_login' );
 			}
 
+			if ( !$request->request->get( 'agree_terms' ) ) {
+				$this->addFlash( 'error', 'messages.user.not_agreed_terms' );
+
+				return $this->redirectToRoute( 'user_login' );
+			}
+
 			$user = new User();
 			$user->setCreatedAt( new DateTime() );
 			$user->setEmail( $request->request->get( 'email' ) );
 			$user->setPassword( $passwordEncoder->encodePassword( $user, $request->request->get( 'password' ) ) );
 			$user->setRoles( [ User::ROLE_USER ] );
 			$user->setStatus( User::STATUS_PENDING );
+			$user->setHasAgreedTermsOfUse(true);
 
 			$token = $tokenGenerator->generateToken();
 			$user->setResetToken( $token );
@@ -320,6 +329,12 @@ class UserController extends AbstractController {
 
 			if ( $user === NULL ) {
 				$this->addFlash( 'error', 'messages.user.password_token_unknown' );
+
+				return $this->redirectToRoute( 'homepage' );
+			}
+
+			if ( $user->getStatus() !== User::STATUS_ACTIVE ) {
+				$this->addFlash( 'error', 'messages.user.inactive' );
 
 				return $this->redirectToRoute( 'homepage' );
 			}
@@ -656,5 +671,38 @@ class UserController extends AbstractController {
 		$user = $this->getUser();
 
 		return $this->render( 'pages/user/my-groups.html.twig', [ 'user' => $user ] );
+	}
+
+	/**
+	 * @Route("/user/delete", name="user_delete")
+	 *
+	 * @param EntityManagerInterface $manager
+	 * @param UserAnonymize          $userAnonymize
+	 * @return RedirectResponse
+	 */
+	public function userDelete(
+			EntityManagerInterface $manager,
+			UserAnonymize $userAnonymize
+	) {
+		if (!$this->isGranted(UserVoter::LOGGED)) {
+			return $this->redirectToRoute('user_login');
+		}
+
+		/**
+		 * @var User $user
+		 */
+		$user = $this->getUser();
+
+		if (User::STATUS_ACTIVE !== $user->getStatus()) {
+			$this->addFlash('error', 'messages.user.not_active');
+
+			return $this->redirectToRoute('homepage');
+		}
+		$userAnonymize->anonymize( $user );
+		$manager->flush();
+
+		$this->addFlash('notice', 'messages.user.account_deleted');
+
+		return $this->redirectToRoute('user_logout');
 	}
 }

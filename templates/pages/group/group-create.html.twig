@@ -22,6 +22,16 @@
 					]} %}
 				</section>
 
+				<section class="group-creation-info">
+					{% if group_creation_help.group_slug is not empty and group_creation_help.page_slug is not empty %}
+						<p>
+							{{ 'pages.group.group_create.help.creation_info'|trans }}
+							<a href="{{ path('group_page_index', { 'groupSlug': group_creation_help.group_slug, 'pageSlug': group_creation_help.page_slug }) }}">{{ 'pages.group.group_create.help.creation_info_link'|trans }}</a>
+						</p>
+					{% endif %}
+					<p>{{ 'pages.group.group_create.help.validation_info'|trans }}</p>
+				</section>
+
 				<section class="group-form">
 					{% include 'forms/group/group-form.html.twig' with ({
 						'group':group,

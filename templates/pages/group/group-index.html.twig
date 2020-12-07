@@ -4,12 +4,16 @@
 
 {% block main %}
 	<section class="main main__group-index">
-		{% if user_group_relation.isMember(app.user, group) %}
-			{% include 'contents/group/group--full__member.html.twig' with {'group':group, 'logEvents':false} %}
-		{% elseif is_granted(constant('App\\Security\\GroupVoter::READ'), group) %}
-			{% include 'contents/group/group--full__read.html.twig' with {'group':group, 'logEvents':false} %}
-		{% else %}
-			{% include 'contents/group/group--full__restricted.html.twig' with {'group':group, 'logEvents':false} %}
+		{% if group.isActive %}
+			{% if user_group_relation.isMember(app.user, group) %}
+				{% include 'contents/group/group--full__member.html.twig' with {'group':group, 'logEvents':false} %}
+			{% elseif is_granted(constant('App\\Security\\GroupVoter::READ'), group) %}
+				{% include 'contents/group/group--full__read.html.twig' with {'group':group, 'logEvents':false} %}
+			{% else %}
+				{% include 'contents/group/group--full__restricted.html.twig' with {'group':group, 'logEvents':false} %}
+			{% endif %}
+		{% elseif user_group_relation.communityAdmin(app.user) or user_group_relation.isAdmin(app.user, group) %}
+			{% include 'contents/group/group--full__moderate.html.twig' with {'group':group, 'logEvents':false} %}
 		{% endif %}
 	</section>
 {% endblock %}

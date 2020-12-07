@@ -17,12 +17,22 @@ class UsergroupRepository extends ServiceEntityRepository {
 		parent::__construct( $registry, Usergroup::class );
 	}
 
-	public function getGroupsWithMembers ( $community = FALSE ) {
+	/**
+	 * @param Usergroup|bool $community
+	 * @param bool|null $isActive
+	 * @return mixed
+	 */
+	public function getGroupsWithMembers ( $community = FALSE, $isActive = null ) {
 		$qb = $this->createQueryBuilder( 'ug' );
 
 		if ( $community ) {
 			$qb->andWhere( $qb->expr()->notLike( 'ug.id', '?2' ) )
 			   ->setParameter( 2, $community->getId() );
+		}
+
+		if ( is_bool($isActive) ) {
+			$qb->andWhere( 'ug.isActive = :isActive' )
+			   ->setParameter( 'isActive', intval( $isActive ) );
 		}
 
 		$qb->leftJoin( 'ug.logEvents', 'e' );
