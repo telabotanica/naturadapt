@@ -1,0 +1,9 @@
+pre_composer_script: |
+    yes '' | pecl install sqlite3
+    #!/bin/bash
+    touch .env.local
+    echo 'DATABASE_URL=sqlite:///var/data.db' > .env.local
+
+php_ini: |
+    extension=sqlite3.so
+
