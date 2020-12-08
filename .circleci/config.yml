@@ -61,6 +61,9 @@ jobs:
       - run: php bin/console doctrine:migrations:migrate --no-interaction
       - run: php bin/console doctrine:fixtures:load --no-interaction
 
+      # Cache warmup
+      - run: php bin/console cache:clear
+
       # run webpack
       - run: npm run build
 
