@@ -52,6 +52,13 @@ class GroupArticlesController extends AbstractController {
 		] );
 	}
 
+	/**
+	 * @Route("/articles", name="articles")
+	 */
+	public function articlesIndex() {
+		return $this->redirectToRoute('group_articles_index', ['groupSlug' => 'communaute']);
+	}
+
 	/**************************************************
 	 * ARTICLE
 	 **************************************************/
