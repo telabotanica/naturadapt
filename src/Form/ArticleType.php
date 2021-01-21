@@ -47,7 +47,9 @@ class ArticleType extends AbstractType {
 								] ),
 						],
 				] )
-				->add( 'title', TextType::class )
+				->add( 'title', TextType::class, [
+					'attr' => [ 'maxlength' => 100 ]
+				] )
 				->add( 'body', TextareaType::class )
 				->add( 'submit', SubmitType::class );
 	}

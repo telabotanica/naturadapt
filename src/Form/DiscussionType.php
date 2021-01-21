@@ -33,7 +33,9 @@ class DiscussionType extends AbstractType {
 		$maxFileSize = $this->fileManager->fileUploadMaxSize( '32M' );
 
 		$builder
-				->add( 'title', TextType::class )
+				->add( 'title', TextType::class, [
+					'attr' => [ 'maxlength' => 100 ]
+				] )
 				->add( 'body', TextareaType::class, [
 						'mapped' => FALSE,
 				] )
