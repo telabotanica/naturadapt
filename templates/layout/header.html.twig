@@ -1,13 +1,13 @@
 <header class="header">
 	<div class="header--logo">
 		{% if is_granted('ROLE_USER') %}
-			{% set link = path('user_dashboard') %}
+			{% set link = path('group_index', { 'groupSlug': 'communaute' }) %}
 		{% else %}
 			{% set link = path('homepage') %}
 		{% endif %}
 		<a href="{{ link }}">
-			<img src="{{ asset('media/layout/logo-naturadapt__98x60.png') }}" alt="{{ plateform.name }}"
-				 srcset="{{ asset('media/layout/logo-naturadapt__196x120.png') }} 2x">
+			<img src="{{ asset('media/layout/naturadapt_logo_116x60.png') }}" alt="{{ plateform.name }}"
+				 srcset="{{ asset('media/layout/naturadapt_logo_231x120.png') }} 2x">
 		</a>
 	</div>
 	<div class="header--pages">

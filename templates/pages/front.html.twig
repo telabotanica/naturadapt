@@ -113,7 +113,7 @@
 			</section>
 			<section class="front-page--focus">
 				<p>Découvrez les groupes projets et thématiques mis en place</p>
-				<a href="{{ path('groups_index') }}" class="cta">Découvrez les groupes</a>
+				<a href="{{ path('groups_index') }}" class="cta">Découvrir les groupes</a>
 			</section>
 			<section>
 			<h2>A vous de jouer !</h2>
@@ -127,6 +127,10 @@
 				<li>Et plein d’autres choses encore que vous découvrirez en naviguant ou en <a href="{{ path('group_page_index', { groupSlug: 'plateforme-web', pageSlug: 'tutoriel---prise-en-main-de-la-plateforme-natur-adapt' }) }}">suivant ce tuto</a> !</li>
 			</ul>
 				<p>Si vous rencontrez un problème technique, n’hésitez pas à nous le dire ! Pour rappel, cette plateforme est encore en cours de développement (nous l’adaptons selon les retours des utilisateurs), nous vous remercions de votre compréhension ! Il existe d’ailleurs un groupe dédié au <a href="{{ path('group_index', { groupSlug: 'plateforme-web', }) }}">développement de la plateforme</a>.</p>
+			</section>
+			<section class="front-page--focus">
+				<p>Suivez les actualités </p>
+				<a href="{{ path('group_page_index', { groupSlug: 'communaute', pageSlug: 'newsletter' }) }}" class="cta">S'abonner à la newsletter</a>
 			</section>
 			<section class="front-page--objective">
 			<img src="{{ asset('media/layout/help.svg') }}" alt="" style="width:25%">
