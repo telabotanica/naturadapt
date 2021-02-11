@@ -43,11 +43,13 @@
 	@include medium-or-less {
 		order:     1;
 		flex-grow: 1;
+		height: 3.125rem;
 	}
 
 	@include large-or-more {
 		order:   2;
 		padding: 0 1rem;
+		height: 3.75rem;
 	}
 
 	a {
