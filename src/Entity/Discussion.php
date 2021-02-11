@@ -98,7 +98,7 @@ class Discussion {
 	}
 
 	public function setTitle ( string $title ): self {
-		$this->title = trim( $title );
+		$this->title = substr( trim( $title ), 0, 100 );
 
 		return $this;
 	}
