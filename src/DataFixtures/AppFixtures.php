@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Category;
+use App\Entity\LogEvent;
 use App\Entity\Page;
 use App\Entity\User;
 use App\Entity\Usergroup;
@@ -91,6 +92,17 @@ class AppFixtures extends Fixture {
 			$group->setIsActive(true);
 
 			$manager->persist( $group );
+			$manager->flush();
+
+			// Log Event
+
+			$log = new LogEvent();
+			$log->setType( LogEvent::GROUP_CREATE );
+			$log->setUser( $users[0] );
+			$log->setUsergroup( $group );
+			$log->setCreatedAt( new \DateTime() );
+			$log->setData( [ 'name' => $group->getName() ] );
+			$manager->persist( $log );
 			$manager->flush();
 
 			for ( $j = 0, $n = rand( 1, 3 ); $j < $n; $j++ ) {

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\LogEvent;
 use App\Entity\Usergroup;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -35,17 +36,26 @@ class UsergroupRepository extends ServiceEntityRepository {
 			   ->setParameter( 'isActive', intval( $isActive ) );
 		}
 
-		$qb->leftJoin( 'ug.logEvents', 'e' );
-
 		$qb->leftJoin( 'ug.members', 'm' )
 		   ->addSelect( 'm' )
 		   ->leftJoin( 'm.user', 'u' )
 		   ->addSelect( 'u' );
 
-		$qb->orderBy( 'e.createdAt', 'DESC' );
-
 		$results = $qb->getQuery()
 					  ->getResult();
+
+		$logEventRepository = $this->getEntityManager()->getRepository( LogEvent::class );
+		uasort( $results, function ( $a, $b ) use ( $logEventRepository ) {
+			$a = $logEventRepository->findOneBy( [ 'usergroup' => $a ], [ 'createdAt' => 'DESC' ] )
+				->getCreatedAt()->format( 'c' );
+			$b = $logEventRepository->findOneBy( [ 'usergroup' => $b ], [ 'createdAt' => 'DESC' ] )
+				->getCreatedAt()->format( 'c' ) ;
+
+			if ( $a == $b ) {
+				return 0;
+			}
+			return ( $a < $b ) ? 1 : -1;
+		});
 
 		if ( $community ) {
 			array_unshift( $results, $community );
