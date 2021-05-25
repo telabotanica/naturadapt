@@ -33,7 +33,7 @@ forms:
             label: "Ville"
             placeholder: "Entrez votre ville…"
         zipcode:
-            label: "Code Postal"
+            label: "Code postal"
             placeholder: "Entrez votre code postal…"
         country:
             label: "Pays"
@@ -87,7 +87,7 @@ forms:
             placeholder: ""
         user_account_delete:
             title: "Supprimer mon compte"
-            informations_message: "Si vous supprimez votre compte, vos contributions sur la plateforme seront préservées mais votre nom n’apparaîtra plus. Vous ne serez plus listé dans l’annuaire des membres. Vous ne pourrez plus vous connecter."
+            informations_message: "Si vous supprimez votre compte, vos contributions sur la plateforme seront préservées mais votre nom n’apparaîtra plus. Vous ne serez plus listé·e dans l’annuaire des membres. Vous ne pourrez plus vous connecter."
             warning_message: "Attention, cette opération est irréversible."
 
     group:
@@ -447,7 +447,7 @@ messages:
         user_set_remove: "L’utilisateur a été retiré du groupe."
         user_set_banned: "L’utilisateur a été banni du groupe."
         candidature_sent: "Votre demande a été transmise aux administrateurs du groupe."
-        user_banned: "Vous avez été banni de ce groupe."
+        user_banned: "Vous avez été banni·e de ce groupe."
         already_active: "Le groupe a déjà été activé"
         group_created: "Votre groupe a bien été créé, il est en cours de validation par un administrateur."
         group_activated: "Le groupe a été activé"
@@ -486,7 +486,7 @@ messages:
         document_deleted: "Le document a été supprimé"
 
 logevents:
-    user_register: "%1$s s’est inscrit"
+    user_register: "%1$s s’est inscrit·e"
     user_join: "%1$s a rejoint le groupe %2$s"
     user_join_ask: "%1$s a demandé à rejoindre le groupe %2$s"
     user_join_accept: "%1$s a accepté la demande d’inscription de %3$s au groupe %2$s"
