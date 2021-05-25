@@ -14,8 +14,8 @@ forms:
     mandatory: "Mandatory fields *"
     user:
         email:
-            label: "E-mail address"
-            placeholder: "Enter your e-mail address here…"
+            label: "Email address"
+            placeholder: "Enter your email address here…"
         password:
             label: "Password"
             placeholder: "Enter your password here…"
