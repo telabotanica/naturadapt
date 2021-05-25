@@ -487,7 +487,6 @@ messages:
         document_created: "Le document a été ajouté"
         document_updated: "Le document a été mis à jour"
         document_deleted: "Le document a été supprimé"
-<<<<<<< HEAD
 
 logevents:
     user_register: "%1$s s’est inscrit"
@@ -528,5 +527,3 @@ logevents:
 database_data:
     user:
         user_deleted_name: "Ancien utilisateur n°%1$d"
-=======
->>>>>>> WIP on EN translations + fixes on FR messages
