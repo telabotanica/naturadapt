@@ -55,8 +55,8 @@ forms:
             label: "Your skills"
             hint: "Pick in the list the skills you want to share with the community"
         site:
-            lable: "Your natural space"
-            hint: "Because you work there, you live there or simply if you're especially interested in a specific natural space"
+            lable: "Your nature area"
+            hint: "Because you work there, you live there or simply if you're especially interested in a specific naturae site"
             placeholder: "Example: Écrins National Park"
         agree_terms:
             label:
