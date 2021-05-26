@@ -6,7 +6,7 @@ ui:
     see_all: "Tout voir"
     delete: "Supprimer"
     settings: "Paramètres"
-    ask_confirm: "Êtes-vous sûr(e) ?"
+    ask_confirm: "Êtes-vous sûr·e ?"
     confirm: "Confirmer"
     cancel: "Annuler"
 
@@ -31,19 +31,19 @@ forms:
             hint: "Format JPG ou PNG, %s maximum"
         city:
             label: "Ville"
-            placeholder: "Entrez votre Ville…"
+            placeholder: "Entrez votre ville…"
         zipcode:
-            label: "Code Postal"
-            placeholder: "Entrez votre Code Postal…"
+            label: "Code postal"
+            placeholder: "Entrez votre code postal…"
         country:
             label: "Pays"
-            placeholder: "Entrez votre Pays…"
+            placeholder: "Entrez votre pays…"
         presentation:
             label: "Présentez-vous en deux mots"
             hint: "Limité à 32 caractères (sera affiché sous votre nom)"
-            placeholder: "Exemple: Botaniste…"
+            placeholder: "Exemple : Botaniste"
         bio:
-            label: "Biographie"
+            label: "Bio"
             hint: "Précisez ce que vous faites dans la vie, ce que vous recherchez sur la plateforme… (sera affiché sur votre profil)"
             placeholder: "Dites nous en plus sur vous…"
         inscription_type:
@@ -57,7 +57,7 @@ forms:
         site:
             label: "Votre site naturel"
             hint: "Parce que vous y travaillez, vous y habitez ou simplement si vous êtes particlièrement attaché·e à un site naturel en particulier"
-            placeholder: "Exemple: Chaîne des puys…"
+            placeholder: "Exemple : Parc naturel régional des volcans d'Auvergne"
         agree_terms:
             label:
                 agree: "J’accepte les "
@@ -70,7 +70,7 @@ forms:
             title: "Modifier l’adresse e-mail du compte"
             introduction: "L’adresse e-mail du compte est utilisée pour s’identifier à votre profil et pour envoyer des e-mails."
         email_current:
-            label: "Email actuel"
+            label: "E-mail actuel"
         email_new:
             label: "Nouvel e-mail"
             placeholder: "Entrez votre nouvel e-mail …"
@@ -87,13 +87,13 @@ forms:
             placeholder: ""
         user_account_delete:
             title: "Supprimer mon compte"
-            informations_message: "Si vous supprimez votre compte, vos contributions sur la plateforme seront préservées mais votre nom n’apparaîtra plus. Vous ne serez plus listé dans l’annuaire des membres. Vous ne pourrez plus vous connecter."
+            informations_message: "Si vous supprimez votre compte, vos contributions sur la plateforme seront préservées mais votre nom n’apparaîtra plus. Vous ne serez plus listé·e dans l’annuaire des membres. Vous ne pourrez plus vous connecter."
             warning_message: "Attention, cette opération est irréversible."
 
     group:
         name:
             label: "Nom du groupe"
-            placeholder: "ex: Colloque du 11 février"
+            placeholder: "Exemple : Autour des glaciers"
         slug:
             label: "Identifiant"
             placeholder: "Sera généré automatiquement"
@@ -114,7 +114,7 @@ forms:
             placeholder: "Dites nous en plus sur votre groupe…"
         presentation:
             label: "Présentation"
-            placeholder: "Présentation du groupe, ses objectifs..."
+            placeholder: "Présentation du groupe, ses objectifs…"
 
     page:
         cover:
@@ -123,7 +123,7 @@ forms:
             button: "Parcourir"
         title:
             label: "Titre de page"
-            placeholder: "ex: Présentation"
+            placeholder: "Exemple : Présentation"
         body:
             label: "Contenu de la page"
             placeholder: ""
@@ -141,7 +141,7 @@ forms:
 
     article:
         cover:
-            label: "Ajouter une image qui sera utilisée en Entête de l’actualité (facultatif)"
+            label: "Ajouter une image qui sera utilisée en en-tête de l’article (facultatif)"
             hint: "Format JPG ou PNG, %s maximum"
             button: "Parcourir"
         title:
@@ -235,11 +235,11 @@ pages:
             private: "Groupe privé"
             created_at: "Créé le %s"
             active_ago: "Actif %s"
-        is_member: "Abonné(e)"
+        is_member: "Abonné·e"
         is_member_description: "Vous recevez toutes les discussions de ce groupe par e-mail."
         is_member_unsubscribed: "Membre"
-        is_member_unsubscribed_description: "Vous pouvez accéder au groupe mais vous ne recevez pas d’email."
-        is_banned: "Vous avez été banni de ce groupe"
+        is_member_unsubscribed_description: "Vous pouvez accéder au groupe mais vous ne recevez pas d’e-mail."
+        is_banned: "Vous avez été banni·e de ce groupe"
         is_pending: "Votre demande d’inscription est en attente"
         delete_button: "Supprimer le groupe"
         activation_button:
@@ -273,7 +273,7 @@ pages:
             empty: "Créer votre première discussion"
         articles:
             title: "Actualités"
-            empty: "Aucune actualité disponible"
+            empty: "Aucun article disponible"
         documents:
             title: "Documents"
             empty: "Vous n’avez aucun document"
@@ -283,9 +283,6 @@ pages:
             title: "En attente de validation"
         members_banned:
             title: "Bannis"
-        soon:
-            title: "Bientôt"
-            hint: "Cette fonction est en cours de développement, vous pourrez bientôt discuter à l’intérieur de ce groupe au sein de la plateforme et par e-mail."
         events:
             title: "Activités"
 
@@ -314,11 +311,11 @@ pages:
             activity: "Dernière activité"
             introduction:
                 title: "Comment ça marche ?"
-                body: "<p>Chaque liste de discussion a un mail dédié (par exemple <a href=\"mailto:%s\">%s</a> pour le groupe <strong>%s</strong>), auquel on peut écrire pour lancer une discussion.</p><p>Vous pouvez également lancer une discussion depuis cette interface web</p>"
+                body: "<p>Chaque liste de discussion a un mail dédié (par exemple <a href=\"mailto:%s\">%s</a> pour le groupe <strong>%s</strong>), auquel on peut écrire pour lancer une discussion.</p><p>Vous pouvez également lancer une discussion depuis cette interface web.</p>"
         discussion_create:
             title: "Créer un sujet"
             link: "Créer un sujet"
-            hint: "Votre message sera envoyé par mail aux membres du groupe."
+            hint: "Votre message sera envoyé par e-mail aux membres du groupe."
             button: "Envoyer"
         discussion_edit:
             title: "Édition de la discussion"
@@ -338,8 +335,8 @@ pages:
         list:
             title: "Actualités"
         article_create:
-            title: "Ajouter une actualité"
-            link: "Ajouter une actualité"
+            title: "Ajouter un article"
+            link: "Ajouter un article"
             button: "Publier"
         article_edit:
             title: "Édition de l’article"
@@ -422,12 +419,12 @@ messages:
         unknown: "Cet utilisateur est inconnu."
         inactive: "Cet utilisateur est désactivé."
         pending: "Cet utilisateur n’a pas encore été activé."
-        activation_sent: "Un email d’activation vous a été envoyé. Regardez votre boite de reception."
+        activation_sent: "Un e-mail d’activation vous a été envoyé. Regardez votre boite de reception."
         activation_token_unknown: "Ce token est inconnu."
         activation_already_active: "Cet utilisateur est déjà activé."
         activation_impossible: "Impossible d’activer cet utilisateur."
         activation_successful: "<strong>Merci d’avoir confirmé votre adresse e-mail</strong><br> Pour commencer, complétez le profil ci-dessous."
-        password_sent: "Un email vous a été envoyé. Regardez votre boite de reception."
+        password_sent: "Un e-mail vous a été envoyé. Regardez votre boite de reception."
         password_token_unknown: "Ce token est inconnu."
         password_successful: "Mot de passe mis à jour, vous pouvez désormais vous identifier."
         password_updated: "Votre mot de passe a été mis à jour."
@@ -435,7 +432,7 @@ messages:
         profile_updated: "Votre profil a été mis à jour."
         profile_required: "Pour commencer, complétez le profil ci-dessous."
         login_requested: "Vous devez vous inscrire ou vous connecter pour voir cette page."
-        email_change_sent: "Un email de confirmation du changement d’adresse vous a été envoyé. Regardez la boite de reception de votre nouvelle adresse."
+        email_change_sent: "Un e-mail de confirmation du changement d’adresse vous a été envoyé. Regardez la boite de reception de votre nouvelle adresse."
         email_change_successful: "Votre adresse e-mail a été modifiée."
         not_active: "Cet utilisateur n’est pas activé."
         account_deleted: "Votre compte a bien été supprimé."
@@ -450,7 +447,7 @@ messages:
         user_set_remove: "L’utilisateur a été retiré du groupe."
         user_set_banned: "L’utilisateur a été banni du groupe."
         candidature_sent: "Votre demande a été transmise aux administrateurs du groupe."
-        user_banned: "Vous avez été banni de ce groupe."
+        user_banned: "Vous avez été banni·e de ce groupe."
         already_active: "Le groupe a déjà été activé"
         group_created: "Votre groupe a bien été créé, il est en cours de validation par un administrateur."
         group_activated: "Le groupe a été activé"
@@ -489,7 +486,7 @@ messages:
         document_deleted: "Le document a été supprimé"
 
 logevents:
-    user_register: "%1$s s’est inscrit"
+    user_register: "%1$s s’est inscrit·e"
     user_join: "%1$s a rejoint le groupe %2$s"
     user_join_ask: "%1$s a demandé à rejoindre le groupe %2$s"
     user_join_accept: "%1$s a accepté la demande d’inscription de %3$s au groupe %2$s"
@@ -516,9 +513,9 @@ logevents:
     discussion_delete: "%1$s a supprimé la discussion %3$s dans le groupe %2$s"
     discussion_participate: "%1$s a participé à la discussion %3$s dans le groupe %2$s"
 
-    article_create: "%1$s a créé l’actualité %3$s dans le groupe %2$s"
-    article_edit: "%1$s a modifié l’actualité %3$s dans le groupe %2$s"
-    article_delete: "%1$s a supprimé l’actualité %3$s dans le groupe %2$s"
+    article_create: "%1$s a créé l’article %3$s dans le groupe %2$s"
+    article_edit: "%1$s a modifié l’article %3$s dans le groupe %2$s"
+    article_delete: "%1$s a supprimé l’article %3$s dans le groupe %2$s"
 
     document_create: "%1$s a ajouté le document %3$s dans le groupe %2$s"
     document_edit: "%1$s a mis à jour le document %3$s dans le groupe %2$s"
