@@ -1,4 +1,6 @@
 {
+    "name": "telabotanica/naturadapt",
+    "description": "Naturadapt community website",
     "type": "project",
     "license": "proprietary",
     "require": {
