@@ -14,7 +14,6 @@ jobs:
     env:
       APP_ENV: test
       APP_SECRET: 0116ea354117af2c822bb1aeb5d7d367
-      DATABASE_URL: mysql://root:symfony@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/naturadapt_test
       DATABASE_PREFIX: naturadapt_
       SYMFONY_DEPRECATIONS_HELPER: weak
       
@@ -47,11 +46,12 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
       
-    - name: Run database migrations
-      run: php bin/console doctrine:migrations:migrate --no-interaction
-      
-    - name: Load database fixtures
-      run: php bin/console doctrine:fixtures:load --no-interaction
+    - name: Run database migrations and load fixtures
+      env:
+        DATABASE_URL: mysql://root:symfony@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/naturadapt_test
+      run: |
+        php bin/console doctrine:migrations:migrate --no-interaction
+        php bin/console doctrine:fixtures:load --no-interaction
       
     - name: Warm up cache
       run: php bin/console cache:clear
