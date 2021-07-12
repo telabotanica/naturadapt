@@ -232,6 +232,9 @@
     "symfony/cache": {
         "version": "v4.2.1"
     },
+    "symfony/cache-contracts": {
+        "version": "v2.4.0"
+    },
     "symfony/config": {
         "version": "v4.2.1"
     },
@@ -272,6 +275,9 @@
     "symfony/dependency-injection": {
         "version": "v4.2.1"
     },
+    "symfony/deprecation-contracts": {
+        "version": "v2.4.0"
+    },
     "symfony/doctrine-bridge": {
         "version": "v4.2.1"
     },
@@ -286,6 +292,9 @@
     },
     "symfony/event-dispatcher": {
         "version": "v4.2.1"
+    },
+    "symfony/event-dispatcher-contracts": {
+        "version": "v1.1.9"
     },
     "symfony/expression-language": {
         "version": "v4.2.1"
@@ -331,6 +340,9 @@
             "src/Controller/.gitignore",
             "src/Kernel.php"
         ]
+    },
+    "symfony/http-client-contracts": {
+        "version": "v2.4.0"
     },
     "symfony/http-foundation": {
         "version": "v4.2.1"
@@ -397,6 +409,9 @@
             "phpunit.xml.dist",
             "tests/bootstrap.php"
         ]
+    },
+    "symfony/polyfill-intl-grapheme": {
+        "version": "v1.23.0"
     },
     "symfony/polyfill-intl-icu": {
         "version": "v1.10.0"
@@ -475,8 +490,14 @@
     "symfony/serializer-pack": {
         "version": "v1.0.2"
     },
+    "symfony/service-contracts": {
+        "version": "v2.4.0"
+    },
     "symfony/stopwatch": {
         "version": "v4.2.1"
+    },
+    "symfony/string": {
+        "version": "v5.3.0"
     },
     "symfony/swiftmailer-bundle": {
         "version": "2.5",
@@ -510,6 +531,9 @@
             "config/packages/translation.yaml",
             "translations/.gitignore"
         ]
+    },
+    "symfony/translation-contracts": {
+        "version": "v2.4.0"
     },
     "symfony/twig-bridge": {
         "version": "v4.2.1"
