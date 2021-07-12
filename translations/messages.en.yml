@@ -1,0 +1,526 @@
+# translations/messages.en.yaml
+ui:
+    home: "Home"
+    menu: "Menu"
+    see_more: "Show more"
+    see_all: "Show all"
+    delete: "Delete"
+    settings: "Settings"
+    ask_confirm: "Are you sure?"
+    confirm: "Confirm"
+    cancel: "Cancel"
+
+forms:
+    mandatory: "Mandatory fields *"
+    user:
+        email:
+            label: "Email address"
+            placeholder: "Enter your email address here…"
+        password:
+            label: "Password"
+            placeholder: "Enter your password here…"
+        name:
+            label: "Your full name"
+            placeholder: "Enter your first and last name…"
+        display_name:
+            label: "How do you want to be called?"
+            placeholder: "Enter your first name, your full name, a nickname…"
+        avatar:
+            label: "Profile picture"
+            button: "Browse"
+            hint: "JPG or PNG format, %s maximum"
+        city:
+            label: "City"
+            placeholder: "Enter your city…"
+        zipcode:
+            label: "Postcode"
+            placeholder: "Enter your postal code…"
+        country:
+            label: "Country"
+            placeholder: "Enter your country…"
+        presentation:
+            label: "Introduce yourself in a couple words"
+            hint: "Limited to 32 characters (will be displayed under your name)"
+            placeholder: "Example: Botanist"
+        bio:
+            label: "Bio"
+            hint: "Explain what are your occupations, what you're looking for on this platform… (will be displayed on your profile)"
+            placeholder: "Tell us more about yourself…"
+        inscription_type:
+            label: "Type of registration"
+            labels:
+                private: "Registration as a private individual"
+                professional: "Registration as a professional"
+        skills:
+            label: "Your skills"
+            hint: "Pick in the list the skills you want to share with the community"
+        site:
+            lable: "Your nature area"
+            hint: "Because you work there, you live there or simply if you're especially interested in a specific nature site"
+            placeholder: "Example: Écrins National Park"
+        agree_terms:
+            label:
+                agree: "I agree with the "
+                terms_of_use: "TOU"
+                share_values: " and share the values of the "
+                charter: "Natur’Adapt Charter"
+
+    user_parameters:
+        email_introduction:
+            title: "Change my account's email address"
+            introduction: "Your account's email address is used to log in to your profile and to send you emails."
+        email_current:
+            label: "Current email"
+        email_new:
+            label: "New email"
+            placeholder: "Enter your new email…"
+        password:
+            label: "Current password"
+            placeholder: ""
+        password_introduction:
+            title: "Change my password"
+        password_new:
+            label: "New password"
+            placeholder: ""
+        password_confirm:
+            label: "Confirm your new password"
+            placeholder: ""
+        user_account_delete:
+            title: "Delete my account"
+            informations_message: "If you delete your account, your contributions to the platform will be preserved but your name will no longer appear. You will no longer be listed in the members directory. You will not be able to log in."
+            warning_message: "Warning, this operation is irreversible."
+
+    group:
+        name:
+            label: "Group name"
+            placeholder: "Example: About glaciers"
+        slug:
+            label: "Identifier"
+            placeholder: "Will be generated automatically"
+        logo:
+            label: "Group icon"
+            hint: "JPG or PNG format, %s maximum"
+            button: "Browse"
+        cover:
+            label: "Cover picture"
+            hint: "JPG or PNG format, %s maximum"
+            button: "Browse"
+        visibility:
+            label: "Group visibility"
+            placeholder: ""
+        description:
+            label: "Description"
+            hint: "Specify the purpose and intention of your group."
+            placeholder: "Tell us more about your group…"
+        presentation:
+            label: "Presentation"
+            placeholder: "Presentation of the group, its objectives…"
+
+    page:
+        cover:
+            label: "Cover picture"
+            hint: "JPG or PNG format, %s maximum"
+            button: "Browse"
+        title:
+            label: "Page title"
+            placeholder: "Example: Presentation"
+        body:
+            label: "Page content"
+            placeholder: ""
+
+    discussion:
+        title:
+            label: "Topic title"
+            placeholder: "Enter the topic title here…"
+        body:
+            label: "Your message"
+            placeholder: "Enter your message here…"
+        answer:
+            label: "Your reply"
+            placeholder: "Enter your reply here…"
+
+    article:
+        cover:
+            label: "Add an image to use as a header for the article (optional)"
+            hint: "JPG or PNG format, %s maximum"
+            button: "Browse"
+        title:
+            label: "Title"
+            placeholder: "Enter the title for your article here…"
+        body:
+            label: "Article"
+            placeholder: "Enter the content of your article here…"
+
+    document:
+        file:
+            label: "Add a file"
+            hint: "JPG or PNG format, %s maximum"
+            button: "Browse"
+        title:
+            label: "Document name"
+            placeholder: ""
+        folder:
+            label: "Folder"
+            placeholder: "(unclassified)"
+
+pages:
+    user:
+        login:
+            title: "Log in"
+            subtitle: "If you already have an account"
+            button: "Log in"
+            link: "Log in"
+        register:
+            title: "Sign up"
+            subtitle: "If it's your first visit"
+            button: "Sign up"
+            link: "Registration"
+        logout:
+            link: "Log out"
+        forgotten_password:
+            title: "Reset my password"
+            button: "Send"
+            link: "Password lost?"
+        reset_password:
+            title: "New password"
+            button: "Change"
+        profile_create:
+            title: "Create your profile"
+            introduction: "It will allow other members to find you in the members directory and will be searchable by other members of the community."
+            button: "Create your profile"
+        profile_edit:
+            title: "Profile"
+            introduction: "You can edit your profile information below."
+            view: "See my profile"
+            button: "Save changes"
+            link: "Edit my profile"
+        parameters_edit:
+            title: "My settings"
+            button: "Save"
+            cancel: "Cancel"
+            link: "My settings"
+        dashboard:
+            welcome: "Welcome"
+            hello: "Hello %s,"
+            slogan: "here is the most recent activity in the community and in your groups."
+            my_groups: "My groups"
+            notifications: "Notifications"
+            link: "Dashboard"
+        profile:
+            title: "Profile"
+            contact: "Send an email"
+            link: "My profile"
+        is_admin: "Administrator"
+        my_groups:
+            title: "My groups"
+            introduction: "Quickly manage your group memberships"
+            link: "My groups"
+
+    group:
+        group_create:
+            title: "Create a group"
+            link: "Create a group"
+            help:
+                creation_info: "You can request the creation of a new group. Before you begin, take a look at the page"
+                creation_info_link: "Why create a group?"
+                validation_info: "Your group will need to be validated by a community administrator before appearing on the site."
+            button: "Create the group"
+        group_edit:
+            title: "Edit the group"
+            link: "Edit"
+            button: "Edit"
+            delete: "Delete"
+        status:
+            public: "Public group"
+            private: "Private group"
+            created_at: "Created on %s"
+            active_ago: "Active %s"
+        is_member: "Subscribed"
+        is_member_description: "You receive all discussions from this group by email."
+        is_member_unsubscribed: "Member"
+        is_member_unsubscribed_description: "You can access the group but you do not receive emails."
+        is_banned: "You have been banned from this group"
+        is_pending: "Your request to join this group in pending"
+        delete_button: "Delete the group"
+        activation_button:
+            accept: "Accept the group"
+            deny: "Deny the group"
+        join_button:
+            public: "Join the group"
+            private: "Request to subscribe"
+        leave_button: "Leave the group"
+        leave_description: "You will no longer have access to the group."
+        restricted:
+            title: "This group is private"
+            body: "Your request to join the group will be subject to acceptance by the administrators. It may take several days for you to receive your invitation."
+        home: "Groupe homepage"
+        tabs:
+            home: "Overview"
+            events: "Recent activity"
+        groups:
+            title: "Groups"
+            subtitle: "Find the groups that interest you"
+            list:
+                all: "Groups"
+                pending:
+                    yours: "Your groups awaiting validation"
+                    admins: "Groups awaiting validation"
+        pages:
+            title: "Pages"
+            empty: "Create your first page"
+        discussions:
+            title: "Discussions"
+            empty: "Create your first discussion"
+        articles:
+            title: "News"
+            empty: "No news article available"
+        documents:
+            title: "Documents"
+            empty: "You have no document"
+        members:
+            title: "Members"
+        members_pending:
+            title: "Pending validation"
+        members_banned:
+            title: "Banned"
+        events:
+            title: "Activities"
+
+    page:
+        list:
+            title: "Pages"
+        page_create:
+            title: "Add a page"
+            link: "Add a page"
+            button: "Create page"
+        page_edit:
+            title: "Editing page"
+            link: "Edit page"
+            button: "Save changes"
+        view:
+            date: "Posted on %s"
+            date_edited: "Edited on %s"
+            members: "{1}1 member|]1,Inf]%count% members"
+            pages_index: "Index"
+
+    discussion:
+        list:
+            title: "Discussions"
+            subjects: "Topics"
+            messages_count: "Messages #"
+            activity: "Latest activity"
+            introduction:
+                title: "How does this work?"
+                body: "<p>Each discussion list has a dedicated email (for instance <a href=\"mailto:%s\">%s</a> for the <strong>%s</strong> group), to which you can write to start a discussion.</p><p>You can also start a discussion from this web interface.</p>"
+        discussion_create:
+            title: "Create a topic"
+            link: "Create a topic"
+            hint: "Your message will be sent by email to the members of the group."
+            button: "Send"
+        discussion_edit:
+            title: "Editing discussion"
+            link: "Edit discussion"
+            button: "Save changes"
+        view:
+            active: "Active %s"
+            date: "Created on %s"
+            date_edited: "Edited on %s"
+        actions:
+            hide_message: "Hide message"
+            show_message: "Display message"
+            delete_message: "Delete message"
+        attachments: "Attachments"
+
+    article:
+        list:
+            title: "News articles"
+        article_create:
+            title: "Add a news article"
+            link: "Add a news article"
+            button: "Publish"
+        article_edit:
+            title: "Editing article"
+            link: "Edit"
+            button: "Save changes"
+        view:
+            author: "By %s"
+
+    document:
+        list:
+            title: "Documents"
+            filters:
+                title: "Filters"
+                filetype:
+                    label: "Document type"
+            query:
+                placeholder: "Find a document by name…"
+            search: "Filter"
+            types:
+                pdf: "PDF"
+                docs: "Documents"
+                images: "Images"
+                archives: "Archives"
+            toggle: "Open / Close"
+        document_create:
+            title: "Sending a document"
+            link: "Add a document"
+            button: "Send document"
+        document_edit:
+            title: "Editing a document"
+            link: "Edit"
+            button: "Save changes"
+        view:
+            date: "On %s"
+
+    member:
+        list:
+            title: "Members directory"
+            filters:
+                title: "Filters"
+                country:
+                    label: "Country"
+                inscription_type:
+                    labels:
+                        private: "Private individuals"
+                        professional: "Professionals"
+                skills:
+                    label: "Skills"
+            query:
+                placeholder: "Find a member by name, nickname, bio…"
+            search: "Filter"
+        actions:
+            pending_set_member: "Approve registration"
+            pending_set_remove: "Deny registration"
+            banned_set_member: "Cancel ban"
+            banned_set_remove: "Remove from group"
+            admin_set_user: "Remove admin"
+            member_set_admin: "Promote to admin"
+            member_set_remove: "Remove from groupe"
+            member_set_banned: "Ban"
+        profile:
+            skills:
+                title: "Skills"
+            bio:
+                title: "Bio"
+            groups:
+                title: "Groups"
+
+    event:
+        list:
+            title: "Activities"
+
+messages:
+    user:
+        already_connected: "You're already logged in."
+        invalid_credentials: "Incorrect password"
+        password_confirm_invalid: "Your password and its confirmation must be identical"
+        exists: "This user is already registered."
+        not_agreed_terms: "You must accept the terms of use and the platform charter"
+        unknown: "This user is unknown."
+        inactive: "This user is disabled."
+        pending: "This user has not bee activated yet."
+        activation_sent: "An activation email has been sent to you. Look at your inbox."
+        activation_token_unknown: "This token is unknown."
+        activation_already_active: "This user is already active."
+        activation_impossible: "Cannot activate this user."
+        activation_successful: "<strong>Thank you for confirming your email address</strong><br> To get started, complete the profile below."
+        password_sent: "An email has been sent to you. Look at your inbox."
+        password_token_unknown: "This token is unknown."
+        password_successful: "Password updated, you can now log in."
+        password_updated: "Your password has been updated."
+        profile_created: "Your profile has been created."
+        profile_updated: "Your profile has been updated."
+        profile_required: "To get started, complete the profile below."
+        login_requested: "You must sign up or log in to view this page."
+        email_change_sent: "An email confirming the change of address has been sent to you. Look at the inbox of your new email address."
+        email_change_successful: "Your email address has been updated."
+        not_active: "This user has not been activated."
+        account_deleted: "Your account has been correctly deleted."
+
+    group:
+        joined: "You have joined this group."
+        quit: "You have left this group"
+        access_denied: "You do not have access to this group."
+        user_set_admin: "The user is now administrator of this group."
+        user_set_user: "The user is now member of this group."
+        user_set_member: "The user joined the group."
+        user_set_remove: "The user has been removed from this group."
+        user_set_banned: "The user has been banned from this group."
+        candidature_sent: "Your request has been sent to the administrators of this group."
+        user_banned: "You have been banned from this group."
+        already_active: "This group has already been activated"
+        group_created: "Your groupe has been created, it is now awaiting validation from an administrator."
+        group_activated: "The group has been activated"
+        group_updated: "This group information has been updated"
+        group_deleted: "This group has been deleted"
+
+    page:
+        page_created: "The page has been created"
+        page_updated: "The page has been updated"
+        page_deleted: "The page has been deleted"
+
+    discussion:
+        join_required: "You need to join the group to create a topic."
+        notifications:
+            subscribe: "You will now receive email notifications for this group"
+            unsubscribe: "You will no longer receive email notifications for this group"
+
+        discussion_created: "The discussion has been created"
+        message_created: "The message has been posted to the discussion"
+        message_deleted: "The message has been deleted"
+        message_error: "Your message cannot be posted, please retry"
+        discussion_updated: "The discussion has been updated"
+        discussion_deleted: "The discussion has been deleted"
+
+        message_hidden: "The message is hidden"
+        message_shown: "The message is displayed"
+
+    article:
+        article_created: "The article has been créé"
+        article_updated: "The article has been updated"
+        article_deleted: "The article has been deleted"
+
+    document:
+        document_created: "The document has been added"
+        document_updated: "The document has been updated"
+        document_deleted: "The document has been deleted"
+
+logevents:
+    user_register: "%1$s has signed up"
+    user_join: "%1$s has joined the %2$s group"
+    user_join_ask: "%1$s has requested to join the %2$s group"
+    user_join_accept: "%1$s has accepted %3$s's request to join the %2$s group"
+    user_leave: "%1$s left the %2$s group"
+    user_admin: "%1$s is now administrator of the %2$s group"
+
+    group_create: "%1$s created the %2$s group"
+    group_activate: "%1$s activated the %2$s group"
+    group_edit: "%1$s changed the information of the %2$s group"
+    group_edit_name: "%1$s changed the name of the %2$s group"
+    group_edit_logo: "%1$s changed the icon of the %2$s group"
+    group_edit_cover: "%1$s changed the cover picture of the %2$s group"
+    group_edit_public: "%1$s made the %2$s group public"
+    group_edit_private: "%1$s made the %2$s group private"
+    group_edit_description: "%1$s changed the description of the %2$s group"
+    group_delete: "%1$s deleted the %2$s group"
+
+    page_create: "%1$s created the page %3$s in the %2$s group"
+    page_edit: "%1$s changed the page %3$s in the %2$s group"
+    page_delete: "%1$s deleted the page %3$s in the %2$s group"
+
+    discussion_create: "%1$s created the discussion %3$s in the %2$s group"
+    discussion_edit: "%1$s changed the discussion %3$s in the %2$s group"
+    discussion_delete: "%1$s deleted the discussion %3$s in the %2$s group"
+    discussion_participate: "%1$s posted in the discussion %3$s in the %2$s group"
+
+    article_create: "%1$s created the article %3$s in the %2$s group"
+    article_edit: "%1$s changed the article %3$s in the %2$s group"
+    article_delete: "%1$s deleted the article %3$s in the %2$s group"
+
+    document_create: "%1$s added the document %3$s in the %2$s group"
+    document_edit: "%1$s updated the document %3$s in the %2$s group"
+    document_delete: "%1$s deleted the document %3$s in the %2$s group"
+
+database_data:
+    user:
+        user_deleted_name: "Former user #%1$d"
