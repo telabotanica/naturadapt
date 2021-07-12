@@ -14,9 +14,19 @@ jobs:
     env:
       APP_ENV: test
       APP_SECRET: 0116ea354117af2c822bb1aeb5d7d367
-      DATABASE_URL: mysql://root:@127.0.0.1:3306/circle_test
+      DATABASE_URL: mysql://root:@127.0.0.1:3306/naturadapt_test
       DATABASE_PREFIX: naturadapt_
       SYMFONY_DEPRECATIONS_HELPER: weak
+      
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: naturadapt_test
+        ports:
+          - 3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
     - uses: actions/checkout@v2
