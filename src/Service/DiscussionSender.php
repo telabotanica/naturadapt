@@ -60,11 +60,20 @@ class DiscussionSender {
 					$body = '';
 				}
 
-				$messages[] = ( new Swift_Message( $subject ) )
-						->setFrom( $from )
-						->setTo( $user->getEmail() )
-						->setReplyTo( $discussionMessage->getDiscussion()->getUsergroup()->getSlug() . '+' . $discussionMessage->getDiscussion()->getUuid() . '@' . $this->params[ 'list_domain' ] )
-						->setBody( $body, 'text/html' );
+				$message = ( new Swift_Message( $subject ) )
+					->setFrom( $from )
+					->setTo( $user->getEmail() )
+					->setReplyTo( $discussionMessage->getDiscussion()->getUsergroup()->getSlug() . '+' . $discussionMessage->getDiscussion()->getUuid() . '@' . $this->params[ 'list_domain' ] )
+					->setBody( $body, 'text/html' );
+
+				// set headers to disable auto responders
+				$headers = $message->getHeaders();
+				$headers->addTextHeader('Auto-submitted', 'auto-generated'); // RFC 3834
+				$headers->addTextHeader('List-Id', $discussionMessage->getDiscussion()->getId()); // RFC 2919
+				$headers->addTextHeader('Precedence', 'list'); // MS Outlook
+				$headers->addTextHeader('X-Auto-Response-Suppress', 'All'); // MS Outlook
+
+				$messages[] = $message;
 			}
 		}
 
