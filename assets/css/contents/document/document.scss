@@ -111,6 +111,7 @@
 		background-repeat: no-repeat;
 		background-size:   contain;
 		background-image:  url('/media/layout/icons/other.png');
+		flex-shrink:       0;
 
 		span {
 			@include visually-hidden;
@@ -131,6 +132,7 @@
 
 	.document--title {
 		flex-grow:     1;
+		max-width:     24rem;
 		padding:       0 padding_horizontal();
 
 		overflow:      hidden;
