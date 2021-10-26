@@ -114,7 +114,7 @@ forms:
             placeholder: "Tell us more about your group…"
         presentation:
             label: "Presentation"
-            hint: "Specify the purpose and intention of your group. It will be displayed at the group page."
+            hint: "Describe your group. This will be displayed on the group page."
             placeholder: "Presentation of the group, its objectives…"
 
     page:
