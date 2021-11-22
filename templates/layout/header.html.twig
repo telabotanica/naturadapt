@@ -25,7 +25,11 @@
 			{% endif %}
 			<li><a href="{{ path('articles') }}">Actualités</a></li>
 			<li><a href="{{ path('members') }}">Annuaire</a></li>
+			<li class="toggle-search-link"><a href="#TODO">Rechercher</a></li>
 		</ul>
+	</div>
+	<div class="header--search">
+		<input id="search-bar-input" type="text" placeholder="Rechercher">
 	</div>
 	<div class="header--user">
 		{% if is_granted(constant('App\\Security\\UserVoter::LOGGED')) %}
