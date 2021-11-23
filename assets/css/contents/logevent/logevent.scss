@@ -2,6 +2,8 @@
  * LOG EVENT
  *************************************************/
 
+@use "sass:math";
+
 .logevent__in-dashboard {
 	position:       relative;
 	display:        flex;
@@ -26,7 +28,7 @@
 		font-size: rem(14px);
 
 		.user--name {
-			font-size: (16 / 14) * 1em;
+			font-size: math.div(16, 14) * 1em;
 		}
 
 		a {

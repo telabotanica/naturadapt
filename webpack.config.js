@@ -1,4 +1,4 @@
-const svg_importer = require( 'node-sass-svg/svg-importer' );
+const svg_importer = require( '@zemax/sass-svg/svg-importer' );
 
 var Encore = require('@symfony/webpack-encore');
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
@@ -64,7 +64,7 @@ Encore
 
     // enables Sass/SCSS support
     .enableSassLoader( ( options = {} ) => {
-		options.importer = [ svg_importer ];
+		options.sassOptions.importer = [ svg_importer ];
 
 		return options;
 	} )

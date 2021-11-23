@@ -5,7 +5,7 @@
 .main__user-page__login {
 	.login-form,
 	.register-form {
-		@include columns_item(1/2);
+		@include columns_item(1*0.5);
 		@include card_shadow();
 
 		padding:         padding_vertical('small') padding_horizontal('small');
