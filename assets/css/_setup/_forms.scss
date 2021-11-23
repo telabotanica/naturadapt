@@ -2,6 +2,8 @@
 * STYLES DEFINITIONS
 **************************************************/
 
+@use "sass:math";
+
 @mixin button-reset {
 	padding:          0;
 	border:           none;
@@ -311,7 +313,7 @@ input[type="submit"] {
 * FORM LAYOUT
 **************************************************/
 
-$form_label_width: (1/3) * 100%;
+$form_label_width: math.div(1, 3) * 100%;
 
 .form-row {
 	margin-bottom: rem(26px);

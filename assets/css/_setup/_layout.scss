@@ -2,6 +2,8 @@
 * ELEMENTS STYLES
 **************************************************/
 
+@use "sass:math";
+
 body {
 	display:          flex;
 	flex-flow:        column nowrap;
@@ -69,7 +71,7 @@ figcaption {
 	text-align:    center;
 
 	@include font_default_bold;
-	font-size:     (16 / 18) * 1em;
+	font-size:     math.div(16, 18) * 1em;
 	color:         $color_grey_neutral;
 
 	border-bottom: 1px solid $color_grey_border;
@@ -178,7 +180,7 @@ h3 {
 .thin {
 	@include large-or-more {
 		margin: 0 auto;
-		width:  (700/976) * 100%;
+		width:  math.div(700, 976) * 100%;
 	}
 }
 
@@ -187,7 +189,7 @@ h3 {
 		@include columns;
 
 		> * {
-			@include columns_item(1/2, false);
+			@include columns_item(1*0.5, false);
 		}
 	}
 
@@ -195,7 +197,7 @@ h3 {
 		@include columns;
 
 		> * {
-			@include columns_item(1/3, false);
+			@include columns_item(math.div(1, 3), false);
 		}
 	}
 
@@ -203,11 +205,11 @@ h3 {
 		@include columns;
 
 		> :nth-child(2n+1) {
-			@include columns_item(1/3, false);
+			@include columns_item(math.div(1, 3), false);
 		}
 
 		> :nth-child(2n+2) {
-			@include columns_item(2/3, false);
+			@include columns_item(math.div(2, 3), false);
 		}
 	}
 
@@ -215,11 +217,11 @@ h3 {
 		@include columns;
 
 		> :nth-child(2n+1) {
-			@include columns_item(2/3, false);
+			@include columns_item(math.div(2, 3), false);
 		}
 
 		> :nth-child(2n+2) {
-			@include columns_item(1/3, false);
+			@include columns_item(math.div(1, 3), false);
 		}
 	}
 
