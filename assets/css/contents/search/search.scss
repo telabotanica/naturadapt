@@ -1,0 +1,47 @@
+// To use for result display commit 
+// .main__search-results-index {
+// 	.search-results-list {
+// 		@include clearulli;
+// 	}
+// }
+
+.search-bar {
+    width: 100%;
+}
+
+.search-panel {
+	@include columns;
+
+	> :nth-child(1) {
+		@include columns_item(1 / 2);
+		padding-top: 20px;
+	}
+
+	> :nth-child(2) {
+		@include columns_item(1 / 2);
+	}
+
+	.search-panel--edit {
+		align-self: flex-end;
+		text-align: right;
+	}
+
+	border-bottom: 1px solid #e3e5e9;
+	margin:        0 0 column_gap();
+}
+
+.tag-panel{
+	@include columns;
+
+	> :nth-child(1) {
+		@include columns_item(1 / 5);
+		padding-top: 5px;
+	}
+
+	> :nth-child(2) {
+		@include columns_item(4 / 5);
+	}
+
+	margin:        0 0 column_gap();
+
+}

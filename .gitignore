@@ -24,3 +24,6 @@ files
 ###> liip/imagine-bundle ###
 /public/media/cache/
 ###< liip/imagine-bundle ###
+
+### vscode config for debug 
+.vscode/launch.json

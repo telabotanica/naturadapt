@@ -1,0 +1,68 @@
+/**************************************************
+* Removable TAGS
+**************************************************/
+
+.removable-tag-list {
+	input[tabIndex="-1"],
+	label[aria-hidden="true"] {
+		position:   absolute;
+		margin:     0;
+		padding:    0;
+		width:      0;
+		height:     0;
+		overflow:   hidden;
+		visibility: hidden;
+	}
+}
+
+.removable-tags {
+	.removable-tag {
+		float:            left;
+
+		display:          flex;
+		flex-flow:        row nowrap;
+		align-items:      center;
+
+		white-space:      nowrap;
+
+		margin-right:     .5em;
+		margin-bottom:    .5rem;
+		padding:          .6em 1em;
+		font-size:        rem(12px);
+
+		color:            white;
+		background-color: $color_action;
+		border-radius:    .4em;
+
+		button {
+			position:      relative;
+			@include button-reset;
+			margin-bottom: .1em;
+			margin-left:   .5em;
+
+			width:         rem(10px);
+			height:        rem(10px);
+			border:        1px solid white;
+			border-radius: rem(4px);
+
+			&::before,
+			&::after {
+				content:    '';
+				position:   absolute;
+				top:        50%;
+				left:       50%;
+				width:      80%;
+				height:     0;
+				border-top: 1px solid white;
+			}
+
+			&::before {
+				transform: translate(-50%, -50%) rotate(45deg);
+			}
+
+			&::after {
+				transform: translate(-50%, -50%) rotate(-45deg);
+			}
+		}
+	}
+}

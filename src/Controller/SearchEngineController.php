@@ -1,12 +1,13 @@
 <?php
 
-// src/Controller/DefaultController.php
 namespace App\Controller;
 
 // Import TNTSearch
 use TeamTNT\TNTSearch\TNTSearch;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\Usergroup;
+use App\Service\SearchEngineManager;
+use Symfony\Component\HttpFoundation\Request;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,14 +15,53 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class SearchEngineController extends AbstractController
 {    
+    private $formFactory;
+
+    /**
+	 * @Route("/search", name="search_page")
+     * 
+ 	 * @param \Symfony\Component\HttpFoundation\Request $request
+   	 * @param \App\Service\SearchEngineManager      $searchEngineManager
+	 *
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
+	public function searchPage (
+        Request $request,
+        SearchEngineManager $searchEngineManager
+
+	) {
+        // TODO: Add Pagination to results
+		$page     = $request->query->get( 'page', 0 );
+		$per_page = 20;
+        $filters = $request->query->get( 'form', [] );
+
+        unset( $filters[ 'submit' ] );
+
+        if ( !empty( $filters[ 'query' ] ) ) {
+			$filters[ 'keywords' ] = explode( ',',  $filters[ 'query' ]  );
+			unset( $filters[ 'query' ] );
+		} else {
+            $filters[ 'keywords' ] = [];
+        }
+
+        $data = $searchEngineManager->getForm(
+            $filters,
+            [ 'page' => $page, 'per_page' => $per_page ]
+        );
+
+        $data[ 'form' ]->handleRequest( $request );
+
+		return $this->render( 'pages/search/search.html.twig', [
+            'form'    => $data[ 'form' ]->createView(),
+		] );
+	}
+
     /**
      * Returns an array with the configuration of TNTSearch with the
      * database used by the Symfony project.
      * 
      * @return type
      */
-
-
     private function getTNTSearchConfiguration(){
 
         $databaseURL = $_ENV['DATABASE_URL'];
@@ -47,8 +87,7 @@ class SearchEngineController extends AbstractController
     /**
      * @Route("/generate-index", name="app_generate-index")
      */
-    public function generate_index()
-    {
+    public function generate_index(){
         $tnt = new TNTSearch;
 
         // Obtain and load the configuration that can be generated with the previous described method
