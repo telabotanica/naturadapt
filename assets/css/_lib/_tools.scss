@@ -2,20 +2,22 @@
 * FONT SIZE TOOLS
 **************************************************/
 
+@use "sass:math";
+
 $base_font_size: 16px !default;
 
 @function em($target, $context: $base_font_size) {
 	@if $target == 0 {
 		@return 0
 	}
-	@return $target / $context + 0em;
+	@return math.div($target, $context) + 0em;
 }
 
 @function rem($target, $context: $base_font_size) {
 	@if $target == 0 {
 		@return 0
 	}
-	@return $target / $context + 0rem;
+	@return math.div($target, $context) + 0rem;
 }
 
 /**************************************************
@@ -102,11 +104,11 @@ $base_font_size: 16px !default;
 
 @mixin picto-set-size($width, $picto_width, $picto_height, $sheet_width: 100px, $sheet_height: 300px, $sprite_number: 0, $sprite_offset: 100px) {
 	width:               $width;
-	height:              ceil($width * ($picto_height / $picto_width));
+	height:              ceil($width * math.div($picto_height, $picto_width));
 
 	background-repeat:   no-repeat;
-	background-size:     ($sheet_width * ($width / $picto_width)) ($sheet_height * ($width / $picto_width));
-	background-position: 0 (-$sprite_offset * $sprite_number * ($width / $picto_width));
+	background-size:     ($sheet_width * math.div($width, $picto_width)) ($sheet_height * math.div($width, $picto_width));
+	background-position: 0 (-$sprite_offset * $sprite_number * math.div($width, $picto_width));
 }
 
 /**************************************************

@@ -2,6 +2,8 @@
 * FRONT PAGE
 **************************************************/
 
+@use "sass:math";
+
 .main__front-page {
 	.main--header--image {
 		img {
@@ -33,7 +35,7 @@
 	background-color: white;
 
 	font-size:        rem(22px);
-	line-height:      (26 / 22);
+	line-height:      math.div(26, 22);
 
 	@include medium-or-more {
 		margin-left:  rem(160px);

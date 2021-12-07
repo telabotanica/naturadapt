@@ -2,16 +2,16 @@
 	"devDependencies": {
 		"@ckeditor/ckeditor5-build-classic": "^18.0.0",
 		"@symfony/webpack-encore": "^0.31.0",
+		"@zemax/sass-svg": "^2.0.1",
 		"autocomplete.js": "^0.37.1",
 		"autoprefixer": "^9.7.6",
 		"core-js": "^3.6.5",
 		"mf-js": "^2.0.6",
-		"node-sass": "^4.14.1",
-		"node-sass-svg": "^1.1.1",
 		"places.js": "^1.18.1",
 		"postcss-loader": "^3.0.0",
 		"regenerator-runtime": "^0.13.7",
-		"sass-loader": "^7.3.1",
+		"sass": "^1.43.4",
+		"sass-loader": "^9.0.1",
 		"tar": "^4.4.18",
 		"webpack-notifier": "^1.8.0"
 	},
@@ -29,8 +29,5 @@
 		"> 1%",
 		"IE 10",
 		"iOS 8"
-	],
-	"dependencies": {
-		"intl": "^1.2.5"
-	}
+	]
 }
