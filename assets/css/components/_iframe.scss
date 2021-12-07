@@ -2,10 +2,12 @@
  * IFRAME
  **************************************************/
 
+@use "sass:math";
+
 .wysiwyg-content figure.media {
 	height: 0;
 	overflow: hidden;
-	padding-top: 360px / 640px * 100%;
+	padding-top: math.div(360px, 640px) * 100%;
 	position: relative;
 
 	iframe {

@@ -2,6 +2,8 @@
 * PAGES LIST
 **************************************************/
 
+@use "sass:math";
+
 .main__pages-index {
 	.pages-list {
 		@include clearulli;
@@ -82,7 +84,7 @@
 
 .page__full {
 	.main--header__cover {
-		min-height: (237 / 375) * 100vw;
+		min-height: math.div(237, 375) * 100vw;
 
 		@include medium-or-more {
 			min-height: rem(380px);

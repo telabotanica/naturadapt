@@ -2,6 +2,8 @@
 * FONTS FACES
 **************************************************/
 
+@use "sass:math";
+
 @mixin font_default {
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-weight: normal;
@@ -40,10 +42,10 @@
 
 @function line_height_default($size: 'small') {
 	@if $size == 'large' {
-		@return (23 / 16);
+		@return math.div(23, 16);
 	}
 
-	@return (24 / 18);
+	@return math.div(24, 18);
 }
 
 /**************************************************
@@ -68,11 +70,11 @@
 	@include font_title_bold;
 
 	font-size:   rem(23px);
-	line-height: (28 / 23);
+	line-height: math.div(28, 23);
 
 	@include medium-or-more {
 		font-size:   rem(40px);
-		line-height: (47 / 40);
+		line-height: (47 * 0.025);
 	}
 }
 
@@ -82,11 +84,11 @@
 	@include font_title;
 
 	font-size:   rem(22px);
-	line-height: (26 / 22);
+	line-height: math.div(26, 22);
 
 	@include medium-or-more {
 		font-size:   rem(28px);
-		line-height: (34 / 28);
+		line-height: math.div(34, 28);
 	}
 }
 
@@ -96,11 +98,11 @@
 	@include font_title;
 
 	font-size:   rem(25px);
-	line-height: (30 / 25);
+	line-height: math.div(30, 25);
 
 	@include medium-or-more {
 		font-size:   rem(22px);
-		line-height: (26 / 22);
+		line-height: math.div(26, 22);
 	}
 }
 
