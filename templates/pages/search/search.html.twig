@@ -48,6 +48,19 @@
 						<span class="removable-tag-list  ">
 							{{ form_widget(form.currentTags) }}
 						</span>
+					</div>
+					<div class="result-number">
+						{{ results|length }} résultats
+					</div>
+					<section class="results-list narrow">
+						<ul >
+							{% for result in results %}
+								<li>
+									{% include 'contents/search-results/result--teaser.html.twig' with {'result':result} %}
+								</li>
+							{% endfor %}
+						</ul>
+					</section>
 				</div>
 			</div>
 			{{ form_end(form) }}

@@ -64,9 +64,11 @@ class SearchEngineController extends AbstractController
         );
 
         $data[ 'form' ]->handleRequest( $request );
+        $results = $this->launchSearch($filters[ 'keywords' ]);
 
 		return $this->render( 'pages/search/search.html.twig', [
             'form'    => $data[ 'form' ]->createView(),
+            'results' => $results
 		] );
 	}
 
@@ -169,6 +171,53 @@ class SearchEngineController extends AbstractController
         
         // Return the results to the user
         return new JsonResponse($rows);
+    }
+
+
+    public function launchSearch($wordList)
+    {
+        $text = implode($wordList);
+
+
+        $em = $this->getDoctrine()->getManager();
+        
+        $tnt = new TNTSearch;
+
+        // Obtain and load the configuration that can be generated with the previous described method
+        $configuration = $this->getTNTSearchConfiguration();
+        $tnt->loadConfig($configuration);
+        
+        // Use the generated index in the previous step
+        $tnt->selectIndex('groups.index');
+        
+        $maxResults = 20;
+        
+        $this->setFuzziness($tnt);
+
+        // Search for a band named like "Guns n' roses"
+        $results = $tnt->search($text, $maxResults);
+        
+        // Keep a reference to the Doctrine repository of artists
+        $usergroupsRepository = $em->getRepository(Usergroup::class);
+        
+        // Store the results in an array
+        $rows = [];
+        
+        foreach($results["ids"] as $id){
+            // You can optimize this by using the FIELD function of MySQL if you are using mysql
+            // more info at: https://ourcodeworld.com/articles/read/1162/how-to-order-a-doctrine-2-query-result-by-a-specific-order-of-an-array-using-mysql-in-symfony-5
+            $userGroup = $usergroupsRepository->find($id);
+            
+            $rows[] = [
+                'id' => $userGroup->getId(),
+                'name' => $userGroup->getName(), 
+                'description' => $userGroup->getDescription()
+            ];
+        }
+        
+        // Return the results to the user
+        // return new JsonResponse($rows);
+        return $rows;
     }
 
 
