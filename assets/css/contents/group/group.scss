@@ -2,6 +2,8 @@
 * GROUP LIST
 **************************************************/
 
+@use "sass:math";
+
 .groups-list {
 	@include clearulli;
 
@@ -13,7 +15,7 @@
 		}
 
 		> li {
-			@include columns_item(1/3);
+			@include columns_item(math.div(1, 3));
 
 			@include medium-or-more {
 				&:not(:nth-child(3n+1)) {
@@ -122,7 +124,7 @@
 		&::before {
 			content:        '';
 			display:        block;
-			padding-bottom: (165 / 292) * 100%;
+			padding-bottom: math.div(165, 292) * 100%;
 		}
 
 		background-color: var(--color);
@@ -209,7 +211,7 @@
 
 .group__full {
 	.main--header__cover {
-		min-height: (237 / 375) * 100vw;
+		min-height: math.div(237, 375) * 100vw;
 
 		@include medium-or-more {
 			min-height: rem(380px);
@@ -257,7 +259,7 @@
 		margin: 0;
 
 		@include small-or-less {
-			font-size: (12 / 16) * 1em;
+			font-size: math.div(12, 16) * 1em;
 		}
 	}
 
@@ -280,11 +282,11 @@
 	}
 
 	.group-description-text {
-		@include columns_item(2 / 3)
+		@include columns_item(math.div(2, 3))
 	}
 
 	.group-join {
-		@include columns_item(1 / 3);
+		@include columns_item(math.div(1, 3));
 
 		padding: 1rem;
 	}
@@ -360,7 +362,7 @@
 		@include clearulli;
 
 		@include large-or-more {
-			max-width: (2 / 3) * 100%;
+			max-width: math.div(2, 3) * 100%;
 			margin:    0 auto;
 		}
 
@@ -386,7 +388,7 @@
 		display:   flex;
 		flex-flow: column nowrap;
 
-		@include columns_item(1/3);
+		@include columns_item(math.div(1, 3));
 		@include card_shadow();
 
 		@include medium-or-more {

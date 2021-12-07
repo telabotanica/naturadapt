@@ -110,10 +110,11 @@ forms:
             placeholder: ""
         description:
             label: "Description"
-            hint: "Précisez les but et intention de votre groupe."
+            hint: "Précisez les but et intention de votre groupe. La description sera affichée sur la page de présentation des groupes."
             placeholder: "Dites nous en plus sur votre groupe…"
         presentation:
             label: "Présentation"
+            hint: "Présentez votre groupe. La présentation sera affichée sur la page du groupe."
             placeholder: "Présentation du groupe, ses objectifs…"
 
     page:

@@ -2,11 +2,13 @@
  * IN LIST ADMIN PANEL
  *************************************************/
 
+@use "sass:math";
+
 .in-list-admin-panel {
 	position:     relative;
 	margin-right: rem(10px);
 
-	font-size:    (14 / 18) * 1em;
+	font-size:    math.div(14, 18) * 1em;
 
 	@include clearulli;
 
