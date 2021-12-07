@@ -18,7 +18,12 @@ class SearchEngineController extends AbstractController
     private $formFactory;
 
     /**
-	 * @Route("/search", name="search_page")
+	 * @Route(
+     * "/search/{searchQuery}", 
+     * name="search_page",
+     * defaults={"searchQuery" = ""},
+     * requirements={"searchQuery"=".+"}
+     * )
      * 
  	 * @param \Symfony\Component\HttpFoundation\Request $request
    	 * @param \App\Service\SearchEngineManager      $searchEngineManager
@@ -27,20 +32,29 @@ class SearchEngineController extends AbstractController
 	 */
 	public function searchPage (
         Request $request,
-        SearchEngineManager $searchEngineManager
-
+        SearchEngineManager $searchEngineManager,
+        string $searchQuery
 	) {
+        $searchQuery = $request->request->get('searchQuery');
+        
         // TODO: Add Pagination to results
 		$page     = $request->query->get( 'page', 0 );
 		$per_page = 20;
         $filters = $request->query->get( 'form', [] );
-
+        
         unset( $filters[ 'submit' ] );
 
-        if ( !empty( $filters[ 'query' ] ) ) {
+        // If request comes from header search bar
+        if ($searchQuery != '') {
+            $filters[ 'keywords' ] = explode( ',',  $searchQuery  );
+        } 
+        // If request is done from search page
+        else if ( !empty( $filters[ 'query' ] ) ) {
 			$filters[ 'keywords' ] = explode( ',',  $filters[ 'query' ]  );
 			unset( $filters[ 'query' ] );
-		} else {
+		} 
+        // If the search url is directly taped
+        else {
             $filters[ 'keywords' ] = [];
         }
 
