@@ -52,7 +52,7 @@ class SearchEngineController extends AbstractController
         }
         // If request is done from search page
         else if ( !empty( $filters[ 'query' ] ) ) {
-			$filters[ 'keywords' ] = explode( ',',  $filters[ 'query' ]  );
+			$filters[ 'keywords' ] = array_merge($filters[ 'currentTags' ], explode( ',',  $filters[ 'query' ]  ));
 			unset( $filters[ 'query' ] );
 		}
         // If the search url is directly taped

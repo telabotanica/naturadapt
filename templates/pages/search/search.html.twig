@@ -14,11 +14,11 @@
 				<h1 class="h1">Résultats de recherche</h1>
 
 				<div class="search-panel--edit form-row form-row__no-gap">
-					{{ form_widget(form.query, {'attr': {'placeholder': "Rechercher"}}) }}
+					{{ form_widget(form.query, {'attr': {'placeholder': "Rechercher", 'value': ''}}) }}
 				</div>
 			</div>
 
-			
+
 			<div class="columns__33-66 columns__no-stretch">
 				<div class="filters">
 					<div class="small-title">Filtres</div>
@@ -42,7 +42,7 @@
 					</div>
 				</div>
 				<div>
-				
+
 					<div class="tag-panel">
 						<span>Recherche:</span>
 						<span class="removable-tag-list  ">
@@ -52,7 +52,7 @@
 					<div class="result-number">
 						{{ results|length }} résultats
 					</div>
-					<section class="results-list narrow">
+					<section class="results-list">
 						<ul >
 							{% for result in results %}
 								<li>

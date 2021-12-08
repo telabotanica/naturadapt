@@ -1,7 +1,5 @@
 import domready from 'mf-js/modules/dom/ready';
 
-const normalizeKey = str => str.normalize( 'NFD' ).replace( /[\u0300-\u036f]/g, "" ).toLocaleLowerCase();
-
 domready( () => Array.from( document.querySelectorAll( '.removable-tag-list ' ) ).forEach( ( element ) => {
 	const checkboxes = Array.from( element.querySelectorAll( 'input[type="checkbox"]' ) );
 

@@ -88,6 +88,12 @@
 	.result-type{
 		color: $color_action;
 	}
+	
+	.result-title{
+		font-size: 16px;
+		font-weight: bold;
+		color: $color_grey_medium;
+	}
 
 	.result-body {
 		display:            -webkit-box;
