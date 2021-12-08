@@ -28,13 +28,13 @@
 			<li class="toggle-search-link"><a href="{{ path('search_page') }}">Rechercher</a></li>
 		</ul>
 	</div>
-	<div class="header--search">
-		{% if app.request.get('_route') != 'search_page' %}
+	{% if app.request.get('_route') != 'search_page' %}
+		<div class="header--search">
 			<form action="{{ path('search_page') }}" method="post">
 				<input id="search-bar-input" type="text" placeholder="Rechercher" name="searchQuery">
 			</form>
-		{% endif %}
-	</div>
+		</div>
+	{% endif %}
 	<div class="header--user">
 		{% if is_granted(constant('App\\Security\\UserVoter::LOGGED')) %}
 			<div class="header--user-menu">
