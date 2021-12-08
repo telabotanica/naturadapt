@@ -6,8 +6,10 @@ namespace App\Controller;
 use TeamTNT\TNTSearch\TNTSearch;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\Usergroup;
+
 use App\Service\SearchEngineManager;
 use Symfony\Component\HttpFoundation\Request;
+
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -78,6 +80,7 @@ class SearchEngineController extends AbstractController
      *
      * @return type
      */
+
     private function getTNTSearchConfiguration(){
 
         $databaseURL = $_ENV['DATABASE_URL'];
@@ -104,6 +107,7 @@ class SearchEngineController extends AbstractController
      * @Route("/generate-index", name="app_generate-index")
      */
     public function generate_index(){
+
         $tnt = new TNTSearch;
 
         // Obtain and load the configuration that can be generated with the previous described method
@@ -219,7 +223,6 @@ class SearchEngineController extends AbstractController
         // return new JsonResponse($rows);
         return $rows;
     }
-
 
     protected function setFuzziness($tnt)
     {
