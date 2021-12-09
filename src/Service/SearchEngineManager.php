@@ -36,7 +36,7 @@ class SearchEngineManager {
 
 		$tagArray = array_combine($filters[ 'keywords' ], $filters[ 'keywords' ]);
 
-		$form = $this->formFactory	->createBuilder( FormType::class, $filters )
+		$form = $this->formFactory	->createBuilder( FormType::class, $filters, array('csrf_protection' => false) )
                                   	->setMethod( 'get' )
 									->add( 'resultType', ChoiceType::class, [
 											'required' => FALSE,
