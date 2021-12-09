@@ -63,9 +63,14 @@ class SearchEngineController extends AbstractController
 			}
 			unset( $filters[ 'query' ] );
 		}
-		// If request is provoked by a searchbar filter change
+		// If request is provoked by filter change
 		else {
-			$filters[ 'keywords' ] = $filters[ 'currentTags' ];
+			// If request is provoked by the last tag removal
+			if (isset($filters[ 'currentTags' ])){
+				$filters[ 'keywords' ] = $filters[ 'currentTags' ];
+			} else {
+				$filters[ 'keywords' ] = [];
+			}
 		}
 
         $data = $searchEngineManager->getForm(

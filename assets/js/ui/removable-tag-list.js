@@ -57,6 +57,8 @@ domready( () => Array.from( document.querySelectorAll( '.removable-tag-list ' ) 
 		closeButton.addEventListener( 'click', ( e ) => {
 			matchingCheckboxes.forEach( ( checkbox ) => checkbox.checked = false );
 			tags.removeChild( tag );
+			let form = document.getElementById( 'search_engine_form' )
+			form.submit();
 		} );
 		tag.appendChild( closeButton );
 
