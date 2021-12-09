@@ -1,9 +1,4 @@
-// To use for result display commit 
-// .main__search-results-index {
-// 	.search-results-list {
-// 		@include clearulli;
-// 	}
-// }
+@use "sass:math";
 
 .search-bar {
     width: 100%;
@@ -13,12 +8,12 @@
 	@include columns;
 
 	> :nth-child(1) {
-		@include columns_item(1 / 2);
+		@include columns_item(math.div(1, 2));
 		padding-top: 20px;
 	}
 
 	> :nth-child(2) {
-		@include columns_item(1 / 2);
+		@include columns_item(math.div(1, 2));
 	}
 
 	.search-panel--edit {
@@ -38,12 +33,12 @@
 	@include columns;
 
 	> :nth-child(1) {
-		@include columns_item(1 / 5);
+		@include columns_item(math.div(1, 5));
 		padding-top: 5px;
 	}
 
 	> :nth-child(2) {
-		@include columns_item(4 / 5);
+		@include columns_item(math.div(4, 5));
 	}
 
 }
@@ -88,7 +83,7 @@
 	.result-type{
 		color: $color_action;
 	}
-	
+
 	.result-title{
 		font-size: 16px;
 		font-weight: bold;
