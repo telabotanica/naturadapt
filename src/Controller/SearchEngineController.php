@@ -50,8 +50,12 @@ class SearchEngineController extends AbstractController
         if ($searchQuery != '') {
             $filters[ 'keywords' ] = explode( ',',  $searchQuery  );
         }
-        // If request is done from search page
-        else if ( !empty( $filters[ 'query' ] ) ) {
+		// If the search url is directly taped
+		else if(empty( $filters)){
+			$filters[ 'keywords' ] = [];
+		}
+        // If request is done from search page search bar
+        else if ( !empty( $filters[ 'query' ] ) ){
 			if(isset($filters[ 'currentTags' ])){
 				$filters[ 'keywords' ] = array_merge($filters[ 'currentTags' ], explode( ',',  $filters[ 'query' ]  ));
 			} else {
@@ -59,10 +63,10 @@ class SearchEngineController extends AbstractController
 			}
 			unset( $filters[ 'query' ] );
 		}
-        // If the search url is directly taped
-        else {
-            $filters[ 'keywords' ] = [];
-        }
+		// If request is provoked by a searchbar filter change
+		else {
+			$filters[ 'keywords' ] = $filters[ 'currentTags' ];
+		}
 
         $data = $searchEngineManager->getForm(
             $filters,
