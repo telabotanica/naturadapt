@@ -52,7 +52,11 @@ class SearchEngineController extends AbstractController
         }
         // If request is done from search page
         else if ( !empty( $filters[ 'query' ] ) ) {
-			$filters[ 'keywords' ] = array_merge($filters[ 'currentTags' ], explode( ',',  $filters[ 'query' ]  ));
+			if(isset($filters[ 'currentTags' ])){
+				$filters[ 'keywords' ] = array_merge($filters[ 'currentTags' ], explode( ',',  $filters[ 'query' ]  ));
+			} else {
+				$filters[ 'keywords' ] = explode( ',',  $filters[ 'query' ]  );
+			}
 			unset( $filters[ 'query' ] );
 		}
         // If the search url is directly taped
@@ -180,7 +184,7 @@ class SearchEngineController extends AbstractController
 
     public function launchSearch($wordList)
     {
-        $text = implode($wordList);
+        $text = implode($wordList, ' ');
 
 
         $em = $this->getDoctrine()->getManager();

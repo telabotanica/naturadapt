@@ -90,7 +90,6 @@ class SearchEngineManager {
 											return ['checked' => 'checked'];
 										},
 										] )
-									->add( 'submit', SubmitType::class )
 									->getForm();
 
 		return [
