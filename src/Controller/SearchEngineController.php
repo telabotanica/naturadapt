@@ -6,6 +6,7 @@ namespace App\Controller;
 use TeamTNT\TNTSearch\TNTSearch;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\Usergroup;
+use App\Entity\DiscussionMessage;
 
 use App\Service\SearchEngineManager;
 use Symfony\Component\HttpFoundation\Request;
@@ -79,11 +80,19 @@ class SearchEngineController extends AbstractController
         );
 
         $data[ 'form' ]->handleRequest( $request );
-        $results = $this->launchSearch($filters[ 'keywords' ]);
+
+		if (isset($filters[ 'resultType' ])){
+			$results = $this->launchSearch($filters[ 'keywords' ], $filters['resultType']);
+		} else {
+			$results['discussions'] = [];
+		}
+
+		$discussionMessages = $results['discussions'];
 
 		return $this->render( 'pages/search/search.html.twig', [
             'form'    => $data[ 'form' ]->createView(),
-            'results' => $results
+			'result_number' => count($results['discussions']),
+			'discussionMessages' => $discussionMessages
 		] );
 	}
 
@@ -145,11 +154,12 @@ class SearchEngineController extends AbstractController
 
 
 
-    /**
-     * @Route("/searchEngine", name="app_search")
-     */
-    public function search()
+
+
+    public function launchSearch($wordList, $categories=[])
     {
+		$text = implode($wordList, ' ');
+
         $em = $this->getDoctrine()->getManager();
 
         $tnt = new TNTSearch;
@@ -158,51 +168,35 @@ class SearchEngineController extends AbstractController
         $configuration = $this->getTNTSearchConfiguration();
         $tnt->loadConfig($configuration);
 
-        // Use the generated index in the previous step
-        $tnt->selectIndex('groups.index');
+		$rows = [];
 
-        $maxResults = 20;
+		$this->setFuzziness($tnt);
 
-        $this->setFuzziness($tnt);
+		if( in_array( "discussions", $categories ) ){
+			// Use the generated index in the previous step
+			$tnt->selectIndex('discussions_messages.index');
+			$maxResults = 20;
 
-        // Search for a band named like "Guns n' roses"
-        $results = $tnt->search("que", $maxResults);
+			$results = $tnt->search($text, $maxResults);
+			$discussionMessagesRepository = $em->getRepository(DiscussionMessage::class);
+			$rowsDiscussions = [];
+			foreach($results["ids"] as $id){
+				// You can optimize this by using the FIELD function of MySQL if you are using mysql
+				// more info at: https://ourcodeworld.com/articles/read/1162/how-to-order-a-doctrine-2-query-result-by-a-specific-order-of-an-array-using-mysql-in-symfony-5
+				$discussionMessages = $discussionMessagesRepository->find($id);
 
-        // Keep a reference to the Doctrine repository of artists
-        $usergroupsRepository = $em->getRepository(Usergroup::class);
+				$relevantBody = $tnt->snippet($text, strip_tags($discussionMessages->getBody()));
 
-        // Store the results in an array
-        $rows = [];
+				$rowsDiscussions[] = [
+					'id' => $discussionMessages->getId(),
+					'title' => $tnt->highlight($discussionMessages->getDiscussion()->getTitle(), $text, 'em', ['wholeWord' => false,]),
+					'body' => $tnt->highlight($relevantBody, $text, 'em', ['wholeWord' => false]),
+					'author' => $discussionMessages->getAuthor()->getDisplayName()
+				];
+			}
+			$rows['discussions'] = $rowsDiscussions;
+		}
 
-        foreach($results["ids"] as $id){
-            // You can optimize this by using the FIELD function of MySQL if you are using mysql
-            // more info at: https://ourcodeworld.com/articles/read/1162/how-to-order-a-doctrine-2-query-result-by-a-specific-order-of-an-array-using-mysql-in-symfony-5
-            $userGroup = $usergroupsRepository->find($id);
-
-            $rows[] = [
-                'id' => $userGroup->getId(),
-                'name' => $userGroup->getName(),
-                'description' => $userGroup->getDescription()
-            ];
-        }
-
-        // Return the results to the user
-        return new JsonResponse($rows);
-    }
-
-
-    public function launchSearch($wordList)
-    {
-        $text = implode($wordList, ' ');
-
-
-        $em = $this->getDoctrine()->getManager();
-
-        $tnt = new TNTSearch;
-
-        // Obtain and load the configuration that can be generated with the previous described method
-        $configuration = $this->getTNTSearchConfiguration();
-        $tnt->loadConfig($configuration);
 
         // Use the generated index in the previous step
         $tnt->selectIndex('groups.index');
@@ -218,28 +212,76 @@ class SearchEngineController extends AbstractController
         $usergroupsRepository = $em->getRepository(Usergroup::class);
 
         // Store the results in an array
-        $rows = [];
+        $rowsGroup = [];
 
         foreach($results["ids"] as $id){
-            // You can optimize this by using the FIELD function of MySQL if you are using mysql
+			// You can optimize this by using the FIELD function of MySQL if you are using mysql
             // more info at: https://ourcodeworld.com/articles/read/1162/how-to-order-a-doctrine-2-query-result-by-a-specific-order-of-an-array-using-mysql-in-symfony-5
             $userGroup = $usergroupsRepository->find($id);
 
-            $rows[] = [
-                'id' => $userGroup->getId(),
+            $rowsGroup[] = [
+				'id' => $userGroup->getId(),
                 'name' => $userGroup->getName(),
                 'description' => $userGroup->getDescription()
             ];
         }
+
+		$rows['groups'] = $rowsGroup;
+
 
         // Return the results to the user
         // return new JsonResponse($rows);
         return $rows;
     }
 
+	/**
+	 * @Route("/searchEngine", name="app_search")
+	 */
+	public function search()
+	{
+		$em = $this->getDoctrine()->getManager();
+
+		$tnt = new TNTSearch;
+
+		// Obtain and load the configuration that can be generated with the previous described method
+		$configuration = $this->getTNTSearchConfiguration();
+		$tnt->loadConfig($configuration);
+
+		// Use the generated index in the previous step
+		$tnt->selectIndex('groups.index');
+
+		$maxResults = 20;
+
+		$this->setFuzziness($tnt);
+
+		// Search for a band named like "Guns n' roses"
+		$results = $tnt->search("que", $maxResults);
+
+		// Keep a reference to the Doctrine repository of artists
+		$usergroupsRepository = $em->getRepository(Usergroup::class);
+
+		// Store the results in an array
+		$rows = [];
+
+		foreach($results["ids"] as $id){
+			// You can optimize this by using the FIELD function of MySQL if you are using mysql
+			// more info at: https://ourcodeworld.com/articles/read/1162/how-to-order-a-doctrine-2-query-result-by-a-specific-order-of-an-array-using-mysql-in-symfony-5
+			$userGroup = $usergroupsRepository->find($id);
+
+			$rows[] = [
+				'id' => $userGroup->getId(),
+				// 'name' => $userGroup->getName(),
+				'description' => $userGroup->getDescription()
+			];
+		}
+
+		// Return the results to the user
+		return new JsonResponse($rows);
+	}
+
     protected function setFuzziness($tnt)
     {
-        $tnt->fuzziness            = true;
+        $tnt->fuzziness            = false;
         //the number of one character changes that need to be made to one string to make it the same as another string
         $tnt->fuzzy_distance       = 2;
         //The number of initial characters which will not be “fuzzified”. This helps to reduce the number of terms which must be examined.

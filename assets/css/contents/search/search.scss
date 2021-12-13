@@ -67,6 +67,10 @@
 
 	border-bottom:   1px solid $color_grey_border;
 
+	em {
+		background-color: #FFFFAF;
+	}
+
 	&:focus,
 	&:hover {
 		background-color: rgba(white, .5);

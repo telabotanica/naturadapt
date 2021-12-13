@@ -50,13 +50,13 @@
 						</span>
 					</div>
 					<div class="result-number">
-						{{ results|length }} résultats
+						{{ result_number }} résultats
 					</div>
 					<section class="results-list">
 						<ul >
-							{% for result in results %}
+							{% for discussion in discussionMessages %}
 								<li>
-									{% include 'contents/search-results/result--teaser.html.twig' with {'result':result} %}
+									{% include 'contents/search-results/discussion--teaser.html.twig' with {'discussion':discussion} %}
 								</li>
 							{% endfor %}
 						</ul>

@@ -1,0 +1,9 @@
+{% set classes = ['result', 'result__teaser'] %}
+<a class="{{ classes|join(' ') }}" href="TODO">
+	<div>
+		<h4 class="result-type">Discussion</h4>
+		<div class="result-title">{{ discussion.title|raw }}</div>
+		<h5 >Par {{discussion.author}}:</h5>
+		<div class="result-body">{{ discussion.body|striptags('<br><em><p>')|raw }}</div>
+	</div>
+</a>

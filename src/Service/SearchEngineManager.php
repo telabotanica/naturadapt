@@ -42,6 +42,9 @@ class SearchEngineManager {
 											'required' => FALSE,
 											'expanded' => TRUE,
 											'multiple' => TRUE,
+											'choice_attr' => function() {
+												return ['checked' => 'checked'];
+											},
 											'choices'  => array_combine([
 												'pages.group.pages.title',
 												'pages.group.discussions.title',
