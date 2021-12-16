@@ -10,59 +10,59 @@
 			{% include 'components/app-flashes.html.twig' %}
 
 			{{ form_start(form, {'attr': {'id': 'search_engine_form'}}) }}
-			<div class="search-panel">
-				<h1 class="h1">Résultats de recherche</h1>
 
-				<div class="search-panel--edit form-row form-row__no-gap">
-					{{ form_widget(form.query, {'attr': {'placeholder': "Rechercher", 'value': ''}}) }}
-				</div>
-			</div>
+					<div class="search-panel">
+						<h1 class="h1">Résultats de recherche</h1>
 
-
-			<div class="columns__33-66 columns__no-stretch">
-				<div class="filters">
-					<div class="small-title">Filtres</div>
-					<div class="form-row form-row__filter">
-						Type de résultat
-						<div class="form-row__checkboxes">
-							{{ form_widget(form.resultType) }}
+						<div class="search-panel--edit form-row form-row__no-gap">
+							{{ form_widget(form.search_texts.query, {'attr': {'placeholder': 'Rechercher', 'value': ''}}) }}
 						</div>
 					</div>
-					<div class="form-row form-row__filter">
-						Groupes
-						<div class="form-row__radioboxes">
-							{{ form_widget(form.groups) }}
-						</div>
-					</div>
-					<div class="form-row ">
-						Rechercher dans un groupe précis
-						<div class="form-row__checkboxes checkboxes-autocomplete">
-							{{ form_widget(form.particularGroup) }}
-						</div>
-					</div>
-				</div>
-				<div>
 
-					<div class="tag-panel">
-						<span>Recherche:</span>
-						<span class="removable-tag-list  ">
-							{{ form_widget(form.currentTags) }}
-						</span>
+					<div class="columns__33-66 columns__no-stretch">
+						<div class="filters">
+							<div class="small-title">Filtres</div>
+							<div class="form-row form-row__filter">
+								Type de résultat
+								<div class="form-row__checkboxes">
+									{{ form_widget(form.search_filters.result_type) }}
+								</div>
+							</div>
+							<div class="form-row form-row__filter">
+								Groupes
+								<div class="form-row__radioboxes">
+									{{ form_widget(form.search_filters.groups) }}
+								</div>
+							</div>
+							<div class="form-row ">
+								Rechercher dans un groupe précis
+								<div class="form-row__checkboxes checkboxes-autocomplete">
+									{{ form_widget(form.search_filters.particularGroup) }}
+								</div>
+							</div>
+						</div>
+						<div>
+
+							<div class="tag-panel">
+								<span>Recherche</span>
+								<span class="removable-tag-list  ">
+									{{ form_widget(form.search_texts.current_tags) }}
+								</span>
+							</div>
+							<div class="result-number">
+								{{ result_number }} résultats
+							</div>
+							<section class="results-list">
+								<ul >
+									{% for discussion in discussionMessages %}
+										<li>
+											{% include 'contents/search-results/discussion--teaser.html.twig' with {'discussion':discussion} %}
+										</li>
+									{% endfor %}
+								</ul>
+							</section>
+						</div>
 					</div>
-					<div class="result-number">
-						{{ result_number }} résultats
-					</div>
-					<section class="results-list">
-						<ul >
-							{% for discussion in discussionMessages %}
-								<li>
-									{% include 'contents/search-results/discussion--teaser.html.twig' with {'discussion':discussion} %}
-								</li>
-							{% endfor %}
-						</ul>
-					</section>
-				</div>
-			</div>
 			{{ form_end(form) }}
 		</div>
 	</section>

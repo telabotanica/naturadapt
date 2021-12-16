@@ -25,19 +25,16 @@ domready( () => Array.from( document.querySelectorAll( '.removable-tag-list ' ) 
 	tags.className = 'removable-tags';
 	wrapper.appendChild( tags );
 
-	const input = document.getElementById( 'form_query' );
+	const input = document.getElementById( 'form_search_texts_query' );
 	wrapper.setAttribute( 'for', input.id );
 
 	// Add tag from a given value
 
 	const addTag = ( value, force = false ) => {
-		console.log( 'addTag', value );
-
 		// Check matching checboxes
 		const matchingCheckboxes = Array.from( element.querySelectorAll( `[value="${value}"]` ) );
 
 		if ( !force && (matchingCheckboxes.filter( ( checkbox ) => checkbox.checked ).length > 0) ) {
-			console.log( 'skipped' );
 			return;
 		}
 

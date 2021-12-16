@@ -2,101 +2,82 @@
 
 namespace App\Service;
 
-use App\Entity\Skill;
-use App\Repository\SkillRepository;
+use App\Form\SearchFiltersFormType;
+use App\Form\SearchTextsFormType;
 
-use App\Entity\Usergroup;
-use App\Repository\UsergroupRepository;
-
-use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use Psr\Container\ContainerInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\FormFactoryInterface;
+
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Extension\Core\Type\SearchType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+
+
 use Symfony\Component\Intl\Intl;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-
-use App\Form\TagType;
 
 class SearchEngineManager {
 	private $manager;
 	private $formFactory;
 
-	public function __construct ( EntityManagerInterface $manager, ContainerInterface $container ) {
+	public function __construct ( EntityManagerInterface $manager, FormFactoryInterface $formFactory  ) {
 		$this->manager     = $manager;
-		$this->formFactory = $container->get( 'form.factory' );
+		$this->formFactory = $formFactory;
 	}
 
 
-	public function getForm ( $filters, $options = [] ) {
+	public function getForm ( array $form, $headbar_query, array $options = [] ): array
+	{
+		// If not requested from searchpage(search url is written, clicked from menu or header searchbar)
+		if(empty( $form)){
+			$formFilters = [];
+			$formTexts = [];
+			$formFilters[ 'result_type' ] = ["pages","discussions","actualites","documents","membres"];
+			$formTexts[ 'current_tags' ] = [];
+			// If requested from header searchBar
+			if($headbar_query){
+				$formTexts[ 'keywords' ] = explode( ',',  $headbar_query  );
+			} else {
+				$formTexts[ 'keywords' ] = [];
+			}
+		}
+		// If requested from search Page
+		else {
+			$formFilters = $form["search_filters"];
+			$formTexts = $form["search_texts"];
 
-		$tagArray = array_combine($filters[ 'keywords' ], $filters[ 'keywords' ]);
+			if (!isset($formFilters[ 'result_type' ])){
+				$formFilters[ 'result_type' ] = [];
+			}
 
-		$form = $this->formFactory	->createBuilder( FormType::class, $filters, array('csrf_protection' => false) )
+			// If request is done from search bar
+			if ( !empty( $formTexts[ 'query' ] ) ){
+				$formTexts[ 'keywords' ] = explode( ',',  $formTexts[ 'query' ]  );
+				unset( $formTexts[ 'query' ] );
+			} else {
+				$formTexts[ 'keywords' ] = [];
+			}
+
+			// If Tags was already presents in last request
+			if(isset($formTexts[ 'current_tags' ]) && is_array($formTexts['current_tags'])){
+				$formTexts[ 'keywords' ] = array_merge($formTexts[ 'current_tags' ], $formTexts[ 'keywords' ]);
+			}
+		}
+
+		$form["search_filters"] = $formFilters;
+		$form["search_texts"] = $formTexts;
+
+		$tag_array = array_combine($formTexts[ 'keywords' ], $formTexts[ 'keywords' ]);
+
+		$form = $this->formFactory	->createBuilder( FormType::class, [], array('csrf_protection' => false) )
                                   	->setMethod( 'get' )
-									->add( 'resultType', ChoiceType::class, [
-											'required' => FALSE,
-											'expanded' => TRUE,
-											'multiple' => TRUE,
-											'choice_attr' => function() {
-												return ['checked' => 'checked'];
-											},
-											'choices'  => array_combine([
-												'pages.group.pages.title',
-												'pages.group.discussions.title',
-												'pages.group.articles.title',
-												'pages.group.documents.title',
-												'pages.group.members.title'
-											],[
-												"pages",
-												"discussions",
-												"actualites",
-												"documents",
-												"membres"
-											]),
-									] )
-									->add( 'groups', ChoiceType::class, [
-										'required' => FALSE,
-										'multiple' => FALSE,
-										'expanded' => TRUE,
-										'choices'  => [
-											'Tous les groupes' => "All Groups",
-											'Mes groupes' => "My Groups"
-										],
-										'data' => "All Groups",
-										'placeholder' => false
-										] )
-									->add( 'particularGroup', EntityType::class, [
-										'class'                     => Usergroup::class,
-										'required'                  => FALSE,
-										'expanded'                  => TRUE,
-										'multiple'                  => TRUE,
-										'query_builder'             => function ( UsergroupRepository $repository ) {
-											return $repository->createQueryBuilder( 'u' )
-																->orderBy( 'u.slug', 'ASC' );
-										},
-										'choice_label'              => 'slug',
-									] )
-									->add( 'query', SearchType::class, [
-										'required' => FALSE,
-										] )
-									->add( 'currentTags', ChoiceType::class, [
-										'required'                  => FALSE,
-										'expanded'                  => TRUE,
-										'multiple'                  => TRUE,
-										'choices'  => $tagArray,
-										'choice_attr' => function() {
-											return ['checked' => 'checked'];
-										},
-										] )
+									->add('search_filters', SearchFiltersFormType::class)
+									->add('search_texts', SearchTextsFormType::class, [
+										'tag_array' => $tag_array
+									])
 									->getForm();
-
 		return [
-			'form'    => $form,
+			'form' => $form,
+			'formFilters' => $formFilters,
+			'formTexts' => $formTexts
 		];
 	}
 

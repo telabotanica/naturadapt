@@ -18,7 +18,7 @@ import 'core-js/features/promise';
  * COMPONENTS
  **************************************************/
 //
-import './interaction/interactive_submission';
+import './interaction/interactive-submission';
 //
 import './ui/input-autocomplete';
 import './ui/input-checkboxes-autocomplete';

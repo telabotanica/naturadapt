@@ -18,7 +18,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class SearchEngineController extends AbstractController
 {
-    private $formFactory;
+    public const NUMBER_OF_ITEMS_BY_INDEX = 20;
+    public const DISCUSSION_INDEX = 'discussions_messages.index';
 
     /**
 	 * @Route(
@@ -38,61 +39,28 @@ class SearchEngineController extends AbstractController
         SearchEngineManager $searchEngineManager,
         string $searchQuery
 	) {
-        $searchQuery = $request->request->get('searchQuery');
+		$form = $request->query->get( 'form', [] );
+		$headbarSearchQuery = $request->request->get('searchQuery');
 
         // TODO: Add Pagination to results
 		$page     = $request->query->get( 'page', 0 );
 		$per_page = 20;
-        $filters = $request->query->get( 'form', [] );
 
-        unset( $filters[ 'submit' ] );
-
-        // If request comes from header search bar
-        if ($searchQuery != '') {
-            $filters[ 'keywords' ] = explode( ',',  $searchQuery  );
-        }
-		// If the search url is directly taped
-		else if(empty( $filters)){
-			$filters[ 'keywords' ] = [];
-		}
-        // If request is done from search page search bar
-        else if ( !empty( $filters[ 'query' ] ) ){
-			if(isset($filters[ 'currentTags' ])){
-				$filters[ 'keywords' ] = array_merge($filters[ 'currentTags' ], explode( ',',  $filters[ 'query' ]  ));
-			} else {
-				$filters[ 'keywords' ] = explode( ',',  $filters[ 'query' ]  );
-			}
-			unset( $filters[ 'query' ] );
-		}
-		// If request is provoked by filter change
-		else {
-			// If request is provoked by the last tag removal
-			if (isset($filters[ 'currentTags' ])){
-				$filters[ 'keywords' ] = $filters[ 'currentTags' ];
-			} else {
-				$filters[ 'keywords' ] = [];
-			}
-		}
-
-        $data = $searchEngineManager->getForm(
-            $filters,
+        $formObj = $searchEngineManager->getForm(
+            $form,
+			$headbarSearchQuery,
             [ 'page' => $page, 'per_page' => $per_page ]
         );
 
-        $data[ 'form' ]->handleRequest( $request );
 
-		if (isset($filters[ 'resultType' ])){
-			$results = $this->launchSearch($filters[ 'keywords' ], $filters['resultType']);
-		} else {
-			$results['discussions'] = [];
-		}
+        $formObj['form']->handleRequest( $request );
 
-		$discussionMessages = $results['discussions'];
+		$results = $this->launchSearch($formObj['formFilters'], $formObj['formTexts']);
 
 		return $this->render( 'pages/search/search.html.twig', [
-            'form'    => $data[ 'form' ]->createView(),
+            'form'    => $formObj['form']->createView(),
 			'result_number' => count($results['discussions']),
-			'discussionMessages' => $discussionMessages
+			'discussionMessages' => $results['discussions']
 		] );
 	}
 
@@ -102,8 +70,8 @@ class SearchEngineController extends AbstractController
      *
      * @return type
      */
-
-    private function getTNTSearchConfiguration(){
+    private function getTNTSearchConfiguration(): array
+	{
 
         $databaseURL = $_ENV['DATABASE_URL'];
 
@@ -128,13 +96,13 @@ class SearchEngineController extends AbstractController
     /**
      * @Route("/generate-index", name="app_generate-index")
      */
-    public function generate_index(){
+    public function generate_index()
+	{
 
         $tnt = new TNTSearch;
 
         // Obtain and load the configuration that can be generated with the previous described method
-        $configuration = $this->getTNTSearchConfiguration();
-        $tnt->loadConfig($configuration);
+        $tnt->loadConfig($this->getTNTSearchConfiguration());
 
         // The index file will have the following name, feel free to change it as you want
         $indexer = $tnt->createIndex('groups.index');
@@ -154,39 +122,30 @@ class SearchEngineController extends AbstractController
 
 
 
-
-
-    public function launchSearch($wordList, $categories=[])
+    public function launchSearch(array $formFilters, array $formTexts): array
     {
-		$text = implode($wordList, ' ');
+		$categories = $formFilters["result_type"];
 
+		// $aaa = $form["search_texts"]["current_tags"];
+
+		// $text = $formTexts["current_tags"];
+		$text = implode($formTexts["keywords"], ' ');
         $em = $this->getDoctrine()->getManager();
-
         $tnt = new TNTSearch;
 
         // Obtain and load the configuration that can be generated with the previous described method
-        $configuration = $this->getTNTSearchConfiguration();
-        $tnt->loadConfig($configuration);
-
+        $tnt->loadConfig($this->getTNTSearchConfiguration());
 		$rows = [];
-
 		$this->setFuzziness($tnt);
 
 		if( in_array( "discussions", $categories ) ){
-			// Use the generated index in the previous step
-			$tnt->selectIndex('discussions_messages.index');
-			$maxResults = 20;
-
-			$results = $tnt->search($text, $maxResults);
+			$tnt->selectIndex(self::DISCUSSION_INDEX);
+			$results = $tnt->search($text, self::NUMBER_OF_ITEMS_BY_INDEX);
 			$discussionMessagesRepository = $em->getRepository(DiscussionMessage::class);
 			$rowsDiscussions = [];
 			foreach($results["ids"] as $id){
-				// You can optimize this by using the FIELD function of MySQL if you are using mysql
-				// more info at: https://ourcodeworld.com/articles/read/1162/how-to-order-a-doctrine-2-query-result-by-a-specific-order-of-an-array-using-mysql-in-symfony-5
 				$discussionMessages = $discussionMessagesRepository->find($id);
-
 				$relevantBody = $tnt->snippet($text, strip_tags($discussionMessages->getBody()));
-
 				$rowsDiscussions[] = [
 					'id' => $discussionMessages->getId(),
 					'title' => $tnt->highlight($discussionMessages->getDiscussion()->getTitle(), $text, 'em', ['wholeWord' => false,]),
@@ -195,92 +154,16 @@ class SearchEngineController extends AbstractController
 				];
 			}
 			$rows['discussions'] = $rowsDiscussions;
+		} else {
+			$rows['discussions'] = [];
 		}
 
-
-        // Use the generated index in the previous step
-        $tnt->selectIndex('groups.index');
-
-        $maxResults = 20;
-
-        $this->setFuzziness($tnt);
-
-        // Search for a band named like "Guns n' roses"
-        $results = $tnt->search($text, $maxResults);
-
-        // Keep a reference to the Doctrine repository of artists
-        $usergroupsRepository = $em->getRepository(Usergroup::class);
-
-        // Store the results in an array
-        $rowsGroup = [];
-
-        foreach($results["ids"] as $id){
-			// You can optimize this by using the FIELD function of MySQL if you are using mysql
-            // more info at: https://ourcodeworld.com/articles/read/1162/how-to-order-a-doctrine-2-query-result-by-a-specific-order-of-an-array-using-mysql-in-symfony-5
-            $userGroup = $usergroupsRepository->find($id);
-
-            $rowsGroup[] = [
-				'id' => $userGroup->getId(),
-                'name' => $userGroup->getName(),
-                'description' => $userGroup->getDescription()
-            ];
-        }
-
-		$rows['groups'] = $rowsGroup;
-
-
-        // Return the results to the user
-        // return new JsonResponse($rows);
         return $rows;
     }
 
-	/**
-	 * @Route("/searchEngine", name="app_search")
-	 */
-	public function search()
-	{
-		$em = $this->getDoctrine()->getManager();
-
-		$tnt = new TNTSearch;
-
-		// Obtain and load the configuration that can be generated with the previous described method
-		$configuration = $this->getTNTSearchConfiguration();
-		$tnt->loadConfig($configuration);
-
-		// Use the generated index in the previous step
-		$tnt->selectIndex('groups.index');
-
-		$maxResults = 20;
-
-		$this->setFuzziness($tnt);
-
-		// Search for a band named like "Guns n' roses"
-		$results = $tnt->search("que", $maxResults);
-
-		// Keep a reference to the Doctrine repository of artists
-		$usergroupsRepository = $em->getRepository(Usergroup::class);
-
-		// Store the results in an array
-		$rows = [];
-
-		foreach($results["ids"] as $id){
-			// You can optimize this by using the FIELD function of MySQL if you are using mysql
-			// more info at: https://ourcodeworld.com/articles/read/1162/how-to-order-a-doctrine-2-query-result-by-a-specific-order-of-an-array-using-mysql-in-symfony-5
-			$userGroup = $usergroupsRepository->find($id);
-
-			$rows[] = [
-				'id' => $userGroup->getId(),
-				// 'name' => $userGroup->getName(),
-				'description' => $userGroup->getDescription()
-			];
-		}
-
-		// Return the results to the user
-		return new JsonResponse($rows);
-	}
-
     protected function setFuzziness($tnt)
     {
+		//TODO: Remove function if fuzziness is finally not used
         $tnt->fuzziness            = false;
         //the number of one character changes that need to be made to one string to make it the same as another string
         $tnt->fuzzy_distance       = 2;
