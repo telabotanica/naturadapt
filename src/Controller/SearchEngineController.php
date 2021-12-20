@@ -7,6 +7,10 @@ use TeamTNT\TNTSearch\TNTSearch;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\Usergroup;
 use App\Entity\DiscussionMessage;
+use App\Entity\Article;
+use App\Entity\Page;
+use App\Entity\User;
+use App\Entity\Document;
 
 use App\Service\SearchEngineManager;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,6 +24,12 @@ class SearchEngineController extends AbstractController
 {
     public const NUMBER_OF_ITEMS_BY_INDEX = 20;
     public const DISCUSSION_INDEX = 'discussions_messages.index';
+	public const ACTUALITE_INDEX = 'articles.index';
+	public const PAGE_INDEX = 'pages.index';
+	public const DOCUMENT_INDEX = 'documents.index';
+	public const MEMBER_INDEX = 'members.index';
+
+
 
     /**
 	 * @Route(
@@ -52,15 +62,18 @@ class SearchEngineController extends AbstractController
             [ 'page' => $page, 'per_page' => $per_page ]
         );
 
-
         $formObj['form']->handleRequest( $request );
 
 		$results = $this->launchSearch($formObj['formFilters'], $formObj['formTexts']);
 
 		return $this->render( 'pages/search/search.html.twig', [
             'form'    => $formObj['form']->createView(),
-			'result_number' => count($results['discussions']),
-			'discussionMessages' => $results['discussions']
+			'result_number' => count(array_merge($results['discussions'], $results['actualites'], $results['pages'], $results['documents'], $results['membres'])),
+			'discussionMessages' => $results['discussions'],
+			'actualites' => $results['actualites'],
+			'pages' => $results['pages'],
+			'documents' => $results['documents'],
+			'membres' => $results['membres'],
 		] );
 	}
 
@@ -105,12 +118,19 @@ class SearchEngineController extends AbstractController
         $tnt->loadConfig($this->getTNTSearchConfiguration());
 
         // The index file will have the following name, feel free to change it as you want
-        $indexer = $tnt->createIndex('groups.index');
+        // $indexer = $tnt->createIndex('groups.index');
+		// $indexer = $tnt->createIndex('pages.index');
+		// $indexer = $tnt->createIndex('documents.index');
+		$indexer = $tnt->createIndex('members.index');
 
         // The result with all the rows of the query will be the data
         // that the engine will use to search, in our case we only want 2 columns
         // (note that the primary key needs to be included)
-        $indexer->query('SELECT id, name, slug, description FROM naturadapt_usergroups;');
+        // $indexer->query('SELECT id, title, body FROM naturadapt_usergroups;');
+		// $indexer->query('SELECT id, title, body FROM naturadapt_pages;');
+		// $indexer->query('SELECT id, title FROM naturadapt_document;');
+		$indexer->query('SELECT id, name, presentation, bio FROM naturadapt_users;');
+
 
         // Generate index file !
         $indexer->run();
@@ -121,14 +141,10 @@ class SearchEngineController extends AbstractController
     }
 
 
-
     public function launchSearch(array $formFilters, array $formTexts): array
     {
 		$categories = $formFilters["result_type"];
 
-		// $aaa = $form["search_texts"]["current_tags"];
-
-		// $text = $formTexts["current_tags"];
 		$text = implode($formTexts["keywords"], ' ');
         $em = $this->getDoctrine()->getManager();
         $tnt = new TNTSearch;
@@ -138,28 +154,128 @@ class SearchEngineController extends AbstractController
 		$rows = [];
 		$this->setFuzziness($tnt);
 
-		if( in_array( "discussions", $categories ) ){
-			$tnt->selectIndex(self::DISCUSSION_INDEX);
-			$results = $tnt->search($text, self::NUMBER_OF_ITEMS_BY_INDEX);
-			$discussionMessagesRepository = $em->getRepository(DiscussionMessage::class);
-			$rowsDiscussions = [];
-			foreach($results["ids"] as $id){
-				$discussionMessages = $discussionMessagesRepository->find($id);
-				$relevantBody = $tnt->snippet($text, strip_tags($discussionMessages->getBody()));
-				$rowsDiscussions[] = [
-					'id' => $discussionMessages->getId(),
-					'title' => $tnt->highlight($discussionMessages->getDiscussion()->getTitle(), $text, 'em', ['wholeWord' => false,]),
-					'body' => $tnt->highlight($relevantBody, $text, 'em', ['wholeWord' => false]),
-					'author' => $discussionMessages->getAuthor()->getDisplayName()
-				];
-			}
-			$rows['discussions'] = $rowsDiscussions;
+		if( in_array( 'discussions', $categories ) ){
+			$rows['discussions'] = $this->searchResultByCategory(
+				'discussions',
+				self::DISCUSSION_INDEX,
+				DiscussionMessage::class,
+				['id', 'title', 'body', 'author', 'group'],
+				$tnt,
+				$text,
+				$em
+			);
 		} else {
 			$rows['discussions'] = [];
 		}
 
+		if( in_array( 'actualites', $categories ) ){
+			$rows['actualites'] = $this->searchResultByCategory(
+				'actualites',
+				self::ACTUALITE_INDEX,
+				Article::class,
+				['id', 'title', 'body', 'author', 'group'],
+				$tnt,
+				$text,
+				$em
+			);
+		} else {
+			$rows['actualites'] = [];
+		}
+
+		if( in_array( 'pages', $categories ) ){
+			$rows['pages'] = $this->searchResultByCategory(
+				'pages',
+				self::PAGE_INDEX,
+				Page::class,
+				['id', 'title', 'body', 'author', 'group'],
+				$tnt,
+				$text,
+				$em
+			);
+		} else {
+			$rows['pages'] = [];
+		}
+
+		if( in_array( 'documents', $categories ) ){
+			$rows['documents'] = $this->searchResultByCategory(
+				'documents',
+				self::DOCUMENT_INDEX,
+				Document::class,
+				['id', 'title', 'group'],
+				$tnt,
+				$text,
+				$em
+			);
+		} else {
+			$rows['documents'] = [];
+		}
+
+		if( in_array( 'membres', $categories ) ){
+			$rows['membres'] = $this->searchResultByCategory(
+				'membres',
+				self::MEMBER_INDEX,
+				User::class,
+				['id', 'name', 'presentation', 'bio'],
+				$tnt,
+				$text,
+				$em
+			);
+		} else {
+			$rows['membres'] = [];
+		}
+
         return $rows;
     }
+
+	private function searchResultByCategory($category, $index, $class, $propertyList, $tnt, $text, $em){
+		$tnt->selectIndex($index);
+		$results = $tnt->search($text, self::NUMBER_OF_ITEMS_BY_INDEX);
+		$repository = $em->getRepository($class);
+		$rows = [];
+		foreach($results["ids"] as $id){
+			$item = $repository->find($id);
+			$temp = [];
+			foreach($propertyList as $property){
+				switch ($property) {
+					case 'id':
+						$temp['id'] = $item->getId();
+						break;
+					case 'title':
+						if ($category==='discussions'){
+							$temp['title'] = $tnt->highlight($item->getDiscussion()->getTitle(), $text, 'em', ['wholeWord' => false,]);
+						} else {
+							$temp['title'] = $tnt->highlight($item->getTitle(), $text, 'em', ['wholeWord' => false,]);
+						}
+						break;
+					case 'body':
+						$relevantBody = $tnt->snippet($text, strip_tags($item->getBody()));
+						$temp['body'] = $tnt->highlight($relevantBody, $text, 'em', ['wholeWord' => false]);
+						break;
+					case 'author':
+						$temp['author'] = $item->getAuthor()->getDisplayName();
+						break;
+					case 'presentation':
+						$temp['presentation'] = $item->getPresentation();
+						break;
+					case 'bio':
+						$temp['bio'] = $item->getBio();
+						break;
+					case 'name':
+						$temp['name'] = $item->getName();
+						break;
+					case 'group':
+						if ($category==='discussions'){
+							$temp['group'] = $item->getDiscussion()->getUsergroup();
+						} else {
+							$temp['group'] = $item->getUsergroup();
+						}
+						break;
+				}
+			}
+			array_push($rows, $temp);
+		}
+		return $rows;
+	}
 
     protected function setFuzziness($tnt)
     {

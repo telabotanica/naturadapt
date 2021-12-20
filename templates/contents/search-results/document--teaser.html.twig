@@ -1,0 +1,15 @@
+{% set classes = ['result', 'result__teaser'] %}
+<a class="{{ classes|join(' ') }}" href="TODO">
+	<div>
+		<div class="result-type">DOCUMENT</div>
+		<div class="result-title">{{ document.title|raw }}</div>
+		<div class="result-group">
+			{% if (document.group.logo is defined) and (document.group.logo is not empty) %}
+				<div class="group-logo">
+					<img src="{{ document.group.logo.path | imagine_filter('logo') }}" alt="">
+				</div>
+			{% endif %}
+			<div class="group-text">{{document.group.name}}</div>
+		</div>
+	</div>
+</a>

@@ -1,0 +1,17 @@
+{% set classes = ['result', 'result__teaser'] %}
+<a class="{{ classes|join(' ') }}" href="TODO">
+	<div>
+		<div class="result-type">PAGE</div>
+		<div class="result-title">{{ page.title|raw }}</div>
+		{# <h5 >Par {{discussion.author}}:</h5> #}
+		<div class="result-body">{{ page.body|striptags('<br><em><p>')|raw }}</div>
+		<div class="result-group">
+			{% if (page.group.logo is defined) and (page.group.logo is not empty) %}
+				<div class="group-logo">
+					<img src="{{ page.group.logo.path | imagine_filter('logo') }}" alt="">
+				</div>
+			{% endif %}
+			<div class="group-text">{{page.group.name}}</div>
+		</div>
+	</div>
+</a>

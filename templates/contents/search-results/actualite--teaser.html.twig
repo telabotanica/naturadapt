@@ -1,0 +1,16 @@
+{% set classes = ['result', 'result__teaser'] %}
+<a class="{{ classes|join(' ') }}" href="TODO">
+	<div>
+		<div class="result-type">ACTUALITE</div>
+		<div class="result-title">{{ actualite.title|raw }}</div>
+		<div class="result-body">{{ actualite.body|striptags('<br><em><p>')|raw }}</div>
+		<div class="result-group">
+			{% if (actualite.group.logo is defined) and (actualite.group.logo is not empty) %}
+				<div class="group-logo">
+					<img src="{{ actualite.group.logo.path | imagine_filter('logo') }}" alt="">
+				</div>
+			{% endif %}
+			<div class="group-text">{{actualite.group.name}}</div>
+		</div>
+	</div>
+</a>
