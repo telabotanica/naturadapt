@@ -1,5 +1,5 @@
 {% set classes = ['result', 'result__teaser'] %}
-<a class="{{ classes|join(' ') }}" href="TODO">
+<a class="{{ classes|join(' ') }}" href="{{ path('group_article_index', {'groupSlug': actualite.group.slug, 'articleSlug': actualite.slug}) }}">
 	<div>
 		<div class="result-type">ACTUALITE</div>
 		<div class="result-title">{{ actualite.title|raw }}</div>

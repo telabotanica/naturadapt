@@ -159,7 +159,7 @@ class SearchEngineController extends AbstractController
 				'discussions',
 				self::DISCUSSION_INDEX,
 				DiscussionMessage::class,
-				['id', 'title', 'body', 'author', 'group'],
+				['id', 'title', 'body', 'author', 'group', 'uuid'],
 				$tnt,
 				$text,
 				$em
@@ -173,7 +173,7 @@ class SearchEngineController extends AbstractController
 				'actualites',
 				self::ACTUALITE_INDEX,
 				Article::class,
-				['id', 'title', 'body', 'author', 'group'],
+				['id', 'title', 'body', 'author', 'group', 'slug'],
 				$tnt,
 				$text,
 				$em
@@ -187,7 +187,7 @@ class SearchEngineController extends AbstractController
 				'pages',
 				self::PAGE_INDEX,
 				Page::class,
-				['id', 'title', 'body', 'author', 'group'],
+				['id', 'title', 'body', 'author', 'group', 'slug'],
 				$tnt,
 				$text,
 				$em
@@ -268,6 +268,14 @@ class SearchEngineController extends AbstractController
 							$temp['group'] = $item->getDiscussion()->getUsergroup();
 						} else {
 							$temp['group'] = $item->getUsergroup();
+						}
+						break;
+					case 'slug':
+						$temp['slug'] = $item->getSlug();
+						break;
+					case 'uuid':
+						if ($category==='discussions'){
+							$temp['uuid'] = $item->getDiscussion()->getUuid();
 						}
 						break;
 				}

@@ -1,9 +1,8 @@
 {% set classes = ['result', 'result__teaser'] %}
-<a class="{{ classes|join(' ') }}" href="TODO">
+<a class="{{ classes|join(' ') }}" href="{{ path('group_page_index', {'groupSlug': page.group.slug, 'pageSlug': page.slug}) }}">
 	<div>
 		<div class="result-type">PAGE</div>
 		<div class="result-title">{{ page.title|raw }}</div>
-		{# <h5 >Par {{discussion.author}}:</h5> #}
 		<div class="result-body">{{ page.body|striptags('<br><em><p>')|raw }}</div>
 		<div class="result-group">
 			{% if (page.group.logo is defined) and (page.group.logo is not empty) %}
