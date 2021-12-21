@@ -29,14 +29,7 @@ class SearchFiltersFormType extends AbstractType
 					'pages.group.articles.title' => 'actualites',
 					'pages.group.documents.title' => 'documents',
 					'pages.group.members.title' => 'membres'
-				),
-				'data' => [
-					'pages',
-					'discussions',
-					'actualites',
-					'documents',
-					'membres'
-				],
+				)
 			] )
 			->add( 'groups', ChoiceType::class, [
 				'required' => false,

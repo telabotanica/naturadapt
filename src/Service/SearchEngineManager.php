@@ -28,9 +28,8 @@ class SearchEngineManager {
 	{
 		// If not requested from searchpage(search url is written, clicked from menu or header searchbar)
 		if(empty( $form)){
-			$formFilters = [];
 			$formTexts = [];
-			$formFilters[ 'result_type' ] = ["pages","discussions","actualites","documents","membres"];
+			$form['search_filters'][ 'result_type' ] = ["pages","discussions","actualites","documents","membres"];
 			$formTexts[ 'current_tags' ] = [];
 			// If requested from header searchBar
 			if($headbar_query){
@@ -41,11 +40,10 @@ class SearchEngineManager {
 		}
 		// If requested from search Page
 		else {
-			$formFilters = $form["search_filters"];
 			$formTexts = $form["search_texts"];
 
-			if (!isset($formFilters[ 'result_type' ])){
-				$formFilters[ 'result_type' ] = [];
+			if (!isset($form["search_filters"][ 'result_type' ])){
+				$form["search_filters"][ 'result_type' ] = ["pages","discussions","actualites","documents","membres"];
 			}
 
 			// If request is done from search bar
@@ -62,21 +60,20 @@ class SearchEngineManager {
 			}
 		}
 
-		$form["search_filters"] = $formFilters;
 		$form["search_texts"] = $formTexts;
 
 		$tag_array = array_combine($formTexts[ 'keywords' ], $formTexts[ 'keywords' ]);
 
-		$form = $this->formFactory	->createBuilder( FormType::class, [], array('csrf_protection' => false) )
-                                  	->setMethod( 'get' )
-									->add('search_filters', SearchFiltersFormType::class)
-									->add('search_texts', SearchTextsFormType::class, [
-										'tag_array' => $tag_array
-									])
-									->getForm();
+		$formObj = $this->formFactory	->createBuilder( FormType::class, [], array('csrf_protection' => false) )
+                                  		->setMethod( 'get' )
+										->add('search_filters', SearchFiltersFormType::class)
+										->add('search_texts', SearchTextsFormType::class, [
+											'tag_array' => $tag_array
+										])
+										->getForm();
 		return [
-			'form' => $form,
-			'formFilters' => $formFilters,
+			'form' => $formObj,
+			'formFilters' => $form["search_filters"],
 			'formTexts' => $formTexts
 		];
 	}
