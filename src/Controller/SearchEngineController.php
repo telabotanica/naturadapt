@@ -161,8 +161,7 @@ class SearchEngineController extends AbstractController
 				$em->getRepository(DiscussionMessage::class),
 				['id', 'title', 'body', 'author', 'group', 'uuid'],
 				$tnt,
-				$text,
-				$em
+				$text
 			);
 		} else {
 			$results['discussions'] = [];
