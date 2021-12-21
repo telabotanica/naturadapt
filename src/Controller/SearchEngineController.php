@@ -151,136 +151,132 @@ class SearchEngineController extends AbstractController
 
         // Obtain and load the configuration that can be generated with the previous described method
         $tnt->loadConfig($this->getTNTSearchConfiguration());
-		$rows = [];
+		$results = [];
 		$this->setFuzziness($tnt);
 
 		if( in_array( 'discussions', $categories ) ){
-			$rows['discussions'] = $this->searchResultByCategory(
+			$results['discussions'] = $this->searchResultByCategory(
 				'discussions',
 				self::DISCUSSION_INDEX,
-				DiscussionMessage::class,
+				$em->getRepository(DiscussionMessage::class),
 				['id', 'title', 'body', 'author', 'group', 'uuid'],
 				$tnt,
 				$text,
 				$em
 			);
 		} else {
-			$rows['discussions'] = [];
+			$results['discussions'] = [];
 		}
 
 		if( in_array( 'actualites', $categories ) ){
-			$rows['actualites'] = $this->searchResultByCategory(
+			$results['actualites'] = $this->searchResultByCategory(
 				'actualites',
 				self::ACTUALITE_INDEX,
-				Article::class,
+				$em->getRepository(Article::class),
 				['id', 'title', 'body', 'author', 'group', 'slug'],
 				$tnt,
-				$text,
-				$em
+				$text
 			);
 		} else {
-			$rows['actualites'] = [];
+			$results['actualites'] = [];
 		}
 
 		if( in_array( 'pages', $categories ) ){
-			$rows['pages'] = $this->searchResultByCategory(
+			$results['pages'] = $this->searchResultByCategory(
 				'pages',
 				self::PAGE_INDEX,
-				Page::class,
+				$em->getRepository(Page::class),
 				['id', 'title', 'body', 'author', 'group', 'slug'],
 				$tnt,
-				$text,
-				$em
+				$text
 			);
 		} else {
-			$rows['pages'] = [];
+			$results['pages'] = [];
 		}
 
 		if( in_array( 'documents', $categories ) ){
-			$rows['documents'] = $this->searchResultByCategory(
+			$results['documents'] = $this->searchResultByCategory(
 				'documents',
 				self::DOCUMENT_INDEX,
-				Document::class,
+				$em->getRepository(Document::class),
 				['id', 'title', 'group'],
 				$tnt,
-				$text,
-				$em
+				$text
 			);
 		} else {
-			$rows['documents'] = [];
+			$results['documents'] = [];
 		}
 
 		if( in_array( 'membres', $categories ) ){
-			$rows['membres'] = $this->searchResultByCategory(
+			$results['membres'] = $this->searchResultByCategory(
 				'membres',
 				self::MEMBER_INDEX,
-				User::class,
+				$em->getRepository(User::class),
 				['id', 'name', 'presentation', 'bio'],
 				$tnt,
-				$text,
-				$em
+				$text
 			);
 		} else {
-			$rows['membres'] = [];
+			$results['membres'] = [];
 		}
 
-        return $rows;
+        return $results;
     }
 
-	private function searchResultByCategory($category, $index, $class, $propertyList, $tnt, $text, $em){
+	private function searchResultByCategory($category, $index, $repository, $propertyList, $tnt, $text){
 		$tnt->selectIndex($index);
 		$results = $tnt->search($text, self::NUMBER_OF_ITEMS_BY_INDEX);
-		$repository = $em->getRepository($class);
+		// $repository = $em->getRepository($class);
 		$rows = [];
 		foreach($results["ids"] as $id){
 			$item = $repository->find($id);
-			$temp = [];
+			$result = [];
 			foreach($propertyList as $property){
 				switch ($property) {
 					case 'id':
-						$temp['id'] = $item->getId();
+						$result['id'] = $item->getId();
 						break;
 					case 'title':
 						if ($category==='discussions'){
-							$temp['title'] = $tnt->highlight($item->getDiscussion()->getTitle(), $text, 'em', ['wholeWord' => false,]);
+							$result['title'] = $tnt->highlight($item->getDiscussion()->getTitle(), $text, 'em', ['wholeWord' => false,]);
 						} else {
-							$temp['title'] = $tnt->highlight($item->getTitle(), $text, 'em', ['wholeWord' => false,]);
+							$result['title'] = $tnt->highlight($item->getTitle(), $text, 'em', ['wholeWord' => false,]);
 						}
 						break;
 					case 'body':
 						$relevantBody = $tnt->snippet($text, strip_tags($item->getBody()));
-						$temp['body'] = $tnt->highlight($relevantBody, $text, 'em', ['wholeWord' => false]);
+						$result['body'] = $tnt->highlight($relevantBody, $text, 'em', ['wholeWord' => false]);
 						break;
 					case 'author':
-						$temp['author'] = $item->getAuthor()->getDisplayName();
+						$result['author'] = $item->getAuthor()->getDisplayName();
 						break;
 					case 'presentation':
-						$temp['presentation'] = $item->getPresentation();
+						$result['presentation'] = $item->getPresentation();
 						break;
 					case 'bio':
-						$temp['bio'] = $item->getBio();
+						$result['bio'] = $item->getBio();
 						break;
 					case 'name':
-						$temp['name'] = $item->getName();
+						$result['name'] = $item->getName();
 						break;
 					case 'group':
 						if ($category==='discussions'){
-							$temp['group'] = $item->getDiscussion()->getUsergroup();
+							$result['group'] = $item->getDiscussion()->getUsergroup();
 						} else {
-							$temp['group'] = $item->getUsergroup();
+							$result['group'] = $item->getUsergroup();
 						}
 						break;
 					case 'slug':
-						$temp['slug'] = $item->getSlug();
+						$result['slug'] = $item->getSlug();
 						break;
 					case 'uuid':
 						if ($category==='discussions'){
-							$temp['uuid'] = $item->getDiscussion()->getUuid();
+							$result['uuid'] = $item->getDiscussion()->getUuid();
 						}
 						break;
 				}
 			}
-			array_push($rows, $temp);
+			array_push($rows, $result);
 		}
 		return $rows;
 	}
