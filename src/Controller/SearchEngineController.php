@@ -64,7 +64,12 @@ class SearchEngineController extends AbstractController
 
         $formObj['form']->handleRequest( $request );
 
-		$results = $this->launchSearch($formObj['formFilters'], $formObj['formTexts']);
+        $tnt = new TNTSearch;
+        // Obtain and load the configuration that can be generated with the previous described method
+        $tnt->loadConfig($searchEngineManager->getTNTSearchConfiguration());
+		$searchEngineManager->setFuzziness($tnt);
+
+		$results = $this->launchSearch($tnt, $formObj['formFilters'], $formObj['formTexts']);
 
 		return $this->render( 'pages/search/search.html.twig', [
             'form'    => $formObj['form']->createView(),
@@ -77,37 +82,11 @@ class SearchEngineController extends AbstractController
 		] );
 	}
 
-    /**
-     * Returns an array with the configuration of TNTSearch with the
-     * database used by the Symfony project.
-     *
-     * @return type
-     */
-    private function getTNTSearchConfiguration(): array
-	{
 
-        $databaseURL = $_ENV['DATABASE_URL'];
-
-        $databaseParameters = parse_url($databaseURL);
-
-        $config = [
-            'driver'    => $databaseParameters["scheme"],
-            'host'      => $databaseParameters["host"],
-            'database'  => str_replace("/", "", $databaseParameters["path"]),
-            'username'  => $databaseParameters["user"],
-            'password'  => $databaseParameters["pass"],
-            // Create the fuzzy_storage directory in your project to store the index file
-            'storage'   => '/var/www/tntsearch/examples/',
-            // A stemmer is optional
-            'stemmer'   => \TeamTNT\TNTSearch\Stemmer\PorterStemmer::class
-        ];
-
-        return $config;
-    }
-
-
-    /**
+   /**
      * @Route("/generate-index", name="app_generate-index")
+	 *
+	 * Call this function to generate all indexes with route
      */
     public function generate_index()
 	{
@@ -115,44 +94,46 @@ class SearchEngineController extends AbstractController
         $tnt = new TNTSearch;
 
         // Obtain and load the configuration that can be generated with the previous described method
-        $tnt->loadConfig($this->getTNTSearchConfiguration());
+        $tnt->loadConfig($searchEngineManager->getTNTSearchConfiguration());
 
-        // The index file will have the following name, feel free to change it as you want
-        // $indexer = $tnt->createIndex('groups.index');
-		// $indexer = $tnt->createIndex('pages.index');
-		// $indexer = $tnt->createIndex('documents.index');
+		$indexer = $tnt->createIndex('pages.index');
+		$indexer->query('SELECT id, title, body FROM naturadapt_pages;');
+		$indexer->run();
+
+		$indexer = $tnt->createIndex('discussions_messages.index');
+		$indexer->query('SELECT id, body FROM naturadapt_discussion_message;');
+		$indexer->run();
+
+		$indexer = $tnt->createIndex('articles.index');
+		$indexer->query('SELECT id, title, body FROM naturadapt_articles;');
+		$indexer->run();
+
+		$indexer = $tnt->createIndex('documents.index');
+		$indexer->query('SELECT id, title FROM naturadapt_document;');
+		$indexer->run();
+
+        $indexer = $tnt->createIndex('groups.index');
+		$indexer->query('SELECT id, name, description, presentation FROM naturadapt_usergroups;');
+		$indexer->run();
+
 		$indexer = $tnt->createIndex('members.index');
-
-        // The result with all the rows of the query will be the data
-        // that the engine will use to search, in our case we only want 2 columns
-        // (note that the primary key needs to be included)
-        // $indexer->query('SELECT id, title, body FROM naturadapt_usergroups;');
-		// $indexer->query('SELECT id, title, body FROM naturadapt_pages;');
-		// $indexer->query('SELECT id, title FROM naturadapt_document;');
 		$indexer->query('SELECT id, name, presentation, bio FROM naturadapt_users;');
-
-
-        // Generate index file !
-        $indexer->run();
+		$indexer->run();
 
         return new Response(
-            '<html><body>Index succesfully generated !</body></html>'
+            '<html><body>All Indexes succesfully generated !</body></html>'
         );
     }
 
 
-    public function launchSearch(array $formFilters, array $formTexts): array
+    public function launchSearch($tnt, array $formFilters, array $formTexts): array
     {
 		$categories = $formFilters["result_type"];
 
 		$text = implode($formTexts["keywords"], ' ');
         $em = $this->getDoctrine()->getManager();
-        $tnt = new TNTSearch;
 
-        // Obtain and load the configuration that can be generated with the previous described method
-        $tnt->loadConfig($this->getTNTSearchConfiguration());
 		$results = [];
-		$this->setFuzziness($tnt);
 
 		if( in_array( 'discussions', $categories ) ){
 			$results['discussions'] = $this->searchResultByCategory(
@@ -279,19 +260,5 @@ class SearchEngineController extends AbstractController
 		}
 		return $rows;
 	}
-
-    protected function setFuzziness($tnt)
-    {
-		//TODO: Remove function if fuzziness is finally not used
-        $tnt->fuzziness            = false;
-        //the number of one character changes that need to be made to one string to make it the same as another string
-        $tnt->fuzzy_distance       = 2;
-        //The number of initial characters which will not be “fuzzified”. This helps to reduce the number of terms which must be examined.
-        $tnt->fuzzy_prefix_length  = 2;
-        //The maximum number of terms that the fuzzy query will expand to. Defaults to 50
-        $tnt->fuzzy_max_expansions = 50;
-    }
-
-
 
 }

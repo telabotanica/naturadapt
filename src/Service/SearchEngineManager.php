@@ -17,10 +17,17 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 class SearchEngineManager {
 	private $manager;
 	private $formFactory;
+	private $indexesPath;
+	private $dbUrl;
 
-	public function __construct ( EntityManagerInterface $manager, FormFactoryInterface $formFactory  ) {
+	/*
+	* @param string $indexPath
+	*/
+	public function __construct ( EntityManagerInterface $manager, FormFactoryInterface $formFactory, string $indexesPath, string $dbUrl ) {
 		$this->manager     = $manager;
 		$this->formFactory = $formFactory;
+		$this->indexesPath = $indexesPath;
+		$this->dbUrl = $dbUrl;
 	}
 
 
@@ -78,5 +85,44 @@ class SearchEngineManager {
 		];
 	}
 
+	/**
+     * Returns an array with the configuration of TNTSearch with the
+     * database used by the Symfony project.
+     *
+     * @return type
+     */
+    public function getTNTSearchConfiguration(): array
+	{
+
+        $databaseURL = $this->dbUrl;
+
+        $databaseParameters = parse_url($databaseURL);
+
+        $config = [
+            'driver'    => $databaseParameters["scheme"],
+            'host'      => $databaseParameters["host"],
+            'database'  => str_replace("/", "", $databaseParameters["path"]),
+            'username'  => $databaseParameters["user"],
+            'password'  => $databaseParameters["pass"],
+            // Create the fuzzy_storage directory in your project to store the index file
+            'storage'   => $this->indexesPath,
+            // A stemmer is optional
+            'stemmer'   => \TeamTNT\TNTSearch\Stemmer\PorterStemmer::class
+        ];
+
+        return $config;
+    }
+
+	public function setFuzziness($tnt)
+    {
+		//TODO: Remove function if fuzziness is finally not used
+        $tnt->fuzziness            = false;
+        //the number of one character changes that need to be made to one string to make it the same as another string
+        $tnt->fuzzy_distance       = 2;
+        //The number of initial characters which will not be “fuzzified”. This helps to reduce the number of terms which must be examined.
+        $tnt->fuzzy_prefix_length  = 2;
+        //The maximum number of terms that the fuzzy query will expand to. Defaults to 50
+        $tnt->fuzzy_max_expansions = 50;
+    }
 
 }

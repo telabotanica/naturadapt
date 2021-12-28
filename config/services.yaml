@@ -55,6 +55,11 @@ services:
     App\Service\DiscussionSender:
         arguments: ['@postmark_bulk', '%postmark%']
 
+    App\Service\SearchEngineManager:
+        arguments:
+            $indexesPath: '%env(string:INDEX_DIR)%'
+            $dbUrl: '%env(resolve:DATABASE_URL)%'
+
     postmark:
         class: Postmark\Transport
         arguments:
