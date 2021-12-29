@@ -22,14 +22,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class SearchEngineController extends AbstractController
 {
-    public const NUMBER_OF_ITEMS_BY_INDEX = 20;
-    public const DISCUSSION_INDEX = 'discussions_messages.index';
-	public const ACTUALITE_INDEX = 'articles.index';
-	public const PAGE_INDEX = 'pages.index';
-	public const DOCUMENT_INDEX = 'documents.index';
-	public const MEMBER_INDEX = 'members.index';
-
-
 
     /**
 	 * @Route(
@@ -64,21 +56,17 @@ class SearchEngineController extends AbstractController
 
         $formObj['form']->handleRequest( $request );
 
-        $tnt = new TNTSearch;
-        // Obtain and load the configuration that can be generated with the previous described method
-        $tnt->loadConfig($searchEngineManager->getTNTSearchConfiguration());
-		$searchEngineManager->setFuzziness($tnt);
+		//Setting Tntsearch option
+		$searchEngineManager->setTNTSearchConfiguration();
 
-		$results = $this->launchSearch($tnt, $formObj['formFilters'], $formObj['formTexts']);
+		//Launch Search
+        $em = $this->getDoctrine()->getManager();
+		$results = $searchEngineManager->search($em, implode($formObj['formTexts']["keywords"], ' '), $formObj['formFilters']["result_type"]);
 
 		return $this->render( 'pages/search/search.html.twig', [
             'form'    => $formObj['form']->createView(),
-			'result_number' => count(array_merge($results['discussions'], $results['actualites'], $results['pages'], $results['documents'], $results['membres'])),
-			'discussionMessages' => $results['discussions'],
-			'actualites' => $results['actualites'],
-			'pages' => $results['pages'],
-			'documents' => $results['documents'],
-			'membres' => $results['membres'],
+			'result_number' => array_sum(array_map("count", $results)),
+			'results' => $results,
 		] );
 	}
 
@@ -125,140 +113,5 @@ class SearchEngineController extends AbstractController
         );
     }
 
-
-    public function launchSearch($tnt, array $formFilters, array $formTexts): array
-    {
-		$categories = $formFilters["result_type"];
-
-		$text = implode($formTexts["keywords"], ' ');
-        $em = $this->getDoctrine()->getManager();
-
-		$results = [];
-
-		if( in_array( 'discussions', $categories ) ){
-			$results['discussions'] = $this->searchResultByCategory(
-				'discussions',
-				self::DISCUSSION_INDEX,
-				$em->getRepository(DiscussionMessage::class),
-				['id', 'title', 'body', 'author', 'group', 'uuid'],
-				$tnt,
-				$text
-			);
-		} else {
-			$results['discussions'] = [];
-		}
-
-		if( in_array( 'actualites', $categories ) ){
-			$results['actualites'] = $this->searchResultByCategory(
-				'actualites',
-				self::ACTUALITE_INDEX,
-				$em->getRepository(Article::class),
-				['id', 'title', 'body', 'author', 'group', 'slug'],
-				$tnt,
-				$text
-			);
-		} else {
-			$results['actualites'] = [];
-		}
-
-		if( in_array( 'pages', $categories ) ){
-			$results['pages'] = $this->searchResultByCategory(
-				'pages',
-				self::PAGE_INDEX,
-				$em->getRepository(Page::class),
-				['id', 'title', 'body', 'author', 'group', 'slug'],
-				$tnt,
-				$text
-			);
-		} else {
-			$results['pages'] = [];
-		}
-
-		if( in_array( 'documents', $categories ) ){
-			$results['documents'] = $this->searchResultByCategory(
-				'documents',
-				self::DOCUMENT_INDEX,
-				$em->getRepository(Document::class),
-				['id', 'title', 'group'],
-				$tnt,
-				$text
-			);
-		} else {
-			$results['documents'] = [];
-		}
-
-		if( in_array( 'membres', $categories ) ){
-			$results['membres'] = $this->searchResultByCategory(
-				'membres',
-				self::MEMBER_INDEX,
-				$em->getRepository(User::class),
-				['id', 'name', 'presentation', 'bio'],
-				$tnt,
-				$text
-			);
-		} else {
-			$results['membres'] = [];
-		}
-
-        return $results;
-    }
-
-	private function searchResultByCategory($category, $index, $repository, $propertyList, $tnt, $text){
-		$tnt->selectIndex($index);
-		$results = $tnt->search($text, self::NUMBER_OF_ITEMS_BY_INDEX);
-		// $repository = $em->getRepository($class);
-		$rows = [];
-		foreach($results["ids"] as $id){
-			$item = $repository->find($id);
-			$result = [];
-			foreach($propertyList as $property){
-				switch ($property) {
-					case 'id':
-						$result['id'] = $item->getId();
-						break;
-					case 'title':
-						if ($category==='discussions'){
-							$result['title'] = $tnt->highlight($item->getDiscussion()->getTitle(), $text, 'em', ['wholeWord' => false,]);
-						} else {
-							$result['title'] = $tnt->highlight($item->getTitle(), $text, 'em', ['wholeWord' => false,]);
-						}
-						break;
-					case 'body':
-						$relevantBody = $tnt->snippet($text, strip_tags($item->getBody()));
-						$result['body'] = $tnt->highlight($relevantBody, $text, 'em', ['wholeWord' => false]);
-						break;
-					case 'author':
-						$result['author'] = $item->getAuthor()->getDisplayName();
-						break;
-					case 'presentation':
-						$result['presentation'] = $item->getPresentation();
-						break;
-					case 'bio':
-						$result['bio'] = $item->getBio();
-						break;
-					case 'name':
-						$result['name'] = $item->getName();
-						break;
-					case 'group':
-						if ($category==='discussions'){
-							$result['group'] = $item->getDiscussion()->getUsergroup();
-						} else {
-							$result['group'] = $item->getUsergroup();
-						}
-						break;
-					case 'slug':
-						$result['slug'] = $item->getSlug();
-						break;
-					case 'uuid':
-						if ($category==='discussions'){
-							$result['uuid'] = $item->getDiscussion()->getUuid();
-						}
-						break;
-				}
-			}
-			array_push($rows, $result);
-		}
-		return $rows;
-	}
 
 }

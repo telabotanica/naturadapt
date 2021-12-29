@@ -2,6 +2,14 @@
 
 namespace App\Service;
 
+use TeamTNT\TNTSearch\TNTSearch;
+use App\Entity\Usergroup;
+use App\Entity\DiscussionMessage;
+use App\Entity\Article;
+use App\Entity\Page;
+use App\Entity\User;
+use App\Entity\Document;
+
 use App\Form\SearchFiltersFormType;
 use App\Form\SearchTextsFormType;
 
@@ -9,7 +17,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-
 
 use Symfony\Component\Intl\Intl;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -19,15 +26,20 @@ class SearchEngineManager {
 	private $formFactory;
 	private $indexesPath;
 	private $dbUrl;
+	private $categoriesParameters;
+	private $tnt;
+
+	private const NUMBER_OF_ITEMS_BY_INDEX = 20;
 
 	/*
 	* @param string $indexPath
 	*/
-	public function __construct ( EntityManagerInterface $manager, FormFactoryInterface $formFactory, string $indexesPath, string $dbUrl ) {
+	public function __construct ( EntityManagerInterface $manager, FormFactoryInterface $formFactory, string $indexesPath, string $dbUrl, array $categoriesParameters ) {
 		$this->manager     = $manager;
 		$this->formFactory = $formFactory;
 		$this->indexesPath = $indexesPath;
 		$this->dbUrl = $dbUrl;
+		$this->categoriesParameters = $categoriesParameters;
 	}
 
 
@@ -85,6 +97,14 @@ class SearchEngineManager {
 		];
 	}
 
+	public function setTNTSearchConfiguration()
+	{
+		$this->tnt = new TNTSearch;
+		// Obtain and load the configuration that can be generated with the previous described method
+		$this->tnt->loadConfig($this->getTNTSearchConfiguration());
+		$this->setFuzziness($this->tnt);
+	}
+
 	/**
      * Returns an array with the configuration of TNTSearch with the
      * database used by the Symfony project.
@@ -124,5 +144,79 @@ class SearchEngineManager {
         //The maximum number of terms that the fuzzy query will expand to. Defaults to 50
         $tnt->fuzzy_max_expansions = 50;
     }
+
+	public function search($em, string $text, array $categories): array
+    {
+		$results = [];
+		foreach($categories as $category){
+			$categoryParams = $this->categoriesParameters[$category];
+			$this->tnt->selectIndex($categoryParams['index']);
+			$searchResults = $this->tnt->search($text, self::NUMBER_OF_ITEMS_BY_INDEX);
+			$results[$category] = $this->searchResultByCategory(
+				$text,
+				$searchResults["ids"],
+				$category,
+				$em->getRepository('App\Entity\\' . $categoryParams['class']),
+				$categoryParams['propertyList']
+			);
+		}
+        return $results;
+    }
+
+	public function searchResultByCategory($text, $ids, $category, $repository, $propertyList)
+	{
+		$rows = [];
+		foreach($ids as $id){
+			$item = $repository->find($id);
+			$result = [];
+			foreach($propertyList as $property){
+				switch ($property) {
+					case 'id':
+						$result['id'] = $item->getId();
+						break;
+					case 'title':
+						if ($category==='discussions'){
+							$result['title'] = $this->tnt->highlight($item->getDiscussion()->getTitle(), $text, 'em', ['wholeWord' => false,]);
+						} else {
+							$result['title'] = $this->tnt->highlight($item->getTitle(), $text, 'em', ['wholeWord' => false,]);
+						}
+						break;
+					case 'body':
+						$relevantBody = $this->tnt->snippet($text, strip_tags($item->getBody()));
+						$result['body'] = $this->tnt->highlight($relevantBody, $text, 'em', ['wholeWord' => false]);
+						break;
+					case 'author':
+						$result['author'] = $item->getAuthor()->getDisplayName();
+						break;
+					case 'presentation':
+						$result['presentation'] = $item->getPresentation();
+						break;
+					case 'bio':
+						$result['bio'] = $item->getBio();
+						break;
+					case 'name':
+						$result['name'] = $item->getName();
+						break;
+					case 'group':
+						if ($category==='discussions'){
+							$result['group'] = $item->getDiscussion()->getUsergroup();
+						} else {
+							$result['group'] = $item->getUsergroup();
+						}
+						break;
+					case 'slug':
+						$result['slug'] = $item->getSlug();
+						break;
+					case 'uuid':
+						if ($category==='discussions'){
+							$result['uuid'] = $item->getDiscussion()->getUuid();
+						}
+						break;
+				}
+			}
+			array_push($rows, $result);
+		}
+		return $rows;
+	}
 
 }

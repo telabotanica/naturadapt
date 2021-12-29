@@ -59,6 +59,27 @@ services:
         arguments:
             $indexesPath: '%env(string:INDEX_DIR)%'
             $dbUrl: '%env(resolve:DATABASE_URL)%'
+            $categoriesParameters:
+                'discussions':
+                    propertyList: ['id', 'title', 'body', 'author', 'group', 'uuid']
+                    index: 'discussions_messages.index'
+                    class: 'DiscussionMessage'
+                'actualites':
+                    propertyList: ['id', 'title', 'body', 'author', 'group', 'slug']
+                    index: 'articles.index'
+                    class: 'Article'
+                'pages':
+                    propertyList: ['id', 'title', 'body', 'author', 'group', 'slug']
+                    index: 'pages.index'
+                    class: 'Page'
+                'documents':
+                    propertyList: ['id', 'title', 'group']
+                    index: 'documents.index'
+                    class: 'Document'
+                'membres':
+                    propertyList: ['id', 'name', 'presentation', 'bio']
+                    index: 'members.index'
+                    class: 'User'
 
     postmark:
         class: Postmark\Transport
