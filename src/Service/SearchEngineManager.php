@@ -84,7 +84,7 @@ class SearchEngineManager {
 		$tag_array = array_combine($formTexts[ 'keywords' ], $formTexts[ 'keywords' ]);
 
 		$formObj = $this->formFactory	->createBuilder( FormType::class, [], array('csrf_protection' => false) )
-                                  		->setMethod( 'get' )
+								  		->setMethod( 'get' )
 										->add('search_filters', SearchFiltersFormType::class)
 										->add('search_texts', SearchTextsFormType::class, [
 											'tag_array' => $tag_array
@@ -106,47 +106,47 @@ class SearchEngineManager {
 	}
 
 	/**
-     * Returns an array with the configuration of TNTSearch with the
-     * database used by the Symfony project.
-     *
-     * @return type
-     */
-    public function getTNTSearchConfiguration(): array
+	 * Returns an array with the configuration of TNTSearch with the
+	 * database used by the Symfony project.
+	 *
+	 * @return type
+	 */
+	public function getTNTSearchConfiguration(): array
 	{
 
-        $databaseURL = $this->dbUrl;
+		$databaseURL = $this->dbUrl;
 
-        $databaseParameters = parse_url($databaseURL);
+		$databaseParameters = parse_url($databaseURL);
 
-        $config = [
-            'driver'    => $databaseParameters["scheme"],
-            'host'      => $databaseParameters["host"],
-            'database'  => str_replace("/", "", $databaseParameters["path"]),
-            'username'  => $databaseParameters["user"],
-            'password'  => $databaseParameters["pass"],
-            // Create the fuzzy_storage directory in your project to store the index file
-            'storage'   => $this->indexesPath,
-            // A stemmer is optional
-            'stemmer'   => \TeamTNT\TNTSearch\Stemmer\PorterStemmer::class
-        ];
+		$config = [
+			'driver'    => $databaseParameters["scheme"],
+			'host'      => $databaseParameters["host"],
+			'database'  => str_replace("/", "", $databaseParameters["path"]),
+			'username'  => $databaseParameters["user"],
+			'password'  => $databaseParameters["pass"],
+			// Create the fuzzy_storage directory in your project to store the index file
+			'storage'   => $this->indexesPath,
+			// A stemmer is optional
+			'stemmer'   => \TeamTNT\TNTSearch\Stemmer\PorterStemmer::class
+		];
 
-        return $config;
-    }
+		return $config;
+	}
 
 	public function setFuzziness($tnt)
-    {
+	{
 		//TODO: Remove function if fuzziness is finally not used
-        $tnt->fuzziness            = false;
-        //the number of one character changes that need to be made to one string to make it the same as another string
-        $tnt->fuzzy_distance       = 2;
-        //The number of initial characters which will not be “fuzzified”. This helps to reduce the number of terms which must be examined.
-        $tnt->fuzzy_prefix_length  = 2;
-        //The maximum number of terms that the fuzzy query will expand to. Defaults to 50
-        $tnt->fuzzy_max_expansions = 50;
-    }
+		$tnt->fuzziness            = false;
+		//the number of one character changes that need to be made to one string to make it the same as another string
+		$tnt->fuzzy_distance       = 2;
+		//The number of initial characters which will not be “fuzzified”. This helps to reduce the number of terms which must be examined.
+		$tnt->fuzzy_prefix_length  = 2;
+		//The maximum number of terms that the fuzzy query will expand to. Defaults to 50
+		$tnt->fuzzy_max_expansions = 50;
+	}
 
 	public function search($em, string $text, array $categories): array
-    {
+	{
 		$results = [];
 		foreach($categories as $category){
 			$categoryParams = $this->categoriesParameters[$category];
@@ -160,8 +160,8 @@ class SearchEngineManager {
 				$categoryParams['propertyList']
 			);
 		}
-        return $results;
-    }
+		return $results;
+	}
 
 	public function searchResultByCategory($text, $ids, $category, $repository, $propertyList)
 	{

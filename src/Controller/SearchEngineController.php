@@ -23,48 +23,48 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class SearchEngineController extends AbstractController
 {
 
-    /**
+	/**
 	 * @Route(
-     * "/search/{searchQuery}",
-     * name="search_page",
-     * defaults={"searchQuery" = ""},
-     * requirements={"searchQuery"=".+"}
-     * )
-     *
+	 * "/search/{searchQuery}",
+	 * name="search_page",
+	 * defaults={"searchQuery" = ""},
+	 * requirements={"searchQuery"=".+"}
+	 * )
+	 *
  	 * @param \Symfony\Component\HttpFoundation\Request $request
    	 * @param \App\Service\SearchEngineManager      $searchEngineManager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function searchPage (
-        Request $request,
-        SearchEngineManager $searchEngineManager,
-        string $searchQuery
+		Request $request,
+		SearchEngineManager $searchEngineManager,
+		string $searchQuery
 	) {
 		$form = $request->query->get( 'form', [] );
 		$headbarSearchQuery = $request->request->get('searchQuery');
 
-        // TODO: Add Pagination to results
+		// TODO: Add Pagination to results
 		$page     = $request->query->get( 'page', 0 );
 		$per_page = 20;
 
-        $formObj = $searchEngineManager->getForm(
-            $form,
+		$formObj = $searchEngineManager->getForm(
+			$form,
 			$headbarSearchQuery,
-            [ 'page' => $page, 'per_page' => $per_page ]
-        );
+			[ 'page' => $page, 'per_page' => $per_page ]
+		);
 
-        $formObj['form']->handleRequest( $request );
+		$formObj['form']->handleRequest( $request );
 
 		//Setting Tntsearch option
 		$searchEngineManager->setTNTSearchConfiguration();
 
 		//Launch Search
-        $em = $this->getDoctrine()->getManager();
+		$em = $this->getDoctrine()->getManager();
 		$results = $searchEngineManager->search($em, implode($formObj['formTexts']["keywords"], ' '), $formObj['formFilters']["result_type"]);
 
 		return $this->render( 'pages/search/search.html.twig', [
-            'form'    => $formObj['form']->createView(),
+			'form'    => $formObj['form']->createView(),
 			'result_number' => array_sum(array_map("count", $results)),
 			'results' => $results,
 		] );
@@ -72,17 +72,17 @@ class SearchEngineController extends AbstractController
 
 
    /**
-     * @Route("/generate-index", name="app_generate-index")
+	 * @Route("/generate-index", name="app_generate-index")
 	 *
 	 * Call this function to generate all indexes with route
-     */
-    public function generate_index()
+	 */
+	public function generate_index()
 	{
 
-        $tnt = new TNTSearch;
+		$tnt = new TNTSearch;
 
-        // Obtain and load the configuration that can be generated with the previous described method
-        $tnt->loadConfig($searchEngineManager->getTNTSearchConfiguration());
+		// Obtain and load the configuration that can be generated with the previous described method
+		$tnt->loadConfig($searchEngineManager->getTNTSearchConfiguration());
 
 		$indexer = $tnt->createIndex('pages.index');
 		$indexer->query('SELECT id, title, body FROM naturadapt_pages;');
@@ -100,7 +100,7 @@ class SearchEngineController extends AbstractController
 		$indexer->query('SELECT id, title FROM naturadapt_document;');
 		$indexer->run();
 
-        $indexer = $tnt->createIndex('groups.index');
+		$indexer = $tnt->createIndex('groups.index');
 		$indexer->query('SELECT id, name, description, presentation FROM naturadapt_usergroups;');
 		$indexer->run();
 
@@ -108,10 +108,10 @@ class SearchEngineController extends AbstractController
 		$indexer->query('SELECT id, name, presentation, bio FROM naturadapt_users;');
 		$indexer->run();
 
-        return new Response(
-            '<html><body>All Indexes succesfully generated !</body></html>'
-        );
-    }
+		return new Response(
+			'<html><body>All Indexes succesfully generated !</body></html>'
+		);
+	}
 
 
 }

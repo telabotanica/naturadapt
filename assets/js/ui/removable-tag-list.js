@@ -18,8 +18,8 @@ domready( () => Array.from( document.querySelectorAll( '.removable-tag-list ' ) 
 
 	// Create elements
 
-    const wrapper     = document.createElement( 'label' );
-    element.appendChild( wrapper );
+	const wrapper     = document.createElement( 'label' );
+	element.appendChild( wrapper );
 
 	const tags     = document.createElement( 'span' );
 	tags.className = 'removable-tags';
