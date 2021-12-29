@@ -212,6 +212,8 @@ class SearchEngineManager {
 							$result['uuid'] = $item->getDiscussion()->getUuid();
 						}
 						break;
+					default:
+						break;
 				}
 			}
 			array_push($rows, $result);
