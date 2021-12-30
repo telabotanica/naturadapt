@@ -52,7 +52,7 @@ class SearchEngineManager {
 			$formTexts[ 'current_tags' ] = [];
 			// If requested from header searchBar
 			if($headbar_query){
-				$formTexts[ 'keywords' ] = explode( ',',  $headbar_query  );
+				$formTexts[ 'keywords' ] = explode( '_ET_',  $headbar_query  );
 			} else {
 				$formTexts[ 'keywords' ] = [];
 			}
@@ -67,7 +67,7 @@ class SearchEngineManager {
 
 			// If request is done from search bar
 			if ( !empty( $formTexts[ 'query' ] ) ){
-				$formTexts[ 'keywords' ] = explode( ',',  $formTexts[ 'query' ]  );
+				$formTexts[ 'keywords' ] = explode( '_ET_',  $formTexts[ 'query' ]  );
 				unset( $formTexts[ 'query' ] );
 			} else {
 				$formTexts[ 'keywords' ] = [];
