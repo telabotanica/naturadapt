@@ -73,7 +73,7 @@ php bin/console user:set-admin <user-email>
 
 Generate all indexes:
 ```bash
-php bin/console generate:indexes
+php bin/console search:reindex:all
 ```
 
 ## FAQ

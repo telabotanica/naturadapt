@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class GenerateIndexesCommand extends Command {
-	protected static $defaultName = 'generate:indexes';
+	protected static $defaultName = 'search:reindex:all';
 
 	private $searchEngineManager;
 
