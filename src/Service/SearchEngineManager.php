@@ -136,7 +136,7 @@ class SearchEngineManager {
 	public function setFuzziness($tnt)
 	{
 		//TODO: Remove function if fuzziness is finally not used
-		$tnt->fuzziness            = false;
+		$tnt->fuzziness            = true;
 		//the number of one character changes that need to be made to one string to make it the same as another string
 		$tnt->fuzzy_distance       = 2;
 		//The number of initial characters which will not be “fuzzified”. This helps to reduce the number of terms which must be examined.
