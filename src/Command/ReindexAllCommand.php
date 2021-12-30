@@ -33,35 +33,33 @@ class ReindexAllCommand extends Command {
 		// Obtain and load the configuration that can be generated with the previous described method
 		$tnt->loadConfig($this->searchEngineManager->getTNTSearchConfiguration());
 
-		$output->writeln('pages.index generation');
-		$indexer = $tnt->createIndex('pages.index');
-		$indexer->query('SELECT id, title, body FROM naturadapt_pages;');
-		$indexer->run();
+		$indexes=['pages', 'discussions_messages', 'articles', 'documents', 'groups', 'members'];
 
-		$output->writeln('discussions_messages.index generation');
-		$indexer = $tnt->createIndex('discussions_messages.index');
-		$indexer->query('SELECT id, body FROM naturadapt_discussion_message;');
-		$indexer->run();
+		foreach($indexes as $index){
+			$output->writeln($index.'.index generation');
+			$indexer = $tnt->createIndex($index.'.index');
+			$indexer->query($this->getQueryFromIndex($index));
+			$indexer->run();
+		}
 
-		$output->writeln('articles.index generation');
-		$indexer = $tnt->createIndex('articles.index');
-		$indexer->query('SELECT id, title, body FROM naturadapt_articles;');
-		$indexer->run();
+	}
 
-		$output->writeln('documents.index generation');
-		$indexer = $tnt->createIndex('documents.index');
-		$indexer->query('SELECT id, title FROM naturadapt_document;');
-		$indexer->run();
-
-		$output->writeln('groups.index generation');
-		$indexer = $tnt->createIndex('groups.index');
-		$indexer->query('SELECT id, name, description, presentation FROM naturadapt_usergroups;');
-		$indexer->run();
-
-		$output->writeln('members.index generation');
-		$indexer = $tnt->createIndex('members.index');
-		$indexer->query('SELECT id, name, presentation, bio FROM naturadapt_users;');
-		$indexer->run();
-
+	protected function getQueryFromIndex($indexName) {
+		switch ($indexName) {
+			case 'pages':
+				return 'SELECT id, title, body FROM naturadapt_pages;';
+			case 'discussions_messages':
+				return 'SELECT id, body FROM naturadapt_discussion_message;';
+			case 'articles':
+				return 'SELECT id, title, body FROM naturadapt_articles;';
+			case 'documents':
+				return 'SELECT id, title FROM naturadapt_document;';
+			case 'groups':
+				return 'SELECT id, name, description, presentation FROM naturadapt_usergroups;';
+			case 'members':
+				return 'SELECT id, name, presentation, bio FROM naturadapt_users;';
+			default:
+				return '';
+		}
 	}
 }
