@@ -9,7 +9,7 @@ use App\Service\SearchEngineManager;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class GenerateIndexesCommand extends Command {
+class ReindexAllCommand extends Command {
 	protected static $defaultName = 'search:reindex:all';
 
 	private $searchEngineManager;
