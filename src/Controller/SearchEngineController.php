@@ -61,7 +61,7 @@ class SearchEngineController extends AbstractController
 
 		//Launch Search
 		$em = $this->getDoctrine()->getManager();
-		$results = $searchEngineManager->search($em, implode($formObj['formTexts']['keywords'], ' '), $formObj['formFilters']['result_type']);
+		$results = $searchEngineManager->search($em, implode($formObj['formTexts']['keywords'], ' '), $formObj['formFilters']['result_type'], $formObj['formFilters']['groups']);
 
 		return $this->render( 'pages/search/search.html.twig', [
 			'form'    => $formObj['form']->createView(),

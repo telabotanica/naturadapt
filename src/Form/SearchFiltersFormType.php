@@ -37,7 +37,7 @@ class SearchFiltersFormType extends AbstractType
 				'expanded' => true,
 				'choices'  => [
 					'Tous les groupes' => 'all',
-					'Mes groupes' => 'My Groups'
+					'Mes groupes' => 'currentUserGroups'
 				],
 				'data' => 'all',
 				'placeholder' => false

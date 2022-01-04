@@ -4,11 +4,18 @@ namespace App\Service;
 
 use TeamTNT\TNTSearch\TNTSearch;
 use App\Entity\Usergroup;
+use App\Entity\UsergroupMembership;
+
 use App\Entity\DiscussionMessage;
 use App\Entity\Article;
 use App\Entity\Page;
 use App\Entity\User;
 use App\Entity\Document;
+use App\Entity\DiscussionMessageRepository;
+use App\Entity\ArticlesRepository;
+use App\Entity\PageRepository;
+use App\Entity\UserRepository;
+use App\Entity\DocumentRepository;
 
 use App\Form\SearchFiltersFormType;
 use App\Form\SearchTextsFormType;
@@ -20,8 +27,14 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 
 use Symfony\Component\Intl\Intl;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Security\Core\Security;
 
 class SearchEngineManager {
+	/**
+     * @var Security
+     */
+    private $security;
+	private $currentUserGroupList;
 	private $manager;
 	private $formFactory;
 	private $indexesPath;
@@ -34,12 +47,21 @@ class SearchEngineManager {
 	/*
 	* @param string $indexPath
 	*/
-	public function __construct ( EntityManagerInterface $manager, FormFactoryInterface $formFactory, string $indexesPath, string $dbUrl, array $categoriesParameters ) {
+	public function __construct (Security $security, EntityManagerInterface $manager, FormFactoryInterface $formFactory, string $indexesPath, string $dbUrl, array $categoriesParameters ) {
+		$this->security = $security;
 		$this->manager     = $manager;
 		$this->formFactory = $formFactory;
 		$this->indexesPath = $indexesPath;
 		$this->dbUrl = $dbUrl;
 		$this->categoriesParameters = $categoriesParameters;
+		$this->currentUserGroupList= array_map(
+			function ( UsergroupMembership $membership ) {
+				return $membership->getUsergroup()->getId();
+			},
+			iterator_to_array(
+				$this->security->getUser()->getUsergroupMemberships()
+			)
+		);
 	}
 
 
@@ -49,6 +71,7 @@ class SearchEngineManager {
 		if(empty( $form)){
 			$formTexts = [];
 			$form['search_filters'][ 'result_type' ] = ["pages","discussions","actualites","documents","membres"];
+			$form['search_filters'][ 'groups' ] = 'all';
 			$formTexts[ 'current_tags' ] = [];
 			// If requested from header searchBar
 			if($headbar_query){
@@ -63,6 +86,9 @@ class SearchEngineManager {
 
 			if (!isset($form["search_filters"][ 'result_type' ])){
 				$form["search_filters"][ 'result_type' ] = ["pages","discussions","actualites","documents","membres"];
+			}
+			if (!isset($form['search_filters'][ 'groups' ])){
+				$form["search_filters"][ 'groups' ] = 'all';
 			}
 
 			// If request is done from search bar
@@ -133,6 +159,9 @@ class SearchEngineManager {
 		return $config;
 	}
 
+	/**
+     * @param \TeamTNT\TNTSearch\TNTSearch $tnt
+     */
 	public function setFuzziness($tnt)
 	{
 		//TODO: Remove function if fuzziness is finally not used
@@ -145,7 +174,7 @@ class SearchEngineManager {
 		$tnt->fuzzy_max_expansions = 50;
 	}
 
-	public function search($em, string $text, array $categories): array
+	public function search($em, string $text, array $categories, string $groups): array
 	{
 		$results = [];
 		foreach($categories as $category){
@@ -156,69 +185,100 @@ class SearchEngineManager {
 				$text,
 				$searchResults["ids"],
 				$category,
-				$em->getRepository('App\Entity\\' . $categoryParams['class']),
-				$categoryParams['propertyList']
+				$categoryParams['propertyList'],
+				$groups,
+				$em->getRepository('App\Entity\\' . $categoryParams['class'])
 			);
 		}
 		return $results;
 	}
 
-	public function searchResultByCategory($text, $ids, $category, $repository, $propertyList)
+	/**
+     * @param \App\Repository\DiscussionMessageRepository|\App\Repository\ArticlesRepository|\App\Repository\PageRepository|\App\Repository\UserRepository|\App\Repository\DocumentRepository $repository
+     */
+	public function searchResultByCategory(string $text, array $ids, string $category, array $propertyList, string $groups, $repository)
 	{
 		$rows = [];
 		foreach($ids as $id){
 			$item = $repository->find($id);
-			$result = [];
-			foreach($propertyList as $property){
-				switch ($property) {
-					case 'id':
-						$result['id'] = $item->getId();
-						break;
-					case 'title':
-						if ($category==='discussions'){
-							$result['title'] = $this->tnt->highlight($item->getDiscussion()->getTitle(), $text, 'em', ['wholeWord' => false,]);
-						} else {
-							$result['title'] = $this->tnt->highlight($item->getTitle(), $text, 'em', ['wholeWord' => false,]);
-						}
-						break;
-					case 'body':
-						$relevantBody = $this->tnt->snippet($text, strip_tags($item->getBody()));
-						$result['body'] = $this->tnt->highlight($relevantBody, $text, 'em', ['wholeWord' => false]);
-						break;
-					case 'author':
-						$result['author'] = $item->getAuthor()->getDisplayName();
-						break;
-					case 'presentation':
-						$result['presentation'] = $item->getPresentation();
-						break;
-					case 'bio':
-						$result['bio'] = $item->getBio();
-						break;
-					case 'name':
-						$result['name'] = $item->getName();
-						break;
-					case 'group':
-						if ($category==='discussions'){
-							$result['group'] = $item->getDiscussion()->getUsergroup();
-						} else {
-							$result['group'] = $item->getUsergroup();
-						}
-						break;
-					case 'slug':
-						$result['slug'] = $item->getSlug();
-						break;
-					case 'uuid':
-						if ($category==='discussions'){
-							$result['uuid'] = $item->getDiscussion()->getUuid();
-						}
-						break;
-					default:
-						break;
+			if(($groups==='all') | ($this->checkGroupMembership($category, $item))){
+				$result = [];
+				foreach($propertyList as $property){
+					switch ($property) {
+						case 'id':
+							$result['id'] = $item->getId();
+							break;
+						case 'title':
+							if ($category==='discussions'){
+								$result['title'] = $this->tnt->highlight($item->getDiscussion()->getTitle(), $text, 'em', ['wholeWord' => false,]);
+							} else {
+								$result['title'] = $this->tnt->highlight($item->getTitle(), $text, 'em', ['wholeWord' => false,]);
+							}
+							break;
+						case 'body':
+							$relevantBody = $this->tnt->snippet($text, strip_tags($item->getBody()));
+							$result['body'] = $this->tnt->highlight($relevantBody, $text, 'em', ['wholeWord' => false]);
+							break;
+						case 'author':
+							$result['author'] = $item->getAuthor()->getDisplayName();
+							break;
+						case 'presentation':
+							$result['presentation'] = $item->getPresentation();
+							break;
+						case 'bio':
+							$result['bio'] = $item->getBio();
+							break;
+						case 'name':
+							$result['name'] = $item->getName();
+							break;
+						case 'group':
+							if ($category==='discussions'){
+								$result['group'] = $item->getDiscussion()->getUsergroup();
+							} else {
+								$result['group'] = $item->getUsergroup();
+							}
+							break;
+						case 'slug':
+							$result['slug'] = $item->getSlug();
+							break;
+						case 'uuid':
+							if ($category==='discussions'){
+								$result['uuid'] = $item->getDiscussion()->getUuid();
+							}
+							break;
+						default:
+							break;
+					}
 				}
+				array_push($rows, $result);
 			}
-			array_push($rows, $result);
 		}
 		return $rows;
+	}
+
+	/**
+     * @param App\Entity\DiscussionMessage|App\Entity\Article|App\Entity\Page|App\Entity\User|App\Entity\Document $item
+     */
+	public function checkGroupMembership(string $category, $item): bool{
+
+		if ($category==='discussions'){
+			return in_array($item->getDiscussion()->getUsergroup()->getId(),  $this->currentUserGroupList);
+		} else if ($category==='membres') {
+			$memberGroups = array_map(
+				function ( UsergroupMembership $membership ) {
+					return $membership->getUsergroup()->getId();
+				},
+				iterator_to_array(
+					$item->getUsergroupMemberships()
+				)
+			);
+			$a = iterator_to_array($item->getUsergroupMemberships());
+			$b = $this->currentUserGroupList;
+			return empty(array_intersect($memberGroups, $this->currentUserGroupList));
+		}
+		else {
+			return in_array($item->getUsergroup()->getId(),  $this->currentUserGroupList);
+		}
 	}
 
 }
