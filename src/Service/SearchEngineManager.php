@@ -34,7 +34,7 @@ class SearchEngineManager {
      * @var Security
      */
     private $security;
-	private $currentUserGroupList;
+	private $currentUserGroupIdList;
 	private $manager;
 	private $formFactory;
 	private $indexesPath;
@@ -54,7 +54,7 @@ class SearchEngineManager {
 		$this->indexesPath = $indexesPath;
 		$this->dbUrl = $dbUrl;
 		$this->categoriesParameters = $categoriesParameters;
-		$this->currentUserGroupList= array_map(
+		$this->currentUserGroupIdList= array_map(
 			function ( UsergroupMembership $membership ) {
 				return $membership->getUsergroup()->getId();
 			},
@@ -72,6 +72,7 @@ class SearchEngineManager {
 			$formTexts = [];
 			$form['search_filters'][ 'result_type' ] = ["pages","discussions","actualites","documents","membres"];
 			$form['search_filters'][ 'groups' ] = 'all';
+			$form['search_filters']['particularGroups']=[];
 			$formTexts[ 'current_tags' ] = [];
 			// If requested from header searchBar
 			if($headbar_query){
@@ -89,6 +90,9 @@ class SearchEngineManager {
 			}
 			if (!isset($form['search_filters'][ 'groups' ])){
 				$form["search_filters"][ 'groups' ] = 'all';
+			}
+			if (!isset($form['search_filters'][ 'particularGroups' ])){
+				$form["search_filters"][ 'particularGroups' ] = [];
 			}
 
 			// If request is done from search bar
@@ -174,19 +178,26 @@ class SearchEngineManager {
 		$tnt->fuzzy_max_expansions = 50;
 	}
 
-	public function search($em, string $text, array $categories, string $groups): array
+	/**
+	 * Launch Search with tntsearch and return an array of the results
+	 *
+	 * @return array
+     */
+	public function search($em, string $text, array $categories, string $groups, array $particularGroups): array
 	{
 		$results = [];
+		//filter according categories
 		foreach($categories as $category){
 			$categoryParams = $this->categoriesParameters[$category];
 			$this->tnt->selectIndex($categoryParams['index']);
 			$searchResults = $this->tnt->search($text, self::NUMBER_OF_ITEMS_BY_INDEX);
-			$results[$category] = $this->searchResultByCategory(
+			$results[$category] = $this->getDataFromSearchResults(
 				$text,
 				$searchResults["ids"],
 				$category,
 				$categoryParams['propertyList'],
 				$groups,
+				$particularGroups,
 				$em->getRepository('App\Entity\\' . $categoryParams['class'])
 			);
 		}
@@ -194,14 +205,21 @@ class SearchEngineManager {
 	}
 
 	/**
+	 * Get data in db from a list of ids with the repository
+	 * Properties are changing according to the category, and can be highlighted or snippeted with tnt
+	 * $groups and $particularGroups variables contain informations about group filters
+	 *
      * @param \App\Repository\DiscussionMessageRepository|\App\Repository\ArticlesRepository|\App\Repository\PageRepository|\App\Repository\UserRepository|\App\Repository\DocumentRepository $repository
+	 *
+	 * @return array
      */
-	public function searchResultByCategory(string $text, array $ids, string $category, array $propertyList, string $groups, $repository)
+	public function getDataFromSearchResults(string $text, array $ids, string $category, array $propertyList, string $groups, array $particularGroups, $repository)
 	{
 		$rows = [];
 		foreach($ids as $id){
 			$item = $repository->find($id);
-			if(($groups==='all') | ($this->checkGroupMembership($category, $item))){
+			// In function of the filters, the $item is kept or not
+			if((($groups==='all') | ($this->isItemGroupIdInIdList($category, $item, $this->currentUserGroupIdList))) & ((empty($particularGroups)) | ($this->isItemGroupIdInIdList($category, $item, array_map('intval', $particularGroups)))) ){
 				$result = [];
 				foreach($propertyList as $property){
 					switch ($property) {
@@ -257,12 +275,15 @@ class SearchEngineManager {
 	}
 
 	/**
-     * @param App\Entity\DiscussionMessage|App\Entity\Article|App\Entity\Page|App\Entity\User|App\Entity\Document $item
-     */
-	public function checkGroupMembership(string $category, $item): bool{
-
+	* Check if the group Id(or one of the groups in case of the member category) of an item is in a list of Id
+	*
+    * @param \App\Entity\DiscussionMessage|\App\Entity\Article|\App\Entity\Page|\App\Entity\User|\App\Entity\Document $item
+	*
+	* @return bool
+    */
+	public function isItemGroupIdInIdList(string $category, $item, array $idList){
 		if ($category==='discussions'){
-			return in_array($item->getDiscussion()->getUsergroup()->getId(),  $this->currentUserGroupList);
+			return in_array($item->getDiscussion()->getUsergroup()->getId(),  $idList);
 		} else if ($category==='membres') {
 			$memberGroups = array_map(
 				function ( UsergroupMembership $membership ) {
@@ -272,12 +293,9 @@ class SearchEngineManager {
 					$item->getUsergroupMemberships()
 				)
 			);
-			$a = iterator_to_array($item->getUsergroupMemberships());
-			$b = $this->currentUserGroupList;
-			return empty(array_intersect($memberGroups, $this->currentUserGroupList));
-		}
-		else {
-			return in_array($item->getUsergroup()->getId(),  $this->currentUserGroupList);
+			return !empty(array_intersect($memberGroups, $idList));
+		} else {
+			return in_array($item->getUsergroup()->getId(),  $idList);
 		}
 	}
 

@@ -42,7 +42,7 @@ class SearchFiltersFormType extends AbstractType
 				'data' => 'all',
 				'placeholder' => false
 				] )
-			->add( 'particularGroup', EntityType::class, [
+			->add( 'particularGroups', EntityType::class, [
 				'class'                     => Usergroup::class,
 				'required'                  => false,
 				'expanded'                  => true,
