@@ -70,48 +70,4 @@ class SearchEngineController extends AbstractController
 		] );
 	}
 
-
-   /**
-	 * @Route("/generate-index", name="app_generate-index")
-	 *
-	 * Call this function to generate all indexes with route
-	 */
-	public function generate_index()
-	{
-
-		$tnt = new TNTSearch;
-
-		// Obtain and load the configuration that can be generated with the previous described method
-		$tnt->loadConfig($searchEngineManager->getTNTSearchConfiguration());
-
-		$indexer = $tnt->createIndex('pages.index');
-		$indexer->query('SELECT id, title, body FROM naturadapt_pages;');
-		$indexer->run();
-
-		$indexer = $tnt->createIndex('discussions_messages.index');
-		$indexer->query('SELECT id, body FROM naturadapt_discussion_message;');
-		$indexer->run();
-
-		$indexer = $tnt->createIndex('articles.index');
-		$indexer->query('SELECT id, title, body FROM naturadapt_articles;');
-		$indexer->run();
-
-		$indexer = $tnt->createIndex('documents.index');
-		$indexer->query('SELECT id, title FROM naturadapt_document;');
-		$indexer->run();
-
-		$indexer = $tnt->createIndex('groups.index');
-		$indexer->query('SELECT id, name, description, presentation FROM naturadapt_usergroups;');
-		$indexer->run();
-
-		$indexer = $tnt->createIndex('members.index');
-		$indexer->query('SELECT id, name, presentation, bio FROM naturadapt_users;');
-		$indexer->run();
-
-		return new Response(
-			'<html><body>All Indexes succesfully generated !</body></html>'
-		);
-	}
-
-
 }

@@ -69,6 +69,13 @@ Give ROLE_ADMIN to a user:
 php bin/console user:set-admin <user-email>
 ```
 
+## Indexes
+
+Generate all indexes:
+```bash
+php bin/console search:reindex:all
+```
+
 ## FAQ
 
 ### How to force https ?
