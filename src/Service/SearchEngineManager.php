@@ -127,7 +127,7 @@ class SearchEngineManager {
 			'username'  => $databaseParameters["user"],
 			'password'  => $databaseParameters["pass"],
 			// Create the fuzzy_storage directory in your project to store the index file
-			'storage'   => $this->indexesPath,
+			'storage'   => '/'.$this->indexesPath,
 			// A stemmer is optional
 			'stemmer'   => \TeamTNT\TNTSearch\Stemmer\PorterStemmer::class
 		];
