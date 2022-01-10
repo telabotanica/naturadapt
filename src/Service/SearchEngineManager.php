@@ -12,6 +12,7 @@ use App\Entity\Document;
 use App\Form\SearchFiltersFormType;
 use App\Form\SearchTextsFormType;
 
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -20,6 +21,8 @@ use Symfony\Component\Intl\Intl;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class SearchEngineManager {
+	/** KernelInterface $appKernel */
+	private $appKernel;
 	private $manager;
 	private $formFactory;
 	private $indexesPath;
@@ -32,7 +35,8 @@ class SearchEngineManager {
 	/*
 	* @param string $indexPath
 	*/
-	public function __construct ( EntityManagerInterface $manager, FormFactoryInterface $formFactory, string $indexesPath, string $dbUrl, array $categoriesParameters ) {
+	public function __construct (KernelInterface $appKernel, EntityManagerInterface $manager, FormFactoryInterface $formFactory, string $indexesPath, string $dbUrl, array $categoriesParameters ) {
+		$this->appKernel = $appKernel;
 		$this->manager     = $manager;
 		$this->formFactory = $formFactory;
 		$filesystem = new Filesystem();
@@ -120,6 +124,8 @@ class SearchEngineManager {
 
 		$databaseParameters = parse_url($databaseURL);
 
+		$projectRoot = $this->appKernel->getProjectDir();
+
 		$config = [
 			'driver'    => $databaseParameters["scheme"],
 			'host'      => $databaseParameters["host"],
@@ -127,7 +133,7 @@ class SearchEngineManager {
 			'username'  => $databaseParameters["user"],
 			'password'  => $databaseParameters["pass"],
 			// Create the fuzzy_storage directory in your project to store the index file
-			'storage'   => '/'.$this->indexesPath,
+			'storage'   => $projectRoot .'/'. $this->indexesPath,
 			// A stemmer is optional
 			'stemmer'   => \TeamTNT\TNTSearch\Stemmer\PorterStemmer::class
 		];
