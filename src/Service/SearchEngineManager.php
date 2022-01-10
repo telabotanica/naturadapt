@@ -9,15 +9,13 @@ use App\Entity\Article;
 use App\Entity\Page;
 use App\Entity\User;
 use App\Entity\Document;
-
 use App\Form\SearchFiltersFormType;
 use App\Form\SearchTextsFormType;
 
+use Symfony\Component\Filesystem\Filesystem;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
-
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-
 use Symfony\Component\Intl\Intl;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
@@ -37,6 +35,10 @@ class SearchEngineManager {
 	public function __construct ( EntityManagerInterface $manager, FormFactoryInterface $formFactory, string $indexesPath, string $dbUrl, array $categoriesParameters ) {
 		$this->manager     = $manager;
 		$this->formFactory = $formFactory;
+		$filesystem = new Filesystem();
+		if(!$filesystem->exists($indexesPath)){
+			$filesystem->mkdir($indexesPath);
+		}
 		$this->indexesPath = $indexesPath;
 		$this->dbUrl = $dbUrl;
 		$this->categoriesParameters = $categoriesParameters;
