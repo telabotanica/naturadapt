@@ -34,6 +34,16 @@
 	}
 }
 
+.group-search-bar{
+	padding: 2.5rem 0 2.5rem 0;
+	display: flex;
+	justify-content: center;
+	input {
+		width: 645px;
+		display: inline-block;
+	}
+}
+
 /**************************************************
 * GROUP
 **************************************************/

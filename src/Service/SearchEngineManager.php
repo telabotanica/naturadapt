@@ -12,6 +12,7 @@ use App\Entity\Document;
 use App\Form\SearchFiltersFormType;
 use App\Form\SearchTextsFormType;
 
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,6 +20,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Intl\Intl;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Request;
 
 class SearchEngineManager {
 	/** KernelInterface $appKernel */
@@ -155,6 +157,7 @@ class SearchEngineManager {
 
 	public function search($em, string $text, array $categories): array
 	{
+		$this->tnt->asYouType = false;
 		$results = [];
 		foreach($categories as $category){
 			$categoryParams = $this->categoriesParameters[$category];
@@ -162,13 +165,22 @@ class SearchEngineManager {
 			$searchResults = $this->tnt->search($text, self::NUMBER_OF_ITEMS_BY_INDEX);
 			$results[$category] = $this->searchResultByCategory(
 				$text,
-				$searchResults["ids"],
+				$searchResults['ids'],
 				$category,
 				$em->getRepository('App\Entity\\' . $categoryParams['class']),
 				$categoryParams['propertyList']
 			);
 		}
 		return $results;
+	}
+
+	public function searchGroup($em, string $text): array
+	{
+		$this->tnt->selectIndex('groups.index');
+		$this->tnt->asYouType = true;
+		$results = $this->tnt->search($text);
+		$repository = $em->getRepository('App\Entity\Usergroup');
+		return $results['ids'];
 	}
 
 	public function searchResultByCategory($text, $ids, $category, $repository, $propertyList)
