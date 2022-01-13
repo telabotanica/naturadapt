@@ -68,19 +68,27 @@ class GroupController extends AbstractController {
         $query = $request->query->get('q');
         $type = $request->query->get('type');
 
-		$em = $this->getDoctrine()->getManager();
-		//Launch Search
-		$searchEngineManager->setTNTSearchConfiguration();
-		$result = $searchEngineManager->searchGroup($em, $query);
+		if($query!==''){
+			$em = $this->getDoctrine()->getManager();
+			//Launch Search
+			$searchEngineManager->setTNTSearchConfiguration();
+			$result = $searchEngineManager->searchGroup($em, $query);
 
-		$groupList = $userGroupsManager->getGroupFilteredByIds($result, $type);
-		$groupList = $searchEngineManager->snippetGroupsText($query, $groupList);
+			$groupList = $userGroupsManager->getGroupFilteredByIds($result, $type);
+			$groupList = $searchEngineManager->snippetGroupsText($query, $groupList);
 
-		$groupListHTML = $this->render( 'pages/group/groups-list.html.twig', [
-			'groups' => $groupList,
-		] );
-		$contentGroups = $groupListHTML->getContent();
-		$contentGroups = $searchEngineManager->highlightText($query, $contentGroups);
+			$groupListHTML = $this->render( 'pages/group/groups-list.html.twig', [
+				'groups' => $groupList,
+			] );
+			$contentGroups = $groupListHTML->getContent();
+			$contentGroups = $searchEngineManager->highlightText($query, $contentGroups);
+		} else {
+			$groupList = $userGroupsManager->getGroupsFromType($type);
+			$groupListHTML = $this->render( 'pages/group/groups-list.html.twig', [
+				'groups' => $groupList,
+			] );
+			$contentGroups = $groupListHTML->getContent();
+		}
 
         return $this->json([
             'groups' => $contentGroups

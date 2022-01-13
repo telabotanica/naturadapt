@@ -47,6 +47,17 @@ class UserGroupsManager {
 		$this->groupsToActivate = $groupsToActivate;
 	}
 
+	public function getGroupsFromType(string $groupType): array{
+		if($groupType=='groups_elements'){
+			$groups = $this->groups;
+		} else if ($groupType=='groups_to_activate_elements'){
+			$groups = $this->groupsToActivate;
+		} else {
+			$groups = [];
+		}
+		return $groups;
+	}
+
 	public function getGroupFilteredByIds(array $idsList, string $groupType): array{
 		if($groupType=='groups_elements'){
 			$groups = $this->groups;
