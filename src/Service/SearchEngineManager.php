@@ -241,4 +241,19 @@ class SearchEngineManager {
 		return $rows;
 	}
 
+	public function snippetGroupsText(string $text, array $groups){
+		foreach ( $groups as $group ) {
+			$textTemp=$this->tnt->snippet($text, strip_tags($group->getDescription()), 120, 60);
+			if($textTemp !=='.....'){
+				$group->setDescription($this->tnt->snippet($text, strip_tags($group->getDescription()), 120, 60));
+			}
+		}
+		return $groups;
+	}
+
+	public function highlightText(string $text, string $groupsHTML){
+		$groupsHTML = $this->tnt->highlight($groupsHTML, $text, 'em', ['wholeWord' => false]);
+		return $groupsHTML;
+	}
+
 }

@@ -74,10 +74,13 @@ class GroupController extends AbstractController {
 		$result = $searchEngineManager->searchGroup($em, $query);
 
 		$groupList = $userGroupsManager->getGroupFilteredByIds($result, $type);
+		$groupList = $searchEngineManager->snippetGroupsText($query, $groupList);
+
 		$groupListHTML = $this->render( 'pages/group/groups-list.html.twig', [
 			'groups' => $groupList,
 		] );
 		$contentGroups = $groupListHTML->getContent();
+		$contentGroups = $searchEngineManager->highlightText($query, $contentGroups);
 
         return $this->json([
             'groups' => $contentGroups
