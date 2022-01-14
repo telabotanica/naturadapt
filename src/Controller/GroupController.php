@@ -59,6 +59,11 @@ class GroupController extends AbstractController {
 
 	/**
      * @Route("/groups/search", name="groups_search", methods="GET")
+	 * @param \App\Service\UserGroupManager              $userGroupManager
+	 * @param \Symfony\Component\HttpFoundation\Request  $request;
+	 * @param \App\Service\SearchEngineManager           $searchEngineManager
+	 *
+	 * @return string                                    $jsonString
      */
     public function groupSearch(
 		UserGroupsManager $userGroupsManager,
@@ -254,6 +259,7 @@ class GroupController extends AbstractController {
 	 * @param \Doctrine\ORM\EntityManagerInterface $manager
 	 * @param \App\Service\UserGroupRelation       $userGroupRelation
 	 * @param \App\Service\EmailSender             $mailer
+	 * @param \App\Service\SearchEngineManager     $searchEngineManager
 
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 * @throws \Exception
@@ -263,7 +269,8 @@ class GroupController extends AbstractController {
 		$doActivate,
 		EntityManagerInterface $manager,
 		UserGroupRelation $userGroupRelation,
-		EmailSender $mailer
+		EmailSender $mailer,
+		SearchEngineManager $searchEngineManager
 	) {
 		if (!$this->isGranted(UserVoter::LOGGED)) {
 			return $this->redirectToRoute('user_login');
@@ -292,6 +299,9 @@ class GroupController extends AbstractController {
 		} else {
 			$group->setIsActive( true );
 			$manager->flush();
+			$searchEngineManager->setTNTSearchConfiguration();
+			$searchEngineManager->insertInGroupIndex($group);
+
 		}
 
 		$admins = $group->getMembersByRole( UsergroupMembership::ROLE_ADMIN );
@@ -339,6 +349,7 @@ class GroupController extends AbstractController {
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
 	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 * @param \App\Service\FileManager                   $fileManager
+	 * @param \App\Service\SearchEngineManager     $searchEngineManager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 * @throws \Exception
@@ -347,7 +358,8 @@ class GroupController extends AbstractController {
 			$groupSlug,
 			Request $request,
 			EntityManagerInterface $manager,
-			FileManager $fileManager
+			FileManager $fileManager,
+			SearchEngineManager $searchEngineManager
 	) {
 		/**
 		 * @var \App\Entity\User $user
@@ -445,6 +457,12 @@ class GroupController extends AbstractController {
 			$manager->persist( $log );
 			$manager->flush();
 
+			// Update Group Index
+			if($group->getIsActive()){
+				$searchEngineManager->setTNTSearchConfiguration();
+				$searchEngineManager->updateInGroupIndex($original->getId(), $group);
+			}
+
 			// --
 
 			$this->addFlash( 'notice', 'messages.group.group_updated' );
@@ -511,7 +529,8 @@ class GroupController extends AbstractController {
 			$groupSlug,
 			Request $request,
 			EntityManagerInterface $manager,
-			FileManager $fileManager
+			FileManager $fileManager,
+			SearchEngineManager $searchEngineManager
 	) {
 		/**
 		 * @var \App\Entity\Usergroup $group
@@ -563,6 +582,12 @@ class GroupController extends AbstractController {
 			}
 
 			$manager->flush();
+
+			// Delete in Index
+			if($group->getIsActive()){
+				$searchEngineManager->setTNTSearchConfiguration();
+				$searchEngineManager->deleteInGroupIndex($group-> getId());
+			}
 
 			$manager->remove( $group );
 

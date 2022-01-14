@@ -67,7 +67,7 @@ class UserGroupsManager {
 			$groups = [];
 		}
 		$result = [];
-		foreach($this->groups as $group){
+		foreach($groups as $group){
 			if (in_array($group->getId(), $idsList)){
 				array_push($result, $group);
 			}

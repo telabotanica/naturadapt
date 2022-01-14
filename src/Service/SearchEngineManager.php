@@ -256,4 +256,22 @@ class SearchEngineManager {
 		return $groupsHTML;
 	}
 
+	public function insertInGroupIndex(Usergroup $group){
+		$this->tnt->selectIndex('groups.index');
+		$index = $this->tnt->getIndex();
+		$index->insert(['id' => $group->getId(), 'name' => $group->getName(), 'description' => $group->getDescription(), 'presentation' => $group->getPresentation()]);
+	}
+
+	public function updateInGroupIndex(int $groupId, Usergroup $group){
+		$this->tnt->selectIndex('groups.index');
+		$index = $this->tnt->getIndex();
+		$index->update($groupId, ['id' => $group->getId(), 'name' => $group->getName(), 'description' => $group->getDescription(), 'presentation' => $group->getPresentation()]);
+	}
+
+	public function deleteInGroupIndex(int $groupId){
+		$this->tnt->selectIndex('groups.index');
+		$index = $this->tnt->getIndex();
+		$index->delete($groupId);
+	}
+
 }
