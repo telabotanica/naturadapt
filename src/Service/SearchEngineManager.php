@@ -16,6 +16,7 @@ use App\Entity\ArticlesRepository;
 use App\Entity\PageRepository;
 use App\Entity\UserRepository;
 use App\Entity\DocumentRepository;
+use App\Repository\UsergroupRepository;
 
 use App\Form\SearchFiltersFormType;
 use App\Form\SearchTextsFormType;
@@ -72,8 +73,9 @@ class SearchEngineManager {
 	}
 
 
-	public function getForm ( array $form, $headbar_query, array $options = [] ): array
+	public function getForm ($em, array $form, $headbar_query, $groupId_query, array $options = [] ): array
 	{
+		$group_query = [];
 		// If not requested from searchpage(search url is written, clicked from menu or header searchbar)
 		if(empty( $form)){
 			$formTexts = [];
@@ -86,6 +88,12 @@ class SearchEngineManager {
 				$formTexts[ 'keywords' ] = explode( '_ET_',  $headbar_query  );
 			} else {
 				$formTexts[ 'keywords' ] = [];
+			}
+			// If requested from group page search bar
+			if($groupId_query){
+				$repository = $em->getRepository('App\Entity\Usergroup');
+				$group_query = [$repository->find($groupId_query)];
+				$form['search_filters'][ 'particularGroups' ] = [$groupId_query];
 			}
 		}
 		// If requested from search Page
@@ -122,7 +130,9 @@ class SearchEngineManager {
 
 		$formObj = $this->formFactory	->createBuilder( FormType::class, [], array('csrf_protection' => false) )
 								  		->setMethod( 'get' )
-										->add('search_filters', SearchFiltersFormType::class)
+										->add('search_filters', SearchFiltersFormType::class, [
+											'particular_groups' => $group_query
+										])
 										->add('search_texts', SearchTextsFormType::class, [
 											'tag_array' => $tag_array
 										])

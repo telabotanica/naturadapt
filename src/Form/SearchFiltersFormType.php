@@ -51,8 +51,19 @@ class SearchFiltersFormType extends AbstractType
 					return $repository->createQueryBuilder( 'u' )
 										->orderBy( 'u.slug', 'ASC' );
 				},
+				'data'                   => $options['particular_groups'],
 				'choice_label'              => 'slug',
 			] );
+    }
+
+	public function configureOptions(OptionsResolver $resolver): void
+    {
+        // this defines the available options and their default values when
+        // they are not configured explicitly when using the form type
+        $resolver->setDefaults([
+            'particular_groups' => [],
+        ]);
+
     }
 
 }
