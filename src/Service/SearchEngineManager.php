@@ -62,14 +62,6 @@ class SearchEngineManager {
 		$this->indexesPath = $indexesPath;
 		$this->dbUrl = $dbUrl;
 		$this->categoriesParameters = $categoriesParameters;
-		$this->currentUserGroupIdList= array_map(
-			function ( UsergroupMembership $membership ) {
-				return $membership->getUsergroup()->getId();
-			},
-			iterator_to_array(
-				$this->security->getUser()->getUsergroupMemberships()
-			)
-		);
 	}
 
 
@@ -205,92 +197,90 @@ class SearchEngineManager {
 	public function search($em, string $text, array $categories, string $groups, array $particularGroups): array
 	{
 		$results = [];
+
+		$this->currentUserGroupIdList= array_map(
+			function ( UsergroupMembership $membership ) {
+				return $membership->getUsergroup()->getId();
+			},
+			iterator_to_array(
+				$this->security->getUser()->getUsergroupMemberships()
+			)
+		);
+
 		//filter according categories
 		foreach($categories as $category){
 			$categoryParams = $this->categoriesParameters[$category];
 			$this->tnt->selectIndex($categoryParams['index']);
 			$searchResults = $this->tnt->search($text, self::NUMBER_OF_ITEMS_BY_INDEX);
-			$results[$category] = $this->getDataFromSearchResults(
-				$text,
-				$searchResults["ids"],
-				$category,
-				$categoryParams['propertyList'],
-				$groups,
-				$particularGroups,
-				$em->getRepository('App\Entity\\' . $categoryParams['class'])
-			);
+			$rows = [];
+			$repository = $em->getRepository('App\Entity\\' . $categoryParams['class']);
+			foreach($searchResults["ids"] as $id){
+				$item = $repository->find($id);
+				// Pass to the following loop if we do not want all groups and if the current item is not in the list of group of the current user
+				if(($groups!=='all') && (!$this->isItemGroupIdInIdList($category, $item, $this->currentUserGroupIdList))){
+					continue;
+				}
+				// Pass to the following loop if search in particular groups is asked but the item is not in those groups
+				if(((!empty($particularGroups)) && (!$this->isItemGroupIdInIdList($category, $item, array_map('intval', $particularGroups))))){
+					continue;
+				}
+				$result = [];
+				foreach($categoryParams['propertyList'] as $property){
+					$result[$property]=$this->getStyledDataFromProperty($property, $text, $item, $category);
+				}
+				array_push($rows, $result);
+			}
+			$results[$category] = $rows;
+
 		}
 		return $results;
 	}
 
 	/**
-	 * Get data in db from a list of ids with the repository
-	 * Properties are changing according to the category, and can be highlighted or snippeted with tnt
-	 * $groups and $particularGroups variables contain informations about group filters
+	 * @param string                          $property
+	 * @param string                          $text
+	 * @param \App\Entity\DiscussionMessage|\App\Entity\Article|\App\Entity\Page|\App\Entity\User|\App\Entity\Document $item
+	 * @param string                          $category
 	 *
-     * @param \App\Repository\DiscussionMessageRepository|\App\Repository\ArticlesRepository|\App\Repository\PageRepository|\App\Repository\UserRepository|\App\Repository\DocumentRepository $repository
-	 *
-	 * @return array
-     */
-	public function getDataFromSearchResults(string $text, array $ids, string $category, array $propertyList, string $groups, array $particularGroups, $repository)
+	 * @return string
+	 */
+	public function getStyledDataFromProperty($property, $text, $item, $category)
 	{
-		$rows = [];
-		foreach($ids as $id){
-			$item = $repository->find($id);
-			// In function of the filters, the $item is kept or not
-			if((($groups==='all') | ($this->isItemGroupIdInIdList($category, $item, $this->currentUserGroupIdList))) & ((empty($particularGroups)) | ($this->isItemGroupIdInIdList($category, $item, array_map('intval', $particularGroups)))) ){
-				$result = [];
-				foreach($propertyList as $property){
-					switch ($property) {
-						case 'id':
-							$result['id'] = $item->getId();
-							break;
-						case 'title':
-							if ($category==='discussions'){
-								$result['title'] = $this->tnt->highlight($item->getDiscussion()->getTitle(), $text, 'em', ['wholeWord' => false,]);
-							} else {
-								$result['title'] = $this->tnt->highlight($item->getTitle(), $text, 'em', ['wholeWord' => false,]);
-							}
-							break;
-						case 'body':
-							$relevantBody = $this->tnt->snippet($text, strip_tags($item->getBody()));
-							$result['body'] = $this->tnt->highlight($relevantBody, $text, 'em', ['wholeWord' => false]);
-							break;
-						case 'author':
-							$result['author'] = $item->getAuthor()->getDisplayName();
-							break;
-						case 'presentation':
-							$result['presentation'] = $item->getPresentation();
-							break;
-						case 'bio':
-							$result['bio'] = $item->getBio();
-							break;
-						case 'name':
-							$result['name'] = $item->getName();
-							break;
-						case 'group':
-							if ($category==='discussions'){
-								$result['group'] = $item->getDiscussion()->getUsergroup();
-							} else {
-								$result['group'] = $item->getUsergroup();
-							}
-							break;
-						case 'slug':
-							$result['slug'] = $item->getSlug();
-							break;
-						case 'uuid':
-							if ($category==='discussions'){
-								$result['uuid'] = $item->getDiscussion()->getUuid();
-							}
-							break;
-						default:
-							break;
-					}
+		switch ($property) {
+			case 'id':
+				return $item->getId();
+			case 'title':
+				if ($category==='discussions'){
+					return $this->tnt->highlight($item->getDiscussion()->getTitle(), $text, 'em', ['wholeWord' => false,]);
+				} else {
+					return $this->tnt->highlight($item->getTitle(), $text, 'em', ['wholeWord' => false,]);
 				}
-				array_push($rows, $result);
-			}
+			case 'body':
+				$relevantBody = $this->tnt->snippet($text, strip_tags($item->getBody()));
+				return $this->tnt->highlight($relevantBody, $text, 'em', ['wholeWord' => false]);
+			case 'author':
+				return $item->getAuthor()->getDisplayName();
+			case 'presentation':
+				return $item->getPresentation();
+			case 'bio':
+				return $item->getBio();
+			case 'name':
+				return $item->getName();
+			case 'group':
+				if ($category==='discussions'){
+					return $item->getDiscussion()->getUsergroup();
+				} else {
+					return $item->getUsergroup();
+				}
+			case 'slug':
+				return $item->getSlug();
+			case 'uuid':
+				if ($category==='discussions'){
+					return $item->getDiscussion()->getUuid();
+				}
+			default:
+				return '';
 		}
-		return $rows;
 	}
 
 	/**

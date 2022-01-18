@@ -98,7 +98,7 @@ domready( () => Array.from( document.querySelectorAll( '.checkboxes-autocomplete
 		closeButton.addEventListener( 'click', ( e ) => {
 			matchingCheckboxes.forEach( ( checkbox ) => checkbox.checked = false );
 			tags.removeChild( tag );
-			let searchEngineForm = document.getElementById( 'search_engine_form' )
+			const searchEngineForm = document.getElementById( 'search_engine_form' )
 			if(searchEngineForm !== null){
 				searchEngineForm.submit();
 			}
@@ -120,7 +120,7 @@ domready( () => Array.from( document.querySelectorAll( '.checkboxes-autocomplete
 		'autocomplete:selected',
 		( e, suggestion, dataset, context ) => {
 			addTag( suggestion.value );
-			let searchEngineForm = document.getElementById( 'search_engine_form' );
+			const searchEngineForm = document.getElementById( 'search_engine_form' );
 			if(searchEngineForm !== null){
 				searchEngineForm.submit();
 			}
