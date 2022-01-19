@@ -34,9 +34,7 @@ class GroupController extends AbstractController {
 	/**
 	 * @Route("/groups", name="groups_index")
 	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
-	 * @param \App\Service\Community                     $community
 	 * @param \App\Service\UserGroupManager              $userGroupManager
-	 * @param \App\Service\SearchEngineManager           $searchEngineManager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
@@ -79,7 +77,7 @@ class GroupController extends AbstractController {
 			$searchEngineManager->setTNTSearchConfiguration();
 			$result = $searchEngineManager->searchGroup($em, $query);
 
-			$groupList = $userGroupsManager->getGroupFilteredByIds($result, $type);
+			$groupList = $userGroupsManager->getGroupsFilteredByIds($result, $type);
 			$groupList = $searchEngineManager->snippetGroupsText($query, $groupList);
 
 			$groupListHTML = $this->render( 'pages/group/groups-list.html.twig', [
@@ -259,7 +257,6 @@ class GroupController extends AbstractController {
 	 * @param \Doctrine\ORM\EntityManagerInterface $manager
 	 * @param \App\Service\UserGroupRelation       $userGroupRelation
 	 * @param \App\Service\EmailSender             $mailer
-	 * @param \App\Service\SearchEngineManager     $searchEngineManager
 
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 * @throws \Exception
@@ -269,16 +266,15 @@ class GroupController extends AbstractController {
 		$doActivate,
 		EntityManagerInterface $manager,
 		UserGroupRelation $userGroupRelation,
-		EmailSender $mailer,
-		SearchEngineManager $searchEngineManager
+		EmailSender $mailer
 	) {
 		if (!$this->isGranted(UserVoter::LOGGED)) {
 			return $this->redirectToRoute('user_login');
 		}
 
-		if ( !$userGroupRelation->isCommunityAdmin( $this->getUser() ) ) {
-			throw new AccessDeniedException( 'Your are not allowed to activate groups' );
-		}
+		// if ( !$userGroupRelation->isCommunityAdmin( $this->getUser() ) ) {
+		// 	throw new AccessDeniedException( 'Your are not allowed to activate groups' );
+		// }
 
 		$group = $manager->getRepository( Usergroup::class )
 			->findOneBy( [ 'slug' => $groupSlug ] );
@@ -299,9 +295,6 @@ class GroupController extends AbstractController {
 		} else {
 			$group->setIsActive( true );
 			$manager->flush();
-			$searchEngineManager->setTNTSearchConfiguration();
-			$searchEngineManager->insertInGroupIndex($group);
-
 		}
 
 		$admins = $group->getMembersByRole( UsergroupMembership::ROLE_ADMIN );
@@ -349,7 +342,6 @@ class GroupController extends AbstractController {
 	 * @param \Symfony\Component\HttpFoundation\Request  $request
 	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
 	 * @param \App\Service\FileManager                   $fileManager
-	 * @param \App\Service\SearchEngineManager     $searchEngineManager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 * @throws \Exception
@@ -358,8 +350,7 @@ class GroupController extends AbstractController {
 			$groupSlug,
 			Request $request,
 			EntityManagerInterface $manager,
-			FileManager $fileManager,
-			SearchEngineManager $searchEngineManager
+			FileManager $fileManager
 	) {
 		/**
 		 * @var \App\Entity\User $user
@@ -457,12 +448,6 @@ class GroupController extends AbstractController {
 			$manager->persist( $log );
 			$manager->flush();
 
-			// Update Group Index
-			if($group->getIsActive()){
-				$searchEngineManager->setTNTSearchConfiguration();
-				$searchEngineManager->updateInGroupIndex($original->getId(), $group);
-			}
-
 			// --
 
 			$this->addFlash( 'notice', 'messages.group.group_updated' );
@@ -529,8 +514,7 @@ class GroupController extends AbstractController {
 			$groupSlug,
 			Request $request,
 			EntityManagerInterface $manager,
-			FileManager $fileManager,
-			SearchEngineManager $searchEngineManager
+			FileManager $fileManager
 	) {
 		/**
 		 * @var \App\Entity\Usergroup $group
@@ -582,12 +566,6 @@ class GroupController extends AbstractController {
 			}
 
 			$manager->flush();
-
-			// Delete in Index
-			if($group->getIsActive()){
-				$searchEngineManager->setTNTSearchConfiguration();
-				$searchEngineManager->deleteInGroupIndex($group-> getId());
-			}
 
 			$manager->remove( $group );
 

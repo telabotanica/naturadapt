@@ -179,7 +179,6 @@ class SearchEngineManager {
 		$this->tnt->selectIndex('groups.index');
 		$this->tnt->asYouType = true;
 		$results = $this->tnt->search($text);
-		$repository = $em->getRepository('App\Entity\Usergroup');
 		return $results['ids'];
 	}
 
@@ -243,9 +242,11 @@ class SearchEngineManager {
 
 	public function snippetGroupsText(string $text, array $groups){
 		foreach ( $groups as $group ) {
-			$textTemp=$this->tnt->snippet($text, strip_tags($group->getDescription()), 120, 60);
+			$descriptionHtml = strip_tags($group->getDescription());
+			$textTemp=$this->tnt->snippet($text, $descriptionHtml);
+			// If snippet returned '.....' (case for a long text without match) we display the text without snippet
 			if($textTemp !=='.....'){
-				$group->setDescription($this->tnt->snippet($text, strip_tags($group->getDescription()), 120, 60));
+				$group->setDescription($this->tnt->snippet($text, $descriptionHtml, 120, 30));
 			}
 		}
 		return $groups;
@@ -262,16 +263,16 @@ class SearchEngineManager {
 		$index->insert(['id' => $group->getId(), 'name' => $group->getName(), 'description' => $group->getDescription(), 'presentation' => $group->getPresentation()]);
 	}
 
-	public function updateInGroupIndex(int $groupId, Usergroup $group){
+	public function updateInGroupIndex(Usergroup $group){
 		$this->tnt->selectIndex('groups.index');
 		$index = $this->tnt->getIndex();
-		$index->update($groupId, ['id' => $group->getId(), 'name' => $group->getName(), 'description' => $group->getDescription(), 'presentation' => $group->getPresentation()]);
+		$index->update($group->getId(), ['id' => $group->getId(), 'name' => $group->getName(), 'description' => $group->getDescription(), 'presentation' => $group->getPresentation()]);
 	}
 
-	public function deleteInGroupIndex(int $groupId){
+	public function deleteInGroupIndex(Usergroup $group){
 		$this->tnt->selectIndex('groups.index');
 		$index = $this->tnt->getIndex();
-		$index->delete($groupId);
+		$index->delete($group->getId());
 	}
 
 }

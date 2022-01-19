@@ -29,43 +29,37 @@ class UserGroupsManager {
 		EntityManagerInterface $manager
 	) {
 		$groupsManager = $manager->getRepository( Usergroup::class );
-		$this->groups = $groupsManager->getGroupsWithMembers( $community->getGroup(), true );
-		$this->groupsToActivate = $groupsManager->getGroupsWithMembers( false, false );
+		$this->setGroups($groupsManager->getGroupsWithMembers( $community->getGroup(), true ));
+		$this->setGroupsToActivate($groupsManager->getGroupsWithMembers( false, false ));
 	}
 
-	public function getGroups (): array {
+	public function getGroups(): array {
 		return $this->groups;
 	}
-	public function setGroups (array $groups) {
+	public function setGroups(array $groups) {
 		$this->groups = $groups;
 	}
 
-	public function getGroupsToActivate (): array {
+	public function getGroupsToActivate(): array {
 		return $this->groupsToActivate;
 	}
-	public function setGroupsToActivate (array $groupsToActivate) {
+	public function setGroupsToActivate(array $groupsToActivate) {
 		$this->groupsToActivate = $groupsToActivate;
 	}
 
 	public function getGroupsFromType(string $groupType): array{
-		if($groupType=='groups_elements'){
-			$groups = $this->groups;
-		} else if ($groupType=='groups_to_activate_elements'){
-			$groups = $this->groupsToActivate;
+		if($groupType=='groups-elements'){
+			$groups = $this->getGroups();
+		} else if ($groupType=='groups-to-activate-elements'){
+			$groups = $this->getGroupsToActivate();
 		} else {
 			$groups = [];
 		}
 		return $groups;
 	}
 
-	public function getGroupFilteredByIds(array $idsList, string $groupType): array{
-		if($groupType=='groups_elements'){
-			$groups = $this->groups;
-		} else if ($groupType=='groups_to_activate_elements'){
-			$groups = $this->groupsToActivate;
-		} else {
-			$groups = [];
-		}
+	public function getGroupsFilteredByIds(array $idsList, string $groupType): array{
+		$groups = $this->getGroupsFromType($groupType);
 		$result = [];
 		foreach($groups as $group){
 			if (in_array($group->getId(), $idsList)){
