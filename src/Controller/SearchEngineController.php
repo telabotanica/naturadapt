@@ -52,7 +52,6 @@ class SearchEngineController extends AbstractController
 		$em = $this->getDoctrine()->getManager();
 
 		$formObj = $searchEngineManager->getForm(
-			$em,
 			$form,
 			$headbarSearchQuery,
 			$groupQuery,
@@ -65,7 +64,7 @@ class SearchEngineController extends AbstractController
 		$searchEngineManager->setTNTSearchConfiguration();
 
 		//Launch Search
-		$results = $searchEngineManager->search($em, implode($formObj['formTexts']['keywords'], ' '), $formObj['formFilters']['result_type'], $formObj['formFilters']['groups'], $formObj['formFilters']['particularGroups']);
+		$results = $searchEngineManager->search(implode($formObj['formTexts']['keywords'], ' '), $formObj['formFilters']['result_type'], $formObj['formFilters']['groups'], $formObj['formFilters']['particularGroups']);
 
 		return $this->render( 'pages/search/search.html.twig', [
 			'form'    => $formObj['form']->createView(),

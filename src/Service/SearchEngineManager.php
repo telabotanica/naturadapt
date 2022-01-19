@@ -50,8 +50,8 @@ class SearchEngineManager {
 	/*
 	* @param string $indexPath
 	*/
-	public function __construct (KernelInterface $appKernel, Security $security, EntityManagerInterface $manager, FormFactoryInterface $formFactory, string $indexesPath, string $dbUrl, array $categoriesParameters ) {
-		$this->appKernel = $appKernel;
+	public function __construct (Security $security, EntityManagerInterface $manager, FormFactoryInterface $formFactory, string $projectDir, string $indexesPath, string $dbUrl, array $categoriesParameters ) {
+		$this->projectDir = $projectDir;
 		$this->security = $security;
 		$this->manager     = $manager;
 		$this->formFactory = $formFactory;
@@ -65,9 +65,9 @@ class SearchEngineManager {
 	}
 
 
-	public function getForm ($em, array $form, $headbar_query, $groupId_query, array $options = [] ): array
+	public function getForm (array $form, $headbarQuery, $groupIdQuery, array $options = [] ): array
 	{
-		$group_query = [];
+		$groupQuery = [];
 		// If not requested from searchpage(search url is written, clicked from menu or header searchbar)
 		if(empty( $form)){
 			$formTexts = [];
@@ -76,16 +76,16 @@ class SearchEngineManager {
 			$form['search_filters']['particularGroups']=[];
 			$formTexts[ 'current_tags' ] = [];
 			// If requested from header searchBar
-			if($headbar_query){
-				$formTexts[ 'keywords' ] = explode( '_ET_',  $headbar_query  );
+			if($headbarQuery){
+				$formTexts[ 'keywords' ] = explode( '_ET_',  $headbarQuery  );
 			} else {
 				$formTexts[ 'keywords' ] = [];
 			}
 			// If requested from group page search bar
-			if($groupId_query){
-				$repository = $em->getRepository('App\Entity\Usergroup');
-				$group_query = [$repository->find($groupId_query)];
-				$form['search_filters'][ 'particularGroups' ] = [$groupId_query];
+			if($groupIdQuery){
+				$repository = $this->manager>getRepository('App\Entity\Usergroup');
+				$groupQuery = [$repository->find($groupIdQuery)];
+				$form['search_filters'][ 'particularGroups' ] = [$groupIdQuery];
 			}
 		}
 		// If requested from search Page
@@ -123,7 +123,7 @@ class SearchEngineManager {
 		$formObj = $this->formFactory	->createBuilder( FormType::class, [], array('csrf_protection' => false) )
 								  		->setMethod( 'get' )
 										->add('search_filters', SearchFiltersFormType::class, [
-											'particular_groups' => $group_query
+											'particular_groups' => $groupQuery
 										])
 										->add('search_texts', SearchTextsFormType::class, [
 											'tag_array' => $tag_array
@@ -152,12 +152,8 @@ class SearchEngineManager {
 	 */
 	public function getTNTSearchConfiguration(): array
 	{
-
 		$databaseURL = $this->dbUrl;
-
 		$databaseParameters = parse_url($databaseURL);
-
-		$projectRoot = $this->appKernel->getProjectDir();
 
 		$config = [
 			'driver'    => $databaseParameters["scheme"],
@@ -166,7 +162,7 @@ class SearchEngineManager {
 			'username'  => $databaseParameters["user"],
 			'password'  => $databaseParameters["pass"],
 			// Create the fuzzy_storage directory in your project to store the index file
-			'storage'   => $projectRoot .'/'. $this->indexesPath,
+			'storage'   => $this->projectDir .'/'. $this->indexesPath,
 			// A stemmer is optional
 			'stemmer'   => \TeamTNT\TNTSearch\Stemmer\PorterStemmer::class
 		];
@@ -194,7 +190,7 @@ class SearchEngineManager {
 	 *
 	 * @return array
      */
-	public function search($em, string $text, array $categories, string $groups, array $particularGroups): array
+	public function search(string $text, array $categories, string $groups, array $particularGroups): array
 	{
 		$results = [];
 
@@ -213,8 +209,8 @@ class SearchEngineManager {
 			$this->tnt->selectIndex($categoryParams['index']);
 			$searchResults = $this->tnt->search($text, self::NUMBER_OF_ITEMS_BY_INDEX);
 			$rows = [];
-			$repository = $em->getRepository('App\Entity\\' . $categoryParams['class']);
-			foreach($searchResults["ids"] as $id){
+			$repository = $this->manager->getRepository('App\Entity\\' . $categoryParams['class']);
+			foreach($searchResults['ids'] as $id){
 				$item = $repository->find($id);
 				// Pass to the following loop if we do not want all groups and if the current item is not in the list of group of the current user
 				if(($groups!=='all') && (!$this->isItemGroupIdInIdList($category, $item, $this->currentUserGroupIdList))){
