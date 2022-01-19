@@ -26,7 +26,7 @@ class SearchEngineIndexSubscriber implements EventSubscriberInterface
     {
         return [
             Events::postPersist,
-            Events::postRemove,
+            Events::preRemove,
             Events::postUpdate,
         ];
     }
@@ -37,7 +37,7 @@ class SearchEngineIndexSubscriber implements EventSubscriberInterface
         $this->processIndex('persist', $args);
     }
 
-    public function postRemove(LifecycleEventArgs $args): void
+    public function preRemove(LifecycleEventArgs $args): void
     {
         $this->processIndex('remove', $args);
     }
@@ -47,33 +47,35 @@ class SearchEngineIndexSubscriber implements EventSubscriberInterface
         $this->processIndex('update', $args);
     }
 
+
     private function processIndex(string $action, LifecycleEventArgs $args): void
     {
         $entity = $args->getObject();
 
-        if (!$entity instanceof Usergroup ) {
+        if (!$entity instanceof Usergroup && !$entity instanceof DiscussionMessage && !$entity instanceof Document && !$entity instanceof Page && !$entity instanceof User && !$entity instanceof Article) {
             return;
         }
 		$this->searchEngineManager->setTNTSearchConfiguration();
 
-		if($action=='persist' && $entity->getIsActive()){
-			$this->searchEngineManager->insertInGroupIndex($entity);
-		} else if($action=='remove' && !$entity->getIsActive()){
-			$this->searchEngineManager->deleteInGroupIndex($entity);
-		} else if($action=='update'){
-			$changes = $args->getEntityManager()->getUnitOfWork()->getEntityChangeSet($args->getObject());
-			// If the change concern isActive, we have to check if it is now true(insert) or false(remove)
-			if (isset($changes['isActive'])){
-				if($changes['isActive'][0]==false){
-					$this->searchEngineManager->insertInGroupIndex($entity);
-				}else{
-					$this->searchEngineManager->deleteInGroupIndex($entity);
-				}
-			} else {
-				$this->searchEngineManager->updateInGroupIndex($entity);
+		if($entity instanceof Usergroup ){
+			if($action=='persist' && !$entity->getIsActive()){
+				return;
 			}
-		} else {
-			return;
+			if($action=='remove' && $entity->getIsActive()){
+				return;
+			}
+			if($action=='update'){
+				$changes = $args->getEntityManager()->getUnitOfWork()->getEntityChangeSet($args->getObject());
+
+				if (isset($changes['isActive'])){
+					if($changes['isActive'][0]==false){
+						$action = 'persist';
+					}else{
+						$action = 'remove';
+					}
+				}
+			}
 		}
+		$this->searchEngineManager->changeIndex($entity, $action);
     }
 }
