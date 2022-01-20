@@ -76,6 +76,11 @@ Generate all indexes:
 php bin/console search:reindex:all
 ```
 
+Generate one index (`pages`, `discussions_messages`, `articles`, `documents`, `groups`, `members`)
+```bash
+php bin/console search:reindex <index>
+```
+
 ## FAQ
 
 ### How to force https ?
