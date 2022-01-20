@@ -49,8 +49,6 @@ class SearchEngineController extends AbstractController
 		$page     = $request->query->get( 'page', 0 );
 		$per_page = 20;
 
-		$em = $this->getDoctrine()->getManager();
-
 		$formObj = $searchEngineManager->getForm(
 			$form,
 			$headbarSearchQuery,
