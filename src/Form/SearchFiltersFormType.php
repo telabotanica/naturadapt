@@ -24,11 +24,11 @@ class SearchFiltersFormType extends AbstractType
 				'expanded' => true,
 				'multiple' => true,
 				'choices'  => array(
-					'pages.group.pages.title' => 'pages',
-					'pages.group.discussions.title' => 'discussions',
-					'pages.group.articles.title' => 'actualites',
-					'pages.group.documents.title' => 'documents',
-					'pages.group.members.title' => 'membres'
+					'search.form.result_types.pages' => 'pages',
+					'search.form.result_types.discussions' => 'discussions',
+					'search.form.result_types.articles' => 'actualites',
+					'search.form.result_types.documents' => 'documents',
+					'search.form.result_types.members' => 'membres'
 				)
 			] )
 			->add( 'groups', ChoiceType::class, [
@@ -36,8 +36,8 @@ class SearchFiltersFormType extends AbstractType
 				'multiple' => false,
 				'expanded' => true,
 				'choices'  => [
-					'Tous les groupes' => 'all',
-					'Mes groupes' => 'My Groups'
+					'search.form.groups.all_groups' => 'all',
+					'search.form.groups.my_groups' => 'My Groups'
 				],
 				'data' => 'all',
 				'placeholder' => false
