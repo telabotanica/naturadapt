@@ -81,9 +81,9 @@
 
 	@include large-or-more {
 		order:      3;
-		padding:    padding_vertical() 0;
+		padding:    padding_vertical() padding_horizontal();
 		flex-basis: 50%;
-		text-align: center;
+		text-align: right;
 
 		input {
 			width: 285px;
