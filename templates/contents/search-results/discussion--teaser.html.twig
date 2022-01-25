@@ -1,17 +1,17 @@
 {% set classes = ['result', 'result__teaser'] %}
-<a class="{{ classes|join(' ') }}" href="{{ path('group_discussion_index', {'groupSlug': discussion.group.slug, 'discussionUuid': discussion.uuid}) }}">
+<a class="{{ classes|join(' ') }}" href="{{ path('group_discussion_index', {'groupSlug': discussion.group_slug, 'discussionUuid': discussion.discussion_uuid}) }}">
 	<div>
 		<div class="result-type">DISCUSSION</div>
-		<div class="result-title">{{ discussion.title|raw }}</div>
-		<div class="result-author">Par {{discussion.author}}:</div>
+		<div class="result-title">{{ discussion.discussion_title|raw }}</div>
+		<div class="result-author">Par {{discussion.author_name}}:</div>
 		<div class="result-body">{{discussion.body|striptags('<br><em><p>')|raw }}</div>
 		<div class="result-group">
-			{% if (discussion.group.logo is defined) and (discussion.group.logo is not empty) %}
+			{% if (discussion.group_logo_path is defined) and (discussion.group_logo_path is not null) %}
 				<div class="group-logo">
-					<img src="{{ discussion.group.logo.path | imagine_filter('logo') }}" alt="">
+					<img src="{{ discussion.group_logo_path | imagine_filter('logo') }}" alt="">
 				</div>
 			{% endif %}
-			<div class="group-text">{{discussion.group.name}}</div>
+			<div class="group-text">{{discussion.group_name}}</div>
 		</div>
 	</div>
 </a>

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use App\Entity\UsergroupMembership;
+use App\Traits\SearchableRepositoryTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr\Orx;
 use Doctrine\ORM\QueryBuilder;
@@ -16,6 +17,8 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method User[]    findBy( array $criteria, array $orderBy = NULL, $limit = NULL, $offset = NULL )
  */
 class UserRepository extends ServiceEntityRepository {
+	use SearchableRepositoryTrait;
+
 	public function __construct ( ManagerRegistry $registry ) {
 		parent::__construct( $registry, User::class );
 	}

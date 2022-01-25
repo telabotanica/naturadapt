@@ -1,16 +1,16 @@
 {% set classes = ['result', 'result__teaser'] %}
-<a class="{{ classes|join(' ') }}" href="{{ path('group_page_index', {'groupSlug': page.group.slug, 'pageSlug': page.slug}) }}">
+<a class="{{ classes|join(' ') }}" href="{{ path('group_page_index', {'groupSlug': page.group_slug, 'pageSlug': page.slug}) }}">
 	<div>
 		<div class="result-type">PAGE</div>
 		<div class="result-title">{{ page.title|raw }}</div>
 		<div class="result-body">{{ page.body|striptags('<br><em><p>')|raw }}</div>
 		<div class="result-group">
-			{% if (page.group.logo is defined) and (page.group.logo is not empty) %}
+			{% if (page.group_logo_path is defined) and (page.group_logo_path is not null) %}
 				<div class="group-logo">
-					<img src="{{ page.group.logo.path | imagine_filter('logo') }}" alt="">
+					<img src="{{ page.group_logo_path | imagine_filter('logo') }}" alt="">
 				</div>
 			{% endif %}
-			<div class="group-text">{{page.group.name}}</div>
+			<div class="group-text">{{page.group_name}}</div>
 		</div>
 	</div>
 </a>

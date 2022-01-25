@@ -45,7 +45,7 @@ class SearchEngineManager {
 	private $categoriesParameters;
 	private $tnt;
 
-	private const NUMBER_OF_ITEMS_BY_INDEX = 20;
+	private const NUMBER_OF_ITEMS_BY_INDEX = 500;
 
 	/*
 	* @param string $indexPath
@@ -65,7 +65,7 @@ class SearchEngineManager {
 	}
 
 
-	public function getForm (array $form, $headbarQuery, $groupIdQuery, array $options = [] ): array
+	public function getForm (array $form, $headbarQuery, $groupIdQuery): array
 	{
 		$groupQuery = [];
 		// If not requested from searchpage(search url is written, clicked from menu or header searchbar)
@@ -190,118 +190,60 @@ class SearchEngineManager {
 	 *
 	 * @return array
      */
-	public function search(string $text, array $categories, string $groups, array $particularGroups): array
+	public function search(string $text, array $categories, string $groups, array $particularGroups, array $options ): array
 	{
 		$results = [];
+		$totalCount = 0;
 
-		$this->currentUserGroupIdList= array_map(
-			function ( UsergroupMembership $membership ) {
-				return $membership->getUsergroup()->getId();
-			},
-			iterator_to_array(
-				$this->security->getUser()->getUsergroupMemberships()
-			)
-		);
+		if($groups==='all'){
+			$groups = [];
+		}else {
+			//Get the Ids of the groups of the current user
+			$groups= array_map(
+				function ( UsergroupMembership $membership ) {
+					return $membership->getUsergroup()->getId();
+				},
+				iterator_to_array(
+					$this->security->getUser()->getUsergroupMemberships()
+				)
+			);
+		}
 
 		//filter according categories
 		foreach($categories as $category){
 			$categoryParams = $this->categoriesParameters[$category];
 			$this->tnt->selectIndex($categoryParams['index']);
+			//Search match in tnt index
 			$searchResults = $this->tnt->search($text, self::NUMBER_OF_ITEMS_BY_INDEX);
-			$rows = [];
+			//Get data of the matching objects
 			$repository = $this->manager->getRepository('App\Entity\\' . $categoryParams['class']);
-			foreach($searchResults['ids'] as $id){
-				$item = $repository->find($id);
-				// Pass to the following loop if we do not want all groups and if the current item is not in the list of group of the current user
-				if(($groups!=='all') && (!$this->isItemGroupIdInIdList($category, $item, $this->currentUserGroupIdList))){
-					continue;
-				}
-				// Pass to the following loop if search in particular groups is asked but the item is not in those groups
-				if(((!empty($particularGroups)) && (!$this->isItemGroupIdInIdList($category, $item, array_map('intval', $particularGroups))))){
-					continue;
-				}
-				$result = [];
-				foreach($categoryParams['propertyList'] as $property){
-					$result[$property]=$this->getStyledDataFromProperty($property, $text, $item, $category);
-				}
-				array_push($rows, $result);
-			}
-			$results[$category] = $rows;
-
+			$entities = $repository->searchFromIdsAndProperties($searchResults['ids'], $groups, $particularGroups, $categoryParams['propertyList'], [ 'page' => $options[ 'page' ], 'limit' => $options[ 'per_index_per_page' ] ]);
+			//Style
+			$toHightlight=['title', 'discussion_title', 'name'];
+			$toSnippetAndHightlight=['body', 'presentation', 'bio'];
+			$results[$category] = $this->applyTntStyles($text, $entities, $toHightlight, $toSnippetAndHightlight);
+			$test = $repository->searchCountFromIdsAndProperties($searchResults['ids'], $groups, $particularGroups, $categoryParams['propertyList']);
+			$totalCount = $totalCount + $repository->searchCountFromIdsAndProperties($searchResults['ids'], $groups, $particularGroups, $categoryParams['propertyList']);
 		}
-		return $results;
+		return [
+				'results' =>      $results,
+				'total'   =>      $totalCount,
+		];
 	}
 
-	/**
-	 * @param string                          $property
-	 * @param string                          $text
-	 * @param \App\Entity\DiscussionMessage|\App\Entity\Article|\App\Entity\Page|\App\Entity\User|\App\Entity\Document $item
-	 * @param string                          $category
-	 *
-	 * @return string
-	 */
-	public function getStyledDataFromProperty($property, $text, $item, $category)
+	public function applyTntStyles(string $text, array $entities, array $propertiestoHightlight, array $propertiestoSnippetAndHightlight): array
 	{
-		switch ($property) {
-			case 'id':
-				return $item->getId();
-			case 'title':
-				if ($category==='discussions'){
-					return $this->tnt->highlight($item->getDiscussion()->getTitle(), $text, 'em', ['wholeWord' => false,]);
-				} else {
-					return $this->tnt->highlight($item->getTitle(), $text, 'em', ['wholeWord' => false,]);
+		foreach ($entities as $key=>$entity) {
+			foreach ($entity as $property => $value) {
+				if(in_array($property, $propertiestoHightlight)){
+					$entities[$key][$property]= $this->tnt->highlight($value, $text, 'em', ['wholeWord' => false,]);
+				} else if(in_array($property, $propertiestoSnippetAndHightlight)){
+					$value = $this->tnt->snippet($text, strip_tags($value));
+					$entities[$key][$property]= $this->tnt->highlight($value, $text, 'em', ['wholeWord' => false,]);
 				}
-			case 'body':
-				$relevantBody = $this->tnt->snippet($text, strip_tags($item->getBody()));
-				return $this->tnt->highlight($relevantBody, $text, 'em', ['wholeWord' => false]);
-			case 'author':
-				return $item->getAuthor()->getDisplayName();
-			case 'presentation':
-				return $item->getPresentation();
-			case 'bio':
-				return $item->getBio();
-			case 'name':
-				return $item->getName();
-			case 'group':
-				if ($category==='discussions'){
-					return $item->getDiscussion()->getUsergroup();
-				} else {
-					return $item->getUsergroup();
-				}
-			case 'slug':
-				return $item->getSlug();
-			case 'uuid':
-				if ($category==='discussions'){
-					return $item->getDiscussion()->getUuid();
-				}
-			default:
-				return '';
+			}
 		}
-	}
-
-	/**
-	* Check if the group Id(or one of the groups in case of the member category) of an item is in a list of Id
-	*
-    * @param \App\Entity\DiscussionMessage|\App\Entity\Article|\App\Entity\Page|\App\Entity\User|\App\Entity\Document $item
-	*
-	* @return bool
-    */
-	public function isItemGroupIdInIdList(string $category, $item, array $idList){
-		if ($category==='discussions'){
-			return in_array($item->getDiscussion()->getUsergroup()->getId(),  $idList);
-		} else if ($category==='membres') {
-			$memberGroups = array_map(
-				function ( UsergroupMembership $membership ) {
-					return $membership->getUsergroup()->getId();
-				},
-				iterator_to_array(
-					$item->getUsergroupMemberships()
-				)
-			);
-			return !empty(array_intersect($memberGroups, $idList));
-		} else {
-			return in_array($item->getUsergroup()->getId(),  $idList);
-		}
+		return $entities;
 	}
 
 }

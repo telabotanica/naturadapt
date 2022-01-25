@@ -62,19 +62,19 @@ services:
             $dbUrl: '%env(resolve:DATABASE_URL)%'
             $categoriesParameters:
                 'discussions':
-                    propertyList: ['id', 'title', 'body', 'author', 'group', 'uuid']
+                    propertyList: ['id', 'discussion', 'body', 'author']
                     index: 'discussions_messages.index'
                     class: 'DiscussionMessage'
                 'actualites':
-                    propertyList: ['id', 'title', 'body', 'author', 'group', 'slug']
+                    propertyList: ['id', 'title', 'body', 'usergroup', 'slug']
                     index: 'articles.index'
                     class: 'Article'
                 'pages':
-                    propertyList: ['id', 'title', 'body', 'author', 'group', 'slug']
+                    propertyList: ['id', 'title', 'body', usergroup, 'slug']
                     index: 'pages.index'
                     class: 'Page'
                 'documents':
-                    propertyList: ['id', 'title', 'group']
+                    propertyList: ['id', 'title', 'usergroup']
                     index: 'documents.index'
                     class: 'Document'
                 'membres':

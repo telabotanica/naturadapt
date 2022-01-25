@@ -47,13 +47,11 @@ class SearchEngineController extends AbstractController
 
 		// TODO: Add Pagination to results
 		$page     = $request->query->get( 'page', 0 );
-		$per_page = 20;
 
 		$formObj = $searchEngineManager->getForm(
 			$form,
 			$headbarSearchQuery,
-			$groupQuery,
-			[ 'page' => $page, 'per_page' => $per_page ]
+			$groupQuery
 		);
 
 		$formObj['form']->handleRequest( $request );
@@ -61,13 +59,25 @@ class SearchEngineController extends AbstractController
 		//Setting Tntsearch option
 		$searchEngineManager->setTNTSearchConfiguration();
 
+		$categories = $formObj['formFilters']['result_type'];
+		if(count($categories)>3){
+			$per_index_per_page = 5;
+		} else {
+			$per_index_per_page = 10;
+		}
+
 		//Launch Search
-		$results = $searchEngineManager->search(implode($formObj['formTexts']['keywords'], ' '), $formObj['formFilters']['result_type'], $formObj['formFilters']['groups'], $formObj['formFilters']['particularGroups']);
+		$data = $searchEngineManager->search(implode($formObj['formTexts']['keywords'], ' '), $categories, $formObj['formFilters']['groups'], $formObj['formFilters']['particularGroups'], [ 'page' => $page, 'per_index_per_page' => $per_index_per_page ]);
 
 		return $this->render( 'pages/search/search.html.twig', [
 			'form'    => $formObj['form']->createView(),
-			'result_number' => array_sum(array_map("count", $results)),
-			'results' => $results,
+			'result_number' => $data['total'],
+			'results' => $data["results"],
+			'pager'   => [
+				'base_url' => $request->getPathInfo() . '?' . http_build_query( [ 'form' => $form ] ) . '&',
+				'page'     => $page,
+				'last'     => ceil( $data['total'] / ($per_index_per_page*count($categories)) ) - 1,
+			],
 		] );
 	}
 
