@@ -28,12 +28,16 @@
 									{{ form_widget(form.search_filters.result_type) }}
 								</div>
 							</div>
-							<div class="form-row form-row__filter">
-								Groupes
-								<div class="form-row__radioboxes">
-									{{ form_widget(form.search_filters.groups) }}
-								</div>
-							</div>
+								{% if isCurrentConnexion == true %}
+									<div class="form-row form-row__filter">
+										Groupes
+										<div class="form-row__radioboxes">
+												{{ form_widget(form.search_filters.groups) }}
+										</div>
+									</div>
+								{% else %}
+									{% do form.search_filters.groups.setRendered() %}
+								{% endif %}
 							<div class="form-row ">
 								Rechercher dans un groupe précis
 								<div class="form-row__checkboxes checkboxes-autocomplete" id="particular_group_row">
@@ -42,7 +46,6 @@
 							</div>
 						</div>
 						<div>
-
 							<div class="tag-panel">
 								<span>Recherche</span>
 								<span class="removable-tag-list  ">

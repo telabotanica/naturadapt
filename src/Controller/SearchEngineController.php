@@ -62,12 +62,13 @@ class SearchEngineController extends AbstractController
 		$searchEngineManager->setTNTSearchConfiguration();
 
 		//Launch Search
-		$results = $searchEngineManager->search(implode($formObj['formTexts']['keywords'], ' '), $formObj['formFilters']['result_type'], $formObj['formFilters']['groups'], $formObj['formFilters']['particularGroups']);
+		$searchResults = $searchEngineManager->search(implode($formObj['formTexts']['keywords'], ' '), $formObj['formFilters']['result_type'], $formObj['formFilters']['groups'], $formObj['formFilters']['particularGroups']);
 
 		return $this->render( 'pages/search/search.html.twig', [
 			'form'    => $formObj['form']->createView(),
-			'result_number' => array_sum(array_map("count", $results)),
-			'results' => $results,
+			'result_number' => array_sum(array_map("count", $searchResults['results'])),
+			'results' => $searchResults['results'],
+			'isCurrentConnexion' => $searchResults['connexionBoolean'],
 		] );
 	}
 

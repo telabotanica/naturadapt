@@ -194,14 +194,21 @@ class SearchEngineManager {
 	{
 		$results = [];
 
-		$this->currentUserGroupIdList= array_map(
-			function ( UsergroupMembership $membership ) {
-				return $membership->getUsergroup()->getId();
-			},
-			iterator_to_array(
-				$this->security->getUser()->getUsergroupMemberships()
-			)
-		);
+		$currentUser = $this->security->getUser();
+		if(isset($currentUser) && !empty($currentUser)){
+			$this->currentUserGroupIdList= array_map(
+				function ( UsergroupMembership $membership ) {
+					return $membership->getUsergroup()->getId();
+				},
+				iterator_to_array(
+					$this->security->getUser()->getUsergroupMemberships()
+				)
+			);
+			$isUserConnected = true;
+		} else {
+			$isUserConnected = false;
+			$this->currentUserGroupIdList=[];
+		}
 
 		//filter according categories
 		foreach($categories as $category){
@@ -229,7 +236,10 @@ class SearchEngineManager {
 			$results[$category] = $rows;
 
 		}
-		return $results;
+		return [
+			'results' => $results,
+			'connexionBoolean' => $isUserConnected,
+		];
 	}
 
 	/**
