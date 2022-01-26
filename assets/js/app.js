@@ -33,7 +33,6 @@ import './ui/url-to-link';
 import './ui/confirm';
 import './ui/oembed-to-iframe';
 import './ui/removable-tag-list';
-import './ui/groups-search';
 //
 import './user/profile';
 import './user/dashboard';
