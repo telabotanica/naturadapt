@@ -9,11 +9,13 @@ use App\Entity\UsergroupMembership;
 use App\Form\UsergroupType;
 use App\Security\GroupVoter;
 use App\Security\UserVoter;
+use App\Service\UserGroupsManager;
 use App\Service\Community;
 use App\Service\EmailSender;
 use App\Service\FileManager;
 use App\Service\SlugGenerator;
 use App\Service\UserGroupRelation;
+use App\Service\SearchEngineManager;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,6 +24,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
 
 class GroupController extends AbstractController {
 	/**************************************************
@@ -31,24 +34,69 @@ class GroupController extends AbstractController {
 	/**
 	 * @Route("/groups", name="groups_index")
 	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
-	 * @param \App\Service\Community                     $community
+	 * @param \App\Service\UserGroupManager              $userGroupManager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function groupsIndex (
 		EntityManagerInterface $manager,
-		Community $community
+		UserGroupsManager $userGroupsManager
 	) {
-		$groupsManager = $manager->getRepository( Usergroup::class );
-
-		$groups = $groupsManager->getGroupsWithMembers( $community->getGroup(), true );
-		$groupsToActivate = $groupsManager->getGroupsWithMembers( false, false );
+		$form = $this->createFormBuilder()
+					 ->add( 'groups_search_bar', SearchType::class, [
+						'required' => false,
+						] )
+					 ->getForm();
 
 		return $this->render( 'pages/group/groups-index.html.twig', [
-				'groups' => $groups,
-				'groupsToActivate' => $groupsToActivate,
+				'groups' => $userGroupsManager->getGroups(),
+				'groupsToActivate' => $userGroupsManager->getGroupsToActivate(),
+				'form' => $form->createView()
 		] );
 	}
+
+	/**
+     * @Route("/groups/search", name="groups_search", methods="GET")
+	 * @param \App\Service\UserGroupManager              $userGroupManager
+	 * @param \Symfony\Component\HttpFoundation\Request  $request;
+	 * @param \App\Service\SearchEngineManager           $searchEngineManager
+	 *
+	 * @return string                                    $jsonString
+     */
+    public function groupSearch(
+		UserGroupsManager $userGroupsManager,
+		Request $request,
+		SearchEngineManager $searchEngineManager
+	) {
+        $query = $request->query->get('q');
+        $type = $request->query->get('type');
+
+		if($query!==''){
+			$em = $this->getDoctrine()->getManager();
+			//Launch Search
+			$searchEngineManager->setTNTSearchConfiguration();
+			$result = $searchEngineManager->searchGroup($em, $query);
+
+			$groupList = $userGroupsManager->getGroupsFilteredByIds($result, $type);
+			$groupList = $searchEngineManager->snippetGroupsText($query, $groupList);
+
+			$groupListHTML = $this->render( 'pages/group/groups-list.html.twig', [
+				'groups' => $groupList,
+			] );
+			$contentGroups = $groupListHTML->getContent();
+			$contentGroups = $searchEngineManager->highlightText($query, $contentGroups);
+		} else {
+			$groupList = $userGroupsManager->getGroupsFromType($type);
+			$groupListHTML = $this->render( 'pages/group/groups-list.html.twig', [
+				'groups' => $groupList,
+			] );
+			$contentGroups = $groupListHTML->getContent();
+		}
+
+        return $this->json([
+            'groups' => $contentGroups
+		]);
+    }
 
 	/**************************************************
 	 * GROUP
@@ -224,9 +272,9 @@ class GroupController extends AbstractController {
 			return $this->redirectToRoute('user_login');
 		}
 
-		if ( !$userGroupRelation->isCommunityAdmin( $this->getUser() ) ) {
-			throw new AccessDeniedException( 'Your are not allowed to activate groups' );
-		}
+		// if ( !$userGroupRelation->isCommunityAdmin( $this->getUser() ) ) {
+		// 	throw new AccessDeniedException( 'Your are not allowed to activate groups' );
+		// }
 
 		$group = $manager->getRepository( Usergroup::class )
 			->findOneBy( [ 'slug' => $groupSlug ] );
