@@ -272,9 +272,9 @@ class GroupController extends AbstractController {
 			return $this->redirectToRoute('user_login');
 		}
 
-		// if ( !$userGroupRelation->isCommunityAdmin( $this->getUser() ) ) {
-		// 	throw new AccessDeniedException( 'Your are not allowed to activate groups' );
-		// }
+		if ( !$userGroupRelation->isCommunityAdmin( $this->getUser() ) ) {
+			throw new AccessDeniedException( 'Your are not allowed to activate groups' );
+		}
 
 		$group = $manager->getRepository( Usergroup::class )
 			->findOneBy( [ 'slug' => $groupSlug ] );
