@@ -60,7 +60,8 @@ class ReindexCommand extends Command {
 			case 'documents':
 				return 'SELECT id, title FROM naturadapt_document;';
 			case 'groups':
-				return 'SELECT id, name, description, presentation FROM naturadapt_usergroups;';
+				return 'SELECT id, name, description, presentation FROM naturadapt_usergroups
+						WHERE is_active<>0;';
 			case 'members':
 				return 'SELECT id, name, presentation, bio FROM naturadapt_users;';
 			default:
