@@ -207,7 +207,7 @@ class SearchEngineManager {
 		foreach($categories as $category){
 			$categoryParams = $this->categoriesParameters[$category];
 			$this->tnt->selectIndex($categoryParams['index']);
-			$searchResults = $this->tnt->search($text, self::NUMBER_OF_ITEMS_BY_INDEX);
+			$searchResults = $this->tnt->searchBoolean($text, self::NUMBER_OF_ITEMS_BY_INDEX);
 			$rows = [];
 			$repository = $this->manager->getRepository('App\Entity\\' . $categoryParams['class']);
 			foreach($searchResults['ids'] as $id){
