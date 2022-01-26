@@ -1,7 +1,7 @@
 {% set classes = ['result', 'result__teaser'] %}
 <a class="{{ classes|join(' ') }}" href="{{ path('group_discussion_index', {'groupSlug': discussion.group.slug, 'discussionUuid': discussion.uuid}) }}">
 	<div>
-		<div class="result-type">DISCUSSION</div>
+		<div class="result-type">{{ 'search.results.discussion'|trans }}</div>
 		<div class="result-title">{{ discussion.title|raw }}</div>
 		<div class="result-author">Par {{discussion.author}}:</div>
 		<div class="result-body">{{discussion.body|striptags('<br><em><p>')|raw }}</div>
