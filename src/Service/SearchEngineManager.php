@@ -238,8 +238,12 @@ class SearchEngineManager {
 				if(in_array($property, $propertiestoHightlight)){
 					$entities[$key][$property]= $this->tnt->highlight($value, $text, 'em', ['wholeWord' => false,]);
 				} else if(in_array($property, $propertiestoSnippetAndHightlight)){
-					$value = $this->tnt->snippet($text, strip_tags($value));
-					$entities[$key][$property]= $this->tnt->highlight($value, $text, 'em', ['wholeWord' => false,]);
+					$snippetedValue = $this->tnt->snippet($text, strip_tags($value));
+					if($snippetedValue !=='.....'){
+						$entities[$key][$property]= $this->tnt->highlight($snippetedValue, $text, 'em', ['wholeWord' => false,]);
+					} else {
+						$entities[$key][$property]= $this->tnt->highlight($value, $text, 'em', ['wholeWord' => false,]);
+					}
 				}
 			}
 		}
