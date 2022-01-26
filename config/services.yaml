@@ -57,6 +57,7 @@ services:
 
     App\Service\SearchEngineManager:
         arguments:
+            $projectDir: '%kernel.project_dir%'
             $indexesPath: '%env(string:INDEX_DIR)%'
             $dbUrl: '%env(resolve:DATABASE_URL)%'
             $categoriesParameters:

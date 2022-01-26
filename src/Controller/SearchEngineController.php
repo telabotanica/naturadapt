@@ -43,6 +43,7 @@ class SearchEngineController extends AbstractController
 	) {
 		$form = $request->query->get( 'form', [] );
 		$headbarSearchQuery = $request->request->get('searchQuery');
+		$groupQuery = $request->request->get('groupQuery');
 
 		// TODO: Add Pagination to results
 		$page     = $request->query->get( 'page', 0 );
@@ -51,6 +52,7 @@ class SearchEngineController extends AbstractController
 		$formObj = $searchEngineManager->getForm(
 			$form,
 			$headbarSearchQuery,
+			$groupQuery,
 			[ 'page' => $page, 'per_page' => $per_page ]
 		);
 
@@ -60,8 +62,7 @@ class SearchEngineController extends AbstractController
 		$searchEngineManager->setTNTSearchConfiguration();
 
 		//Launch Search
-		$em = $this->getDoctrine()->getManager();
-		$results = $searchEngineManager->search($em, implode($formObj['formTexts']['keywords'], ' '), $formObj['formFilters']['result_type']);
+		$results = $searchEngineManager->search(implode($formObj['formTexts']['keywords'], ' '), $formObj['formFilters']['result_type'], $formObj['formFilters']['groups'], $formObj['formFilters']['particularGroups']);
 
 		return $this->render( 'pages/search/search.html.twig', [
 			'form'    => $formObj['form']->createView(),
