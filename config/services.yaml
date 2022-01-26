@@ -63,33 +63,24 @@ services:
             $categoriesParameters:
                 'discussions':
                     propertyList: ['id', 'title', 'body', 'author', 'group', 'uuid']
-                    indexPropertyList: ['id', 'body']
                     index: 'discussions_messages.index'
                     class: 'DiscussionMessage'
                 'actualites':
                     propertyList: ['id', 'title', 'body', 'author', 'group', 'slug']
-                    indexPropertyList: ['id', 'title', 'body']
                     index: 'articles.index'
                     class: 'Article'
                 'pages':
                     propertyList: ['id', 'title', 'body', 'author', 'group', 'slug']
-                    indexPropertyList: ['id', 'title', 'body']
                     index: 'pages.index'
                     class: 'Page'
                 'documents':
                     propertyList: ['id', 'title', 'group']
-                    indexPropertyList: ['id', 'title']
                     index: 'documents.index'
                     class: 'Document'
                 'membres':
                     propertyList: ['id', 'name', 'presentation', 'bio']
-                    indexPropertyList: ['id', 'name', 'presentation', 'bio']
                     index: 'members.index'
                     class: 'User'
-                'groups':
-                    indexPropertyList: ['id', 'name', 'description', 'presentation']
-                    index: 'groups.index'
-                    class: 'Usergroup'
 
     postmark:
         class: Postmark\Transport
