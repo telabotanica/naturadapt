@@ -430,11 +430,11 @@ search:
         tag_list: "Recherche"
     results:
         results: "résultats"
-        page: "PAGE"
-        articles: "ACTUALITE"
-        discussion: "DISCUSSION"
-        document: "DOCUMENT"
-        membre: "MEMBRE"
+        page: "Page"
+        articles: "Actualité"
+        discussion: "Discussion"
+        document: "Document"
+        membre: "Membre"
 
 messages:
     user:
