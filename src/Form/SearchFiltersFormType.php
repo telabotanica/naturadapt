@@ -36,13 +36,13 @@ class SearchFiltersFormType extends AbstractType
 				'multiple' => false,
 				'expanded' => true,
 				'choices'  => [
-					'search.form.groups.all_groups' => 'all',
-					'search.form.groups.my_groups' => 'My Groups'
+					'Tous les groupes' => 'all',
+					'Mes groupes' => 'currentUserGroups'
 				],
 				'data' => 'all',
 				'placeholder' => false
 				] )
-			->add( 'particularGroup', EntityType::class, [
+			->add( 'particularGroups', EntityType::class, [
 				'class'                     => Usergroup::class,
 				'required'                  => false,
 				'expanded'                  => true,
@@ -51,8 +51,19 @@ class SearchFiltersFormType extends AbstractType
 					return $repository->createQueryBuilder( 'u' )
 										->orderBy( 'u.slug', 'ASC' );
 				},
+				'data'                   => $options['particular_groups'],
 				'choice_label'              => 'slug',
 			] );
+    }
+
+	public function configureOptions(OptionsResolver $resolver): void
+    {
+        // this defines the available options and their default values when
+        // they are not configured explicitly when using the form type
+        $resolver->setDefaults([
+            'particular_groups' => [],
+        ]);
+
     }
 
 }
