@@ -25,12 +25,17 @@
 				</div>
 			</div>
 		</div>
-		<div class="main--content content-container">
+		<div class="content-container">
+			<div class="group-search-bar">
+				{{ form_widget(form.groups_search_bar, {'attr': {'placeholder': 'Rechercher'}}) }}
+			</div>
+		</div>
+		<div class="content-container">
 			{% set displayableGroupsToActivate = user_group_relation.getGroupsUserCanAdmin(app.user, groupsToActivate) %}
 			{% if groupsToActivate is defined and displayableGroupsToActivate is not empty %}
 				<section class="groups-list">
 					<p class="small-title">{{ user_group_relation.isCommunityAdmin(app.user) ? 'pages.group.groups.list.pending.admins'|trans : 'pages.group.groups.list.pending.yours'|trans }}</p>
-					<ul>
+					<ul id="groups-to-activate-elements">
 						{% for groupToActivate in displayableGroupsToActivate %}
 							<li>
 								{% include 'contents/group/group--teaser.html.twig' with {'group':groupToActivate} %}
@@ -44,7 +49,7 @@
 				{% if groupsToActivate is defined and displayableGroupsToActivate is not empty %}
 					<p class="small-title">{{ 'pages.group.groups.list.all'|trans }}</p>
 				{% endif %}
-				<ul>
+				<ul id="groups-elements">
 					{% for group in groups %}
 						<li>
 							{% include 'contents/group/group--teaser.html.twig' with {'group':group} %}

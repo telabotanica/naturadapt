@@ -21,6 +21,7 @@ use App\Repository\UsergroupRepository;
 use App\Form\SearchFiltersFormType;
 use App\Form\SearchTextsFormType;
 
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Doctrine\ORM\EntityManagerInterface;
@@ -192,6 +193,7 @@ class SearchEngineManager {
      */
 	public function search(string $text, array $categories, string $groups, array $particularGroups): array
 	{
+		$this->tnt->asYouType = false;
 		$results = [];
 
 		$currentUser = $this->security->getUser();
@@ -240,6 +242,14 @@ class SearchEngineManager {
 			'results' => $results,
 			'connexionBoolean' => $isUserConnected,
 		];
+	}
+
+	public function searchGroup($em, string $text): array
+	{
+		$this->tnt->selectIndex('groups.index');
+		$this->tnt->asYouType = true;
+		$results = $this->tnt->search($text);
+		return $results['ids'];
 	}
 
 	/**
@@ -311,6 +321,78 @@ class SearchEngineManager {
 			return !empty(array_intersect($memberGroups, $idList));
 		} else {
 			return in_array($item->getUsergroup()->getId(),  $idList);
+		}
+	}
+
+	public function snippetGroupsText(string $text, array $groups){
+		foreach ( $groups as $group ) {
+			$descriptionHtml = strip_tags($group->getDescription());
+			$textTemp=$this->tnt->snippet($text, $descriptionHtml);
+			// If snippet returned '.....' (case for a long text without match) we display the text without snippet
+			if($textTemp !=='.....'){
+				$group->setDescription($this->tnt->snippet($text, $descriptionHtml, 120, 30));
+			}
+		}
+		return $groups;
+	}
+
+	public function highlightText(string $text, string $groupsHTML){
+		$groupsHTML = $this->tnt->highlight($groupsHTML, $text, 'em', ['wholeWord' => false]);
+		return $groupsHTML;
+	}
+
+	/**
+	 * @param \App\Entity\DiscussionMessage|\App\Entity\Article|\App\Entity\Page|\App\Entity\User|\App\Entity\Document       $entity
+	 * @param string       $action
+	 */
+	public function changeIndex($entity, $action){
+		$category = $this->getCategoryFromEntity($entity);
+		$categoryParams = $this->categoriesParameters[$category];
+		$this->tnt->selectIndex($categoryParams['index']);
+		$index = $this->tnt->getIndex();
+		switch ($action) {
+			case 'persist':
+				$index->insert($this->getEntityPropertyList($entity, $categoryParams['indexPropertyList']));
+				break;
+			case 'remove':
+				$index->delete($entity->getId());
+				break;
+			case 'update':
+				$index->update($entity->getId(), $this->getEntityPropertyList($entity, $categoryParams['indexPropertyList']));
+				break;
+			default:
+				break;
+		}
+	}
+
+	public function getEntityPropertyList($entity, $properties)
+	{
+		$result = [];
+		foreach($properties as $property){
+			//We generate the name of the getter to get the property
+			$result[$property]= $entity->{'get'.$property}();
+		}
+		return $result;
+	}
+
+	public function getCategoryFromEntity ($entity){
+		if($entity instanceof DiscussionMessage){
+			return 'discussions';
+		}
+		if($entity instanceof Document){
+			return 'documents';
+		}
+		if($entity instanceof Page){
+			return 'pages';
+		}
+		if($entity instanceof User){
+			return 'membres';
+		}
+		if($entity instanceof Article){
+			return 'actualites';
+		}
+		if($entity instanceof Usergroup){
+			return 'groups';
 		}
 	}
 
