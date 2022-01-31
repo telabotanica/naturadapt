@@ -214,7 +214,7 @@ class SearchEngineManager {
 			$categoryParams = $this->categoriesParameters[$category];
 			$this->tnt->selectIndex($categoryParams['index']);
 			//Search match in tnt index
-			$searchResults = $this->tnt->search($text, self::NUMBER_OF_ITEMS_BY_INDEX);
+			$searchResults = $this->tnt->searchBoolean($text, self::NUMBER_OF_ITEMS_BY_INDEX);
 			//Get data of the matching objects
 			$repository = $this->manager->getRepository('App\Entity\\' . $categoryParams['class']);
 			$entities = $repository->searchFromIdsAndProperties($searchResults['ids'], $groups, $particularGroups, $categoryParams['propertyList'], [ 'page' => $options[ 'page' ], 'limit' => $options[ 'per_index_per_page' ] ]);
