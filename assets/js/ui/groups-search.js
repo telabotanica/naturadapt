@@ -8,8 +8,8 @@ domready( () => {
 });
 
 async function searchGroups(e){
-	getGroupHTML('groups-to-activate-elements', e.target.value)
-	getGroupHTML('groups-elements', e.target.value)
+	getGroupHTML('groups-to-activate-elements', e.target.value);
+	getGroupHTML('groups-elements', e.target.value);
 }
 
 async function getGroupHTML(id, text){

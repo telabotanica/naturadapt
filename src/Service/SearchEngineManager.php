@@ -351,7 +351,7 @@ class SearchEngineManager {
 				$index->update($entity->getId(), $this->getEntityPropertyList($entity, $categoryParams['indexPropertyList']));
 				break;
 			default:
-				return;
+				break;
 		}
 	}
 

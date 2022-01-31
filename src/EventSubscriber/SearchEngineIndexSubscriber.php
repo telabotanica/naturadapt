@@ -67,10 +67,14 @@ class SearchEngineIndexSubscriber implements EventSubscriberInterface
 			if($action=='update'){
 				$changes = $args->getEntityManager()->getUnitOfWork()->getEntityChangeSet($args->getObject());
 
+				//if the changes affect the value of 'isActive', we add/remove the entity in the index
 				if (isset($changes['isActive'])){
+					//The usergroup is now active, we add the entity in the index
 					if($changes['isActive'][0]==false){
 						$action = 'persist';
-					}else{
+					}
+					//The usergroup was deactivate, we remove the entity from the index
+					else{
 						$action = 'remove';
 					}
 				}
