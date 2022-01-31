@@ -1,7 +1,7 @@
 {% set classes = ['result', 'result__teaser'] %}
 <a class="{{ classes|join(' ') }}" href="{{ path('group_article_index', {'groupSlug': actualite.group.slug, 'articleSlug': actualite.slug}) }}">
 	<div>
-		<div class="result-type">ACTUALITE</div>
+		<div class="result-type">{{ 'search.results.articles'|trans }}</div>
 		<div class="result-title">{{ actualite.title|raw }}</div>
 		<div class="result-body">{{ actualite.body|striptags('<br><em><p>')|raw }}</div>
 		<div class="result-group">

@@ -179,7 +179,7 @@ class SearchEngineManager {
 		//TODO: Remove function if fuzziness is finally not used
 		$tnt->fuzziness            = true;
 		//the number of one character changes that need to be made to one string to make it the same as another string
-		$tnt->fuzzy_distance       = 2;
+		$tnt->fuzzy_distance       = 1;
 		//The number of initial characters which will not be “fuzzified”. This helps to reduce the number of terms which must be examined.
 		$tnt->fuzzy_prefix_length  = 2;
 		//The maximum number of terms that the fuzzy query will expand to. Defaults to 50
@@ -209,7 +209,7 @@ class SearchEngineManager {
 		foreach($categories as $category){
 			$categoryParams = $this->categoriesParameters[$category];
 			$this->tnt->selectIndex($categoryParams['index']);
-			$searchResults = $this->tnt->search($text, self::NUMBER_OF_ITEMS_BY_INDEX);
+			$searchResults = $this->tnt->searchBoolean($text, self::NUMBER_OF_ITEMS_BY_INDEX);
 			$rows = [];
 			$repository = $this->manager->getRepository('App\Entity\\' . $categoryParams['class']);
 			foreach($searchResults['ids'] as $id){
