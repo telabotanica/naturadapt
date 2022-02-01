@@ -61,7 +61,7 @@ class SearchEngineIndexSubscriber implements EventSubscriberInterface
 			if($action=='persist' && !$entity->getIsActive()){
 				return;
 			}
-			if($action=='remove' && $entity->getIsActive()){
+			if($action=='remove' && !$entity->getIsActive()){
 				return;
 			}
 			if($action=='update'){
