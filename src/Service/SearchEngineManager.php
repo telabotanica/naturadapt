@@ -194,7 +194,7 @@ class SearchEngineManager {
 	{
 		$this->tnt->asYouType = false;
 		$results = [];
-		$maxCategoryCount = 0;
+		$maxCountPerCategory = 0;
 		$totalCount = 0;
 		$groups = [];
 		$currentUser = $this->security->getUser();
@@ -230,7 +230,7 @@ class SearchEngineManager {
 			$toSnippetAndHightlight=['body', 'presentation', 'bio'];
 			$results[$category] = $this->applyTntStyles($text, $entities, $toHightlight, $toSnippetAndHightlight);
 			$categoryCount = $repository->searchCountFromIdsAndProperties($searchResults['ids'], $groups, $particularGroupsFilter, $categoryParams['propertyList']);
-			if($maxCategoryCount<$categoryCount){
+			if($maxCountPerCategory<$categoryCount){
 				$maxCountPerCategory = $categoryCount;
 			}
 			$totalCount = $totalCount + $categoryCount;
