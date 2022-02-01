@@ -10,6 +10,8 @@
 		flex-flow:        row nowrap;
 		align-items:      center;
 
+		white-space:      nowrap;
+
 		margin-right:     .5em;
 		margin-bottom:    .5rem;
 		padding:          .5em 1em;
@@ -21,6 +23,7 @@
 
 		button {
 			position:      relative;
+			@include button-reset;
 			margin-bottom: .1em;
 			margin-left:   .5em;
 

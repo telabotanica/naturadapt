@@ -410,32 +410,6 @@ pages:
         list:
             title: "Activités"
 
-search:
-    title: "Résultats de recherche"
-    form:
-        placeholder: "Rechercher"
-        filters: "Rechercher"
-        result_types:
-            title: "Type de résultat"
-            pages: "Pages"
-            articles: "Actualités"
-            discussions: "Discussions"
-            documents: "Documents"
-            members: "Membres"
-        groups:
-            title: "Groupes"
-            all_groups: "Tous les groupes"
-            my_groups: "Groupes"
-        particular_groups: "Rechercher dans un groupe précis"
-        tag_list: "Recherche"
-    results:
-        results: "résultats"
-        page: "Page"
-        articles: "Actualité"
-        discussion: "Discussion"
-        document: "Document"
-        membre: "Membre"
-
 messages:
     user:
         already_connected: "Vous êtes déjà connecté·e."

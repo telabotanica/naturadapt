@@ -55,42 +55,6 @@ services:
     App\Service\DiscussionSender:
         arguments: ['@postmark_bulk', '%postmark%']
 
-    App\Service\SearchEngineManager:
-        arguments:
-            $projectDir: '%kernel.project_dir%'
-            $indexesPath: '%env(string:INDEX_DIR)%'
-            $dbUrl: '%env(resolve:DATABASE_URL)%'
-            $categoriesParameters:
-                'discussions':
-                    propertyList: ['id', 'discussion', 'body', 'author']
-                    indexPropertyList: ['id', 'body']
-                    index: 'discussions_messages.index'
-                    class: 'DiscussionMessage'
-                'actualites':
-                    propertyList: ['id', 'title', 'body', 'usergroup', 'slug']
-                    indexPropertyList: ['id', 'title', 'body']
-                    index: 'articles.index'
-                    class: 'Article'
-                'pages':
-                    propertyList: ['id', 'title', 'body', 'usergroup', 'slug']
-                    indexPropertyList: ['id', 'title', 'body']
-                    index: 'pages.index'
-                    class: 'Page'
-                'documents':
-                    propertyList: ['id', 'title', 'usergroup']
-                    indexPropertyList: ['id', 'title']
-                    index: 'documents.index'
-                    class: 'Document'
-                'membres':
-                    propertyList: ['id', 'name', 'presentation', 'bio']
-                    indexPropertyList: ['id', 'name', 'presentation', 'bio']
-                    index: 'members.index'
-                    class: 'User'
-                'groups':
-                    indexPropertyList: ['id', 'name', 'description', 'presentation']
-                    index: 'groups.index'
-                    class: 'Usergroup'
-
     postmark:
         class: Postmark\Transport
         arguments:

@@ -98,15 +98,10 @@ domready( () => Array.from( document.querySelectorAll( '.checkboxes-autocomplete
 		closeButton.addEventListener( 'click', ( e ) => {
 			matchingCheckboxes.forEach( ( checkbox ) => checkbox.checked = false );
 			tags.removeChild( tag );
-			const searchEngineForm = document.getElementById( 'search_engine_form' )
-			if(searchEngineForm !== null){
-				searchEngineForm.submit();
-			}
 		} );
 		tag.appendChild( closeButton );
 
 		tags.appendChild( tag );
-
 	};
 
 	// Add Tags on startup
@@ -116,13 +111,6 @@ domready( () => Array.from( document.querySelectorAll( '.checkboxes-autocomplete
 		.forEach( ( checkbox ) => addTag( checkbox.value, true ) );
 
 	// Add Tags on autocomplete
-	autocompleteComponent.on(
-		'autocomplete:selected',
-		( e, suggestion, dataset, context ) => {
-			addTag( suggestion.value );
-			const searchEngineForm = document.getElementById( 'search_engine_form' );
-			if(searchEngineForm !== null){
-				searchEngineForm.submit();
-			}
-		});
+
+	autocompleteComponent.on( 'autocomplete:selected', ( e, suggestion, dataset, context ) => addTag( suggestion.value ) );
 } ) );

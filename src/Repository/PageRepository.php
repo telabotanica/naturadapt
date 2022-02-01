@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Page;
-use App\Traits\SearchableRepositoryTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -14,8 +13,6 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Page[]    findBy( array $criteria, array $orderBy = NULL, $limit = NULL, $offset = NULL )
  */
 class PageRepository extends ServiceEntityRepository {
-	use SearchableRepositoryTrait;
-
 	public function __construct ( ManagerRegistry $registry ) {
 		parent::__construct( $registry, Page::class );
 	}

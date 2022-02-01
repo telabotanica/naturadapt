@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Article;
-use App\Traits\SearchableRepositoryTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -13,10 +12,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Article[]    findAll()
  * @method Article[]    findBy( array $criteria, array $orderBy = NULL, $limit = NULL, $offset = NULL )
  */
-class ArticlesRepository extends ServiceEntityRepository
-{
-	use SearchableRepositoryTrait;
-
+class ArticlesRepository extends ServiceEntityRepository {
 	public function __construct ( ManagerRegistry $registry ) {
 		parent::__construct( $registry, Article::class );
 	}
