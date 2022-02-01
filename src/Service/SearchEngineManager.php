@@ -283,8 +283,7 @@ class SearchEngineManager {
 	}
 
 	public function highlightText(string $text, string $groupsHTML){
-		$groupsHTML = $this->tnt->highlight($groupsHTML, $text, 'em', ['wholeWord' => false]);
-		return $groupsHTML;
+		return $this->tnt->highlight($groupsHTML, $text, 'em', ['wholeWord' => false]);
 	}
 
 	/**
@@ -322,23 +321,27 @@ class SearchEngineManager {
 	}
 
 	public function getCategoryFromEntity ($entity){
-		if($entity instanceof DiscussionMessage){
-			return 'discussions';
-		}
-		if($entity instanceof Document){
-			return 'documents';
-		}
-		if($entity instanceof Page){
-			return 'pages';
-		}
-		if($entity instanceof User){
-			return 'membres';
-		}
-		if($entity instanceof Article){
-			return 'actualites';
-		}
-		if($entity instanceof Usergroup){
-			return 'groups';
+		switch (get_class($entity)) {
+			case 'App\Entity\DiscussionMessage':
+				return 'discussions';
+				break;
+			case 'App\Entity\Document':
+				return 'documents';
+				break;
+			case 'App\Entity\Page':
+				return 'pages';
+				break;
+			case 'App\Entity\User':
+				return 'membres';
+				break;
+			case 'App\Entity\Article':
+				return 'actualites';
+				break;
+			case 'App\Entity\Usergroup':
+				return 'groups';
+				break;
+			default:
+				return;
 		}
 	}
 
