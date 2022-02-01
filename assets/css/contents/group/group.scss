@@ -34,6 +34,16 @@
 	}
 }
 
+.group-search-bar{
+	padding: 2.5rem 0 2.5rem 0;
+	display: flex;
+	justify-content: center;
+	input {
+		width: 645px;
+		display: inline-block;
+	}
+}
+
 /**************************************************
 * GROUP
 **************************************************/
@@ -154,6 +164,10 @@
 		justify-content: flex-start;
 
 		padding:         padding_vertical('small') padding_horizontal('small');
+
+		em {
+			background-color: #FFFFAF;
+		}
 
 		@include large-or-more {
 			padding: padding_vertical('large') padding_horizontal('large');
@@ -354,6 +368,11 @@
 			color:        $color_action;
 			border-color: $color_action;
 		}
+
+	}
+
+	.group-search-bar{
+		width: 100%;
 	}
 
 	.group-events {

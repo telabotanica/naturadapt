@@ -1,0 +1,112 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Recherche{% endblock %}
+
+
+{% block main %}
+<div >
+	<section>
+		<div class="main--content content-container">
+			{% include 'components/app-flashes.html.twig' %}
+
+			{{ form_start(form, {'attr': {'id': 'search_engine_form'}}) }}
+
+					<div class="search-panel">
+						<h1 class="h1">{{ 'search.title'|trans }}</h1>
+
+						<div class="search-panel--edit form-row form-row__no-gap">
+							{{ form_widget(form.search_texts.query, {'attr': {'placeholder': 'search.form.placeholder', 'value': ''}}) }}
+						</div>
+					</div>
+
+					<div class="columns__33-66 columns__no-stretch">
+						<div class="filters">
+							<div class="small-title">{{ 'search.form.filters'|trans }}</div>
+							<div class="form-row form-row__filter">
+								{{ 'search.form.result_types.title'|trans }}
+								<div class="form-row__checkboxes">
+									{{ form_widget(form.search_filters.result_type) }}
+								</div>
+							</div>
+							{% if isCurrentConnexion == true %}
+								<div class="form-row form-row__filter">
+									{{ 'search.form.groups.title'|trans }}
+									<div class="form-row__radioboxes">
+										{{ form_widget(form.search_filters.groups) }}
+									</div>
+								</div>
+							{% else %}
+								{% do form.search_filters.groups.setRendered() %}
+							{% endif %}
+							<div class="form-row ">
+								{{ 'search.form.particular_groups'|trans }}
+								<div class="form-row__checkboxes checkboxes-autocomplete" id="particular_group_row">
+									{{ form_widget(form.search_filters.particularGroups) }}
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="tag-panel">
+								<span>{{ 'search.form.tag_list'|trans }}</span>
+								<span class="removable-tag-list  ">
+									{{ form_widget(form.search_texts.current_tags) }}
+								</span>
+							</div>
+							<div class="result-number">
+								{{ result_number }} {{ 'search.results.results'|trans }}
+							</div>
+							<section class="results-list">
+								<ul >
+									{% for category, categoryResults in results %}
+
+										{% if category is same as('discussions') %}
+											{% for discussion in categoryResults %}
+												<li>
+													{% include 'contents/search-results/discussion--teaser.html.twig' with {'discussion':discussion} %}
+												</li>
+											{% endfor %}
+										{% endif %}
+
+										{% if category is same as('actualites') %}
+											{% for actualite in categoryResults %}
+												<li>
+													{% include 'contents/search-results/actualite--teaser.html.twig' with {'actualite':actualite} %}
+												</li>
+											{% endfor %}
+										{% endif %}
+
+										{% if category is same as('pages') %}
+											{% for page in categoryResults %}
+												<li>
+													{% include 'contents/search-results/page--teaser.html.twig' with {'page':page} %}
+												</li>
+											{% endfor %}
+										{% endif %}
+
+										{% if category is same as('documents') %}
+											{% for document in categoryResults %}
+												<li>
+													{% include 'contents/search-results/document--teaser.html.twig' with {'document':document} %}
+												</li>
+											{% endfor %}
+										{% endif %}
+
+										{% if category is same as('membres') %}
+											{% for membre in categoryResults %}
+												<li>
+													{% include 'contents/search-results/membre--teaser.html.twig' with {'membre':membre} %}
+												</li>
+											{% endfor %}
+										{% endif %}
+									{% endfor %}
+
+								</ul>
+							</section>
+							{% include 'components/pager.html.twig' %}
+						</div>
+					</div>
+			{{ form_end(form) }}
+		</div>
+	</section>
+</div>
+{% endblock %}

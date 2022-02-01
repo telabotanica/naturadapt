@@ -1,0 +1,9 @@
+{% set classes = ['result', 'result__teaser'] %}
+<a class="{{ classes|join(' ') }}" href="{{ path('member', {'user_id': membre.id}) }}">
+	<div>
+		<div class="result-type">{{ 'search.results.membre'|trans }}</div>
+		<div class="result-title">{{ membre.name|raw }}</div>
+		<div class="result-small-text">{{ membre.presentation|striptags('<br><em><p>')|raw }}</div>
+		<div class="result-small-text">{{ membre.bio|striptags('<br><em><p>')|raw }}</div>
+	</div>
+</a>

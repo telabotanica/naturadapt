@@ -111,6 +111,9 @@
     "facebook/webdriver": {
         "version": "1.6.0"
     },
+    "friendsofphp/proxy-manager-lts": {
+        "version": "v1.0.5"
+    },
     "fzaninotto/faker": {
         "version": "v1.8.0"
     },
@@ -613,6 +616,9 @@
     },
     "symfony/yaml": {
         "version": "v4.2.1"
+    },
+    "teamtnt/tntsearch": {
+        "version": "v2.8.0"
     },
     "twig/extensions": {
         "version": "1.0",
