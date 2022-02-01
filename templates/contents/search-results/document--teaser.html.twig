@@ -1,15 +1,15 @@
 {% set classes = ['result', 'result__teaser'] %}
-<a class="{{ classes|join(' ') }}"  href="{{ path('group_document_get', {'groupSlug': document.group.slug, 'documentId': document.id}) }}">
+<a class="{{ classes|join(' ') }}"  href="{{ path('group_document_get', {'groupSlug': document.group_slug, 'documentId': document.id}) }}">
 	<div>
 		<div class="result-type">{{ 'search.results.document'|trans }}</div>
 		<div class="result-title">{{ document.title|raw }}</div>
 		<div class="result-group">
-			{% if (document.group.logo is defined) and (document.group.logo is not empty) %}
+			{% if (document.group_logo_path is defined) and (document.group_logo_path is not null) %}
 				<div class="group-logo">
-					<img src="{{ document.group.logo.path | imagine_filter('logo') }}" alt="">
+					<img src="{{ document.group_logo_path | imagine_filter('logo') }}" alt="">
 				</div>
 			{% endif %}
-			<div class="group-text">{{document.group.name}}</div>
+			<div class="group-text">{{document.group_name}}</div>
 		</div>
 	</div>
 </a>

@@ -1,16 +1,16 @@
 {% set classes = ['result', 'result__teaser'] %}
-<a class="{{ classes|join(' ') }}" href="{{ path('group_article_index', {'groupSlug': actualite.group.slug, 'articleSlug': actualite.slug}) }}">
+<a class="{{ classes|join(' ') }}" href="{{ path('group_article_index', {'groupSlug': actualite.group_slug, 'articleSlug': actualite.slug}) }}">
 	<div>
 		<div class="result-type">{{ 'search.results.articles'|trans }}</div>
 		<div class="result-title">{{ actualite.title|raw }}</div>
 		<div class="result-body">{{ actualite.body|striptags('<br><em><p>')|raw }}</div>
 		<div class="result-group">
-			{% if (actualite.group.logo is defined) and (actualite.group.logo is not empty) %}
+			{% if (actualite.group_logo_path is defined) and (actualite.group_logo_path is not null) %}
 				<div class="group-logo">
-					<img src="{{ actualite.group.logo.path | imagine_filter('logo') }}" alt="">
+					<img src="{{ actualite.group_logo_path | imagine_filter('logo') }}" alt="">
 				</div>
 			{% endif %}
-			<div class="group-text">{{actualite.group.name}}</div>
+			<div class="group-text">{{actualite.group_name}}</div>
 		</div>
 	</div>
 </a>

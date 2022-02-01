@@ -36,7 +36,6 @@ class SearchEngineManager {
      * @var Security
      */
     private $security;
-	private $currentUserGroupIdList;
 	/** KernelInterface $appKernel */
 	private $appKernel;
 	private $manager;
@@ -46,7 +45,7 @@ class SearchEngineManager {
 	private $categoriesParameters;
 	private $tnt;
 
-	private const NUMBER_OF_ITEMS_BY_INDEX = 20;
+	private const NUMBER_OF_ITEMS_BY_INDEX = 500;
 
 	/*
 	* @param string $indexPath
@@ -66,7 +65,7 @@ class SearchEngineManager {
 	}
 
 
-	public function getForm (array $form, $headbarQuery, $groupIdQuery, array $options = [] ): array
+	public function getForm (array $form, $headbarQuery, $groupIdQuery): array
 	{
 		$groupQuery = [];
 		// If not requested from searchpage(search url is written, clicked from menu or header searchbar)
@@ -191,56 +190,56 @@ class SearchEngineManager {
 	 *
 	 * @return array
      */
-	public function search(string $text, array $categories, string $groups, array $particularGroups): array
+	public function search(string $text, array $categories, string $groupsFilter, array $particularGroupsFilter, array $options ): array
 	{
 		$this->tnt->asYouType = false;
 		$results = [];
-
+		$maxCountPerCategory = 0;
+		$totalCount = 0;
+		$groups = [];
 		$currentUser = $this->security->getUser();
-		if(isset($currentUser) && !empty($currentUser)){
-			$this->currentUserGroupIdList= array_map(
-				function ( UsergroupMembership $membership ) {
-					return $membership->getUsergroup()->getId();
-				},
-				iterator_to_array(
-					$this->security->getUser()->getUsergroupMemberships()
-				)
-			);
+		//Test if a user is connected
+		if((isset($currentUser) && !empty($currentUser))){
+			//Test if we want to filter in the groups of the current user
+			if(($groupsFilter!='all')){
+				$groups= array_map(
+					function ( UsergroupMembership $membership ) {
+						return $membership->getUsergroup()->getId();
+					},
+					iterator_to_array(
+						$currentUser->getUsergroupMemberships()
+					)
+				);
+			}
 			$isUserConnected = true;
 		} else {
 			$isUserConnected = false;
-			$this->currentUserGroupIdList=[];
 		}
 
 		//filter according categories
 		foreach($categories as $category){
 			$categoryParams = $this->categoriesParameters[$category];
 			$this->tnt->selectIndex($categoryParams['index']);
+			//Search match in tnt index
 			$searchResults = $this->tnt->searchBoolean($text, self::NUMBER_OF_ITEMS_BY_INDEX);
-			$rows = [];
+			//Get data of the matching objects
 			$repository = $this->manager->getRepository('App\Entity\\' . $categoryParams['class']);
-			foreach($searchResults['ids'] as $id){
-				$item = $repository->find($id);
-				// Pass to the following loop if we do not want all groups and if the current item is not in the list of group of the current user
-				if(($groups!=='all') && (!$this->isItemGroupIdInIdList($category, $item, $this->currentUserGroupIdList))){
-					continue;
-				}
-				// Pass to the following loop if search in particular groups is asked but the item is not in those groups
-				if(((!empty($particularGroups)) && (!$this->isItemGroupIdInIdList($category, $item, array_map('intval', $particularGroups))))){
-					continue;
-				}
-				$result = [];
-				foreach($categoryParams['propertyList'] as $property){
-					$result[$property]=$this->getStyledDataFromProperty($property, $text, $item, $category);
-				}
-				array_push($rows, $result);
+			$entities = $repository->searchFromIdsAndProperties($searchResults['ids'], $groups, $particularGroupsFilter, $categoryParams['propertyList'], [ 'page' => $options[ 'page' ], 'limit' => $options[ 'per_index_per_page' ] ]);
+			//Style
+			$toHightlight=['title', 'discussion_title', 'name'];
+			$toSnippetAndHightlight=['body', 'presentation', 'bio'];
+			$results[$category] = $this->applyTntStyles($text, $entities, $toHightlight, $toSnippetAndHightlight);
+			$categoryCount = $repository->searchCountFromIdsAndProperties($searchResults['ids'], $groups, $particularGroupsFilter, $categoryParams['propertyList']);
+			if($maxCountPerCategory<$categoryCount){
+				$maxCountPerCategory = $categoryCount;
 			}
-			$results[$category] = $rows;
-
+			$totalCount = $totalCount + $categoryCount;
 		}
 		return [
-			'results' => $results,
-			'connexionBoolean' => $isUserConnected,
+			'results'             =>    $results,
+			'total'               =>    $totalCount,
+			'maxCountPerCategory' =>    $maxCountPerCategory,
+			'connexionBoolean'    =>    $isUserConnected,
 		];
 	}
 
@@ -252,76 +251,23 @@ class SearchEngineManager {
 		return $results['ids'];
 	}
 
-	/**
-	 * @param string                          $property
-	 * @param string                          $text
-	 * @param \App\Entity\DiscussionMessage|\App\Entity\Article|\App\Entity\Page|\App\Entity\User|\App\Entity\Document $item
-	 * @param string                          $category
-	 *
-	 * @return string
-	 */
-	public function getStyledDataFromProperty($property, $text, $item, $category)
+	public function applyTntStyles(string $text, array $entities, array $propertiestoHightlight, array $propertiestoSnippetAndHightlight): array
 	{
-		switch ($property) {
-			case 'id':
-				return $item->getId();
-			case 'title':
-				if ($category==='discussions'){
-					return $this->tnt->highlight($item->getDiscussion()->getTitle(), $text, 'em', ['wholeWord' => false,]);
-				} else {
-					return $this->tnt->highlight($item->getTitle(), $text, 'em', ['wholeWord' => false,]);
+		foreach ($entities as $key=>$entity) {
+			foreach ($entity as $property => $value) {
+				if(in_array($property, $propertiestoHightlight)){
+					$entities[$key][$property]= $this->tnt->highlight($value, $text, 'em', ['wholeWord' => false,]);
+				} else if(in_array($property, $propertiestoSnippetAndHightlight)){
+					$snippetedValue = $this->tnt->snippet($text, strip_tags($value));
+					if($snippetedValue !=='.....'){
+						$entities[$key][$property]= $this->tnt->highlight($snippetedValue, $text, 'em', ['wholeWord' => false,]);
+					} else {
+						$entities[$key][$property]= $this->tnt->highlight($value, $text, 'em', ['wholeWord' => false,]);
+					}
 				}
-			case 'body':
-				$relevantBody = $this->tnt->snippet($text, strip_tags($item->getBody()));
-				return $this->tnt->highlight($relevantBody, $text, 'em', ['wholeWord' => false]);
-			case 'author':
-				return $item->getAuthor()->getDisplayName();
-			case 'presentation':
-				return $item->getPresentation();
-			case 'bio':
-				return $item->getBio();
-			case 'name':
-				return $item->getName();
-			case 'group':
-				if ($category==='discussions'){
-					return $item->getDiscussion()->getUsergroup();
-				} else {
-					return $item->getUsergroup();
-				}
-			case 'slug':
-				return $item->getSlug();
-			case 'uuid':
-				if ($category==='discussions'){
-					return $item->getDiscussion()->getUuid();
-				}
-			default:
-				return '';
+			}
 		}
-	}
-
-	/**
-	* Check if the group Id(or one of the groups in case of the member category) of an item is in a list of Id
-	*
-    * @param \App\Entity\DiscussionMessage|\App\Entity\Article|\App\Entity\Page|\App\Entity\User|\App\Entity\Document $item
-	*
-	* @return bool
-    */
-	public function isItemGroupIdInIdList(string $category, $item, array $idList){
-		if ($category==='discussions'){
-			return in_array($item->getDiscussion()->getUsergroup()->getId(),  $idList);
-		} else if ($category==='membres') {
-			$memberGroups = array_map(
-				function ( UsergroupMembership $membership ) {
-					return $membership->getUsergroup()->getId();
-				},
-				iterator_to_array(
-					$item->getUsergroupMemberships()
-				)
-			);
-			return !empty(array_intersect($memberGroups, $idList));
-		} else {
-			return in_array($item->getUsergroup()->getId(),  $idList);
-		}
+		return $entities;
 	}
 
 	public function snippetGroupsText(string $text, array $groups){

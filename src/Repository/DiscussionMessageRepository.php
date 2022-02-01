@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\DiscussionMessage;
+use App\Traits\SearchableRepositoryTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -13,6 +14,8 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method DiscussionMessage[]    findBy( array $criteria, array $orderBy = NULL, $limit = NULL, $offset = NULL )
  */
 class DiscussionMessageRepository extends ServiceEntityRepository {
+	use SearchableRepositoryTrait;
+
 	public function __construct ( ManagerRegistry $registry ) {
 		parent::__construct( $registry, DiscussionMessage::class );
 	}
