@@ -1,0 +1,5 @@
+{% for group in groups %}
+	<li>
+		{% include 'contents/group/group--teaser.html.twig' with {'group':group} %}
+	</li>
+{% endfor %}

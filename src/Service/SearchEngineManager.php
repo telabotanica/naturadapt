@@ -21,6 +21,7 @@ use App\Repository\UsergroupRepository;
 use App\Form\SearchFiltersFormType;
 use App\Form\SearchTextsFormType;
 
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Doctrine\ORM\EntityManagerInterface;
@@ -35,7 +36,6 @@ class SearchEngineManager {
      * @var Security
      */
     private $security;
-	private $currentUserGroupIdList;
 	/** KernelInterface $appKernel */
 	private $appKernel;
 	private $manager;
@@ -190,23 +190,30 @@ class SearchEngineManager {
 	 *
 	 * @return array
      */
-	public function search(string $text, array $categories, string $groups, array $particularGroups, array $options ): array
+	public function search(string $text, array $categories, string $groupsFilter, array $particularGroupsFilter, array $options ): array
 	{
+		$this->tnt->asYouType = false;
 		$results = [];
+		$maxCategoryCount = 0;
 		$totalCount = 0;
-
-		if($groups==='all'){
-			$groups = [];
-		}else {
-			//Get the Ids of the groups of the current user
-			$groups= array_map(
-				function ( UsergroupMembership $membership ) {
-					return $membership->getUsergroup()->getId();
-				},
-				iterator_to_array(
-					$this->security->getUser()->getUsergroupMemberships()
-				)
-			);
+		$groups = [];
+		$currentUser = $this->security->getUser();
+		//Test if a user is connected
+		if((isset($currentUser) && !empty($currentUser))){
+			//Test if we want to filter in the groups of the current user
+			if(($groupsFilter!='all')){
+				$groups= array_map(
+					function ( UsergroupMembership $membership ) {
+						return $membership->getUsergroup()->getId();
+					},
+					iterator_to_array(
+						$currentUser->getUsergroupMemberships()
+					)
+				);
+			}
+			$isUserConnected = true;
+		} else {
+			$isUserConnected = false;
 		}
 
 		//filter according categories
@@ -217,18 +224,31 @@ class SearchEngineManager {
 			$searchResults = $this->tnt->searchBoolean($text, self::NUMBER_OF_ITEMS_BY_INDEX);
 			//Get data of the matching objects
 			$repository = $this->manager->getRepository('App\Entity\\' . $categoryParams['class']);
-			$entities = $repository->searchFromIdsAndProperties($searchResults['ids'], $groups, $particularGroups, $categoryParams['propertyList'], [ 'page' => $options[ 'page' ], 'limit' => $options[ 'per_index_per_page' ] ]);
+			$entities = $repository->searchFromIdsAndProperties($searchResults['ids'], $groups, $particularGroupsFilter, $categoryParams['propertyList'], [ 'page' => $options[ 'page' ], 'limit' => $options[ 'per_index_per_page' ] ]);
 			//Style
 			$toHightlight=['title', 'discussion_title', 'name'];
 			$toSnippetAndHightlight=['body', 'presentation', 'bio'];
 			$results[$category] = $this->applyTntStyles($text, $entities, $toHightlight, $toSnippetAndHightlight);
-			$test = $repository->searchCountFromIdsAndProperties($searchResults['ids'], $groups, $particularGroups, $categoryParams['propertyList']);
-			$totalCount = $totalCount + $repository->searchCountFromIdsAndProperties($searchResults['ids'], $groups, $particularGroups, $categoryParams['propertyList']);
+			$categoryCount = $repository->searchCountFromIdsAndProperties($searchResults['ids'], $groups, $particularGroupsFilter, $categoryParams['propertyList']);
+			if($maxCategoryCount<$categoryCount){
+				$maxCountPerCategory = $categoryCount;
+			}
+			$totalCount = $totalCount + $categoryCount;
 		}
 		return [
-				'results' =>      $results,
-				'total'   =>      $totalCount,
+			'results'             =>    $results,
+			'total'               =>    $totalCount,
+			'maxCountPerCategory' =>    $maxCountPerCategory,
+			'connexionBoolean'    =>    $isUserConnected,
 		];
+	}
+
+	public function searchGroup($em, string $text): array
+	{
+		$this->tnt->selectIndex('groups.index');
+		$this->tnt->asYouType = true;
+		$results = $this->tnt->search($text);
+		return $results['ids'];
 	}
 
 	public function applyTntStyles(string $text, array $entities, array $propertiestoHightlight, array $propertiestoSnippetAndHightlight): array
@@ -248,6 +268,78 @@ class SearchEngineManager {
 			}
 		}
 		return $entities;
+	}
+
+	public function snippetGroupsText(string $text, array $groups){
+		foreach ( $groups as $group ) {
+			$descriptionHtml = strip_tags($group->getDescription());
+			$textTemp=$this->tnt->snippet($text, $descriptionHtml);
+			// If snippet returned '.....' (case for a long text without match) we display the text without snippet
+			if($textTemp !=='.....'){
+				$group->setDescription($this->tnt->snippet($text, $descriptionHtml, 120, 30));
+			}
+		}
+		return $groups;
+	}
+
+	public function highlightText(string $text, string $groupsHTML){
+		$groupsHTML = $this->tnt->highlight($groupsHTML, $text, 'em', ['wholeWord' => false]);
+		return $groupsHTML;
+	}
+
+	/**
+	 * @param \App\Entity\DiscussionMessage|\App\Entity\Article|\App\Entity\Page|\App\Entity\User|\App\Entity\Document       $entity
+	 * @param string       $action
+	 */
+	public function changeIndex($entity, $action){
+		$category = $this->getCategoryFromEntity($entity);
+		$categoryParams = $this->categoriesParameters[$category];
+		$this->tnt->selectIndex($categoryParams['index']);
+		$index = $this->tnt->getIndex();
+		switch ($action) {
+			case 'persist':
+				$index->insert($this->getEntityPropertyList($entity, $categoryParams['indexPropertyList']));
+				break;
+			case 'remove':
+				$index->delete($entity->getId());
+				break;
+			case 'update':
+				$index->update($entity->getId(), $this->getEntityPropertyList($entity, $categoryParams['indexPropertyList']));
+				break;
+			default:
+				break;
+		}
+	}
+
+	public function getEntityPropertyList($entity, $properties)
+	{
+		$result = [];
+		foreach($properties as $property){
+			//We generate the name of the getter to get the property
+			$result[$property]= $entity->{'get'.$property}();
+		}
+		return $result;
+	}
+
+	public function getCategoryFromEntity ($entity){
+		if($entity instanceof DiscussionMessage){
+			return 'discussions';
+		}
+		if($entity instanceof Document){
+			return 'documents';
+		}
+		if($entity instanceof Page){
+			return 'pages';
+		}
+		if($entity instanceof User){
+			return 'membres';
+		}
+		if($entity instanceof Article){
+			return 'actualites';
+		}
+		if($entity instanceof Usergroup){
+			return 'groups';
+		}
 	}
 
 }

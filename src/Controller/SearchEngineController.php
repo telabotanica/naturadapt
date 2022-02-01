@@ -76,8 +76,11 @@ class SearchEngineController extends AbstractController
 			'pager'   => [
 				'base_url' => $request->getPathInfo() . '?' . http_build_query( [ 'form' => $form ] ) . '&',
 				'page'     => $page,
-				'last'     => ceil( $data['total'] / ($per_index_per_page*count($categories)) ) - 1,
+				// 'last'     => 5,
+				// 'last'     => ceil( $data['total'] / ($per_index_per_page*count($categories)) ) - 1,
+				'last'     => ceil( $data['maxCountPerCategory'] / $per_index_per_page ) - 1,
 			],
+			'isCurrentConnexion' => $data['connexionBoolean'],
 		] );
 	}
 
