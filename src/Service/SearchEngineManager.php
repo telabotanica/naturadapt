@@ -11,12 +11,6 @@ use App\Entity\Article;
 use App\Entity\Page;
 use App\Entity\User;
 use App\Entity\Document;
-use App\Entity\DiscussionMessageRepository;
-use App\Entity\ArticlesRepository;
-use App\Entity\PageRepository;
-use App\Entity\UserRepository;
-use App\Entity\DocumentRepository;
-use App\Repository\UsergroupRepository;
 use App\Form\SearchFiltersFormType;
 use App\Form\SearchTextsFormType;
 
@@ -162,7 +156,7 @@ class SearchEngineManager
 			// Create the fuzzy_storage directory in your project to store the index file
 			'storage'   => $this->projectDir . '/' . $this->indexesPath,
 			// A stemmer is optional
-			'stemmer'   => \TeamTNT\TNTSearch\Stemmer\PorterStemmer::class
+			'stemmer'   => \TeamTNT\TNTSearch\Stemmer\FrenchStemmer::class
 		];
 
 		return $config;
