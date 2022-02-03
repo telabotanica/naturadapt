@@ -145,9 +145,6 @@ trait SearchableRepositoryTrait
 					break;
 			}
 		}
-		// If name is in the properties, we are working with the member category.
-		// In that case the request is different: we want all the users which are at least one time in the filterGroupList, so we need distinct
-		// if (in_array('name', $properties)) {
 		$r = count(
 			$qb->select('count(distinct n.id) as count')
 				->getQuery()
