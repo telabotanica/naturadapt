@@ -189,6 +189,8 @@ class SearchEngineManager
 		$maxCountPerCategory = 0;
 		$totalCount = 0;
 		$groups = [];
+		$isUserConnected = false;
+		$currentUserId = null;
 		$currentUser = $this->security->getUser();
 		//Test if a user is connected
 		if ((isset($currentUser) && !empty($currentUser))) {
@@ -204,8 +206,7 @@ class SearchEngineManager
 				);
 			}
 			$isUserConnected = true;
-		} else {
-			$isUserConnected = false;
+			$currentUserId = $currentUser->getId();
 		}
 
 		//filter according categories
@@ -216,12 +217,12 @@ class SearchEngineManager
 			$searchResults = $this->tnt->searchBoolean($text, self::NUMBER_OF_ITEMS_BY_INDEX);
 			//Get data of the matching objects
 			$repository = $this->manager->getRepository('App\Entity\\' . $categoryParams['class']);
-			$entities = $repository->searchFromIdsAndProperties($searchResults['ids'], $groups, $particularGroupsFilter, $categoryParams['propertyList'], ['page' => $options['page'], 'limit' => $options['per_index_per_page']]);
+			$entities = $repository->searchFromIdsAndProperties($searchResults['ids'], $groups, $particularGroupsFilter, $currentUserId, $categoryParams['propertyList'], ['page' => $options['page'], 'limit' => $options['per_index_per_page']]);
 			//Style
 			$toHightlight = ['title', 'discussion_title', 'name'];
 			$toSnippetAndHightlight = ['body', 'presentation', 'bio'];
 			$results[$category] = $this->applyTntStyles($text, $entities, $toHightlight, $toSnippetAndHightlight);
-			$categoryCount = $repository->searchCountFromIdsAndProperties($searchResults['ids'], $groups, $particularGroupsFilter, $categoryParams['propertyList']);
+			$categoryCount = $repository->searchCountFromIdsAndProperties($searchResults['ids'], $groups, $particularGroupsFilter, $currentUserId, $categoryParams['propertyList']);
 			if ($maxCountPerCategory < $categoryCount) {
 				$maxCountPerCategory = $categoryCount;
 			}
