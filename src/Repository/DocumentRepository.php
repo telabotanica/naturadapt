@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Document;
 use App\Entity\Usergroup;
+use App\Traits\SearchableRepositoryTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -14,6 +15,8 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Document[]    findBy( array $criteria, array $orderBy = NULL, $limit = NULL, $offset = NULL )
  */
 class DocumentRepository extends ServiceEntityRepository {
+	use SearchableRepositoryTrait;
+
 	public function __construct ( ManagerRegistry $registry ) {
 		parent::__construct( $registry, Document::class );
 	}

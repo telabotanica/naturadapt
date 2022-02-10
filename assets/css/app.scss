@@ -40,6 +40,7 @@
 @import "components/in-list-admin";
 @import "components/disabled-link";
 @import "components/iframe";
+@import "components/removable-tags";
 /**************************************************
  * CONTENTS
  *************************************************/
@@ -56,3 +57,5 @@
 @import "contents/user/user";
 @import "contents/user/pages";
 @import "contents/logevent/logevent";
+@import "contents/search/search";
+

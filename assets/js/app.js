@@ -18,6 +18,8 @@ import 'core-js/features/promise';
  * COMPONENTS
  **************************************************/
 //
+import './interaction/interactive-submission';
+//
 import './ui/input-autocomplete';
 import './ui/input-checkboxes-autocomplete';
 import './ui/input-file-preview';
@@ -30,6 +32,8 @@ import './ui/documents-folding';
 import './ui/url-to-link';
 import './ui/confirm';
 import './ui/oembed-to-iframe';
+import './ui/removable-tag-list';
+import './ui/groups-search';
 //
 import './user/profile';
 import './user/dashboard';
