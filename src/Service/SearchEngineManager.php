@@ -2,19 +2,13 @@
 
 namespace App\Service;
 
+use TeamTNT\TNTSearch\Stemmer\FrenchStemmer;
 use TeamTNT\TNTSearch\TNTSearch;
-use App\Entity\Usergroup;
 use App\Entity\UsergroupMembership;
 
-use App\Entity\DiscussionMessage;
-use App\Entity\Article;
-use App\Entity\Page;
-use App\Entity\User;
-use App\Entity\Document;
 use App\Form\SearchFiltersFormType;
 use App\Form\SearchTextsFormType;
 
-use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -23,16 +17,15 @@ use Symfony\Component\Security\Core\Security;
 
 class SearchEngineManager
 {
+	private $projectDir;
 	/**
 	 * @var Security
 	 */
 	private $security;
-	/** KernelInterface $appKernel */
-	private $appKernel;
 	private $manager;
 	private $formFactory;
 	private $indexesPath;
-	private $dbUrl;
+	private $databaseUrl;
 	private $categoriesParameters;
 	private $tnt;
 
@@ -41,8 +34,15 @@ class SearchEngineManager
 	/*
 	* @param string $indexPath
 	*/
-	public function __construct(Security $security, EntityManagerInterface $manager, FormFactoryInterface $formFactory, string $projectDir, string $indexesPath, string $dbUrl, array $categoriesParameters)
-	{
+	public function __construct(
+		Security $security,
+		EntityManagerInterface $manager,
+		FormFactoryInterface $formFactory,
+		string $projectDir,
+		string $indexesPath,
+		string $dbUrl,
+		array $categoriesParameters
+	) {
 		$this->projectDir = $projectDir;
 		$this->security = $security;
 		$this->manager     = $manager;
@@ -52,7 +52,7 @@ class SearchEngineManager
 			$filesystem->mkdir($indexesPath);
 		}
 		$this->indexesPath = $indexesPath;
-		$this->dbUrl = $dbUrl;
+		$this->databaseUrl = $dbUrl;
 		$this->categoriesParameters = $categoriesParameters;
 	}
 
@@ -144,19 +144,19 @@ class SearchEngineManager
 	 */
 	public function getTNTSearchConfiguration(): array
 	{
-		$databaseURL = $this->dbUrl;
-		$databaseParameters = parse_url($databaseURL);
+		$databaseParameters = parse_url($this->databaseUrl);
 
 		$config = [
-			'driver'    => $databaseParameters["scheme"],
-			'host'      => $databaseParameters["host"],
-			'database'  => str_replace("/", "", $databaseParameters["path"]),
-			'username'  => $databaseParameters["user"],
-			'password'  => $databaseParameters["pass"],
+			'driver'    => $databaseParameters['scheme'],
+			'host'      => $databaseParameters['host'],
+			'port'      => $databaseParameters['port'],
+			'database'  => str_replace('/', '', $databaseParameters['path']),
+			'username'  => $databaseParameters['user'],
+			'password'  => $databaseParameters['pass'],
 			// Create the fuzzy_storage directory in your project to store the index file
 			'storage'   => $this->projectDir . '/' . $this->indexesPath,
 			// A stemmer is optional
-			'stemmer'   => \TeamTNT\TNTSearch\Stemmer\FrenchStemmer::class
+			'stemmer'   => FrenchStemmer::class
 		];
 
 		return $config;
