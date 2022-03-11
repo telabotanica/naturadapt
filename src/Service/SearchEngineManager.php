@@ -60,52 +60,31 @@ class SearchEngineManager
 	public function getForm(array $form, $headbarQuery, $groupIdQuery): array
 	{
 		$groupQuery = [];
-		// If not requested from searchpage(search url is written, clicked from menu or header searchbar)
-		if (empty($form)) {
-			$formTexts = [];
-			$form['search_filters']['result_type'] = ["pages", "discussions", "actualites", "documents", "membres"];
-			$form['search_filters']['groups'] = 'all';
-			$form['search_filters']['particularGroups'] = [];
-			$formTexts['current_tags'] = [];
-			// If requested from header searchBar
-			if ($headbarQuery) {
-				$formTexts['keywords'] = explode('_ET_',  $headbarQuery);
-			} else {
-				$formTexts['keywords'] = [];
-			}
-			// If requested from group page search bar
-			if ($groupIdQuery) {
-				$repository = $this->manager->getRepository('App\Entity\Usergroup');
-				$groupQuery = [$repository->find($groupIdQuery)];
-				$form['search_filters']['particularGroups'] = [$groupIdQuery];
-			}
+
+		$formTexts = $form["search_texts"];
+
+		// Set differents filters
+		if (!isset($form["search_filters"]['result_type'])) {
+			$form["search_filters"]['result_type'] = ["pages", "discussions", "actualites", "documents", "membres"];
 		}
-		// If requested from search Page
-		else {
-			$formTexts = $form["search_texts"];
+		if (!isset($form['search_filters']['groups'])) {
+			$form["search_filters"]['groups'] = 'all';
+		}
+		if (!isset($form['search_filters']['particularGroups'])) {
+			$form["search_filters"]['particularGroups'] = [];
+		}
 
-			if (!isset($form["search_filters"]['result_type'])) {
-				$form["search_filters"]['result_type'] = ["pages", "discussions", "actualites", "documents", "membres"];
-			}
-			if (!isset($form['search_filters']['groups'])) {
-				$form["search_filters"]['groups'] = 'all';
-			}
-			if (!isset($form['search_filters']['particularGroups'])) {
-				$form["search_filters"]['particularGroups'] = [];
-			}
+		// If request is done from search bar
+		if (!empty($formTexts['query'])) {
+			$formTexts['keywords'] = explode('_ET_',  $formTexts['query']);
+			unset($formTexts['query']);
+		} else {
+			$formTexts['keywords'] = [];
+		}
 
-			// If request is done from search bar
-			if (!empty($formTexts['query'])) {
-				$formTexts['keywords'] = explode('_ET_',  $formTexts['query']);
-				unset($formTexts['query']);
-			} else {
-				$formTexts['keywords'] = [];
-			}
-
-			// If Tags was already presents in last request
-			if (isset($formTexts['current_tags']) && is_array($formTexts['current_tags'])) {
-				$formTexts['keywords'] = array_merge($formTexts['current_tags'], $formTexts['keywords']);
-			}
+		// If Tags was already presents in last request
+		if (isset($formTexts['current_tags']) && is_array($formTexts['current_tags'])) {
+			$formTexts['keywords'] = array_merge($formTexts['current_tags'], $formTexts['keywords']);
 		}
 
 		$form["search_texts"] = $formTexts;

@@ -4,13 +4,6 @@ namespace App\Controller;
 
 // Import TNTSearch
 use TeamTNT\TNTSearch\TNTSearch;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Entity\Usergroup;
-use App\Entity\DiscussionMessage;
-use App\Entity\Article;
-use App\Entity\Page;
-use App\Entity\User;
-use App\Entity\Document;
 
 use App\Service\SearchEngineManager;
 use Symfony\Component\HttpFoundation\Request;
