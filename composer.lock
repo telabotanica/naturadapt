@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "428b086e19344eaf1996370ef5bee6e0",
+    "content-hash": "0a930cf0d3795a5e1fc7977822eeb45e",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -4762,16 +4762,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.13.3",
+            "version": "v1.19.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "2597d0dda8042c43eed44a9cd07236b897e427d7"
+                "reference": "d1a692369be53445af6e391170b509d7f5d026cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/2597d0dda8042c43eed44a9cd07236b897e427d7",
-                "reference": "2597d0dda8042c43eed44a9cd07236b897e427d7",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/d1a692369be53445af6e391170b509d7f5d026cf",
+                "reference": "d1a692369be53445af6e391170b509d7f5d026cf",
                 "shasum": ""
             },
             "require": {
@@ -4780,16 +4780,13 @@
             },
             "require-dev": {
                 "composer/composer": "^1.0.2|^2.0",
-                "symfony/dotenv": "^4.4|^5.0",
-                "symfony/filesystem": "^4.4|^5.0",
-                "symfony/phpunit-bridge": "^4.4|^5.0",
-                "symfony/process": "^3.4|^4.4|^5.0"
+                "symfony/dotenv": "^4.4|^5.0|^6.0",
+                "symfony/filesystem": "^4.4|^5.0|^6.0",
+                "symfony/phpunit-bridge": "^4.4.12|^5.0|^6.0",
+                "symfony/process": "^4.4|^5.0|^6.0"
             },
             "type": "composer-plugin",
             "extra": {
-                "branch-alias": {
-                    "dev-main": "1.13-dev"
-                },
                 "class": "Symfony\\Flex\\Flex"
             },
             "autoload": {
@@ -4810,7 +4807,7 @@
             "description": "Composer plugin for Symfony",
             "support": {
                 "issues": "https://github.com/symfony/flex/issues",
-                "source": "https://github.com/symfony/flex/tree/v1.13.3"
+                "source": "https://github.com/symfony/flex/tree/v1.19.2"
             },
             "funding": [
                 {
@@ -4826,7 +4823,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-19T07:19:15+00:00"
+            "time": "2022-06-14T21:13:39+00:00"
         },
         {
             "name": "symfony/form",
@@ -5778,53 +5775,6 @@
                 }
             ],
             "time": "2021-05-26T11:20:16+00:00"
-        },
-        {
-            "name": "symfony/orm-pack",
-            "version": "v2.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/orm-pack.git",
-                "reference": "357f6362067b1ebb94af321b79f8939fc9118751"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/orm-pack/zipball/357f6362067b1ebb94af321b79f8939fc9118751",
-                "reference": "357f6362067b1ebb94af321b79f8939fc9118751",
-                "shasum": ""
-            },
-            "require": {
-                "composer/package-versions-deprecated": "*",
-                "doctrine/doctrine-bundle": "*",
-                "doctrine/doctrine-migrations-bundle": "*",
-                "doctrine/orm": "*",
-                "symfony/proxy-manager-bridge": "*"
-            },
-            "type": "symfony-pack",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "A pack for the Doctrine ORM",
-            "support": {
-                "issues": "https://github.com/symfony/orm-pack/issues",
-                "source": "https://github.com/symfony/orm-pack/tree/v2.1.0"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2020-12-22T16:33:52+00:00"
         },
         {
             "name": "symfony/polyfill-intl-icu",
@@ -7355,53 +7305,6 @@
                 }
             ],
             "time": "2021-06-05T20:22:57+00:00"
-        },
-        {
-            "name": "symfony/serializer-pack",
-            "version": "v1.0.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/serializer-pack.git",
-                "reference": "61173947057d5e1bf1c79e2a6ab6a8430be0602e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/serializer-pack/zipball/61173947057d5e1bf1c79e2a6ab6a8430be0602e",
-                "reference": "61173947057d5e1bf1c79e2a6ab6a8430be0602e",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/annotations": "^1.0",
-                "phpdocumentor/reflection-docblock": "*",
-                "symfony/property-access": "*",
-                "symfony/property-info": "*",
-                "symfony/serializer": "*"
-            },
-            "type": "symfony-pack",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "A pack for the Symfony serializer",
-            "support": {
-                "issues": "https://github.com/symfony/serializer-pack/issues",
-                "source": "https://github.com/symfony/serializer-pack/tree/v1.0.4"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2020-10-19T08:52:16+00:00"
         },
         {
             "name": "symfony/service-contracts",
@@ -9172,52 +9075,6 @@
             "time": "2021-01-10T16:25:35+00:00"
         },
         {
-            "name": "symfony/debug-pack",
-            "version": "v1.0.9",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/debug-pack.git",
-                "reference": "cfd5093378e9cafe500f05c777a22fe8a64a9342"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/debug-pack/zipball/cfd5093378e9cafe500f05c777a22fe8a64a9342",
-                "reference": "cfd5093378e9cafe500f05c777a22fe8a64a9342",
-                "shasum": ""
-            },
-            "require": {
-                "symfony/debug-bundle": "*",
-                "symfony/monolog-bundle": "^3.0",
-                "symfony/profiler-pack": "*",
-                "symfony/var-dumper": "*"
-            },
-            "type": "symfony-pack",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "A debug pack for Symfony projects",
-            "support": {
-                "issues": "https://github.com/symfony/debug-pack/issues",
-                "source": "https://github.com/symfony/debug-pack/tree/v1.0.9"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2020-10-19T08:51:51+00:00"
-        },
-        {
             "name": "symfony/dom-crawler",
             "version": "v4.4.25",
             "source": {
@@ -9459,96 +9316,6 @@
                 }
             ],
             "time": "2021-06-22T09:18:56+00:00"
-        },
-        {
-            "name": "symfony/profiler-pack",
-            "version": "v1.0.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/profiler-pack.git",
-                "reference": "29ec66471082b4eb068db11eb4f0a48c277653f7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/profiler-pack/zipball/29ec66471082b4eb068db11eb4f0a48c277653f7",
-                "reference": "29ec66471082b4eb068db11eb4f0a48c277653f7",
-                "shasum": ""
-            },
-            "require": {
-                "symfony/stopwatch": "*",
-                "symfony/twig-bundle": "*",
-                "symfony/web-profiler-bundle": "*"
-            },
-            "type": "symfony-pack",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "A pack for the Symfony web profiler",
-            "support": {
-                "issues": "https://github.com/symfony/profiler-pack/issues",
-                "source": "https://github.com/symfony/profiler-pack/tree/v1.0.5"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2020-08-12T06:50:46+00:00"
-        },
-        {
-            "name": "symfony/test-pack",
-            "version": "v1.0.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/test-pack.git",
-                "reference": "e61756c97cbedae00b7cf43b87abcfadfeb2746c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/test-pack/zipball/e61756c97cbedae00b7cf43b87abcfadfeb2746c",
-                "reference": "e61756c97cbedae00b7cf43b87abcfadfeb2746c",
-                "shasum": ""
-            },
-            "require": {
-                "symfony/browser-kit": "*",
-                "symfony/css-selector": "*",
-                "symfony/phpunit-bridge": "*"
-            },
-            "type": "symfony-pack",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "A pack for functional and end-to-end testing within a Symfony app",
-            "support": {
-                "issues": "https://github.com/symfony/test-pack/issues",
-                "source": "https://github.com/symfony/test-pack/tree/v1.0.7"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2020-10-19T08:52:28+00:00"
         },
         {
             "name": "symfony/web-profiler-bundle",
