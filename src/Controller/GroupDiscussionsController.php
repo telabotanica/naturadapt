@@ -567,6 +567,15 @@ class GroupDiscussionsController extends AbstractController {
 
 		$data = json_decode( $request->getContent(), TRUE );
 
+		// Ignore automatically generated messages
+		if ( !empty( $data[ 'Headers' ] ) ) {
+			foreach ( $data[ 'Headers' ] as $header ) {
+				if ( 'Auto-Submitted' === $header[ 'Name' ] && 'no' !== $header[ 'Value' ] ) {
+					return new JsonResponse( [ 'status' => 'This is an auto-replied message, ignoring' ] );
+				}
+			}
+		}
+
 		$slug      = explode( '+', explode( '@', $data[ 'OriginalRecipient' ] )[ 0 ] )[ 0 ];
 		$hash      = $data[ 'MailboxHash' ];
 		$userEmail = $data[ 'From' ];
