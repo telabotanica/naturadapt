@@ -29,6 +29,7 @@ jobs:
     steps:
       - checkout
 
+      - run: wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
       - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
       # - run: sudo docker-php-ext-install zip
       - run: sudo docker-php-ext-install pdo_mysql
@@ -59,10 +60,10 @@ jobs:
 
       # prepare the database
       - run: php bin/console doctrine:migrations:migrate --no-interaction
-      
+
       # prepare the search
       - run: php bin/console search:reindex:all
-      
+
       # load fixtures
       - run: php bin/console doctrine:fixtures:load --no-interaction
 
