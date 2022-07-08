@@ -7,13 +7,19 @@
         "php": "^7.3",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "composer/package-versions-deprecated": "1.11.99.2",
+        "doctrine/annotations": "^1.0",
+        "doctrine/doctrine-bundle": "^2.4",
         "doctrine/doctrine-fixtures-bundle": "^3.1",
+        "doctrine/doctrine-migrations-bundle": "^3.1",
+        "doctrine/orm": "^2.9",
         "fzaninotto/faker": "^1.8",
         "gaufrette/local-adapter": "^0.4.0",
         "knplabs/gaufrette": "^0.9.0",
         "knplabs/knp-gaufrette-bundle": "^0.7.1",
         "knplabs/knp-time-bundle": "^1.9",
         "liip/imagine-bundle": "^2.1",
+        "phpdocumentor/reflection-docblock": "^5.2",
         "ramsey/uuid": "^3.9",
         "sensio/framework-extra-bundle": "^5.2",
         "symfony/apache-pack": "^1.0",
@@ -25,10 +31,12 @@
         "symfony/form": "4.4.*",
         "symfony/framework-bundle": "4.4.*",
         "symfony/monolog-bundle": "^3.1",
-        "symfony/orm-pack": "^2.1",
         "symfony/process": "4.4.*",
+        "symfony/property-access": "4.4.*",
+        "symfony/property-info": "4.4.*",
+        "symfony/proxy-manager-bridge": "4.4.*",
         "symfony/security-bundle": "4.4.*",
-        "symfony/serializer-pack": "^1.0",
+        "symfony/serializer": "4.4.*",
         "symfony/swiftmailer-bundle": "^3.2",
         "symfony/translation": "4.4.*",
         "symfony/twig-bundle": "4.4.*",
@@ -46,11 +54,11 @@
     "require-dev": {
         "symfony/browser-kit": "4.4.*",
         "symfony/css-selector": "4.4.*",
-        "symfony/debug-pack": "*",
+        "symfony/debug-bundle": "4.4.*",
         "symfony/maker-bundle": "^1.0",
         "symfony/phpunit-bridge": "4.4.*",
-        "symfony/profiler-pack": "*",
-        "symfony/test-pack": "*",
+        "symfony/stopwatch": "4.4.*",
+        "symfony/web-profiler-bundle": "4.4.*",
         "symfony/web-server-bundle": "4.4.*"
     },
     "config": {
@@ -60,6 +68,9 @@
         "sort-packages": true,
         "platform": {
             "php": "7.3.23"
+        },
+        "allow-plugins": {
+            "symfony/flex": true
         }
     },
     "autoload": {
