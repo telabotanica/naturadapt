@@ -164,6 +164,29 @@ forms:
             label: "Dossier"
             placeholder: "(non classé)"
 
+    administration:
+        submit: "Sauvegarder les modifications"
+        platform:
+            name: "Plateforme"
+            introduction: "Ici vous pouvez modifier les paramètres principaux de la plateforme"
+            logo:
+                name: "Logo"
+                label: "Logo / Icone de la plateforme"
+                hint: "Format JPG ou PNG, %s maximum"
+                button: "Parcourir"
+        home:
+            name: "Page d'accueil"
+            introduction: "Modfiez les contenus de la page d'accueil"
+        groups:
+            name: "Page Groupes"
+            introduction: "Modifiez l'image d'entête de la page Groupes"
+        menus:
+            name: "Menus"
+            introduction: "Modifiez la barre de navigation et le footer"
+        admin:
+            name: "Administrateurs communauté"
+            introduction: "Liste des administrateurs de la plateforme. Ajoutez, supprimez les rôles d'admin dans l'annuaire du groupe Communauté"
+
 pages:
     user:
         login:
@@ -216,6 +239,10 @@ pages:
             title: "Mes groupes"
             introduction: "Gérez rapidement vos adhésions aux groupes"
             link: "Mes groupes"
+        administration_edit:
+            title: "Administration du site"
+            # introduction: "Gérez rapidement vos adhésions aux groupes"
+            link: "Administration du site"
 
     group:
         group_create:
@@ -409,6 +436,31 @@ pages:
     event:
         list:
             title: "Activités"
+
+    administration:
+        tabs:
+            platform:
+                title: "Plateforme"
+                name: "Plateforme"
+                introduction: "Ici vous pouvez modifier les paramètres principaux de la plateforme"
+            home:
+                title: "Page d'accueil"
+                name: "Page d'accueil"
+                introduction: "Modfiez les contenus de la page d'accueil"
+            groups:
+                title: "Page Groupes"
+                name: "Page Groupes"
+                introduction: "Modifiez l'image d'entête de la page Groupes"
+            menus:
+                title: "Menus"
+                name: "Menus"
+                introduction: "Modifiez la barre de navigation et le footer"
+            admin:
+                title: "Administrateurs"
+                name: "Administrateurs communauté"
+                introduction: "Liste des administrateurs de la plateforme. Ajoutez, supprimez les rôles d'admin dans l'annuaire du groupe Communauté"
+
+
 
 search:
     title: "Résultats de recherche"

@@ -1,0 +1,79 @@
+.group-tabs {
+	margin-bottom: rem(40px);
+
+	@include clearulli;
+
+	ul {
+		display:         flex;
+		flex-flow:       row nowrap;
+		justify-content: space-between;
+		align-items:     flex-start;
+	}
+
+	a {
+		display:         block;
+		padding:         rem(10px) 0;
+
+		text-decoration: none;
+
+		@include font_default_bold;
+		font-size:       font_size_default();
+		color:           $color_default;
+
+		border-bottom:   3px solid transparent;
+	}
+
+	.active a {
+		color:        $color_action;
+		border-color: $color_action;
+	}
+
+}
+
+.main__user-page__administrator {
+	.admin-form {
+		&:not(:last-child) {
+			margin-bottom: rem(50px);
+		}
+
+		@include card_shadow;
+
+		padding: padding_vertical('small') padding_horizontal('small');
+
+		@include large-or-more {
+			padding: padding_vertical('large') padding_horizontal('large');
+		}
+	}
+
+	.form-row__file {
+		margin-top: rem(27px);
+	}
+
+	.file-preview--img {
+		width:  rem(160px);
+		height: rem(108px);
+		background-color: white;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border:1px solid #DBDEE4;
+		border-radius: 0;
+		.logo-img {
+			width:  rem(136px);
+			height: rem(70px);
+		}
+	}
+
+	.file-preview--content{
+		.hint{
+			margin-top: rem(8px);
+		}
+	}
+}
+
+.element_title {
+	@include font_default_bold;
+
+	font-size: 22px;
+
+}

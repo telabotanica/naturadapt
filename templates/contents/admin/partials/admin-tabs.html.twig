@@ -1,0 +1,19 @@
+<nav class="group-tabs">
+	<ul>
+		<li {% if (tab =='platform') %} class="active"{% endif %}>
+			<a href="{{ path('administration_platform') }}">{{ 'pages.administration.tabs.platform.name'|trans }}</a>
+		</li>
+		<li {% if (tab =='home') %} class="active"{% endif %}>
+			<a href="{{ path('administration_home') }}">{{ 'pages.administration.tabs.home.name'|trans }}</a>
+		</li>
+		<li {% if (tab =='groups') %} class="active"{% endif %}>
+			<a href="{{ path('administration_groups') }}">{{ 'pages.administration.tabs.groups.name'|trans }}</a>
+		</li>
+		<li {% if (tab =='menus') %} class="active"{% endif %}>
+			<a href="{{ path('administration_menus') }}">{{ 'pages.administration.tabs.menus.name'|trans }}</a>
+		</li>
+		<li {% if (tab =='admin') %} class="active"{% endif %}>
+			<a href="{{ path('administration_administrators') }}">{{ 'pages.administration.tabs.admin.name'|trans }}</a>
+		</li>
+	</ul>
+</nav>

@@ -46,6 +46,10 @@ services:
         tags:
             - { name: doctrine.event_subscriber, connection: default }
 
+    App\Service\AppFileManager:
+        arguments:
+            $logoPath: '%env(string:LOGO_DIR)%'
+
     App\EventSubscriber\UserLocaleSubscriber:
         arguments: ['%kernel.default_locale%']
 
