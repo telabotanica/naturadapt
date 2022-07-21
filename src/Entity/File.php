@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 class File {
 	public const USER_FILES      = 'userfiles';
 	public const USERGROUP_FILES = 'usergroupfiles';
-	public const APP_FILES = 'appFiles';
+	public const APP_FILES = 'appfiles';
 
 	/**
 	 * @ORM\Id()

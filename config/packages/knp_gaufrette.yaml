@@ -11,7 +11,7 @@ knp_gaufrette:
 
         appfiles:
             local:
-                directory: '%kernel.project_dir%/public/media/layout'
+                directory: '%kernel.project_dir%/var/files'
 
     filesystems:
         userfiles:

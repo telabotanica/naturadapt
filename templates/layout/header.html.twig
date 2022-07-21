@@ -6,8 +6,8 @@
 			{% set link = path('homepage') %}
 		{% endif %}
 		<a href="{{ link }}">
-			<img src="{{ asset('media/layout/logo.png') }}" alt="{{ plateform.name }}"
-				 srcset="{{ asset('media/layout/logo.png') }} 2x">
+			<img src="{{ path('app_image', {'tab': 'platform', 'image_type': 'logo'}) }}" alt="{{ plateform.name }}"
+				 srcset="{{ path('app_image', {'tab': 'platform', 'image_type': 'logo'}) }} 2x">
 		</a>
 	</div>
 	<div class="header--pages">

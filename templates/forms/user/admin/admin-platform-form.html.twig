@@ -9,7 +9,7 @@
 	<div class="form-row form-row__file">
 		<div class="file-preview">
 			<div class="file-preview--img">
-				<img class="logo-img" src="{{ asset('media/layout/logo.png') }}" >
+				<img src="{{ path('app_image', {'tab': 'platform', 'image_type': 'logo'}) }}" alt="">
 			</div>
 			<div class="file-preview--content">
 				{{ form_label(form.logofile, 'forms.administration.platform.logo.label') }}

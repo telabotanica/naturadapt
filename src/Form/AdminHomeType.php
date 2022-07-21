@@ -6,6 +6,9 @@ use App\Service\FileManager;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
 
 class AdminHomeType extends AbstractType {
 	private $fileManager;
@@ -21,24 +24,25 @@ class AdminHomeType extends AbstractType {
 	 * {@inheritdoc}
 	 */
 	public function buildForm ( FormBuilderInterface $builder, array $options ) {
-		$maxFileSize = $this->fileManager->fileUploadMaxSize( '5M' );
+		$maxFileSize = $this->fileManager->fileUploadMaxSize( '500k' );
 
 		$builder
-				->add( 'logofile', FileType::class, [
-					'required'    => FALSE,
-					'mapped'      => FALSE,
-					'attr'        => [ 'data-max-size' => $this->fileManager->formatSize( $maxFileSize ) ],
-					'constraints' => [
-							new File( [
-									'maxSize'          => $maxFileSize,
-									'mimeTypes'        => [
-											'image/png',
-											'image/jpeg',
-									],
-									'mimeTypesMessage' => 'filetype_incorrect',
-							] ),
-					],
-			] );
+			->add( 'frontfile', FileType::class, [
+				'required'    => FALSE,
+				'mapped'      => FALSE,
+				'attr'        => [ 'data-max-size' => $this->fileManager->formatSize( $maxFileSize ) ],
+				'constraints' => [
+						new File( [
+								'maxSize'          => $maxFileSize,
+								'mimeTypes'        => [
+										'image/png',
+										'image/jpeg',
+								],
+								'mimeTypesMessage' => 'filetype_incorrect',
+						] ),
+				],
+			] )
+			->add( 'submit', SubmitType::class );
 	}
 
 }

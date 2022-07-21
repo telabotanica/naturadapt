@@ -48,7 +48,8 @@ services:
 
     App\Service\AppFileManager:
         arguments:
-            $logoPath: '%env(string:LOGO_DIR)%'
+            $projectDir: '%kernel.project_dir%'
+            $assetPath: '%env(string:ASSET_DIR)%'
 
     App\EventSubscriber\UserLocaleSubscriber:
         arguments: ['%kernel.default_locale%']

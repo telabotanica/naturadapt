@@ -26,7 +26,9 @@
 					</section>
 				{% elseif (tab =='home') %}
 					<section class="admin-form">
-						{% include 'forms/user/admin/admin-home-form.html.twig' %}
+						{% include 'forms/user/admin/admin-home-form.html.twig' with ({
+							'form': form
+						}) %}
 					</section>
 				{% elseif (tab =='groups') %}
 					<section class="admin-form">

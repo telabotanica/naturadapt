@@ -9,7 +9,7 @@ use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Filesystem\Filesystem;
-
+use Symfony\Component\Yaml\Yaml;
 
 class AppFileManager {
 	private $manager;
@@ -19,10 +19,11 @@ class AppFileManager {
 	 */
 	private $filesystem;
 
-	public function __construct ( EntityManagerInterface $manager, ContainerInterface $container, string $logoPath ) {
+	public function __construct ( EntityManagerInterface $manager, ContainerInterface $container, string $projectDir, string $assetPath ) {
 		$this->manager    = $manager;
 		$this->filesystem = $container->get( 'gaufrette.appfiles_filesystem' );
-		$this->logoPath = $logoPath;
+		$this->projectDir = $projectDir;
+		$this->assetPath = $assetPath;
 	}
 
 	public function getFileSystem () {
@@ -37,15 +38,22 @@ class AppFileManager {
 	 *
 	 * @return bool|string
 	*/
-	public function writeFile ( string $file, $content ) {
+	public function writeFile ( string $file, string $directoryString, $content ) {
 		$filename  = pathinfo( $file, PATHINFO_FILENAME );
 		$extension = pathinfo( $file, PATHINFO_EXTENSION );
 
 		try {
-			$this->filesystem->delete('logo.png');
-			$this->filesystem->write( 'logo.png', $content );
+			$n = 1;
+			do {
+				$basename = $filename . ( $n > 1 ? '-' . $n : '' ) . '.' . $extension;
+				$fullname = $directoryString . '/' . $basename;
+				$n++;
+			} while ( $this->filesystem->getAdapter()->exists( $fullname ) );
 
-			return 'logo.png';
+			// $this->filesystem->delete('logo.png');
+			$this->filesystem->write( $fullname, $content );
+
+			return $fullname;
 		} catch ( FileException $e ) {
 			return FALSE;
 		}
@@ -59,8 +67,8 @@ class AppFileManager {
 	 *
 	 * @return bool|string
 	 */
-	public function moveUploadedFile ( UploadedFile $file ) {
-		$this->writeFile( $file->getClientOriginalName(), file_get_contents( $file->getRealPath() ) );
+	public function moveUploadedFile ( UploadedFile $file, string $directoryString ) {
+		return $this->writeFile( $file->getClientOriginalName(), $directoryString, file_get_contents( $file->getRealPath() ) );
 	}
 
 	/**
@@ -70,7 +78,55 @@ class AppFileManager {
 	 *
 	 * @return \App\Entity\File
 	 */
-	public function changeWithUploadedFile ( UploadedFile $uploadedFile ) {
-		$this->moveUploadedFile( $uploadedFile );
+	public function changeWithUploadedFile ( UploadedFile $uploadedFile, string $directoryString) {
+		$filename;
+
+		switch ($directoryString) {
+			case 'logo':
+				$filename = $this->moveUploadedFile( $uploadedFile, 'logos' );
+				break;
+			case 'front':
+				$filename = $this->moveUploadedFile( $uploadedFile, 'fronts' );
+				break;
+			default:
+				$filename = $this->moveUploadedFile( $uploadedFile, 'logos' );
+				break;
+		}
+
+		$file = new File();
+		$file->setFilesystem( File::APP_FILES );
+		$file->setName( $uploadedFile->getClientOriginalName() );
+		$file->setPath( $filename );
+		$file->setType( $uploadedFile->getMimeType() );
+		$file->setSize( $uploadedFile->getSize() );
+
+		return $file;
 	}
+
+	public function setAppImageId(string $tab, string $imageType, int $imageId){
+		$adminYaml = Yaml::parse(file_get_contents($this->projectDir .'/var/admin-text/administration.yaml'));
+		$adminYaml[$tab][$imageType]['fileId'] =  $imageId;
+		$adminYaml = Yaml::dump($adminYaml, 3);
+		file_put_contents($this->projectDir .'/var/admin-text/administration.yaml', $adminYaml);
+	}
+
+	public function getAppImageId(string $tab, string $imageType){
+		$adminYaml = Yaml::parse(file_get_contents($this->projectDir .'/var/admin-text/administration.yaml'));
+		return $adminYaml[$tab][$imageType]['fileId'];
+	}
+
+	public function getFileById(int $fileId): File{
+		$fileManager = $this->manager->getRepository( File::class );
+		return $fileManager->getFileById( $fileId);
+	}
+
+	public function getDefaultFile(string $tab, string $image_type){
+		$fileDir = "/public/media/layout/";
+		$fullPath = $this->projectDir .'/'. $this->assetPath;
+
+		$adminYaml = Yaml::parse(file_get_contents($this->projectDir .'/config/administration-default.yaml'));
+		return $fullPath . $adminYaml[$tab][$image_type]['fileId'];
+
+	}
+
 }

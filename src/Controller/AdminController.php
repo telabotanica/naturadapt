@@ -3,11 +3,14 @@
 namespace App\Controller;
 
 use App\Form\AdminPlatformType;
+use App\Form\AdminHomeType;
 
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
+
 
 class AdminController extends AbstractController {
 	/**************************************************
@@ -17,13 +20,13 @@ class AdminController extends AbstractController {
 	/**
 	 * @Route("/administration/platform", name="administration_platform")
 	 * @param \Symfony\Component\HttpFoundation\Request                               $request
+	 * @param \Doctrine\ORM\EntityManagerInterface                       $manager,
 	 * @param \App\Service\FileManager                                   $fileManager
-
-
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function adminPlatformEdit (
 		Request $request,
+		EntityManagerInterface $manager,
 		\App\Service\FileManager $fileManager
 	) {
 		$platformForm          = $this->createForm( AdminPlatformType::class);
@@ -38,8 +41,14 @@ class AdminController extends AbstractController {
 				/**
 				 * @var \App\Service\AppFileManager $appFileManager
 				 */
-				$appFileManager = $fileManager->getManager( 'appFiles' );
-				$appFileManager->changeWithUploadedFile( $uploadFile );
+				$appFileManager = $fileManager->getManager( 'appfiles' );
+				$newLogoFile = $appFileManager->changeWithUploadedFile( $uploadFile, 'logo');
+				$manager->persist( $newLogoFile );
+				$manager->flush();
+
+				// Put the new logo id in admin config file
+				$appFileManager->setAppImageId('platform', 'logo', $newLogoFile->getId());
+
 			}
 
 			return $this->redirectToRoute( 'administration_platform' );
@@ -51,15 +60,47 @@ class AdminController extends AbstractController {
 		] );
 	}
 
+
 	/**
 	 * @Route("/administration/home", name="administration_home")
-	 *
+	 * @param \Symfony\Component\HttpFoundation\Request                               $request
+	 * @param \Doctrine\ORM\EntityManagerInterface                       $manager,
+	 * @param \App\Service\FileManager                                   $fileManager
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function adminHomeEdit (
+		Request $request,
+		EntityManagerInterface $manager,
+		\App\Service\FileManager $fileManager
 	) {
+
+		$homeForm          = $this->createForm( AdminHomeType::class);
+		$homeForm->handleRequest( $request );
+
+		if ( $homeForm->isSubmitted() && $homeForm->isValid() ) {
+
+			// Front
+			$uploadFile = $homeForm->get( 'frontfile' )->getData();
+
+			if ( !empty( $uploadFile ) ) {
+				/**
+				 * @var \App\Service\AppFileManager $appFileManager
+				 */
+				$appFileManager = $fileManager->getManager( 'appfiles' );
+				$newFrontFile = $appFileManager->changeWithUploadedFile( $uploadFile, 'front');
+				$manager->persist( $newFrontFile );
+				$manager->flush();
+
+				// Put the new front id in admin config file
+				$appFileManager->setAppImageId('home', 'front', $newFrontFile->getId());
+			}
+
+			return $this->redirectToRoute( 'administration_home' );
+		}
+
 		return $this->render( 'pages/user/admin-edit.html.twig', [
 			'tab' => 'home',
+			'form' => $homeForm->createView(),
 		] );
 	}
 

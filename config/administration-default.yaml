@@ -1,0 +1,7 @@
+platform:
+    logo:
+        fileId: 'logo.png'
+home:
+    front:
+        fileId: 'front-hero.jpg'
+

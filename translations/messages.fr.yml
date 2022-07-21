@@ -177,6 +177,11 @@ forms:
         home:
             name: "Page d'accueil"
             introduction: "Modfiez les contenus de la page d'accueil"
+            front:
+                name: "Entête"
+                label: "Image de couverture de la page d'accueil"
+                hint: "Format JPG ou PNG, %s maximum"
+                button: "Parcourir"
         groups:
             name: "Page Groupes"
             introduction: "Modifiez l'image d'entête de la page Groupes"

@@ -12,6 +12,8 @@ use Symfony\Component\Validator\Constraints\File;
 
 
 class AdminPlatformType extends AbstractType {
+	private $fileManager;
+
 	/**
 	 * AdminPlatformType constructor.
 	 */
