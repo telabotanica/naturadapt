@@ -1,3 +1,27 @@
-<div>
-	Groups
+{{ form_start(form) }}
+<div class="form-rows">
+	<h2 class="h2">{{ 'forms.administration.groups.name'|trans }}</h2>
+	<p class="hint">{{ 'forms.administration.groups.introduction'|trans }}</p>
+
+	<p class="element_title">{{ 'forms.administration.groups.front.name'|trans }}</p>
+
+
+	<div class="form-row form-row__file">
+		<div class="file-preview">
+			<div class="file-preview--img">
+				<img src="{{ path('app_image', {'tab': 'groups', 'image_type': 'frontgroup'}) }}" alt="">
+			</div>
+			<div class="file-preview--content">
+				{{ form_label(form.frontgroupfile, 'forms.administration.groups.front.label') }}
+				<div class="hint">{{ 'forms.administration.groups.front.hint'|trans|format(form.frontgroupfile.vars.attr['data-max-size']) }}</div>
+				{{ form_widget(form.frontgroupfile) }}
+				{{ form_label(form.frontgroupfile, 'forms.administration.groups.front.button', {'label_attr': {'class': 'submit-style submit-style__inverted'}}) }}
+				<div class="form_errors">{{ form_errors(form.frontgroupfile) }}</div>
+			</div>
+		</div>
+	</div>
 </div>
+<div class="form-row form-row__submit">
+	{{ form_widget(form.submit, {'label': 'forms.administration.submit'|trans}) }}
+</div>
+{{ form_end(form) }}

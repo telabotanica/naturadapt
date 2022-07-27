@@ -201,6 +201,18 @@ h3 {
 		}
 	}
 
+	&__40-40-20 {
+		@include columns;
+
+		> :nth-child(-n+2) {
+			@include columns_item(math.div(2, 5), false);
+		}
+
+		> :nth-child(n+3) {
+			@include columns_item(math.div(1, 5), false);
+		}
+	}
+
 	&__33-66 {
 		@include columns;
 

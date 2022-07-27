@@ -27,16 +27,21 @@
 				{% elseif (tab =='home') %}
 					<section class="admin-form">
 						{% include 'forms/user/admin/admin-home-form.html.twig' with ({
-							'form': form
+							'form': form,
+							'upload':upload
 						}) %}
 					</section>
 				{% elseif (tab =='groups') %}
 					<section class="admin-form">
-						{% include 'forms/user/admin/admin-groups-form.html.twig' %}
+						{% include 'forms/user/admin/admin-groups-form.html.twig' with ({
+							'form': form
+						}) %}
 					</section>
 				{% elseif (tab =='menus') %}
 					<section class="admin-form">
-						{% include 'forms/user/admin/admin-menus-form.html.twig' %}
+						{% include 'forms/user/admin/admin-menus-form.html.twig' with ({
+							'form': form
+						}) %}
 					</section>
 				{% elseif (tab =='admin') %}
 					<section class="admin-form">

@@ -14,9 +14,20 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 class AppController extends AbstractController {
 	/**
 	 * @Route("/", name="homepage")
+	 *
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
+	 * @param \App\Service\AppTextManager            $appTextManager
 	 */
-	public function index () {
-		return $this->render( 'pages/front.html.twig' );
+	public function index (
+		EntityManagerInterface $manager,
+		\App\Service\AppTextManager $appTextManager
+	) {
+
+		$homeTexts = $appTextManager->getTabText('home');
+
+		return $this->render( 'pages/front.html.twig', [
+			'adminText' => $homeTexts
+		] );
 	}
 
 	/**

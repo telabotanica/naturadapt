@@ -88,6 +88,15 @@ class AppFileManager {
 			case 'front':
 				$filename = $this->moveUploadedFile( $uploadedFile, 'fronts' );
 				break;
+			case 'frontgroup':
+				$filename = $this->moveUploadedFile( $uploadedFile, 'frontsgroup' );
+				break;
+			case 'frontgroup':
+				$filename = $this->moveUploadedFile( $uploadedFile, 'frontsgroup' );
+				break;
+			case 'home':
+				$filename = $this->moveUploadedFile( $uploadedFile, 'home' );
+				break;
 			default:
 				$filename = $this->moveUploadedFile( $uploadedFile, 'logos' );
 				break;
@@ -121,7 +130,6 @@ class AppFileManager {
 	}
 
 	public function getDefaultFile(string $tab, string $image_type){
-		$fileDir = "/public/media/layout/";
 		$fullPath = $this->projectDir .'/'. $this->assetPath;
 
 		$adminYaml = Yaml::parse(file_get_contents($this->projectDir .'/config/administration-default.yaml'));

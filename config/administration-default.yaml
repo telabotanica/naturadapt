@@ -4,4 +4,134 @@ platform:
 home:
     front:
         fileId: 'front-hero.jpg'
+    sur_titre: Bienvenue sur Natur’Adapt
+    texte_principal: Adapter la protection de la nature aux défis du changement climatique en Europe.
+    premier_texte:  |
+        <h2>Bienvenue sur la plateforme Natur’Adapt !</h2>
+
+        <p>Elle est en cours de développement dans le cadre du <a href="{{ path('group_page_index', { groupSlug: 'communaute', pageSlug: 'a-propos-du-projet-natur-adapt' }) }}">projet LIFE Natur’Adapt</a> mais elle est d’ores et déjà <strong>ouverte à toutes les personnes intéressées par le sujet de l’adaptation au changement climatique dans les espaces naturels</strong>.
+        </p>
+
+        <p><strong>Le changement climatique est une réalité et il impacte la nature</strong>, y compris dans nos espaces naturels protégés. Les gestionnaires sont donc confrontés à la nécessité d’adapter leurs pratiques. Le projet Natur’Adapt a été développé pour les accompagner dans cette démarche.</p>
+        <p><strong>S’adapter, c’est aussi une responsabilité collective</strong> car les espaces naturels protégés font partie intégrante de nos territoires. Une des réponses à cette problématique passe par la mobilisation d’une communauté d’experts, de praticiens mais aussi de novices autour de ces sujets.</p>
+        <p><strong>Le but de cette plateforme est de constituer, accueillir et renforcer cette communauté.<br /> Elle est collaborative : l’idée est de partager, d’échanger et d’avancer ensemble</strong> pour l’adaptation des espaces naturels au changement climatique au bénéfice de tous.</p>
+        <p>Vous êtes intéressé par le sujet ? Vous êtes gestionnaire et ne savez pas comment faire pour intégrer les enjeux climatiques ? Vous êtes scientifique et aimeriez travailler avec des gestionnaires ? Vous êtes élu, acteur public ou économique et vous vous questionnez ? Vous êtes formateur et cherchez à monter en compétence sur ce sujet ? Vous êtes citoyen et souhaitez échanger ? Vous avez envie de trouver des ressources ? <strong>Cette plateforme est faite pour vous !</strong></p>
+        </section>
+
+        <section>
+        <h2>Que pouvez-vous y trouver ?</h2>
+        <div class="front-page--columns columns__33-33-33">
+        <div>
+        <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="79" height="79" viewBox="0 0 79 79">
+        <rect width="2.952" height="26.568" transform="translate(39.852 41.327)"/>
+        <rect width="31.31" height="2.952" transform="translate(44.712 29.951) rotate(-45)"/>
+        <rect width="41.746" height="2.952" transform="translate(7.813 66.85) rotate(-45)"/>
+        <rect width="2.952" height="22.96" transform="translate(18.144 14.327) rotate(-45)"/>
+        <rect width="2.952" height="31.31" transform="translate(43.236 39.418) rotate(-45)"/>
+        <ellipse cx="7.38" cy="7.38" rx="7.38" ry="7.38" transform="translate(63.467)" fill="#2fb67d"/>
+        <ellipse cx="7.38" cy="7.38" rx="7.38" ry="7.38" transform="translate(33.948 63.467)" fill="#2fb67d"/>
+        <ellipse cx="7.38" cy="7.38" rx="7.38" ry="7.38" transform="translate(0 60.515)" fill="#2fb67d"/>
+        <ellipse cx="4.428" cy="4.428" rx="4.428" ry="4.428" transform="translate(13.284 7.38)" fill="#2fb67d"/>
+        <ellipse cx="4.428" cy="4.428" rx="4.428" ry="4.428" transform="translate(60.515 54.611)" fill="#2fb67d"/>
+        <ellipse cx="10.332" cy="10.332" rx="10.332" ry="10.332" transform="translate(30.996 25.092)" fill="#2fb67d"/>
+        </svg>
+
+        </p>
+        <p>Les contacts des membres de la communauté, via <a href="{{ path('members') }}">l’annuaire</a> </p>
+        </div>
+        <div>
+        <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="83" height="85" viewBox="0 0 83 85">
+        <g transform="translate(3.056 8.437)">
+        <path d="M42.837,8.918a1.476,1.476,0,1,0-1.548,2.514A35.224,35.224,0,0,1,58.171,41.615a35.467,35.467,0,0,1-1.188,9.08A1.478,1.478,0,0,0,58.032,52.5a1.517,1.517,0,0,0,.378.049,1.475,1.475,0,0,0,1.426-1.1,38.348,38.348,0,0,0-17-42.533Z"
+        transform="translate(15.524 -4.297)"/>
+        <path d="M51.3,56.2a35.228,35.228,0,0,1-13.536,2.683A35.489,35.489,0,0,1,11.6,47.323a1.476,1.476,0,0,0-2.182,1.99A38.456,38.456,0,0,0,37.766,61.835a38.131,38.131,0,0,0,14.665-2.909A1.475,1.475,0,1,0,51.3,56.2Z"
+        transform="translate(0.506 13.859)"/>
+        <path d="M32.405,8.625a1.476,1.476,0,0,0-.7-2.868A38.209,38.209,0,0,0,2.574,40.3a1.474,1.474,0,0,0,1.368,1.575c.035,0,.071,0,.1,0A1.476,1.476,0,0,0,5.519,40.5,35.267,35.267,0,0,1,32.405,8.625Z"
+        transform="translate(-2.57 -5.716)"/>
+        </g>
+        <ellipse cx="8.856" cy="8.856" rx="8.856" ry="8.856" transform="translate(32.472)" fill="#2fb67d"/>
+        <ellipse cx="8.856" cy="8.856" rx="8.856" ry="8.856" transform="translate(0 54.611)" fill="#2fb67d"/>
+        <ellipse cx="8.856" cy="8.856" rx="8.856" ry="8.856" transform="translate(64.943 54.611)" fill="#2fb67d"/>
+        </svg>
+
+        </p>
+        <p>Des listes de discussion pour échanger</p>
+        </div>
+        <div>
+        <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="83" height="83" viewBox="0 0 83 83">
+        <g transform="translate(28.125 6.555)" fill="#2fb67d">
+        <path d="M12.974 26.191a15.52 15.52 0 0 0 12.974-6.931A15.765 15.765 0 0 0 0 19.26a15.488 15.488 0 0 0 12.974 6.931z"/>
+        <ellipse cx="4.876" cy="4.876" rx="4.876" ry="4.876" transform="translate(8.098)"/>
+        </g>
+        <g transform="translate(4.109 54.719)" fill="#2fb67d">
+        <path d="M12.975 26.191a15.52 15.52 0 0 0 12.974-6.931A15.767 15.767 0 0 0 0 19.26a15.162 15.162 0 0 0 12.975 6.931z"/>
+        <ellipse cx="4.876" cy="4.876" rx="4.876" ry="4.876" transform="translate(8.099)"/>
+        </g>
+        <g transform="translate(52.139 54.719)" fill="#2fb67d">
+        <path d="M12.975 26.191a15.52 15.52 0 0 0 12.974-6.931A15.767 15.767 0 0 0 0 19.26a15.508 15.508 0 0 0 12.975 6.931z"/>
+        <ellipse cx="4.876" cy="4.876" rx="4.876" ry="4.876" transform="translate(8.099)"/>
+        </g>
+        <path
+        d="M65.115 48.166a17.514 17.514 0 0 0-11.564 4.5l-11.175-6.421V34.049a17.178 17.178 0 1 0-2.565-.015v12.2l-11.172 6.417a17.046 17.046 0 1 0-11.554 29.545 17 17 0 0 0 13.364-27.614l10.785-6.165 10.785 6.165a16.924 16.924 0 1 0 13.1-6.419zm-48.03 31.468a14.518 14.518 0 1 1 14.519-14.518 14.588 14.588 0 0 1-14.519 14.517zm9.5-62.548a14.519 14.519 0 1 1 14.514 14.519A14.679 14.679 0 0 1 26.58 17.086zM65.12 79.634a14.518 14.518 0 1 1 14.514-14.518 14.5 14.5 0 0 1-14.519 14.517z"/>
+        </svg>
+        </p>
+        <p>Des ressources et des productions collaboratives</p>
+        </div>
+        </div>
+        </section>
+        <section>
+        <p>Elle est organisée autour de groupes projets et thématiques, certains publics, d’autres privés (il faudra demander à s’inscrire) dans lesquels vous retrouverez des :</p>
+
+        <ul>
+        <li><strong>Pages</strong> : il s’agit de pages web avec du texte, des liens, etc.</li>
+        <li>
+        <strong>Discussions</strong> : vous y trouverez les différents sujets de discussion du groupe, vous pourrez les lire, y répondre et en créer de nouvelles. Vous pouvez si vous le souhaitez recevoir les échanges par mail et y répondre via votre messagerie habituelle.</li>
+        <li>
+        <strong>Actualités</strong> : elles sont rédigées par les membres du groupe pour présenter… une actualité ! Chacun peut donc y contribuer.</li>
+        <li><strong>Documents</strong> : chaque membre peut ajouter des documents qui lui semblent pertinents en lien avec le groupe.</li>
+        <li><strong>Membres</strong> : c’est la liste des personnes membres du groupe.</li>
+        </ul>
+        <p>Le groupe <a href="{{ path('group_index', { groupSlug: 'communaute', }) }}">« Communauté »</a> rassemble tous les membres de la plateforme, ainsi que les documents, pages et actualités qui peuvent intéresser toute la communauté.</p>
+
+    premier_clique_visibility: true
+    premier_clique_texte: Découvrez les groupes projets et thématiques mis en place
+    premier_clique_bouton_texte: Découvrir les groupes
+    premier_clique_lien: https://naturadapt.com/groups
+
+
+    second_texte: |
+        <h2>A vous de jouer !</h2>
+        <p>Nouveau venu ? Vous pouvez :</p>
+        <ul>
+            <li>Vous <a href="{{ path('user_login') }}">inscrire</a> ça prend 5 min ! Si besoin, suivez <a href="{{ path('group_page_index', { groupSlug: 'plateforme-web', pageSlug: '-tuto--comment-s-inscrire-sur-la-plateforme' }) }}">le tuto !</li>
+            <li><a href="{{ path('groups_index') }}">Rejoindre des groupes</a> déjà créés (certains sont ouverts, pour d’autres il faudra demander à l’animateur de rejoindre le groupe en un simple clic) et dans ces groupes rejoindre des discussions (<a href="{{ path('group_page_index', { groupSlug: 'plateforme-web', pageSlug: '-tuto--rejoindre-les-discussions' }) }}">voir le tuto), rédiger des actualités (<a href="{{ path('group_page_index', { groupSlug: 'plateforme-web', pageSlug: '-tuto--rediger-une-actualite' }) }}">voir le tuto</a>), etc.</li>
+            <li><a href="{{ path('group_new') }}">Créer vous-même un groupe</a> sur un sujet qui vous semble manquer dans la liste actuelle</li>
+            <li>Trouver des membres avec qui échanger grâce à <a href="{{ path('members') }}">l’annuaire</a></li>
+            <li>Trouver (<a href="{{ path('group_page_index', { groupSlug: 'communaute', pageSlug: 'ressources' }) }}">des ressources</a>, produites dans le cadre du projet Natur’Adapt ou non !</li>
+            <li>Et plein d’autres choses encore que vous découvrirez en naviguant ou en <a href="{{ path('group_page_index', { groupSlug: 'plateforme-web', pageSlug: 'tutoriel---prise-en-main-de-la-plateforme-natur-adapt' }) }}">suivant ce tuto</a> !</li>
+        </ul>
+        <p>Si vous rencontrez un problème technique, n’hésitez pas à nous le dire ! Pour rappel, cette plateforme est encore en cours de développement (nous l’adaptons selon les retours des utilisateurs), nous vous remercions de votre compréhension ! Il existe d’ailleurs un groupe dédié au <a href="{{ path('group_index', { groupSlug: 'plateforme-web', }) }}">développement de la plateforme</a>.</p>
+
+    second_clique_visibility: true
+    second_clique_texte: Suivez les actualités
+    second_clique_bouton_texte: S'abonner à la newsletter
+    second_clique_lien: https://naturadapt.com/groups/communaute/pages/newsletter
+    troisieme_texte: |
+        <img src="/media/layout/help.svg" alt="" style="width:25%">
+        <div>
+        <h2>Aide en ligne</h2>
+        <ul>
+        <li>S’inscrire à la plateforme : <a href="/user/login">page d’inscription</a> et <a href="/groups/plateforme-web/pages/-tuto--comment-s-inscrire-sur-la-plateforme">tuto</a></li>
+        <li><a href="/groups/communaute/pages/charte-de-la-plateforme">Lire la charte de la plateforme</a></li>
+        <li><a href="/groups/plateforme-web/pages/regles">Lire les règles de la plateforme</a></li>
+        <li><a href="/groups/plateforme-web/pages/tutoriel---prise-en-main-de-la-plateforme-natur-adapt">Découvrir la plateforme</a></li>
+        <li>Contacter le support de la plateforme : <a href="mailto:support@naturadapt.com">support@naturadapt.com</a></li>
+        <li>Contacter l’équipe du projet : <a href="mailto:naturadapt-rnf@espaces-naturels.fr">naturadapt-rnf@espaces-naturels.fr</a></li></ul>
+        </div>
+groups:
+    frontgroup:
+        fileId: 'groups-hero.jpg'
 

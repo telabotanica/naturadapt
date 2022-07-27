@@ -1,3 +1,29 @@
-<div>
-	Menu
+{{ form_start(form) }}
+<div class="form-rows">
+	<h2 class="h2">{{ 'forms.administration.menus.name'|trans }}</h2>
+	<p class="hint">{{ 'forms.administration.menus.introduction'|trans }}</p>
+
+	<p class="element_title">{{ 'forms.administration.menus.navbar.name'|trans }}</p>
+
+	<div class="columns__40-40-20">
+		<div class="form-row-aligned pipou">
+			{{ form_label(form.premier_nom, 'forms.administration.menus.navbar.label') }}
+			{{ form_widget(form.premier_nom) }}
+		</div>
+		<div  class="form-row-aligned pipou">
+			{{ form_label(form.premier_lien, 'forms.administration.menus.navbar.link') }}
+			{{ form_widget(form.premier_lien) }}
+		</div >
+		<div  class="form-row-aligned pipou">
+			{{ form_label(form.premier_lien, 'forms.administration.menus.navbar.order') }}
+			{{ form_widget(form.premier_lien) }}
+		</div >
+	</div>
+
 </div>
+<div class="form-row form-row__submit">
+	{{ form_widget(form.submit, {'label': 'forms.administration.submit'|trans}) }}
+</div>
+{{ form_end(form) }}
+
+

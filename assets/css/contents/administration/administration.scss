@@ -77,3 +77,18 @@
 	font-size: 22px;
 
 }
+
+.columns__40-40-20 {
+	.form-row-aligned{
+		margin-top: rem(13px);
+		margin-bottom: rem(13px);
+	}
+}
+
+.wysiwyg-editor{
+	.ck-editor__main{
+		.ck-content{
+			height: 400px;
+		}
+	}
+}

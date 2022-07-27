@@ -4,12 +4,15 @@ namespace App\Controller;
 
 use App\Form\AdminPlatformType;
 use App\Form\AdminHomeType;
+use App\Form\AdminGroupsType;
+use App\Form\AdminMenusType;
 
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 
 class AdminController extends AbstractController {
@@ -66,22 +69,28 @@ class AdminController extends AbstractController {
 	 * @param \Symfony\Component\HttpFoundation\Request                               $request
 	 * @param \Doctrine\ORM\EntityManagerInterface                       $manager,
 	 * @param \App\Service\FileManager                                   $fileManager
+	 * @param \App\Service\AppTextManager                                $appTextManager
+	 * @param \Symfony\Component\Routing\Generator\UrlGeneratorInterface $router
+
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function adminHomeEdit (
 		Request $request,
 		EntityManagerInterface $manager,
-		\App\Service\FileManager $fileManager
+		\App\Service\FileManager $fileManager,
+		\App\Service\AppTextManager $appTextManager,
+		UrlGeneratorInterface $router
 	) {
+		$texts = $appTextManager->getTabText('home');
 
-		$homeForm          = $this->createForm( AdminHomeType::class);
+
+		$homeForm          = $this->createForm( AdminHomeType::class, $texts);
 		$homeForm->handleRequest( $request );
 
 		if ( $homeForm->isSubmitted() && $homeForm->isValid() ) {
 
 			// Front
 			$uploadFile = $homeForm->get( 'frontfile' )->getData();
-
 			if ( !empty( $uploadFile ) ) {
 				/**
 				 * @var \App\Service\AppFileManager $appFileManager
@@ -95,12 +104,18 @@ class AdminController extends AbstractController {
 				$appFileManager->setAppImageId('home', 'front', $newFrontFile->getId());
 			}
 
+
+			foreach ( $homeForm->getData() as $key => $value ) {
+				$appTextManager->changeText('home', $key, $value);
+			}
+
 			return $this->redirectToRoute( 'administration_home' );
 		}
 
 		return $this->render( 'pages/user/admin-edit.html.twig', [
 			'tab' => 'home',
 			'form' => $homeForm->createView(),
+			'upload'     => $router->generate( 'admin_file_upload', [ 'tab' => 'home' ] ),
 		] );
 	}
 
@@ -110,9 +125,37 @@ class AdminController extends AbstractController {
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function adminGroupsEdit (
+		Request $request,
+		EntityManagerInterface $manager,
+		\App\Service\FileManager $fileManager
 	) {
+		$groupForm          = $this->createForm( AdminGroupsType::class);
+		$groupForm->handleRequest( $request );
+
+		if ( $groupForm->isSubmitted() && $groupForm->isValid() ) {
+
+			// Entete
+			$uploadFile = $groupForm->get( 'frontgroupfile' )->getData();
+
+			if ( !empty( $uploadFile ) ) {
+				/**
+				 * @var \App\Service\AppFileManager $appFileManager
+				 */
+				$appFileManager = $fileManager->getManager( 'appfiles' );
+				$newFile = $appFileManager->changeWithUploadedFile( $uploadFile, 'frontgroup');
+				$manager->persist( $newFile );
+				$manager->flush();
+
+				// Put the new id in admin config file
+				$appFileManager->setAppImageId('groups', 'frontgroup', $newFile->getId());
+
+			}
+
+			return $this->redirectToRoute( 'administration_groups' );
+		}
 		return $this->render( 'pages/user/admin-edit.html.twig', [
 			'tab' => 'groups',
+			'form' => $groupForm->createView(),
 		] );
 	}
 
@@ -122,9 +165,20 @@ class AdminController extends AbstractController {
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function adminMenusEdit (
+		Request $request,
+		EntityManagerInterface $manager,
+		\App\Service\FileManager $fileManager
 	) {
+		$groupForm          = $this->createForm( AdminMenusType::class);
+		$groupForm->handleRequest( $request );
+
+		if ( $groupForm->isSubmitted() && $groupForm->isValid() ) {
+
+			return $this->redirectToRoute( 'administration_menus' );
+		}
 		return $this->render( 'pages/user/admin-edit.html.twig', [
 			'tab' => 'menus',
+			'form' => $groupForm->createView(),
 		] );
 	}
 
