@@ -34,6 +34,8 @@ import './ui/confirm';
 import './ui/oembed-to-iframe';
 import './ui/removable-tag-list';
 import './ui/groups-search';
+import './ui/add-form';
+import './ui/link-order-change';
 //
 import './user/profile';
 import './user/dashboard';

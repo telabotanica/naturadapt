@@ -5,21 +5,32 @@
 
 	<p class="element_title">{{ 'forms.administration.menus.navbar.name'|trans }}</p>
 
-	<div class="columns__40-40-20">
-		<div class="form-row-aligned pipou">
-			{{ form_label(form.premier_nom, 'forms.administration.menus.navbar.label') }}
-			{{ form_widget(form.premier_nom) }}
-		</div>
-		<div  class="form-row-aligned pipou">
-			{{ form_label(form.premier_lien, 'forms.administration.menus.navbar.link') }}
-			{{ form_widget(form.premier_lien) }}
-		</div >
-		<div  class="form-row-aligned pipou">
-			{{ form_label(form.premier_lien, 'forms.administration.menus.navbar.order') }}
-			{{ form_widget(form.premier_lien) }}
-		</div >
+	<div id="linkList"
+		class="liens"
+		data-prototype="{{ form_widget(form.liens.vars.prototype)|e('html_attr') }}"
+		data-widget-tags="{{ '<li></li>'|e }}"
+		data-widget-counter="{{ form.liens|length }}">
+		{% for lien in form.liens %}
+			<div id="admin_menus_liens_{{ loop.index0 }}" class="columns__36-36-28">
+				<div class="form-row-aligned pipou">
+					{{ form_label(lien.nom, 'forms.administration.menus.navbar.label') }}
+					{{ form_widget(lien.nom) }}
+				</div>
+				<div  class="form-row-aligned pipou">
+					{{ form_label(lien.lien, 'forms.administration.menus.navbar.link') }}
+					{{ form_widget(lien.lien) }}
+				</div >
+				<div  class="form-row-aligned pipou">
+					<label>{{ 'forms.administration.menus.navbar.order'|trans  }}</label>
+					<button type="button" class="order_link_change order_link_change_up"></button>
+					<button type="button" class="order_link_change order_link_change_down"></button>
+				</div >
+			</div>
+		{% endfor %}
 	</div>
-
+	<a class="hide_message add_item_link">
+		<span>{{ 'forms.administration.menus.navbar.add'|trans }}</span>
+	</a>
 </div>
 <div class="form-row form-row__submit">
 	{{ form_widget(form.submit, {'label': 'forms.administration.submit'|trans}) }}

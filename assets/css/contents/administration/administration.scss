@@ -1,13 +1,14 @@
-.group-tabs {
-	margin-bottom: rem(40px);
+.admin-tabs {
+	margin-bottom: rem(30px);
 
 	@include clearulli;
 
 	ul {
 		display:         flex;
 		flex-flow:       row nowrap;
-		justify-content: space-between;
+		justify-content: normal;
 		align-items:     flex-start;
+		border-bottom:   1px solid $color_grey_border;
 	}
 
 	a {
@@ -26,6 +27,10 @@
 	.active a {
 		color:        $color_action;
 		border-color: $color_action;
+	}
+
+	li {
+		margin-right: rem(25px);
 	}
 
 }
@@ -56,7 +61,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		border:1px solid #DBDEE4;
+		border:1px solid $color_grey_border;
 		border-radius: 0;
 		.logo-img {
 			width:  rem(136px);
@@ -78,10 +83,18 @@
 
 }
 
-.columns__40-40-20 {
+.columns__36-36-28 {
+	border-bottom:   1px solid $color_grey_border;
+
 	.form-row-aligned{
 		margin-top: rem(13px);
 		margin-bottom: rem(13px);
+		label{
+			font-size: 0.875rem;
+		}
+		input{
+			font-size: 0.8125rem;
+		}
 	}
 }
 
@@ -92,3 +105,59 @@
 		}
 	}
 }
+
+.order_link_change {
+
+	border: none;
+	padding: 0;
+	background: none;
+	width:               40px;
+	height:              40px;
+	margin-left: 5px;
+	margin-right: 5px;
+
+}
+
+.order_link_change_up {
+
+	$color:              white;
+	background-color:    $color_action;
+	@import '../../_assets/folding-up.svg';
+	background-repeat:   no-repeat;
+	background-position: center center;
+}
+
+.order_link_change_down {
+
+	$color:              white;
+	background-color:    $color_action;
+	@import '../../_assets/folding-down.svg';
+	background-repeat:   no-repeat;
+	background-position: center center;
+}
+
+.add_item_link{
+	background-color:    none;
+	background-repeat:   no-repeat;
+	background-position: center center;
+
+	color:           inherit;
+	text-decoration: none;
+
+	&::before {
+		margin-top: 10px;
+		content:         '';
+		display:         inline-block;
+		width:           rem(17px);
+		height:          rem(17px);
+		border-radius:   50%;
+		background-size: 100% 100%;
+		@import "../../_assets/add.svg";
+	}
+
+	span{
+		color: #2FB67D;
+		font-size: 0.875rem;
+	}
+}
+

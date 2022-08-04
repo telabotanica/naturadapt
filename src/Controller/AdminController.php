@@ -6,6 +6,8 @@ use App\Form\AdminPlatformType;
 use App\Form\AdminHomeType;
 use App\Form\AdminGroupsType;
 use App\Form\AdminMenusType;
+use App\Entity\AppLink;
+use App\Entity\AppLinkGroup;
 
 
 use Symfony\Component\HttpFoundation\Request;
@@ -167,18 +169,31 @@ class AdminController extends AbstractController {
 	public function adminMenusEdit (
 		Request $request,
 		EntityManagerInterface $manager,
-		\App\Service\FileManager $fileManager
+		\App\Service\AppTextManager $appTextManager
 	) {
-		$groupForm          = $this->createForm( AdminMenusType::class);
-		$groupForm->handleRequest( $request );
+		$menusTexts = $appTextManager->getTabText('menus');
+		$appLinkGroup = new AppLinkGroup();
+		$linkTemp;
+		foreach ($menusTexts['liens'] as $lien) {
+			if(!is_null($lien['nom']) & !is_null($lien['lien'])){
+				$linkTemp = new AppLink();
+				$linkTemp->setNom($lien['nom']);
+				$linkTemp->setLien($lien['lien']);
+				$appLinkGroup->getLiens()->add($linkTemp);
+			}
+		}
 
-		if ( $groupForm->isSubmitted() && $groupForm->isValid() ) {
+		$menuForm          = $this->createForm( AdminMenusType::class, $appLinkGroup);
+		$menuForm->handleRequest( $request );
 
+		if ( $menuForm->isSubmitted() && $menuForm->isValid() ) {
+			$appTextManager->changeLiens('menus', $menuForm->get('liens')->getData());
 			return $this->redirectToRoute( 'administration_menus' );
 		}
+
 		return $this->render( 'pages/user/admin-edit.html.twig', [
 			'tab' => 'menus',
-			'form' => $groupForm->createView(),
+			'form' => $menuForm->createView(),
 		] );
 	}
 

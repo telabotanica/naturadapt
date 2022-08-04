@@ -134,4 +134,17 @@ home:
 groups:
     frontgroup:
         fileId: 'groups-hero.jpg'
-
+menus:
+    liens:
+        -
+         nom: À propos de la plateforme
+         lien: https://naturadapt.com/
+        -
+         nom: Groupes
+         lien: https://naturadapt.com/groups/
+        -
+         nom: Ressources
+         lien: https://naturadapt.com/ressources/
+        -
+         nom: Actualités
+         lien: https://naturadapt.com/actualités/

@@ -2,15 +2,14 @@
 
 namespace App\Form;
 
+use App\Entity\AppLink;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use App\Form\AdminLinkType;
-use App\Entity\AppLinkGroup;
 
-class AdminMenusType extends AbstractType {
+class AdminLinkType extends AbstractType {
 	/**
 	 * UserEmailType constructor.
 	 */
@@ -22,22 +21,25 @@ class AdminMenusType extends AbstractType {
 	 */
 	public function buildForm ( FormBuilderInterface $builder, array $options ) {
 
-		$builder
-			->add( 'liens', CollectionType::class, [
-				'entry_type' => AdminLinkType::class,
-				'allow_add' => true,
-				'delete_empty' => true,
-			] )
-			->add( 'submit', SubmitType::class );
+		print('aaa');
 
-	}
+		// print($options);
+		$builder
+			->add( 'nom', TextType::class, [
+				'required' => FALSE,
+			] )
+			->add( 'lien', TextType::class, [
+				'required' => FALSE,
+			] );
+		}
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public function configureOptions ( OptionsResolver $resolver ) {
 		$resolver->setDefaults( [
-				'data_class' => AppLinkGroup::class,
+				'attr'       => [],
+				'data_class' => AppLink::class,
 		] );
 	}
 }

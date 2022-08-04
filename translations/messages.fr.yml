@@ -233,6 +233,7 @@ forms:
                 label: "Nom"
                 link: "Lien"
                 order: "Ordre"
+                add: "Ajouter un lien"
         admin:
             name: "Administrateurs communauté"
             introduction: "Liste des administrateurs de la plateforme. Ajoutez, supprimez les rôles d'admin dans l'annuaire du groupe Communauté"
@@ -507,7 +508,7 @@ pages:
                 introduction: "Modifiez la barre de navigation et le footer"
             admin:
                 title: "Administrateurs"
-                name: "Administrateurs communauté"
+                name: "Administrateurs"
                 introduction: "Liste des administrateurs de la plateforme. Ajoutez, supprimez les rôles d'admin dans l'annuaire du groupe Communauté"
 
 

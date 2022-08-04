@@ -2,11 +2,7 @@
 
 namespace App\Service;
 
-use App\Entity\File;
-use App\Entity\Usergroup;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Yaml\Yaml;
 
 class AppTextManager {
@@ -39,5 +35,17 @@ class AppTextManager {
 		return $adminYamlTab;
 	}
 
+	public function changeLiens($tab, $liens){
+		$adminYaml = Yaml::parse(file_get_contents($this->projectDir .'/var/admin-text/administration.yaml'));
+
+		foreach ( $liens as $index => $lienObj ) {
+			if(!is_null($lienObj->getNom()) & !is_null($lienObj->getLien())){
+				$adminYaml[$tab]['liens'][$index]['nom'] =  $lienObj->getNom();
+				$adminYaml[$tab]['liens'][$index]['lien'] =  $lienObj->getLien();
+			}
+		}
+		$adminYaml = Yaml::dump($adminYaml, 4);
+		file_put_contents($this->projectDir .'/var/admin-text/administration.yaml', $adminYaml);
+	}
 
 }
