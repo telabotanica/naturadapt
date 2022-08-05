@@ -200,6 +200,23 @@ class UserRepository extends ServiceEntityRepository {
 				  ->getResult();
 	}
 
+
+	/**************************************************
+	 * SEARCH ADMINS
+	 *************************************************
+	 *
+	 * @param \Doctrine\ORM\QueryBuilder $qb
+	 */
+	public function searchAdmins ( ) {
+
+		$qb = $this->createQueryBuilder( 'u' );
+		return $qb->select('u')
+				->where( 'u.roles LIKE :roleAdmin' )
+				->setParameter('roleAdmin', '%"'.User::ROLE_ADMIN.'"%')
+				->getQuery()
+				->getResult();
+	}
+
 	// /**
 	//  * @return User[] Returns an array of User objects
 	//  */

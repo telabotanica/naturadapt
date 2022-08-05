@@ -9,6 +9,7 @@ use App\Form\AdminMenusType;
 use App\Entity\AppLink;
 use App\Entity\AppLinkGroup;
 
+use App\Service\AdminManager;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -84,8 +85,6 @@ class AdminController extends AbstractController {
 		UrlGeneratorInterface $router
 	) {
 		$texts = $appTextManager->getTabText('home');
-
-
 		$homeForm          = $this->createForm( AdminHomeType::class, $texts);
 		$homeForm->handleRequest( $request );
 
@@ -199,13 +198,17 @@ class AdminController extends AbstractController {
 
 	/**
 	 * @Route("/administration/administrators", name="administration_administrators")
+	 * @param \App\Service\AdminManager       $adminManager
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function adminAdministratorsEdit (
+		AdminManager $adminManager
 	) {
+		$data = $adminManager->getAdminMembers();
 		return $this->render( 'pages/user/admin-edit.html.twig', [
 			'tab' => 'admin',
+			'members' => $data[ 'members' ]
 		] );
 	}
 }

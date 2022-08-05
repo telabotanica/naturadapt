@@ -35,11 +35,11 @@ const addFormToCollection = (e) => {
 	newElem.firstChild.className = 'columns__36-36-28';
 
 	newElem.firstChild.childNodes.forEach((child)=> {
-		child.className='form-row-aligned pipou'
+		child.className='form-row-aligned '
 	})
 
 	newElem.firstChild.appendChild(
-		createElementFromHTML("<div  class='form-row-aligned pipou'> <label>Ordre </label><button type='button' class='order_link_change order_link_change_up'></button><button type='button' class='order_link_change order_link_change_down'></button></div >")
+		createElementFromHTML("<div  class='form-row-aligned '> <label>Ordre </label><button type='button' class='order_link_change order_link_change_up'></button><button type='button' class='order_link_change order_link_change_down'></button></div >")
 	)
 	list.appendChild(newElem.firstChild);
   };

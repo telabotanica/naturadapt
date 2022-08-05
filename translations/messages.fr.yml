@@ -236,7 +236,8 @@ forms:
                 add: "Ajouter un lien"
         admin:
             name: "Administrateurs communauté"
-            introduction: "Liste des administrateurs de la plateforme. Ajoutez, supprimez les rôles d'admin dans l'annuaire du groupe Communauté"
+            introduction: "Liste des administrateurs de la plateforme. Ajoutez, supprimez les rôles d'admin dans %link_start%l'annuaire du groupe Communauté%link_end%"
+            community: "Admin communauté"
 
 pages:
     user:

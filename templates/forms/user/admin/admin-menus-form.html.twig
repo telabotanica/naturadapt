@@ -12,15 +12,15 @@
 		data-widget-counter="{{ form.liens|length }}">
 		{% for lien in form.liens %}
 			<div id="admin_menus_liens_{{ loop.index0 }}" class="columns__36-36-28">
-				<div class="form-row-aligned pipou">
+				<div class="form-row-aligned ">
 					{{ form_label(lien.nom, 'forms.administration.menus.navbar.label') }}
 					{{ form_widget(lien.nom) }}
 				</div>
-				<div  class="form-row-aligned pipou">
+				<div  class="form-row-aligned ">
 					{{ form_label(lien.lien, 'forms.administration.menus.navbar.link') }}
 					{{ form_widget(lien.lien) }}
 				</div >
-				<div  class="form-row-aligned pipou">
+				<div  class="form-row-aligned ">
 					<label>{{ 'forms.administration.menus.navbar.order'|trans  }}</label>
 					<button type="button" class="order_link_change order_link_change_up"></button>
 					<button type="button" class="order_link_change order_link_change_down"></button>
@@ -28,7 +28,7 @@
 			</div>
 		{% endfor %}
 	</div>
-	<a class="hide_message add_item_link">
+	<a class="add_item_link">
 		<span>{{ 'forms.administration.menus.navbar.add'|trans }}</span>
 	</a>
 </div>
