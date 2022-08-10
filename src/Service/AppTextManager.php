@@ -20,7 +20,7 @@ class AppTextManager {
 	public function changeText($tab, $key, $value){
 		$adminYaml = Yaml::parse(file_get_contents($this->projectDir .'/var/admin-text/administration.yaml'));
 		$adminYaml[$tab][$key] =  $value;
-		$adminYaml = Yaml::dump($adminYaml, 3);
+		$adminYaml = Yaml::dump($adminYaml, 5);
 		file_put_contents($this->projectDir .'/var/admin-text/administration.yaml', $adminYaml);
 	}
 
@@ -35,16 +35,28 @@ class AppTextManager {
 		return $adminYamlTab;
 	}
 
-	public function changeLiens($tab, $liens){
-		$adminYaml = Yaml::parse(file_get_contents($this->projectDir .'/var/admin-text/administration.yaml'));
-
-		foreach ( $liens as $index => $lienObj ) {
-			if(!is_null($lienObj->getNom()) & !is_null($lienObj->getLien())){
-				$adminYaml[$tab]['liens'][$index]['nom'] =  $lienObj->getNom();
-				$adminYaml[$tab]['liens'][$index]['lien'] =  $lienObj->getLien();
+	public function getTabSectionText($tab, $section){
+		$adminYamlTab = Yaml::parse(file_get_contents($this->projectDir .'/var/admin-text/administration.yaml'))[$tab][$section];
+		$defaultAdminYamlTab = Yaml::parse(file_get_contents($this->projectDir .'/config/administration-default.yaml'))[$tab][$section];
+		foreach($adminYamlTab as $key => $text){
+			if(is_null($text)){
+				$adminYamlTab[$key] = $defaultAdminYamlTab[$key];
 			}
 		}
-		$adminYaml = Yaml::dump($adminYaml, 4);
+		return $adminYamlTab;
+	}
+
+	public function changeLiens($tab, $liens, $liensType){
+		$adminYaml = Yaml::parse(file_get_contents($this->projectDir .'/var/admin-text/administration.yaml'));
+
+		$adminYaml[$tab][$liensType]['liens'] = [];
+		foreach ( $liens as $index => $lienObj ) {
+			if(!is_null($lienObj->getNom()) & !is_null($lienObj->getLien())){
+				$adminYaml[$tab][$liensType]['liens'][$index]['nom'] =  $lienObj->getNom();
+				$adminYaml[$tab][$liensType]['liens'][$index]['lien'] =  $lienObj->getLien();
+			}
+		}
+		$adminYaml = Yaml::dump($adminYaml, 5);
 		file_put_contents($this->projectDir .'/var/admin-text/administration.yaml', $adminYaml);
 	}
 

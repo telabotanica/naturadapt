@@ -115,7 +115,7 @@ class AppFileManager {
 	public function setAppImageId(string $tab, string $imageType, int $imageId){
 		$adminYaml = Yaml::parse(file_get_contents($this->projectDir .'/var/admin-text/administration.yaml'));
 		$adminYaml[$tab][$imageType]['fileId'] =  $imageId;
-		$adminYaml = Yaml::dump($adminYaml, 3);
+		$adminYaml = Yaml::dump($adminYaml, 5);
 		file_put_contents($this->projectDir .'/var/admin-text/administration.yaml', $adminYaml);
 	}
 

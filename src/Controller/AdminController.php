@@ -172,13 +172,22 @@ class AdminController extends AbstractController {
 	) {
 		$menusTexts = $appTextManager->getTabText('menus');
 		$appLinkGroup = new AppLinkGroup();
+		foreach($menusTexts as $liensType => $liens) {
+			$setFunction = 'set'.ucfirst($liensType).'Title';
+			$appLinkGroup->{$setFunction}($liens['title']);
+		}
 		$linkTemp;
-		foreach ($menusTexts['liens'] as $lien) {
-			if(!is_null($lien['nom']) & !is_null($lien['lien'])){
-				$linkTemp = new AppLink();
-				$linkTemp->setNom($lien['nom']);
-				$linkTemp->setLien($lien['lien']);
-				$appLinkGroup->getLiens()->add($linkTemp);
+		$liensTypes = [];
+		foreach($menusTexts as $liensType => $liens) {
+			array_push($liensTypes, $liensType);
+			$getFunction = 'get'.ucfirst($liensType);
+			foreach ($liens['liens'] as $lien) {
+				if(!is_null($lien['nom']) & !is_null($lien['lien'])){
+					$linkTemp = new AppLink();
+					$linkTemp->setNom($lien['nom']);
+					$linkTemp->setLien($lien['lien']);
+					$appLinkGroup->{$getFunction}()->add($linkTemp);
+				}
 			}
 		}
 
@@ -186,7 +195,9 @@ class AdminController extends AbstractController {
 		$menuForm->handleRequest( $request );
 
 		if ( $menuForm->isSubmitted() && $menuForm->isValid() ) {
-			$appTextManager->changeLiens('menus', $menuForm->get('liens')->getData());
+			foreach($liensTypes as $liensType) {
+				$appTextManager->changeLiens('menus', $menuForm->get($liensType)->getData(), $liensType);
+			}
 			return $this->redirectToRoute( 'administration_menus' );
 		}
 

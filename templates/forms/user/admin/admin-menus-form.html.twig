@@ -5,31 +5,55 @@
 
 	<p class="element_title">{{ 'forms.administration.menus.navbar.name'|trans }}</p>
 
-	<div id="linkList"
-		class="liens"
-		data-prototype="{{ form_widget(form.liens.vars.prototype)|e('html_attr') }}"
-		data-widget-tags="{{ '<li></li>'|e }}"
-		data-widget-counter="{{ form.liens|length }}">
-		{% for lien in form.liens %}
-			<div id="admin_menus_liens_{{ loop.index0 }}" class="columns__36-36-28">
-				<div class="form-row-aligned ">
-					{{ form_label(lien.nom, 'forms.administration.menus.navbar.label') }}
-					{{ form_widget(lien.nom) }}
-				</div>
-				<div  class="form-row-aligned ">
-					{{ form_label(lien.lien, 'forms.administration.menus.navbar.link') }}
-					{{ form_widget(lien.lien) }}
-				</div >
-				<div  class="form-row-aligned ">
-					<label>{{ 'forms.administration.menus.navbar.order'|trans  }}</label>
-					<button type="button" class="order_link_change order_link_change_up"></button>
-					<button type="button" class="order_link_change order_link_change_down"></button>
-				</div >
-			</div>
-		{% endfor %}
-	</div>
+	{% include 'forms/user/admin/admin-menus-form-unit.html.twig' with {'liens': form.navbarLiens, 'id_liens': 'admin_menus_navbarLiens'} %}
+
 	<a class="add_item_link">
-		<span>{{ 'forms.administration.menus.navbar.add'|trans }}</span>
+		<span>{{ 'forms.administration.menus.add'|trans }}</span>
+	</a>
+</div>
+<div class="form-rows">
+
+	<p class="element_title">{{ 'forms.administration.menus.footbar_first.name'|trans }}</p>
+
+	<div class="form-row form-row__field subtitle-input">
+		{{ form_label(form.footbarFirstLiensTitle, 'forms.administration.menus.footbar_first.title') }}
+		{{ form_widget(form.footbarFirstLiensTitle) }}
+	</div>
+
+	{% include 'forms/user/admin/admin-menus-form-unit.html.twig' with {'liens': form.footbarFirstLiens, 'id_liens': 'admin_menus_footbarFirstLiens'} %}
+
+	<a class="add_item_link">
+		<span>{{ 'forms.administration.menus.add'|trans }}</span>
+	</a>
+</div>
+<div class="form-rows">
+
+	<p class="element_title">{{ 'forms.administration.menus.footbar_second.name'|trans }}</p>
+
+	<div class="form-row form-row__field subtitle-input">
+		{{ form_label(form.footbarSecondLiensTitle, 'forms.administration.menus.footbar_second.title') }}
+		{{ form_widget(form.footbarSecondLiensTitle) }}
+	</div>
+
+	{% include 'forms/user/admin/admin-menus-form-unit.html.twig' with {'liens': form.footbarSecondLiens, 'id_liens': 'admin_menus_footbarSecondLiens'} %}
+
+	<a class="add_item_link">
+		<span>{{ 'forms.administration.menus.add'|trans }}</span>
+	</a>
+</div>
+<div class="form-rows">
+
+	<p class="element_title">{{ 'forms.administration.menus.footbar_third.name'|trans }}</p>
+
+	<div class="form-row form-row__field subtitle-input">
+		{{ form_label(form.footbarThirdLiensTitle, 'forms.administration.menus.footbar_third.title') }}
+		{{ form_widget(form.footbarThirdLiensTitle) }}
+	</div>
+
+	{% include 'forms/user/admin/admin-menus-form-unit.html.twig' with {'liens': form.footbarThirdLiens, 'id_liens': 'admin_menus_footbarThirdLiens'} %}
+
+	<a class="add_item_link">
+		<span>{{ 'forms.administration.menus.add'|trans }}</span>
 	</a>
 </div>
 <div class="form-row form-row__submit">

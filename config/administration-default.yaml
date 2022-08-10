@@ -134,17 +134,73 @@ home:
 groups:
     frontgroup:
         fileId: 'groups-hero.jpg'
+
 menus:
-    liens:
+    navbarLiens:
+        title:
+        liens:
         -
-         nom: À propos de la plateforme
-         lien: https://naturadapt.com/
+            nom: 'À propos de la plateforme'
+            lien: 'http://127.0.0.1:8000/'
         -
-         nom: Groupes
-         lien: https://naturadapt.com/groups/
+            nom: Groupes
+            lien: 'http://127.0.0.1:8000/groups/'
         -
-         nom: Ressources
-         lien: https://naturadapt.com/ressources/
+            nom: Ressources
+            lien: 'http://127.0.0.1:8000/ressources/'
         -
-         nom: Actualités
-         lien: https://naturadapt.com/actualités/
+            nom: Actualités
+            lien: 'http://127.0.0.1:8000/actualités/'
+    footbarFirstLiens:
+        title: 'Menu'
+        liens:
+        -
+            nom: Accueil
+            lien: 'http://127.0.0.1:8000/'
+        -
+            nom: 'Connexion / Inscription'
+            lien: 'http://127.0.0.1:8000/login/'
+        -
+            nom: Annuaire
+            lien: 'http://127.0.0.1:8000/annuaire/'
+        -
+            nom: Ressources
+            lien: 'http://127.0.0.1:8000/ressources/'
+        -
+            nom: Groupes
+            lien: 'http://127.0.0.1:8000/groups/'
+        -
+            nom: Nouveau
+            lien: neuf
+    footbarSecondLiens:
+        title: 'En savoir plus'
+        liens:
+        -
+            nom: 'À propos du projet Natur’Adapt'
+            lien: 'http://127.0.0.1:8000/about'
+        -
+            nom: Newsletter
+            lien: 'http://127.0.0.1:8000/newsletter'
+        -
+            nom: 'À propos de la plateforme'
+            lien: 'http://127.0.0.1:8000/platform'
+        -
+            nom: 'Charte de la plateforme'
+            lien: 'http://127.0.0.1:8000/charte/'
+        -
+            nom: 'Mentions Légales'
+            lien: 'http://127.0.0.1:8000/legal'
+    footbarThirdLiens:
+        title: 'Aide'
+        liens:
+        -
+            nom: 'Tutoriels d’utilisation de la plateforme'
+            lien: 'http://127.0.0.1:8000/groups/communaute/tutoriels'
+        -
+            nom: 'Règles d’utilisation de la plateforme'
+            lien: 'http://127.0.0.1:8000/rules'
+        -
+            nom: 'Signaler un problème'
+            lien: 'http://127.0.0.1:8000/report'
+
+

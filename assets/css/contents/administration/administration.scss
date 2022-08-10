@@ -85,6 +85,10 @@
 
 }
 
+.form-rows{
+	margin-bottom: rem(35px);
+}
+
 .columns__36-36-28 {
 	border-bottom:   1px solid $color_grey_border;
 
@@ -145,6 +149,8 @@
 
 	color:           inherit;
 	text-decoration: none;
+	font-weight: bold;
+	margin-bottom: 0.8125rem;
 
 	&::before {
 		margin-top: 10px;
@@ -311,6 +317,12 @@
 
 }
 
+.subtitle-input{
+	input{
+		font-weight: bold;
+		font-size: 0.875rem;;
+	}
+}
 
 
 

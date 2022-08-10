@@ -82,4 +82,57 @@ class AppController extends AbstractController {
 
 		throw $this->createNotFoundException( 'There is no '. $image_type . ' image.' );
 	}
+
+	/**
+	 * @param                                            $resources
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
+	 * @param \App\Service\AppTextManager            $appTextManager
+	 *
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
+	public function appHeaderMenus (
+		$resources,
+		EntityManagerInterface $manager,
+		\App\Service\AppTextManager $appTextManager
+	) {
+
+		$liens = $appTextManager->getTabSectionText('menus', 'navbarLiens');
+
+		return $this->render( 'layout/header-menus.html.twig', [
+				'liens' => $liens['liens'],
+				'resources' => $resources
+		] );
+	}
+
+	/**
+	 * @param                                            $position
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
+	 * @param \App\Service\AppTextManager            $appTextManager
+	 *
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
+	public function appFooterMenus (
+		$position,
+		EntityManagerInterface $manager,
+		\App\Service\AppTextManager $appTextManager
+	) {
+
+		switch ($position) {
+			case 'first':
+				$liens = $appTextManager->getTabSectionText('menus', 'footbarFirstLiens');
+				break;
+			case 'second':
+				$liens = $appTextManager->getTabSectionText('menus', 'footbarSecondLiens');
+				break;
+			case 'third':
+				$liens = $appTextManager->getTabSectionText('menus', 'footbarThirdLiens');
+				break;
+		}
+		return $this->render( 'layout/footer-menus.html.twig', [
+			'title' => $liens['title'],
+			'liens' => $liens['liens']
+		] );
+	}
+
+
 }

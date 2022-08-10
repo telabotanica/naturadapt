@@ -228,12 +228,21 @@ forms:
         menus:
             name: "Menus"
             introduction: "Modifiez la barre de navigation et le footer"
+            label: "Nom"
+            link: "Lien"
+            order: "Ordre"
+            add: "Ajouter un lien"
             navbar:
                 name: "Barre de navigation"
-                label: "Nom"
-                link: "Lien"
-                order: "Ordre"
-                add: "Ajouter un lien"
+            footbar_first:
+                title: "Titre de la première colonne"
+                name: "Pied de page – Première colonne de liens"
+            footbar_second:
+                title: "Titre de la seconde colonne"
+                name: "Pied de page – Seconde colonne de liens"
+            footbar_third:
+                title: "Titre de la troisième colonne"
+                name: "Pied de page – Troisième colonne de liens"
         admin:
             name: "Administrateurs communauté"
             introduction: "Liste des administrateurs de la plateforme. Ajoutez, supprimez les rôles d'admin dans %link_start%l'annuaire du groupe Communauté%link_end%"

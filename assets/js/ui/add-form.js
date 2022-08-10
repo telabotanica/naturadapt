@@ -1,5 +1,5 @@
 import domready from 'mf-js/modules/dom/ready';
-
+import { changeLinkOrder } from './link-order-change';
 
 function createElementFromHTML(htmlString) {
 	var div = document.createElement('div');
@@ -11,7 +11,7 @@ function createElementFromHTML(htmlString) {
 
 const addFormToCollection = (e) => {
 
-	let list = document.getElementById( 'linkList' )
+	let list = e.currentTarget.previousElementSibling;
 
 	// Try to find the counter of the list or use the length of the list
 	var counter = list.dataset.widgetCounter || list.childNodes().length;
@@ -31,7 +31,6 @@ const addFormToCollection = (e) => {
 	var newElem = document.createElement('div')
 	newElem.innerHTML = newWidget;
 
-	console.log(newWidget);
 	newElem.firstChild.className = 'columns__36-36-28';
 
 	newElem.firstChild.childNodes.forEach((child)=> {
@@ -41,6 +40,7 @@ const addFormToCollection = (e) => {
 	newElem.firstChild.appendChild(
 		createElementFromHTML("<div  class='form-row-aligned '> <label>Ordre </label><button type='button' class='order_link_change order_link_change_up'></button><button type='button' class='order_link_change order_link_change_down'></button></div >")
 	)
+	newElem.firstChild.lastChild.lastChild.previousElementSibling.addEventListener("click", changeLinkOrder)
 	list.appendChild(newElem.firstChild);
   };
 
