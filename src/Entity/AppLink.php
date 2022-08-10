@@ -4,35 +4,42 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="sites")
- * @ORM\Entity(repositoryClass="App\Repository\SiteRepository")
- */
-class AppLink {
+class AppLink
+{
+    /**
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+    private $nom;
+    private $lien;
 
-	private $nom;
-	private $lien;
+    public function __construct()
+    {
+    }
 
-	public function __construct ( ) {
-	}
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
 
-	public function getNom (): ?string {
-		return $this->nom;
-	}
+    public function setNom(string $nom): self
+    {
+        $this->nom = $nom;
 
-	public function setNom ( string $nom ): self {
-		$this->nom = $nom;
+        return $this;
+    }
 
-		return $this;
-	}
+    public function getLien(): ?string
+    {
+        return $this->lien;
+    }
 
-	public function getLien (): ?string {
-		return $this->lien;
-	}
+    public function setLien(string $lien): self
+    {
+        $this->lien = $lien;
 
-	public function setLien ( string $lien ): self {
-		$this->lien = $lien;
-
-		return $this;
-	}
+        return $this;
+    }
 }
