@@ -147,10 +147,10 @@ menus:
             lien: 'http://127.0.0.1:8000/groups/'
         -
             nom: Ressources
-            lien: 'http://127.0.0.1:8000/ressources/'
+            lien: 'http://127.0.0.1:8000/groups/communaute/pages/ressources/'
         -
             nom: Actualités
-            lien: 'http://127.0.0.1:8000/actualités/'
+            lien: 'http://127.0.0.1:8000/groups/communaute/articles/'
     footbarFirstLiens:
         title: 'Menu'
         liens:
@@ -162,10 +162,10 @@ menus:
             lien: 'http://127.0.0.1:8000/login/'
         -
             nom: Annuaire
-            lien: 'http://127.0.0.1:8000/annuaire/'
+            lien: 'http://127.0.0.1:8000/members/'
         -
             nom: Ressources
-            lien: 'http://127.0.0.1:8000/ressources/'
+            lien: 'http://127.0.0.1:8000/groups/communaute/pages/ressources/'
         -
             nom: Groupes
             lien: 'http://127.0.0.1:8000/groups/'
