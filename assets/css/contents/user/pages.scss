@@ -214,4 +214,42 @@
 			border-left: 1px solid $color_grey_border;
 		}
 	}
+
+	&--admin-button{
+		margin-top: 40px;
+
+		border:          1px solid $color_grey_border;
+		padding-bottom: 0.5rem;
+		padding:0.5rem;
+
+		a {
+			&::before {
+				width: 20%;
+				margin-top: 18px;
+				margin-bottom: 6px;
+				content:         '';
+				display:         inline-block;
+				width:           rem(17px);
+				height:          rem(17px);
+				border-radius:   50%;
+				background-size: 100% 100%;
+				@import "../../_assets/settings-3.svg";
+			}
+
+
+			span{
+				width: 80%;
+				float:right;
+
+				background-color:    none;
+				background-repeat:   no-repeat;
+				background-position: center center;
+
+				color:           inherit;
+				text-decoration: none;
+				font-weight: bold;
+
+			}
+		}
+	}
 }
