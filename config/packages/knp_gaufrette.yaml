@@ -9,11 +9,18 @@ knp_gaufrette:
             local:
                 directory: '%kernel.project_dir%/var/files/groups'
 
+        appfiles:
+            local:
+                directory: '%kernel.project_dir%/var/files'
+
     filesystems:
         userfiles:
             adapter:    userfiles
 
         usergroupfiles:
             adapter:    usergroupfiles
+
+        appfiles:
+            adapter:    appfiles
 
     stream_wrapper: ~

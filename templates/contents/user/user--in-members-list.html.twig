@@ -4,7 +4,7 @@
 	{% set isPending = user_group_relation.isPending(user, group) %}
 	{% set isMember = user_group_relation.isMember(user, group) %}
 	{% set isBanned = user_group_relation.isBanned(user, group) %}
-	{% set isAdmin = user_group_relation.isAdmin(user, group) %}
+	{% set isAdmin = true %}
 	{% if isPending %}
 		{% set classes = classes|merge(['user__pending']) %}
 	{% endif %}

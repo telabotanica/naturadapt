@@ -46,6 +46,15 @@ services:
         tags:
             - { name: doctrine.event_subscriber, connection: default }
 
+    App\Service\AppFileManager:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+            $assetPath: '%env(string:ASSET_DIR)%'
+
+    App\Service\AppTextManager:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+
     App\EventSubscriber\UserLocaleSubscriber:
         arguments: ['%kernel.default_locale%']
 

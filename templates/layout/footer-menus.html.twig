@@ -1,0 +1,8 @@
+<li>
+	<span>{{title}}</span>
+	<ul>
+		{% for lien in liens %}
+			<li><a href="{{ lien.lien }}">{{lien.nom}}</a></li>
+		{% endfor %}
+	</ul>
+</li>

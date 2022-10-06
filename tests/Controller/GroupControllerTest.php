@@ -2,120 +2,133 @@
 /**
  * User: Maxime Cousinou
  * Date: 2019-03-29
- * Time: 14:05
+ * Time: 14:05.
  */
 
 namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class GroupControllerTest extends WebTestCase {
-	/**
-	 * Test Groups list page
-	 */
-	public function testGroupsIndexIsValid () {
-		$client = static::createClient();
+class GroupControllerTest extends WebTestCase
+{
+    /**
+     * Test Groups list page.
+     */
+    public function testGroupsIndexIsValid()
+    {
+        self::ensureKernelShutdown();
 
-		$crawler = $client->request( 'GET', '/groups' );
+        $client = static::createClient();
 
-		$this->assertEquals(
-				200,
-				$client->getResponse()->getStatusCode(),
-				'Assert groups page is StatusCode 200'
-		);
+        $crawler = $client->request('GET', '/groups');
 
-		$this->assertGreaterThan(
-				0,
-				$crawler->filter( '.groups-list .group__teaser' )->count(),
-				'Assert groups index contains groups list with groups'
-		);
+        $this->assertEquals(
+                200,
+                $client->getResponse()->getStatusCode(),
+                'Assert groups page is StatusCode 200'
+        );
 
-		$publicLink = $crawler
-				->filter( '.group__public .group-name a' )
-				->eq( 0 )
-				->link()
-				->getUri();
+        $this->assertGreaterThan(
+                0,
+                $crawler->filter('.groups-list .group__teaser')->count(),
+                'Assert groups index contains groups list with groups'
+        );
 
-		$this->assertNotEmpty(
-				$publicLink,
-				'Assert groups index contains one public group'
-		);
+        $publicLink = $crawler
+                ->filter('.group__public .group-name a')
+                ->eq(0)
+                ->link()
+                ->getUri();
 
-		$privateLink = $crawler
-				->filter( '.group__private .group-name a' )
-				->eq( 0 )
-				->link()
-				->getUri();
+        $this->assertNotEmpty(
+                $publicLink,
+                'Assert groups index contains one public group'
+        );
 
-		$this->assertNotEmpty(
-				$privateLink,
-				'Assert groups index contains one private group'
-		);
+        $privateLink = $crawler
+                ->filter('.group__private .group-name a')
+                ->eq(0)
+                ->link()
+                ->getUri();
 
-		return [ 'public' => $publicLink, 'private' => $privateLink ];
-	}
+        $this->assertNotEmpty(
+                $privateLink,
+                'Assert groups index contains one private group'
+        );
 
-	/**
-	 * @depends testGroupsIndexIsValid
-	 */
-	public function testPublicGroupIndexIsValid ( $urls ) {
-		$client = static::createClient();
+        return ['public' => $publicLink, 'private' => $privateLink];
+    }
 
-		$crawler = $client->request( 'GET', $urls[ 'public' ] );
+    /**
+     * @depends testGroupsIndexIsValid
+     */
+    public function testPublicGroupIndexIsValid($urls)
+    {
+        self::ensureKernelShutdown();
 
-		$this->assertEquals(
-				200,
-				$client->getResponse()->getStatusCode(),
-				'Assert public group index is StatusCode 200'
-		);
+        $client = static::createClient();
 
-		$pageUrl = $crawler
-				->filter( '.group-app__pages a.page__in-items-list' )
-				->eq( 0 )
-				->link()
-				->getUri();
+        $crawler = $client->request('GET', $urls['public']);
 
-		return [ 'page' => $pageUrl ];
-	}
+        $this->assertEquals(
+                200,
+                $client->getResponse()->getStatusCode(),
+                'Assert public group index is StatusCode 200'
+        );
 
-	/**
-	 * @depends testPublicGroupIndexIsValid
-	 */
-	public function testPublicGroupPagePageIsValid ( $urls ) {
-		$client = static::createClient();
+        $pageUrl = $crawler
+                ->filter('.group-app__pages a.page__in-items-list')
+                ->eq(0)
+                ->link()
+                ->getUri();
 
-		$crawler = $client->request( 'GET', $urls[ 'page' ] );
+        return ['page' => $pageUrl];
+    }
 
-		$this->assertEquals(
-				200,
-				$client->getResponse()->getStatusCode(),
-				'Assert page is StatusCode 200'
-		);
+    /**
+     * @depends testPublicGroupIndexIsValid
+     */
+    public function testPublicGroupPagePageIsValid($urls)
+    {
+        self::ensureKernelShutdown();
 
-		$this->assertGreaterThan(
-				0,
-				$crawler->filter( '.page-body' )->count(),
-				'Assert page contains a body'
-		);
-	}
+        $client = static::createClient();
 
-	/**
-	 * @depends testGroupsIndexIsValid
-	 */
-	public function testPrivateGroupIndexIsValidAndRestricted ( $urls ) {
-		$client = static::createClient();
+        $crawler = $client->request('GET', $urls['page']);
 
-		$crawler = $client->request( 'GET', $urls[ 'private' ] );
+        $this->assertEquals(
+                200,
+                $client->getResponse()->getStatusCode(),
+                'Assert page is StatusCode 200'
+        );
 
-		$this->assertEquals(
-				200,
-				$client->getResponse()->getStatusCode(),
-				'Assert private group index is StatusCode 200'
-		);
+        $this->assertGreaterThan(
+                0,
+                $crawler->filter('.page-body')->count(),
+                'Assert page contains a body'
+        );
+    }
 
-		$this->assertEmpty(
-				$crawler->filter( '.group-app__members' )->count(),
-				'Assert private group does not show members list'
-		);
-	}
+    /**
+     * @depends testGroupsIndexIsValid
+     */
+    public function testPrivateGroupIndexIsValidAndRestricted($urls)
+    {
+        self::ensureKernelShutdown();
+
+        $client = static::createClient();
+
+        $crawler = $client->request('GET', $urls['private']);
+
+        $this->assertEquals(
+                200,
+                $client->getResponse()->getStatusCode(),
+                'Assert private group index is StatusCode 200'
+        );
+
+        $this->assertEmpty(
+                $crawler->filter('.group-app__members')->count(),
+                'Assert private group does not show members list'
+        );
+    }
 }

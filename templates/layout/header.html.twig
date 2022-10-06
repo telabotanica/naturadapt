@@ -6,8 +6,8 @@
 			{% set link = path('homepage') %}
 		{% endif %}
 		<a href="{{ link }}">
-			<img src="{{ asset('media/layout/naturadapt_logo_116x60.png') }}" alt="{{ plateform.name }}"
-				 srcset="{{ asset('media/layout/naturadapt_logo_231x120.png') }} 2x">
+			<img src="{{ path('app_image', {'tab': 'platform', 'image_type': 'logo'}) }}" alt="{{ plateform.name }}"
+				 srcset="{{ path('app_image', {'tab': 'platform', 'image_type': 'logo'}) }} 2x">
 		</a>
 	</div>
 	<div class="header--pages">
@@ -18,13 +18,9 @@
 			<span>{{ 'ui.menu'|trans }}</span>
 		</button>
 		<ul aria-expanded="false">
-			<li><a href="{{ path('homepage') }}">À propos de la plateforme</a></li>
-			<li><a href="{{ path('groups_index') }}">Groupes</a></li>
-			{% if resources.group_slug is not empty and resources.page_slug is not empty %}
-				<li><a href="{{ path('group_page_index', { 'groupSlug': resources.group_slug, 'pageSlug': resources.page_slug }) }}">Ressources</a></li>
-			{% endif %}
-			<li><a href="{{ path('articles') }}">Actualités</a></li>
-			<li><a href="{{ path('members') }}">Annuaire</a></li>
+			{% set appHeaderMenus = render(controller( 'App\\Controller\\AppController::appHeaderMenus', {'resources': resources} )) %}
+
+			{{ appHeaderMenus|raw }}
 			<li class="toggle-search-link"><a href="{{ path('search_page') }}">Rechercher</a></li>
 		</ul>
 	</div>
@@ -46,6 +42,9 @@
 						<li><a href="{{ path('member', {'user_id':app.user.id}) }}">{{ 'pages.user.profile.link'|trans }}</a></li>
 						<li><a href="{{ path('user_parameters_edit') }}">{{ 'pages.user.parameters_edit.link'|trans }}</a></li>
 						<li><a href="{{ path('user_groups') }}">{{ 'pages.user.my_groups.link'|trans }}</a></li>
+						{% if is_granted('ROLE_ADMIN') %}
+							<li><a href="{{ path('administration_platform') }}">{{ 'pages.user.administration_edit.link'|trans }}</a></li>
+						{% endif %}
 						<li><a href="{{ path('user_logout') }}">{{ 'pages.user.logout.link'|trans }}</a></li>
 					</ul>
 				</div>

@@ -16,36 +16,14 @@
 		</div>
 		<div class="footer--menu">
 			<ul>
-				<li>
-					<span>Menu</span>
-					<ul>
-						<li><a href="{{ path('homepage') }}">{{ 'ui.home'|trans }}</a></li>
-						<li><a href="{{ path('user_login') }}">{{ 'pages.user.login.link'|trans }} / {{ 'pages.user.register.link'|trans }}</a></li>
-						<li><a href="{{ path('groups_index') }}">Groupes</a></li>
-						<li><a href="{{ path('members') }}">Annuaire</a></li>
-						<li><a href="{{ path('group_page_index', { groupSlug: 'communaute', pageSlug: 'ressources' }) }}">Ressources</a></li>
+				{% set appFooterFirstMenus = render(controller( 'App\\Controller\\AppController::appFooterMenus', {'position': 'first'} )) %}
+				{% set appFooterSecondMenus = render(controller( 'App\\Controller\\AppController::appFooterMenus', {'position': 'second'} )) %}
+				{% set appFooterThirdMenus = render(controller( 'App\\Controller\\AppController::appFooterMenus', {'position': 'third'} )) %}
 
-					</ul>
-				</li>
-				<li>
-					<span>En savoir plus</span>
-					<ul>
-						<li><a href="{{ path('group_page_index', { groupSlug: 'communaute', pageSlug: 'newsletter' }) }}">Newsletter</a></li>
-						<li><a href="{{ path('group_page_index', { groupSlug: 'communaute', pageSlug: 'a-propos-du-projet-natur-adapt' }) }}">A propos du projet Natur’Adapt</a></li>
-						<li><a href="{{ path('group_page_index', { groupSlug: 'communaute', pageSlug: 'a-propos-de-la-plateforme' }) }}">A propos de la plateforme</a></li>
-						<li><a href="{{ path('group_page_index', { groupSlug: 'communaute', pageSlug: 'charte-de-la-plateforme' }) }}">Charte de la plateforme</a></li>
-						<li><a href="{{ path('group_page_index', { groupSlug: 'plateforme-web', pageSlug: 'mentions-legales' }) }}">Mentions légales</a></li>
+				{{ appFooterFirstMenus|raw }}
+				{{ appFooterSecondMenus|raw }}
+				{{ appFooterThirdMenus|raw }}
 
-					</ul>
-				</li>
-				<li>
-					<span>Aide</span>
-					<ul>
-						<li><a href="{{ path('group_page_index', { groupSlug: 'communaute', pageSlug: 'tutoriels-d-utilisation-de-la-plateforme' }) }}">Tutoriels d'utilisation de la plateforme</a></li>
-						<li><a href="{{ path('group_page_index', { groupSlug: 'plateforme-web', pageSlug: 'regles' }) }}">Règles d'utilisation de la plateforme</a></li>
-						<li><a href="mailto:support@naturadapt.com">Signaler un problème</a></li>
-					</ul>
-				</li>
 			</ul>
 		</div>
 	</div>
