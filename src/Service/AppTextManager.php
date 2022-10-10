@@ -13,6 +13,9 @@ class AppTextManager
     {
         $this->manager = $manager;
         $this->projectDir = $projectDir;
+        if (!file_exists($this->projectDir.'/config/platform/config.yaml')) {
+            copy($this->projectDir.'/config/platform/default.config.yaml', $this->projectDir.'/config/platform/config.yaml');
+        }
     }
 
     public function changeText($tab, $key, $value)
