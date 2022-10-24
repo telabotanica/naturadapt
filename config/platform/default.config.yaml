@@ -1,6 +1,6 @@
 platform:
     logo:
-        fileId: 'logo.png'
+        fileId: 'naturadapt_logo_116x60.png'
 home:
     front:
         fileId: 'front-hero.jpg'

@@ -25,6 +25,10 @@ class AppFileManager
         $this->filesystem = $container->get('gaufrette.appfiles_filesystem');
         $this->projectDir = $projectDir;
         $this->assetPath = $assetPath;
+        // Copy the default files on first time
+        if (!file_exists($this->projectDir.'/var/files/frontsgroup')) {
+            $this->addDefaultsFilesToFileSystem();
+        }
     }
 
     public function getFileSystem()
@@ -90,9 +94,6 @@ class AppFileManager
             case 'frontgroup':
                 $filename = $this->moveUploadedFile($uploadedFile, 'frontsgroup');
                 break;
-            case 'frontgroup':
-                $filename = $this->moveUploadedFile($uploadedFile, 'frontsgroup');
-                break;
             case 'home':
                 $filename = $this->moveUploadedFile($uploadedFile, 'home');
                 break;
@@ -109,6 +110,55 @@ class AppFileManager
         $file->setSize($uploadedFile->getSize());
 
         return $file;
+    }
+
+    /**
+     * Writes uploaded file in file system and return File object.
+     *
+     * @return \App\Entity\File
+     */
+    public function addDefaultsFilesToFileSystem()
+    {
+        $filename;
+
+        $defaultFileConfig = [
+            'platform' => 'logo',
+            'home' => 'front',
+            'groups' => 'frontgroup',
+        ];
+
+        foreach ($defaultFileConfig as $tab => $imageType) {
+            $defaultFile = $this->getDefaultFile($tab, $imageType);
+            $directoryName;
+            switch ($imageType) {
+                case 'logo':
+                    $directoryName = 'logos';
+                    break;
+                case 'front':
+                    $directoryName = 'home';
+                    break;
+                case 'frontgroup':
+                    $directoryName = 'frontsgroup';
+                    break;
+                default:
+                    $directoryName = 'logos';
+                    break;
+            }
+
+            $filename = $this->writeFile($defaultFile, $directoryName, file_get_contents($defaultFile));
+
+            $file = new File();
+            $file->setFilesystem(File::APP_FILES);
+            $file->setName(basename($defaultFile));
+            $file->setPath($filename);
+            $file->setType(mime_content_type($defaultFile));
+            $file->setSize(filesize($defaultFile));
+
+            $this->manager->persist($file);
+            $this->manager->flush();
+            // Put the new logo id in admin config file
+            $this->setAppImageId($tab, $imageType, $file->getId());
+        }
     }
 
     public function setAppImageId(string $tab, string $imageType, int $imageId)
