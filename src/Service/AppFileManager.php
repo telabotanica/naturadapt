@@ -26,7 +26,8 @@ class AppFileManager
         $this->projectDir = $projectDir;
         $this->assetPath = $assetPath;
         // Copy the default files on first time
-        if (!file_exists($this->projectDir.'/var/files/frontsgroup')) {
+        if (!file_exists($this->projectDir.'/config/platform/config.yaml')) {
+            copy($this->projectDir.'/config/platform/default.config.yaml', $this->projectDir.'/config/platform/config.yaml');
             $this->addDefaultsFilesToFileSystem();
         }
     }
