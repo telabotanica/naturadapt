@@ -99,7 +99,7 @@ home:
     premier_clique_visibility: true
     premier_clique_texte: Découvrez les groupes projets et thématiques mis en place
     premier_clique_bouton_texte: Découvrir les groupes
-    premier_clique_lien: https://naturadapt.com/groups
+    premier_clique_lien: /groups
 
 
     second_texte: |
@@ -118,7 +118,7 @@ home:
     second_clique_visibility: true
     second_clique_texte: Suivez les actualités
     second_clique_bouton_texte: S'abonner à la newsletter
-    second_clique_lien: https://naturadapt.com/groups/communaute/pages/newsletter
+    second_clique_lien: /groups/communaute/pages/newsletter
     troisieme_texte: |
         <img src="/media/layout/help.svg" alt="" style="width:25%">
         <div>
@@ -141,34 +141,34 @@ menus:
         liens:
         -
             nom: 'À propos de la plateforme'
-            lien: 'http://127.0.0.1:8000/'
+            lien: '/'
         -
             nom: Groupes
-            lien: 'http://127.0.0.1:8000/groups/'
+            lien: '/groups/'
         -
             nom: Ressources
-            lien: 'http://127.0.0.1:8000/groups/communaute/pages/ressources/'
+            lien: '/groups/communaute/pages/ressources/'
         -
             nom: Actualités
-            lien: 'http://127.0.0.1:8000/groups/communaute/articles/'
+            lien: '/groups/communaute/articles/'
     footbarFirstLiens:
         title: 'Menu'
         liens:
         -
             nom: Accueil
-            lien: 'http://127.0.0.1:8000/'
+            lien: '/'
         -
             nom: 'Connexion / Inscription'
-            lien: 'http://127.0.0.1:8000/login/'
+            lien: '/login/'
         -
             nom: Annuaire
-            lien: 'http://127.0.0.1:8000/members/'
+            lien: '/members/'
         -
             nom: Ressources
-            lien: 'http://127.0.0.1:8000/groups/communaute/pages/ressources/'
+            lien: '/groups/communaute/pages/ressources/'
         -
             nom: Groupes
-            lien: 'http://127.0.0.1:8000/groups/'
+            lien: '/groups/'
         -
             nom: Nouveau
             lien: neuf
@@ -177,30 +177,30 @@ menus:
         liens:
         -
             nom: 'À propos du projet Natur’Adapt'
-            lien: 'http://127.0.0.1:8000/about'
+            lien: '/about'
         -
             nom: Newsletter
-            lien: 'http://127.0.0.1:8000/newsletter'
+            lien: '/newsletter'
         -
             nom: 'À propos de la plateforme'
-            lien: 'http://127.0.0.1:8000/platform'
+            lien: '/platform'
         -
             nom: 'Charte de la plateforme'
-            lien: 'http://127.0.0.1:8000/charte/'
+            lien: '/charte/'
         -
             nom: 'Mentions Légales'
-            lien: 'http://127.0.0.1:8000/legal'
+            lien: '/legal'
     footbarThirdLiens:
         title: 'Aide'
         liens:
         -
             nom: 'Tutoriels d’utilisation de la plateforme'
-            lien: 'http://127.0.0.1:8000/groups/communaute/tutoriels'
+            lien: '/groups/communaute/tutoriels'
         -
             nom: 'Règles d’utilisation de la plateforme'
-            lien: 'http://127.0.0.1:8000/rules'
+            lien: '/rules'
         -
             nom: 'Signaler un problème'
-            lien: 'http://127.0.0.1:8000/report'
+            lien: '/report'
 
 
