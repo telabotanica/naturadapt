@@ -26,7 +26,11 @@ class AppFileManager
         $this->projectDir = $projectDir;
         $this->assetPath = $assetPath;
         // Copy the default files on first time
-        if (!file_exists($this->projectDir.'/config/platform/config.yaml')) {
+        if (file_exists($this->projectDir.'/config/platform/config.yaml')) {
+            if (!is_numeric(Yaml::parse(file_get_contents($this->projectDir.'/config/platform/config.yaml'))['platform']['logo']['fileId'])) {
+                $this->addDefaultsFilesToFileSystem();
+            }
+        } else {
             copy($this->projectDir.'/config/platform/default.config.yaml', $this->projectDir.'/config/platform/config.yaml');
             $this->addDefaultsFilesToFileSystem();
         }
