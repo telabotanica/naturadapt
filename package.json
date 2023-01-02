@@ -1,14 +1,14 @@
 {
 	"devDependencies": {
 		"@ckeditor/ckeditor5-build-classic": "^18.0.0",
-		"@symfony/webpack-encore": "^0.31.0",
+		"@symfony/webpack-encore": "^4.2.0",
 		"@zemax/sass-svg": "^2.0.1",
 		"autocomplete.js": "^0.37.1",
 		"autoprefixer": "^9.7.6",
 		"core-js": "^3.6.5",
 		"mf-js": "^2.0.6",
 		"places.js": "^1.18.1",
-		"postcss-loader": "^3.0.0",
+		"postcss-loader": "^7.0.2",
 		"regenerator-runtime": "^0.13.7",
 		"sass": "^1.43.4",
 		"sass-loader": "^9.0.1",
