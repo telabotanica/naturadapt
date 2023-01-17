@@ -205,7 +205,7 @@ forms:
                 name: "Seconde zone de texte"
                 placeholder: "Saisissez votre contenu ici …"
             secondclique:
-                name: Premier appel au clic
+                name: Second appel au clic
                 visibility:
                     label: "Afficher"
                 texte:
