@@ -56,7 +56,7 @@ forms:
             hint: "Sélectionnez dans la liste proposée les compétences que vous souhaitez partager"
         site:
             label: "Votre site naturel"
-            hint: "Parce que vous y travaillez, vous y habitez ou simplement si vous êtes particlièrement attaché·e à un site naturel en particulier"
+            hint: "Parce que vous y travaillez, vous y habitez ou simplement si vous êtes particulièrement attaché·e à un site naturel en particulier"
             placeholder: "Exemple : Parc naturel régional des volcans d'Auvergne"
         agree_terms:
             label:
