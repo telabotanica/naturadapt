@@ -1,7 +1,7 @@
 {
 	"devDependencies": {
 		"@ckeditor/ckeditor5-build-classic": "^18.0.0",
-		"@symfony/webpack-encore": "^0.31.0",
+		"@symfony/webpack-encore": "^4.2.0",
 		"@zemax/sass-svg": "^2.0.1",
 		"autocomplete.js": "^0.37.1",
 		"autoprefixer": "^9.7.6",
