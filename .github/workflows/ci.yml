@@ -55,4 +55,4 @@ jobs:
     - name: Run Webpack
       run: npm run build
     - name: Execute tests (Unit and Feature tests) via PHPUnit
-      run: vendor/bin/phpunit
+      run: ./bin/phpunit
