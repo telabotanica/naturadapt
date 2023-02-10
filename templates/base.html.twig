@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8"/>
-	<title>{% block title %}{{ plateform.name }}{% endblock %}</title>
+	<title>{% block title %}{{ platform.name }}{% endblock %}</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	{% block favicon %}
@@ -22,7 +22,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i" rel="stylesheet">
 		{{ encore_entry_link_tags('app') }}
 	{% endblock %}
-	{% if plateform.analytics %}
+	{% if platform.analytics %}
 	<script async defer data-domain="nospollinisateurs.fr" src="https://ping.nospollinisateurs.fr/js/index.js"></script>
 	{% endif %}
 </head>
