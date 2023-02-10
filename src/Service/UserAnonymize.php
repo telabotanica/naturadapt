@@ -34,7 +34,7 @@ class UserAnonymize {
 
 		$userId = $user->getId();
 		$user->setEmail(
-			sprintf('deleted-%d@naturadapt.com',$userId)
+			sprintf('deleted-%d@nospollinisateurs.fr',$userId)
 		);
 		$user->setName(
 			$this->translator->trans('database_data.user.user_deleted_name', [
