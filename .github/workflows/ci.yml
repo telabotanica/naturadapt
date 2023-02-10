@@ -9,17 +9,19 @@ jobs:
   symfony-tests:
     runs-on: ubuntu-latest
     env:
-      DATABASE_URL: mysql://root:root@127.0.0.1:3306/test
+      DATABASE_URL: mysql://default:password@127.0.0.1:3306/test
     steps:
     - name: Setup MySQL
       uses: shogo82148/actions-setup-mysql@v1
       with:
         mysql-version: '8.0'
+        user: default
+        password: password
     - name: Create Database
       run:
         |
           mysql -uroot -h127.0.0.1 -e 'CREATE DATABASE test;'
-          mysql -uroot -h127.0.0.1 -e "ALTER USER 'root'@'127.0.0.1' IDENTIFIED WITH mysql_native_password BY 'root';"
+          mysql -uroot -h127.0.0.1 -e "ALTER USER 'default'@'127.0.0.1' IDENTIFIED WITH mysql_native_password BY 'password';"
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
