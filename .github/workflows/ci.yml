@@ -18,8 +18,6 @@ jobs:
       with:
         php-version: '7.3'
     - uses: actions/checkout@v3
-    - name: Copy .env.test.local
-      run: php -r "file_exists('.env.test.local') || copy('.env.test', '.env.test.local');"
     - name: Cache Composer packages
       id: composer-cache
       uses: actions/cache@v3
@@ -30,8 +28,6 @@ jobs:
           ${{ runner.os }}-php-
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-    - name: Create Database
-      run: mysql -uroot -proot -e "CREATE DATABASE pollinisateurs_ci;"
     - name: Prepare Database
       run: php bin/console doctrine:migrations:migrate --no-interaction
     - name: Prepare Search
