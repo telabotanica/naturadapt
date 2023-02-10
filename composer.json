@@ -1,6 +1,6 @@
 {
-    "name": "telabotanica/naturadapt",
-    "description": "Naturadapt community website",
+    "name": "telabotanica/pollinisateurs",
+    "description": "Nos Pollinisateurs community website",
     "type": "project",
     "license": "proprietary",
     "require": {
