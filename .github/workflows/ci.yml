@@ -11,12 +11,16 @@ jobs:
     env:
       DATABASE_URL: mysql://root:root@localhost:3306/test
     steps:
-    - uses: mirromutth/mysql-action@v1.1
+    - uses: shogo82148/actions-setup-mysql@v1
       with:
-        mysql version: '8.0'
-        mysql root password: root
-        mysql user: root
-        mysql password: root
+        mysql-version: '8.0'
+        root-password: root
+        user: root
+        password: root
+    - run:
+      |
+        mysql -uroot -h127.0.0.1 -e 'SELECT version()'
+        mysql -uroot -h127.0.0.1 -e 'CREATE DATABASE test'
     - uses: shivammathur/setup-php@v2
       with:
         php-version: '7.3'
