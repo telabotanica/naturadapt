@@ -181,7 +181,7 @@ class GroupMembersController extends AbstractController {
 				);
 
 				$mailer->send(
-						[ $this->getParameter( 'plateform' )[ 'from' ] => $this->getParameter( 'plateform' )[ 'name' ] ],
+						[ $this->getParameter( 'platform' )[ 'from' ] => $this->getParameter( 'platform' )[ 'name' ] ],
 						$admin->getEmail(),
 						$mailer->getSubjectFromTitle( $message ),
 						$message
