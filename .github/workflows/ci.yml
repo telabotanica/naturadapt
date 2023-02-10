@@ -11,17 +11,17 @@ jobs:
     env:
       DATABASE_URL: mysql://user:password@127.0.0.1:3306/test
     steps:
-    - uses: shogo82148/actions-setup-mysql@v1
+    - name: Setup MySQL
+      uses: shogo82148/actions-setup-mysql@v1
       with:
         mysql-version: '8.0'
         root-password: root
         user: user
         password: password
-    - run:
-      |
-        mysql -uroot -proot -h127.0.0.1 -e 'SELECT version()'
-        mysql -uroot -proot -h127.0.0.1 -e 'CREATE DATABASE test'
-    - uses: shivammathur/setup-php@v2
+    - name: Create Database
+      run: mysql -uroot -proot -h127.0.0.1 -e 'CREATE DATABASE test'
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
       with:
         php-version: '7.3'
     - uses: actions/checkout@v3
