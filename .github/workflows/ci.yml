@@ -9,18 +9,18 @@ jobs:
   symfony-tests:
     runs-on: ubuntu-latest
     env:
-      DATABASE_URL: mysql://user:root@localhost:3306/test
+      DATABASE_URL: mysql://user:password@localhost:3306/test
     steps:
     - uses: shogo82148/actions-setup-mysql@v1
       with:
         mysql-version: '8.0'
         root-password: root
         user: user
-        password: root
+        password: password
     - run:
       |
-        mysql -uroot -h127.0.0.1 -e 'SELECT version()'
-        mysql -uroot -h127.0.0.1 -e 'CREATE DATABASE test'
+        mysql -uroot -proot -h127.0.0.1 -e 'SELECT version()'
+        mysql -uroot -proot -h127.0.0.1 -e 'CREATE DATABASE test'
     - uses: shivammathur/setup-php@v2
       with:
         php-version: '7.3'
