@@ -20,7 +20,7 @@ jobs:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '7.3'
+        php-version: '8.1'
     - uses: actions/checkout@v3
     - name: Setup Node
       uses: actions/setup-node@v3
@@ -55,4 +55,4 @@ jobs:
     - name: Run Webpack
       run: npm run build
     - name: Execute tests (Unit and Feature tests) via PHPUnit
-      run: ./bin/phpunit
+      run: ./vendor/bin/phpunit

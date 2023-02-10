@@ -114,9 +114,6 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
-    "fzaninotto/faker": {
-        "version": "v1.8.0"
-    },
     "gaufrette/local-adapter": {
         "version": "v0.4.0"
     },
@@ -144,12 +141,6 @@
     "laminas/laminas-code": {
         "version": "3.4.1"
     },
-    "laminas/laminas-eventmanager": {
-        "version": "3.3.0"
-    },
-    "laminas/laminas-zendframework-bridge": {
-        "version": "1.1.1"
-    },
     "liip/imagine-bundle": {
         "version": "1.8",
         "recipe": {
@@ -173,7 +164,7 @@
         "version": "2.1.1"
     },
     "php": {
-        "version": "7.3.23"
+        "version": "8.1.15"
     },
     "phpdocumentor/reflection-common": {
         "version": "1.0.1"
@@ -183,6 +174,20 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "0.4.0"
+    },
+    "phpunit/phpunit": {
+        "version": "10.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "9.3",
+            "ref": "a6249a6c4392e9169b87abf93225f7f9f59025e6"
+        },
+        "files": [
+            ".env.test",
+            "phpunit.xml.dist",
+            "tests/bootstrap.php"
+        ]
     },
     "psr/cache": {
         "version": "1.0.1"
