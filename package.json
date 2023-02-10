@@ -10,6 +10,7 @@
 		"core-js": "^3.6.5",
 		"mf-js": "^2.0.6",
 		"places.js": "^1.18.1",
+		"postcss-loader": "^7.0.2",
 		"regenerator-runtime": "^0.13.7",
 		"sass": "^1.43.4",
 		"tar": "^4.4.18",
