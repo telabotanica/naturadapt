@@ -110,7 +110,7 @@
 		border-radius:     50%;
 		background-repeat: no-repeat;
 		background-size:   contain;
-		background-image:  url('/media/layout/icons/other.png');
+		background-image:  url('./other.png');
 		flex-shrink:       0;
 
 		span {
@@ -120,13 +120,13 @@
 
 	&[data-type="application/pdf"] {
 		.document--icon {
-			background-image: url('/media/layout/icons/pdf.png');
+			background-image: url('./pdf.png');
 		}
 	}
 
 	&[data-type^="image/"] {
 		.document--icon {
-			background-image: url('/media/layout/icons/image.png');
+			background-image: url('./image.png');
 		}
 	}
 
