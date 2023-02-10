@@ -24,7 +24,7 @@ php bin/console doctrine:migrations:migrate
 
 ## Inserting default data
 
-The plateform uses data like taxonomies to be fully functionnal. Default data can be inserted via PHP commands.
+The platform uses data like taxonomies to be fully functionnal. Default data can be inserted via PHP commands.
 
 ### Skills
 
@@ -46,7 +46,7 @@ If the _env_ variable _COMMUNITY_SLUG_ is defined, the corresponding group will 
 
 ## Fixtures
 
-Fill the plateform with _Lorem Ipsum_:
+Fill the platform with _Lorem Ipsum_:
 ```bash
 php bin/console doctrine:fixtures:load
 ```
