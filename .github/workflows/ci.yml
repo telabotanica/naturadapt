@@ -17,15 +17,14 @@ jobs:
         mysql-version: '8.0'
         user: default
         password: password
-    - name: Create Database
-      run:
-        |
-          mysql -uroot -h127.0.0.1 -e 'CREATE DATABASE test;'
-          mysql -uroot -h127.0.0.1 -e "ALTER USER 'default'@'127.0.0.1' IDENTIFIED WITH mysql_native_password BY 'password';"
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
         php-version: '7.3'
+    - name: Setup node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
     - uses: actions/checkout@v3
     - name: Cache Composer packages
       id: composer-cache
@@ -37,6 +36,11 @@ jobs:
           ${{ runner.os }}-php-
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+    - name: Create Database
+      run:
+        |
+          mysql -uroot -h127.0.0.1 -e 'CREATE DATABASE test;'
+          mysql -uroot -h127.0.0.1 -e "ALTER USER 'default'@'127.0.0.1' IDENTIFIED WITH mysql_native_password BY 'password';"
     - name: Prepare Database
       run: php bin/console doctrine:migrations:migrate --no-interaction
     - name: Prepare Search
