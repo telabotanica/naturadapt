@@ -1,16 +1,16 @@
 {
   "apps": [
     {
-      "app_id": "app_1f8f39e0-bf63-4323-a8bc-9dcd0782ade5",
+      "app_id": "app_46762396-e566-4ea0-808f-faab98c69b6c",
       "org_id": "orga_5455f1d9-dab6-4cab-8fad-14ad584e12be",
-      "deploy_url": "https://github.com/telabotanica/pollinisateurs.git",
+      "deploy_url": "https://push-n2-par-clevercloud-customers.services.clever-cloud.com/app_46762396-e566-4ea0-808f-faab98c69b6c.git",
       "name": "pollinisateurs-staging",
       "alias": "staging"
     },
     {
-      "app_id": "app_425dd6a1-bb08-4cec-b7b2-d6263b4dcdfb",
+      "app_id": "app_b557c16b-33b1-48f2-80bb-d9e7dd94ff91",
       "org_id": "orga_5455f1d9-dab6-4cab-8fad-14ad584e12be",
-      "deploy_url": "https://github.com/telabotanica/pollinisateurs.git",
+      "deploy_url": "https://push-n2-par-clevercloud-customers.services.clever-cloud.com/app_b557c16b-33b1-48f2-80bb-d9e7dd94ff91.git",
       "name": "pollinisateurs-prod",
       "alias": "prod"
     }
