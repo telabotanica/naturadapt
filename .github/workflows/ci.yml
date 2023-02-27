@@ -71,6 +71,7 @@ jobs:
         CLEVER_SECRET: ${{ secrets.CLEVER_SECRET }}
       with:
         alias: staging
+        force: true
   deploy-prod:
     runs-on: ubuntu-latest
     needs: tests
@@ -86,3 +87,4 @@ jobs:
         CLEVER_SECRET: ${{ secrets.CLEVER_SECRET }}
       with:
         alias: prod
+        force: true
