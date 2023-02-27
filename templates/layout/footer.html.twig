@@ -8,32 +8,41 @@
 		<div class="footer--menu">
 			<ul>
 				<li>
+					<svg viewBox="0 0 100 4" xmlns="http://www.w3.org/2000/svg">
+						<line x1="0" y1="2" x2="100" y2="2"
+							  style="stroke: #92D4F2; stroke-width: 2"/>
+					</svg>
 					<span>Menu</span>
 					<ul>
 						<li><a href="{{ path('homepage') }}">{{ 'ui.home'|trans }}</a></li>
-						<li><a href="{{ path('user_login') }}">{{ 'pages.user.login.link'|trans }} / {{ 'pages.user.register.link'|trans }}</a></li>
-						<li><a href="{{ path('groups_index') }}">Groupes</a></li>
-						<li><a href="{{ path('members') }}">Annuaire</a></li>
-						<li><a href="{{ path('group_page_index', { groupSlug: 'communaute', pageSlug: 'ressources' }) }}">Ressources</a></li>
-
-					</ul>
-				</li>
-				<li>
-					<span>En savoir plus</span>
-					<ul>
-						<li><a href="{{ path('group_page_index', { groupSlug: 'communaute', pageSlug: 'newsletter' }) }}">Newsletter</a></li>
-						<li><a href="{{ path('group_page_index', { groupSlug: 'communaute', pageSlug: 'a-propos-du-projet-nos-pollinisateurs' }) }}">A propos du projet Nos Pollinisateurs</a></li>
 						<li><a href="{{ path('group_page_index', { groupSlug: 'communaute', pageSlug: 'a-propos-de-la-plateforme' }) }}">A propos de la plateforme</a></li>
-						<li><a href="{{ path('group_page_index', { groupSlug: 'communaute', pageSlug: 'charte-de-la-plateforme' }) }}">Charte de la plateforme</a></li>
-						<li><a href="{{ path('group_page_index', { groupSlug: 'plateforme-web', pageSlug: 'mentions-legales' }) }}">Mentions légales</a></li>
-
+						<li><a href="{{ path('user_login') }}">{{ 'pages.user.login.link'|trans }} / {{ 'pages.user.register.link'|trans }}</a></li>
 					</ul>
 				</li>
 				<li>
+					<svg viewBox="0 0 100 4" xmlns="http://www.w3.org/2000/svg">
+						<line x1="0" y1="2" x2="100" y2="2"
+							  style="stroke: #06A243; stroke-width: 2"/>
+					</svg>
+					<span>Liens utiles</span>
+					<ul>
+						{#<li><a href="{{ path('group_page_index', { groupSlug: 'communaute', pageSlug: 'newsletter' }) }}">Newsletter</a></li>
+						<li><a href="{{ path('group_page_index', { groupSlug: 'communaute', pageSlug: 'charte-de-la-plateforme' }) }}">Charte de la plateforme</a></li>
+						<li><a href="{{ path('group_page_index', { groupSlug: 'plateforme-web', pageSlug: 'mentions-legales' }) }}">Mentions légales</a></li>#}
+						<li><a href="{{ path('group_page_index', { groupSlug: 'communaute', pageSlug: 'ressources' }) }}">Retours d'expérience</a></li>
+						<li><a href="{{ path('group_page_index', { groupSlug: 'communaute', pageSlug: 'ressources' }) }}">Formations</a></li>
+						<li><a href="{{ path('group_page_index', { groupSlug: 'communaute', pageSlug: 'ressources' }) }}">Ressources</a></li>
+					</ul>
+				</li>
+				<li>
+					<svg viewBox="0 0 100 4" xmlns="http://www.w3.org/2000/svg">
+						<line x1="0" y1="2" x2="100" y2="2"
+							  style="stroke: #8F607C; stroke-width: 2"/>
+					</svg>
 					<span>Aide</span>
 					<ul>
-						<li><a href="{{ path('group_page_index', { groupSlug: 'communaute', pageSlug: 'tutoriels-d-utilisation-de-la-plateforme' }) }}">Tutoriels d'utilisation de la plateforme</a></li>
-						<li><a href="{{ path('group_page_index', { groupSlug: 'plateforme-web', pageSlug: 'regles' }) }}">Règles d'utilisation de la plateforme</a></li>
+						<li><a href="{{ path('group_page_index', { groupSlug: 'communaute', pageSlug: 'tutoriels-d-utilisation-de-la-plateforme' }) }}">Tutoriels</a></li>
+						<li><a href="{{ path('group_page_index', { groupSlug: 'plateforme-web', pageSlug: 'regles' }) }}">FAQ</a></li>
 						<li><a href="mailto:support@nospollinisateurs.fr">Signaler un problème</a></li>
 					</ul>
 				</li>

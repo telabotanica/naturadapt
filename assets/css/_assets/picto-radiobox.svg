@@ -7,8 +7,8 @@
     </symbol>
     <use xlink:href="#bg" fill="white" stroke="$color_grey_light"/>
     <use xlink:href="#bg" y="100" fill="white" stroke="$color_grey_light"/>
-    <use xlink:href="#mark" y="100" fill="$color_action"/>
-    <use xlink:href="#bg" y="200" fill="white" stroke="$color_action"/>
-    <use xlink:href="#bg" y="300" fill="white" stroke="$color_action"/>
-    <use xlink:href="#mark" y="300" fill="$color_action"/>
+    <use xlink:href="#mark" y="100" fill="$color_aubergine"/>
+    <use xlink:href="#bg" y="200" fill="white" stroke="$color_aubergine"/>
+    <use xlink:href="#bg" y="300" fill="white" stroke="$color_aubergine"/>
+    <use xlink:href="#mark" y="300" fill="$color_aubergine"/>
 </svg>

@@ -26,11 +26,11 @@
 	}
 
 	a {
-		@include cta-style($color_action, true);
+		@include cta-style($color_aubergine, true);
 
 		&.selected {
 			color:            white;
-			background-color: $color_action;
+			background-color: $color_aubergine;
 		}
 
 		min-width: rem(42px);

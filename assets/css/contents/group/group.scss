@@ -365,8 +365,8 @@
 		}
 
 		.active a {
-			color:        $color_action;
-			border-color: $color_action;
+			color:        $color_aubergine;
+			border-color: $color_aubergine;
 		}
 
 	}
@@ -446,7 +446,7 @@
 
 			font-size:  rem(16px);
 
-			color:      $color_action;
+			color:      $color_aubergine;
 		}
 	}
 
@@ -488,8 +488,8 @@
 		right:        0;
 		width:        rem(10px);
 		height:       rem(10px);
-		border-top:   2px solid $color_action;
-		border-right: 2px solid $color_action;
+		border-top:   2px solid $color_aubergine;
+		border-right: 2px solid $color_aubergine;
 		transform:    translate(#{rem(-10px)}, -50%) rotate(45deg);
 		transition:   transform .25s ease;
 	}
@@ -619,7 +619,7 @@
 			content: '+';
 		}
 
-		color:          $color_grey_light;
+		color:          $color_grey_neutral;
 	}
 }
 
@@ -649,7 +649,7 @@
 
 .group-member-status {
 	.member {
-		@include cta-style($color_action, true);
+		@include cta-style($color_aubergine, true);
 		width:         100%;
 		padding-left:  0;
 		padding-right: 0;
@@ -663,7 +663,7 @@
 
 	.banned,
 	.pending {
-		@include cta-style($color_action, true);
+		@include cta-style($color_aubergine, true);
 		width: 100%;
 	}
 
@@ -682,7 +682,7 @@
 				margin-right:        .5em;
 				margin-bottom:       rem(-1px);
 
-				@include picto-arrow($color_action, 7, 12, 2);
+				@include picto-arrow($color_aubergine, 7, 12, 2);
 				background-repeat:   no-repeat;
 				background-position: center;
 
@@ -741,8 +741,8 @@
 					margin-bottom:  .25em;
 					width:          .8em;
 					height:         .5em;
-					border-left:    2px solid $color_action;
-					border-bottom:  2px solid $color_action;
+					border-left:    2px solid $color_aubergine;
+					border-bottom:  2px solid $color_aubergine;
 					transform:      rotate(-45deg);
 				}
 			}

@@ -6,7 +6,7 @@
 	<section class="main main__groups-index">
 		<div class="main--header main--header__cover">
 			<div class="main--header--image">
-				<img src="{{ asset('media/layout/groups-hero.jpg') }}" alt="">
+				<img src="{{ asset('media/layout/groups-hero.png') }}" alt="">
 			</div>
 			<div class="main--header--content content-container">
 				{% include 'components/app-flashes.html.twig' %}
@@ -17,9 +17,9 @@
 					<p class="h1">{{ 'pages.group.groups.subtitle'|trans }}</p>
 
 					<p>
-						<a class="cta__white" href="{{ path('homepage') }}">{{ 'ui.see_more'|trans }}</a>
+						<a class="cta" href="{{ path('homepage') }}">{{ 'ui.see_more'|trans }}</a>
 						{% if is_granted(constant('App\\Security\\GroupVoter::CREATE')) %}
-							<a class="cta__white" href="{{ path('group_new') }}">{{ 'pages.group.group_create.link'|trans }}</a>
+							<a class="cta" href="{{ path('group_new') }}">{{ 'pages.group.group_create.link'|trans }}</a>
 						{% endif %}
 					</p>
 				</div>

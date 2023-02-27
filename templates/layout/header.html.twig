@@ -17,22 +17,24 @@
 			<span>{{ 'ui.menu'|trans }}</span>
 		</button>
 		<ul aria-expanded="false">
-			<li><a href="{{ path('homepage') }}">À propos de la plateforme</a></li>
+			<li><a href="{{ path('homepage') }}">À propos du projet</a></li>
 			<li><a href="{{ path('groups_index') }}">Groupes</a></li>
 			{% if resources.group_slug is not empty and resources.page_slug is not empty %}
 				<li><a href="{{ path('group_page_index', { 'groupSlug': resources.group_slug, 'pageSlug': resources.page_slug }) }}">Ressources</a></li>
 			{% endif %}
-			<li><a href="{{ path('articles') }}">Actualités</a></li>
+			{#<li><a href="{{ path('articles') }}">Actualités</a></li>
 			<li><a href="{{ path('members') }}">Annuaire</a></li>
-			<li class="toggle-search-link"><a href="{{ path('search_page') }}">Rechercher</a></li>
+			<li class="toggle-search-link"><a href="{{ path('search_page') }}">Rechercher</a></li>#}
 		</ul>
 	</div>
 	<div class="header--search">
-		{% if app.request.get('_route') != 'search_page' %}
-			<form action="{{ path('search_page' )}}">
-				{# Le nom de l'input correspond à l'URL de la recherche #}
-				<input id="search-bar-input" type="text" placeholder="Rechercher" name="form[search_texts][query]">
-			</form>
+		{% if is_granted(constant('App\\Security\\UserVoter::LOGGED')) %}
+			{% if app.request.get('_route') != 'search_page' %}
+				<form action="{{ path('search_page' )}}">
+					{# Le nom de l'input correspond à l'URL de la recherche #}
+					<input id="search-bar-input" type="text" placeholder="Rechercher" name="form[search_texts][query]">
+				</form>
+			{% endif %}
 		{% endif %}
 	</div>
 	<div class="header--user">

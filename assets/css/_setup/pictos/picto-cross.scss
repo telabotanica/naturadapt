@@ -2,7 +2,7 @@
  * CROSS
  **************************************************/
 
-@mixin picto-cross($color: $color_action, $width: 10, $height: 10, $stroke: 1) {
+@mixin picto-cross($color: $color_aubergine, $width: 10, $height: 10, $stroke: 1) {
 	background-image:    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='#{$width}' height='#{$height}' viewBox='0 0 #{$width} #{$height}'%3E%3Cpath fill='none' stroke='%23#{str-slice(quote($color),2)}' stroke-width='#{$stroke}' stroke-linecap='butt' stroke-linejoin='bevel' d='M#{.5 * $stroke} #{.5 * $stroke}L#{$width - (.5 * $stroke)} #{$height - (.5 * $stroke)}M#{$width - (.5 * $stroke)} #{.5 * $stroke}L#{.5 * $stroke} #{$height - (.5 * $stroke)}'%3E%3C/path%3E%3C/svg%3E");
 	background-position: center center;
 }

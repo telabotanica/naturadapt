@@ -125,7 +125,7 @@
 		color:         $color_grey_medium;
 	}
 
-	@include picto-arrow($color_action, 7, 12, 1.5);
+	@include picto-arrow($color_aubergine, 7, 12, 1.5);
 	background-repeat:   no-repeat;
 	background-position: right 8px center;
 }
@@ -196,7 +196,7 @@
 
 	.message--body {
 		a {
-			color: $color_action;
+			color: $color_aubergine;
 		}
 
 		ul {

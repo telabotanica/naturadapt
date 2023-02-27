@@ -20,7 +20,7 @@
 		padding: 0 column_gap();
 	}
 
-	@include font_default;
+	@include font_default_bold;
 	font-size:        font_size_default();
 	color:            $color_grey_medium;
 	background-color: white;
@@ -145,7 +145,7 @@
 			&:focus,
 			&:hover {
 				color:            white;
-				background-color: $color_action;
+				background-color: $color_aubergine;
 			}
 		}
 	}
@@ -205,7 +205,7 @@
 	@include clearulli;
 
 	.connexion {
-		@include cta-style($color_action, true);
+		@include cta-style($color_aubergine, true);
 	}
 
 	.user__tiny {
@@ -257,7 +257,7 @@
 				&:hover,
 				&:focus {
 					color:            white;
-					background-color: $color_action;
+					background-color: $color_aubergine;
 				}
 			}
 		}

@@ -15,7 +15,7 @@
 		padding:          .5em 1em;
 		font-size:        rem(12px);
 
-		color:            $color_action;
+		color:            $color_aubergine;
 		background-color: $color_grey_lighter;
 		border-radius:    2em;
 
@@ -26,7 +26,7 @@
 
 			width:         rem(10px);
 			height:        rem(10px);
-			border:        1px solid $color_action;
+			border:        1px solid $color_aubergine;
 			border-radius: rem(5px);
 
 			&::before,
@@ -37,7 +37,7 @@
 				left:       50%;
 				width:      80%;
 				height:     0;
-				border-top: 1px solid $color_action;
+				border-top: 1px solid $color_aubergine;
 			}
 
 			&::before {

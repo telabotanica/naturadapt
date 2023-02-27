@@ -20,7 +20,7 @@
 
 	max-width:   100%;
 
-	@include font_default;
+	@include font_default_bold;
 	font-size:   1rem;
 	line-height: line_height_default();
 
@@ -35,7 +35,7 @@
 	max-width:     100%;
 	height:        auto;
 
-	@include font_default;
+	@include font_helvetica;
 	font-size:     rem(16px);
 	$line-height:  1.3;
 
@@ -48,11 +48,15 @@
 		min-height: rem(40px);
 	}
 
-	color:         $color_default;
+	color:         $color_grey_dark;
 	background:    white;
 
 	border:        1px solid $color_grey_border;
 	border-radius: 0;
+
+	&::placeholder {
+		color: $color_grey_lightest;
+	}
 
 	&:disabled {
 		color: #999999;
@@ -85,7 +89,7 @@
 	@include submit-style;
 
 	&.submit-style__inverted {
-		@include cta-style($color_action, true);
+		@include cta-style($color_aubergine, true);
 	}
 }
 
@@ -189,6 +193,8 @@ input[type="submit"] {
 .checkbox-label {
 	position:     relative;
 	padding-left: rem(30px);
+	@include font_helvetica;
+	color: $color_grey_neutral;
 
 	&::before {
 		content:    '';
@@ -235,7 +241,7 @@ input[type="submit"] {
 	}
 
 	label a {
-		color: $color_action;
+		color: $color_aubergine;
 		text-decoration: none;
 	}
 
@@ -355,7 +361,7 @@ $form_label_width: math.div(1, 3) * 100%;
 		font-size: rem(14px);
 	}
 
-	color:         $color_action;
+	color:         $color_aubergine;
 }
 
 .form-row__field {
@@ -481,7 +487,7 @@ $form_label_width: math.div(1, 3) * 100%;
 			font-size: rem(16px);
 		}
 
-		color:           $color_action;
+		color:           $color_aubergine;
 		text-decoration: none;
 
 		&:focus,

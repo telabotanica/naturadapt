@@ -4,27 +4,47 @@
 
 @use "sass:math";
 
+@font-face {
+	font-family: "Century Gothic";
+	src: url("fonts/century-gothic/CenturyGothic.ttf") format("truetype");
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "Century Gothic Bold";
+	src: url("fonts/century-gothic/CenturyGothicBold.ttf") format("truetype");
+	font-weight: bold;
+	font-style: normal;
+}
+
 @mixin font_default {
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: "Century Gothic", Helvetica, Arial, sans-serif;
 	font-weight: normal;
 	font-style:  normal;
 }
 
 @mixin font_default_bold {
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: "Century Gothic Bold", Helvetica, Arial, sans-serif;
 	font-weight: bold;
 	font-style:  normal;
 }
 
 @mixin font_title {
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: "Century Gothic", Helvetica, Arial, sans-serif;
 	font-weight: normal;
 	font-style:  normal;
 }
 
 @mixin font_title_bold {
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: "Century Gothic Bold", Helvetica, Arial, sans-serif;
 	font-weight: bold;
+	font-style:  normal;
+}
+
+@mixin font_helvetica {
+	font-family: Helvetica, Arial, sans-serif;
+	font-weight: normal;
 	font-style:  normal;
 }
 
@@ -95,7 +115,7 @@
 @mixin h3 {
 	margin:      0 0 1rem;
 
-	@include font_title;
+	@include font_title_bold;
 
 	font-size:   rem(25px);
 	line-height: math.div(30, 25);
@@ -122,7 +142,7 @@
 * LINKS
 **************************************************/
 
-@mixin cta-style($color: $color_action, $inverted: false, $background: rgba(white, 0)) {
+@mixin cta-style($color: $color_aubergine, $inverted: false, $background: rgba(white, 0)) {
 	display:         inline-block;
 	vertical-align:  middle;
 
@@ -132,7 +152,7 @@
 	border-radius:   0;
 	text-decoration: none;
 
-	@include font_default;
+	@include font_default_bold;
 	$line-height: 1.3;
 
 	line-height:     $line-height;
@@ -153,7 +173,7 @@
 		@if $color == white {
 			&:hover,
 			&:focus {
-				color:            $color_action;
+				color:            $color_aubergine;
 				background-color: $color;
 			}
 		} @else {

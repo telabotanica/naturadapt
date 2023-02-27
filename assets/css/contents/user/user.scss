@@ -15,8 +15,8 @@
 	flex-shrink:   0;
 
 	&.user--avatar__empty {
-		background-color: $color_orange_red;
-		background-color: var(--color);
+		background-color: $color_aubergine;
+		//background-color: var(--color);
 	}
 
 	img {

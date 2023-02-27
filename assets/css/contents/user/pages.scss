@@ -97,7 +97,7 @@
 
 		a {
 			@include label-style;
-			color: $color_action;
+			color: $color_aubergine;
 		}
 	}
 }
@@ -145,8 +145,8 @@
 			}
 
 			&[aria-selected="true"] .user-dashboard--tab-button {
-				color:        $color_action;
-				border-color: $color_action;
+				color:        $color_aubergine;
+				border-color: $color_aubergine;
 			}
 		}
 	}
@@ -189,7 +189,6 @@
 		@include font_default;
 		font-size:      rem(14px);
 		color:          $color_grey_neutral;
-		text-transform: uppercase;
 	}
 
 	&--events {

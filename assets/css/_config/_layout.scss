@@ -63,6 +63,16 @@
 	}
 }
 
+@mixin columns_item_four($n: 1/4, $bottom_gap: true) {
+	@if $bottom_gap {
+		margin-bottom: column_gap();
+	}
+
+	@include medium-or-more {
+		width: calc(#{$n * 100%} - #{(1 - $n) * column_gap() });
+	}
+}
+
 /**************************************************
 * CARDS
 **************************************************/
