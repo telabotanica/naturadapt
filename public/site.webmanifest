@@ -1,6 +1,6 @@
 {
-    "name": "Naturadapt",
-    "short_name": "Naturadapt",
+    "name": "Nos Pollinisateurs",
+    "short_name": "Pollinisateurs",
     "icons": [
         {
             "src": "/media/favicon/android-chrome-192x192.png",
@@ -8,8 +8,8 @@
             "type": "image/png"
         },
         {
-            "src": "/media/favicon/android-chrome-256x256.png",
-            "sizes": "256x256",
+            "src": "/media/favicon/android-chrome-512x512.png",
+            "sizes": "512x512",
             "type": "image/png"
         }
     ],

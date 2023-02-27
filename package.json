@@ -1,18 +1,22 @@
 {
 	"devDependencies": {
+		"@babel/core": "^7.20.12",
+		"@babel/preset-env": "^7.20.2",
 		"@ckeditor/ckeditor5-build-classic": "^18.0.0",
-		"@symfony/webpack-encore": "^0.31.0",
+		"@symfony/webpack-encore": "^4.2.0",
 		"@zemax/sass-svg": "^2.0.1",
 		"autocomplete.js": "^0.37.1",
 		"autoprefixer": "^9.7.6",
 		"core-js": "^3.6.5",
 		"mf-js": "^2.0.6",
 		"places.js": "^1.18.1",
-		"postcss-loader": "^3.0.0",
+		"postcss-loader": "^7.0.2",
 		"regenerator-runtime": "^0.13.7",
 		"sass": "^1.43.4",
-		"sass-loader": "^9.0.1",
+		"sass-loader": "^13.2.0",
 		"tar": "^4.4.18",
+		"webpack": "^5.75.0",
+		"webpack-cli": "^5.0.1",
 		"webpack-notifier": "^1.8.0"
 	},
 	"license": "UNLICENSED",
@@ -22,7 +26,7 @@
 		"dev": "encore dev",
 		"watch": "encore dev --watch",
 		"build": "encore production --progress",
-		"test": "php bin/console doctrine:migrations:migrate --no-interaction --env=test ; php bin/console doctrine:fixtures:load --no-interaction --env=test ; ./bin/phpunit"
+		"test": "php bin/console doctrine:migrations:migrate --no-interaction --env=test ; php bin/console doctrine:fixtures:load --no-interaction --env=test ; ./vendor/bin/phpunit"
 	},
 	"browserslist": [
 		"last 3 major versions",

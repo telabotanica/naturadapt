@@ -1,0 +1,58 @@
+name: CI
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  symfony-tests:
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: mysql://default:password@127.0.0.1:3306/test
+    steps:
+    - name: Setup MySQL
+      uses: shogo82148/actions-setup-mysql@v1
+      with:
+        mysql-version: '8.0'
+        user: default
+        password: password
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.1'
+    - uses: actions/checkout@v3
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+        cache: 'npm'
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+    - name: Install PHP Dependencies
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+    - name: Install Node Dependencies
+      run: npm install
+    - name: Create Database
+      run:
+        |
+          mysql -uroot -h127.0.0.1 -e 'CREATE DATABASE test;'
+          mysql -uroot -h127.0.0.1 -e "ALTER USER 'default'@'127.0.0.1' IDENTIFIED WITH mysql_native_password BY 'password';"
+    - name: Prepare Database
+      run: php bin/console doctrine:migrations:migrate --no-interaction
+    - name: Prepare Search
+      run: php bin/console search:reindex:all
+    - name: Load Fixtures
+      run: php bin/console doctrine:fixtures:load --no-interaction
+    - name: Cache Warmup
+      run: php bin/console cache:clear
+    - name: Run Webpack
+      run: npm run build
+    - name: Execute tests (Unit and Feature tests) via PHPUnit
+      run: ./vendor/bin/phpunit

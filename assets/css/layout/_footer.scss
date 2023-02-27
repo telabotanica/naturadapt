@@ -65,22 +65,3 @@
 		@include font_default_bold;
 	}
 }
-
-.project-sponsor-logo {
-	margin-top:  rem(32px);
-
-	img {
-		margin:        0 1em 1em 0;
-
-		display:       block;
-		float:         left;
-		width:         rem(58px);
-		height:        auto;
-		border-radius: rem(5px);
-		overflow:      hidden;
-	}
-
-	font-size:   rem(10px);
-	line-height: (13 * 0.1);
-	color:       #9b9b9b;
-}

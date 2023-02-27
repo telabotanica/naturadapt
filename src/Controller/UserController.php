@@ -144,7 +144,7 @@ class UserController extends AbstractController {
 			] );
 
 			$mailer->send(
-					[ $this->getParameter( 'plateform' )[ 'from' ] => $this->getParameter( 'plateform' )[ 'name' ] ],
+					[ $this->getParameter( 'platform' )[ 'from' ] => $this->getParameter( 'platform' )[ 'name' ] ],
 					$user->getEmail(),
 					$mailer->getSubjectFromTitle( $message ),
 					$message
@@ -291,7 +291,7 @@ class UserController extends AbstractController {
 			] );
 
 			$mailer->send(
-					[ $this->getParameter( 'plateform' )[ 'from' ] => $this->getParameter( 'plateform' )[ 'name' ] ],
+					[ $this->getParameter( 'platform' )[ 'from' ] => $this->getParameter( 'platform' )[ 'name' ] ],
 					$user->getEmail(),
 					$mailer->getSubjectFromTitle( $message ),
 					$message
@@ -555,7 +555,7 @@ class UserController extends AbstractController {
 				] );
 
 				$mailer->send(
-						[ $this->getParameter( 'plateform' )[ 'from' ] => $this->getParameter( 'plateform' )[ 'name' ] ],
+						[ $this->getParameter( 'platform' )[ 'from' ] => $this->getParameter( 'platform' )[ 'name' ] ],
 						$user->getEmail(),
 						$mailer->getSubjectFromTitle( $message ),
 						$message
@@ -569,7 +569,7 @@ class UserController extends AbstractController {
 				] );
 
 				$mailer->send(
-						[ $this->getParameter( 'plateform' )[ 'from' ] => $this->getParameter( 'plateform' )[ 'name' ] ],
+						[ $this->getParameter( 'platform' )[ 'from' ] => $this->getParameter( 'platform' )[ 'name' ] ],
 						$vars[ 'email_new' ],
 						$mailer->getSubjectFromTitle( $message ),
 						$message
