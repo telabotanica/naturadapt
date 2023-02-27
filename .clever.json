@@ -1,0 +1,18 @@
+{
+  "apps": [
+    {
+      "app_id": "app_1f8f39e0-bf63-4323-a8bc-9dcd0782ade5",
+      "org_id": "orga_5455f1d9-dab6-4cab-8fad-14ad584e12be",
+      "deploy_url": "https://github.com/telabotanica/pollinisateurs.git",
+      "name": "pollinisateurs-staging",
+      "alias": "staging"
+    },
+    {
+      "app_id": "app_425dd6a1-bb08-4cec-b7b2-d6263b4dcdfb",
+      "org_id": "orga_5455f1d9-dab6-4cab-8fad-14ad584e12be",
+      "deploy_url": "https://github.com/telabotanica/pollinisateurs.git",
+      "name": "pollinisateurs-prod",
+      "alias": "prod"
+    }
+  ]
+}
