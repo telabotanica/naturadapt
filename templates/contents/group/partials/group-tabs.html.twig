@@ -11,7 +11,7 @@
 	</nav>
 	<div>
 		<!-- Search -->
-		<form action="{{ path('search_page') }}" method="post">
+		<form action="{{ path('search_page') }}" method="get">
 			<input class="group-search-bar" type="search" placeholder="Cherchez dans le groupe..." name="form[search_texts][query]">
 			<input type="hidden" name="groupQuery" value="{{group.id}}" />
 		</form>
