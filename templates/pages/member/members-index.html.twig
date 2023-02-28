@@ -71,6 +71,11 @@
 						</div>
 					</div>
 					<div class="form-row form-row__filter">
+						<div class="form-row__checkboxes">
+							{{ form_widget(form.favoriteEnvironment) }}
+						</div>
+					</div>
+					<div class="form-row form-row__filter">
 						{{ form_label(form.skills, 'pages.member.list.filters.skills.label') }}
 						<div class="form-row__checkboxes checkboxes-autocomplete">
 							{{ form_widget(form.skills) }}

@@ -26,6 +26,7 @@ class AppFixtures extends Fixture {
 	public function load ( ObjectManager $manager ) {
 		$countries        = [ 'fr_FR', 'en_GB', 'es_ES', 'en_US', 'de_DE' ];
 		$inscriptionTypes = [ User::TYPE_PRIVATE, User::TYPE_PROFESSIONNAL, NULL ];
+		$favoriteEnvironment = [ User::ENVIRONMENT_GARDEN, User::ENVIRONMENT_URBAN, User::ENVIRONMENT_RURAL, User::ENVIRONMENT_FOREST, User::ENVIRONMENT_NATURE, User::ENVIRONMENT_OTHER, NULL ];
 
 		/**
 		 * USERS
@@ -51,6 +52,7 @@ class AppFixtures extends Fixture {
 
 			$user->setCountry( substr( $country, 3, 2 ) );
 			$user->setInscriptionType( $inscriptionTypes[ rand( 0, count( $inscriptionTypes ) - 1 ) ] );
+			$user->setFavoriteEnvironment( $favoriteEnvironment[ rand( 0, count( $favoriteEnvironment ) - 1 ) ] );
 			$user->setHasAgreedTermsOfUse(true);
 
 			$manager->persist( $user );

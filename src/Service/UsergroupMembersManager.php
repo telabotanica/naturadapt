@@ -71,6 +71,26 @@ class UsergroupMembersManager {
 												  User::TYPE_PROFESSIONNAL,
 										  ] ),
 								  ] )
+								  ->add( 'favoriteEnvironment', ChoiceType::class, [
+								  		  'required' => FALSE,
+								  		  'expanded' => TRUE,
+								  		  'multiple' => FALSE,
+								  		  'choices'  => array_combine( [
+								  		  	'pages.member.list.filters.favorite_environment.labels.' . User::ENVIRONMENT_GARDEN,
+								  		  	'pages.member.list.filters.favorite_environment.labels.' . User::ENVIRONMENT_URBAN,
+											'pages.member.list.filters.favorite_environment.labels.' . User::ENVIRONMENT_RURAL,
+											'pages.member.list.filters.favorite_environment.labels.' . User::ENVIRONMENT_FOREST,
+											'pages.member.list.filters.favorite_environment.labels.' . User::ENVIRONMENT_NATURE,
+											'pages.member.list.filters.favorite_environment.labels.' . User::ENVIRONMENT_OTHER,
+								  		  ], [
+											  User::ENVIRONMENT_GARDEN,
+											  User::ENVIRONMENT_URBAN,
+											  User::ENVIRONMENT_RURAL,
+											  User::ENVIRONMENT_FOREST,
+											  User::ENVIRONMENT_NATURE,
+											  User::ENVIRONMENT_OTHER,
+								  		  ] ),
+								  ] )
 								  ->add( 'skills', EntityType::class, [
 										  'class'                     => Skill::class,
 										  'required'                  => FALSE,
