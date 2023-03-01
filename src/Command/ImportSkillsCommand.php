@@ -97,7 +97,7 @@ class ImportSkillsCommand extends Command {
 				'network-facilitation',
 				'stakeholder-consultation',
 				'environmental-law',
-				'environmental-education-(EEDD)',
+				'environmental-education-eedd',
 				'project-set-up-and-management',
 				'science-popularization',
 				'mediation',
