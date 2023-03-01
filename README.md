@@ -92,3 +92,6 @@ Edit your .env and a ```SECURE_SCHEME``` variable with ```https```
 You can add ```TRUSTED_PROXIES``` to your .env.
 
 Or you can add a ```TRUST_ALL=1``` to always forward the ```HEADER_X_FORWARDED_*``` headers, as mentionned on https://symfony.com/doc/current/deployment/proxies.html.
+
+## Setup for local development
+TO DO
