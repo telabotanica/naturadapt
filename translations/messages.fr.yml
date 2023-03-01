@@ -52,7 +52,7 @@ forms:
                 private: "Inscription à titre personnel"
                 professional: "Inscription à titre professionnel"
         favorite_environment:
-            label: "Milieu d'action"
+            label: "Milieu d’action"
             hint: "Votre environnement de prédilection pour agir"
             labels:
                 garden: "jardin"
