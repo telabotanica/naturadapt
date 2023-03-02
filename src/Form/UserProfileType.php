@@ -87,6 +87,20 @@ class UserProfileType extends AbstractType {
 								'forms.user.inscription_type.labels.' . User::TYPE_PROFESSIONNAL => User::TYPE_PROFESSIONNAL,
 						],
 				] )
+				->add( 'favoriteEnvironment', ChoiceType::class, [
+						'required'    => FALSE,
+						'expanded'    => TRUE,
+						'multiple'    => FALSE,
+						'placeholder' => FALSE,
+						'choices'     => [
+								'forms.user.favorite_environment.labels.' . User::ENVIRONMENT_GARDEN => User::ENVIRONMENT_GARDEN,
+								'forms.user.favorite_environment.labels.' . User::ENVIRONMENT_URBAN  => User::ENVIRONMENT_URBAN,
+								'forms.user.favorite_environment.labels.' . User::ENVIRONMENT_RURAL  => User::ENVIRONMENT_RURAL,
+								'forms.user.favorite_environment.labels.' . User::ENVIRONMENT_FOREST => User::ENVIRONMENT_FOREST,
+								'forms.user.favorite_environment.labels.' . User::ENVIRONMENT_NATURE => User::ENVIRONMENT_NATURE,
+								'forms.user.favorite_environment.labels.' . User::ENVIRONMENT_OTHER  => User::ENVIRONMENT_OTHER,
+						],
+				] )
 				->add( 'skills', EntityType::class, [
 						'class'                     => Skill::class,
 						'required'                  => FALSE,

@@ -51,6 +51,16 @@ forms:
             labels:
                 private: "Registration as a private individual"
                 professional: "Registration as a professional"
+        favorite_environment:
+            label: "Environment of action"
+            hint: "Your favorite environment to act in"
+            labels:
+                garden: "garden"
+                urban area: "urban area"
+                rural area: "rural area"
+                field/forest: "field/forest"
+                nature: "nature"
+                other: "other"
         skills:
             label: "Your skills"
             hint: "Pick in the list the skills you want to share with the community"

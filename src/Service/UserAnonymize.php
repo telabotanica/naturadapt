@@ -60,6 +60,7 @@ class UserAnonymize {
 		$user->setBio(null);
 		$user->setProfileVisibility(null);
 		$user->setInscriptionType(null);
+		$user->setFavoriteEnvironment(null);
 		$user->setLocale(null);
 		$user->setTimezone(null);
 		$user->setSeenAt(null);

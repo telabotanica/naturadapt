@@ -23,6 +23,13 @@ class User implements UserInterface {
 	public const TYPE_PRIVATE       = 'private';
 	public const TYPE_PROFESSIONNAL = 'professional';
 
+	public const ENVIRONMENT_GARDEN = 'garden';
+	public const ENVIRONMENT_URBAN  = 'urban area';
+	public const ENVIRONMENT_RURAL  = 'rural area';
+	public const ENVIRONMENT_FOREST = 'field/forest';
+	public const ENVIRONMENT_NATURE = 'nature';
+	public const ENVIRONMENT_OTHER  = 'other';
+
 	/**
 	 * @ORM\Id()
 	 * @ORM\GeneratedValue()
@@ -100,6 +107,11 @@ class User implements UserInterface {
 	 * @ORM\Column(type="string", length=20, nullable=true)
 	 */
 	private $inscriptionType;
+
+	/**
+	 * @ORM\Column(type="string", length=20, nullable=true)
+	 */
+	private $favoriteEnvironment;
 
 	/**
 	 * @ORM\ManyToMany(targetEntity="App\Entity\Skill")
@@ -432,6 +444,16 @@ class User implements UserInterface {
 
 	public function setInscriptionType ( ?string $inscriptionType ): self {
 		$this->inscriptionType = $inscriptionType;
+
+		return $this;
+	}
+
+	public function getFavoriteEnvironment (): ?string {
+		return $this->favoriteEnvironment;
+	}
+
+	public function setFavoriteEnvironment ( ?string $favoriteEnvironment ): self {
+		$this->favoriteEnvironment = $favoriteEnvironment;
 
 		return $this;
 	}

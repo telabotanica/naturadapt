@@ -44,19 +44,29 @@ forms:
             placeholder: "Exemple : Botaniste"
         bio:
             label: "Bio"
-            hint: "Précisez ce que vous faites dans la vie, ce que vous recherchez sur la plateforme… (sera affiché sur votre profil)"
+            hint: "Indiquez votre niveau de connaissance sur les pollinisateurs, ce qui vous intéresse, les actions que vous effectuez ou recherchez, etc. Tout ce que vous souhaitez partager avec les autres (sera affiché sur votre profil)."
             placeholder: "Dites nous en plus sur vous…"
         inscription_type:
             label: "Type d’inscription"
             labels:
                 private: "Inscription à titre personnel"
                 professional: "Inscription à titre professionnel"
+        favorite_environment:
+            label: "Milieu d’action"
+            hint: "Votre environnement de prédilection pour agir"
+            labels:
+                garden: "jardin"
+                urban area: "milieu urbanisé"
+                rural area: "milieu rural"
+                field/forest: "agricole/sylvicole"
+                nature: "naturel"
+                other: "autre"
         skills:
             label: "Vos compétences"
             hint: "Sélectionnez dans la liste proposée les compétences que vous souhaitez partager"
         site:
-            label: "Votre site naturel"
-            hint: "Parce que vous y travaillez, vous y habitez ou simplement si vous êtes particlièrement attaché·e à un site naturel en particulier"
+            label: "Votre site d’observation préféré"
+            hint: "Que ce soit votre jardin, un parc, ou un site naturel, quel est votre coin favori pour observer les pollinisateurs ?"
             placeholder: "Exemple : Parc naturel régional des volcans d'Auvergne"
         agree_terms:
             label:

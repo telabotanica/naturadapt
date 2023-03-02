@@ -145,6 +145,23 @@ class UserRepository extends ServiceEntityRepository {
 		}
 
 		/**
+		 * FAVORITE ENVIRONMENT
+		 */
+		if ( !empty( $filters[ 'favoriteEnvironment' ] ) ) {
+			if ( !is_array( $filters[ 'favoriteEnvironment' ] ) ) {
+				$filters[ 'favoriteEnvironment' ] = [ $filters[ 'favoriteEnvironment' ] ];
+			}
+
+			$query = [];
+			foreach ( $filters[ 'favoriteEnvironment' ] as $favoriteEnvironment ) {
+				$var     = 'favoriteEnvironment' . ( $i++ );
+				$query[] = $qb->expr()->eq( 'u.favoriteEnvironment', ':' . $var );
+				$qb->setParameter( $var, $favoriteEnvironment );
+			}
+			$qb->andWhere( new Orx( $query ) );
+		}
+
+		/**
 		 * SKILLS
 		 */
 		if ( !empty( $filters[ 'skills' ] ) ) {

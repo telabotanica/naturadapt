@@ -56,6 +56,13 @@
 		</div>
 	</div>
 	<div class="form-row form-row__field">
+		{{ form_label(form.favoriteEnvironment, 'forms.user.favorite_environment.label') }}
+		<div class="hint">{{ 'forms.user.favorite_environment.hint'|trans }}</div>
+		<div class="form-row__radioboxes">
+			{{ form_widget(form.favoriteEnvironment) }}
+		</div>
+	</div>
+	<div class="form-row form-row__field">
 		{{ form_label(form.skills, 'forms.user.skills.label') }}
 		<div class="hint">{{ 'forms.user.skills.hint'|trans }}</div>
 		<div class="form-row__checkboxes checkboxes-autocomplete">
