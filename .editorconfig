@@ -8,5 +8,5 @@ end_of_line = LF
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-[*.{php,html,twig}]
+[*.{php,html,scss,twig}]
 indent_style = tab
