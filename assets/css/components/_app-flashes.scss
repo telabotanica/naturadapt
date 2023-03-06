@@ -6,6 +6,9 @@
 	margin-bottom: rem(50px);
 
 	.flash {
+		@include font_helvetica;
+
+		font-weight:      lighter;
 		position:         relative;
 		margin-bottom:    1rem;
 		padding:          padding_vertical() rem(50px);
@@ -14,19 +17,21 @@
 		background-color: white;
 		border:           1px solid $color_default;
 		border-radius:    rem(3px);
+		line-height: 			normal;
 
 		&::before {
 			content:  '';
 			position: absolute;
 			width:    1.5rem;
 			height:   1.5rem;
-			top:      1.1rem;
+			top:      1rem;
 			left:     0.9rem;
 		}
 	}
 
 	.flash__notice {
-		border-color: $color_lime_green;
+		border-color:		$color_blue_cloud;
+		background-color:	$color_blue_cloud;
 
 		&::before {
 			background-color: $color_lime_green;
@@ -38,7 +43,7 @@
 			position:      absolute;
 			width:         0.9rem;
 			height:        0.5rem;
-			top:           1.5rem;
+			top:           1.4rem;
 			left:          1.2rem;
 			border-left:   2px solid white;
 			border-bottom: 2px solid white;
@@ -47,10 +52,12 @@
 	}
 
 	.flash__warning {
-		border-color: $color_orange;
+		background-color:	$color_orange_light;
+		border-color:		$color_orange_light;
 	}
 
 	.flash__error {
-		border-color: $color_orange_red;
+		background-color:	$color_red_light;
+		border-color: 		$color_red_light;
 	}
 }
