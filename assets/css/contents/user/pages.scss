@@ -1,7 +1,16 @@
 /**************************************************
  * USER PAGES
  *************************************************/
+.main__user-page__dashboard{
+	.h2 {
+		@include font_helvetica;
+	}
 
+	.small-title{
+		color: 	$color_aubergine;
+		margin: 0 0 rem(4px)
+	}
+}
 .main__user-page__login {
 	.login-form,
 	.register-form {
@@ -152,6 +161,7 @@
 	}
 
 	&--tabs-contents {
+		@include font_helvetica;
 		@include medium-or-more {
 			display:   flex;
 			flex-flow: row nowrap;
@@ -180,13 +190,15 @@
 	}
 
 	&--groups-title {
+
 		@include small-or-less {
 			display: none;
 		}
 
 		margin:         0 0 rem(10px);
+		text-transform: uppercase;
 
-		@include font_default;
+		@include font_helvetica;
 		font-size:      rem(14px);
 		color:          $color_grey_neutral;
 	}

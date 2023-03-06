@@ -509,13 +509,19 @@
 	}
 
 	.group-name {
-		@include font_default_bold;
-		font-size: rem(16px);
-		color:     black;
+		@include font_helvetica;
+		font-weight:	bold;
+		font-size:	rem(16px);
+		color:		black;
+		max-width:	80%;
+
+		@include small-or-less {
+			max-width: 100%;
+		}
 	}
 
 	.group-last-activity {
-		@include font_default;
+		@include font_helvetica;
 		font-size: rem(14px);
 		color:     $color_grey_neutral;
 	}
