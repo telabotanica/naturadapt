@@ -27,6 +27,8 @@
 
 .discussion {
 	--color: $color_grey_light;
+
+	@include font_helvetica;
 }
 
 /**************************************************
@@ -37,7 +39,6 @@
 	flex-flow: column nowrap;
 
 	.discussion--title {
-		@include font_default_bold;
 	}
 
 	.discussion--body {

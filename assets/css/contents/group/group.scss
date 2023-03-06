@@ -270,11 +270,13 @@
 	}
 
 	.group-status {
-		margin: 0;
-
 		@include small-or-less {
 			font-size: math.div(12, 16) * 1em;
 		}
+		@include font_helvetica;
+
+		margin: 	0;
+		font-weight: 	lighter;
 	}
 
 	.group-status + a {
@@ -373,7 +375,13 @@
 
 	.group-search-bar{
 		width: 100%;
+
+		&::placeholder {
+			@include font_helvetica;
+			color: #6A6A6A;
+		}
 	}
+
 
 	.group-events {
 		position: relative;
@@ -396,6 +404,7 @@
 	}
 
 	.group-apps {
+		@include font_helvetica;
 		@include columns;
 
 		@include medium-or-more {
@@ -426,6 +435,9 @@
 
 		h2 {
 			@include clearfloat;
+			padding-bottom:	rem(30px);
+			border-bottom:	1px solid $color_grey_border;
+			margin:		0;
 		}
 
 		.count {
@@ -444,9 +456,11 @@
 
 			text-align: center;
 
-			font-size:  rem(16px);
+			font-size:  	rem(16px);
+			font-weight: 	bold;
 
-			color:      $color_aubergine;
+			color:      	$color_aubergine;
+
 		}
 	}
 
