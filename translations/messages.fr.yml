@@ -103,7 +103,7 @@ forms:
     group:
         name:
             label: "Nom du groupe"
-            placeholder: "Exemple : Autour des glaciers"
+            placeholder: "Exemple : Autour des abeilles"
         slug:
             label: "Identifiant"
             placeholder: "Sera généré automatiquement"
@@ -119,11 +119,11 @@ forms:
             label: "Visibilité du groupe"
             placeholder: ""
         description:
-            label: "Description"
+            label: "Description du groupe"
             hint: "Précisez les but et intention de votre groupe. La description sera affichée sur la page de présentation des groupes."
             placeholder: "Dites nous en plus sur votre groupe…"
         presentation:
-            label: "Présentation"
+            label: "Présentation du groupe"
             hint: "Présentez votre groupe. La présentation sera affichée sur la page du groupe."
             placeholder: "Présentation du groupe, ses objectifs…"
 
