@@ -27,7 +27,7 @@
 	{% endif %}
 </head>
 
-<body>
+<body class="{% block body_class %}sub_page{% endblock %}">
 {% include 'layout/icons.svg.twig' %}
 
 {% block header %}

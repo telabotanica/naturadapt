@@ -14,39 +14,272 @@
 	.main--content section:not(:first-child) {
 		margin-top: rem(80px);
 	}
-
-	.main--content section:not(:last-child) {
-		margin-bottom: rem(80px);
-	}
 }
 
-.front-page--columns {
-	text-align: center;
+// SECTION INFO
+.front-page--info {
+    padding:          rem(140px) 0;
+    background-color: $color_white;
 
-	svg {
-		height: rem(85px);
-	}
+    @include small-or-less { padding: rem(70px) 0; }
+
+  .content-container{
+    @include medium-or-less { padding: 0 3.125rem; }
+  }
+
+  &-title {
+    h2 {
+      @include h1;
+      margin-bottom:  3.75rem;
+      text-align:     center;
+
+      &:first-child {
+        margin-bottom: rem(4px);
+      }
+
+      @include small-or-less { font-size: 1.4375rem; }
+    }
+  }
+
+  &-columns {
+    text-align: center;
+
+    &.columns-25{
+      display: grid;
+      grid-column-gap: rem(30px);
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: 1fr;
+
+      @include medium-or-less{
+        grid-template-columns: repeat(2, 1fr);
+        grid-column-gap: rem(30px);
+        grid-row-gap: rem(50px);
+      }
+
+      @include small-or-less{
+        grid-template-columns: 1fr;
+        grid-row-gap: rem(50px);
+      }
+    }
+  }
+
+  &-card {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-icon-background {
+    margin-bottom: rem(24px);
+
+    &.green {
+      background-color: $color_green;
+
+      svg {
+        fill: $color_green-haze;
+      }
+    }
+    &.blue {
+      background-color: $color_blue;
+
+      svg {
+        fill: $color_jordy-blue;
+      }
+    }
+    &.yellow {
+      background-color: $color_yellow;
+
+      svg {
+        fill: $color_tangerine;
+      }
+    }
+    &.purple {
+      background-color: $color_purple;
+
+      svg {
+        fill: $color_light-orchid;
+      }
+    }
+
+    &.green,
+    &.blue,
+    &.yellow,
+    &.purple {
+      display:          flex;
+      align-items:      center;
+      justify-content:  center;
+      border-radius:    50%;
+      height:           rem(150px);
+      width:            rem(150px);
+
+      @include small-or-less {
+        height: rem(128px);
+        width:  rem(128px); }
+    }
+
+    @include medium-or-less { margin-bottom: rem(20px); }
+    @include small-or-less  { margin-bottom: rem(16px); }
+
+
+    &-description{
+      @include small-or-less  { width: 70%; }
+    }
+  }
 }
 
-.front-page--focus {
-	padding:          rem(30px) padding_horizontal();
+// SECTION HOW IT WORKS
+.front-page--how-it-works{
+  padding:          rem(140px) 0;
+  background-color: $color_blue_sky;
 
-	text-align:       center;
-	background-color: white;
+  &-cta {
+    margin-top: rem(40px);
+  }
 
-	font-size:        rem(22px);
-	line-height:      math.div(26, 22);
-
-	@include medium-or-more {
-		margin-left:  rem(160px);
-		margin-right: rem(160px);
-		padding:      rem(30px) rem(60px);
-	}
+  @include medium-or-less { padding: rem(70px) 3.125rem; }
+  @include small-or-less { padding: 5rem 3.125rem; }
 }
 
+// SECTION POLLINATING
+.front-page--pollinating {
+  background-color: $color_white;
+
+  &-image{
+    object-fit: cover;
+
+    @include medium-or-less { width: 100%; }
+  }
+  & .columns__50-50 {
+    justify-content: flex-start;
+
+    @include medium-or-less { flex-direction: column; }
+  }
+
+  &-description {
+    margin-top:     rem(100px);
+    margin-bottom:  rem(100px);
+    margin-left:    rem(100px);
+    max-width:      26.75rem;
+
+    h2 {
+      @include h1;
+    }
+
+    h3 {
+      color: $color_purple;
+      @include small-or-less { font-size: rem(22px); }
+    }
+
+    @include medium-or-less {
+      padding: 0;
+    }
+
+    @include small-or-less {
+      padding:    5rem 3.125rem;
+      margin:     0;
+      max-width:  initial;
+    }
+  }
+}
+
+// SECTION BANNER
+.front-page--banner{
+  padding:              rem(140px) 0;
+  background-color:     $color_blue_sky;
+  background-image:     url("/public/media/layout/bubble-background.png"), url("/public/media/layout/bubble-background-flip.png");
+  background-repeat:    no-repeat, no-repeat, no-repeat;
+  background-position:  right, left;
+  text-align:           center;
+
+  @include small-or-less {
+    background-image: none;
+    padding: 5.5rem 3.125rem;
+  }
+
+  .content-container{
+    @include medium-or-less { padding: 0 7.125rem; }
+    @include small-or-less { padding: 0; }
+  }
+}
+
+// SECTION ABOUT US
+.front-page--about-us{
+  background-color:  $color_white;
+
+  .columns__50-50 {
+    justify-content: flex-end;
+  }
+
+  &-description {
+    margin: rem(100px) rem(100px);
+    max-width:      26.75rem;
+
+    @include medium-or-less { margin: rem(50px) auto; }
+    @include small-or-less {
+      padding:        0;
+      width:          100%;
+    }
+
+    &-block {
+      border-left:    solid rem(4px);
+      padding-left:   rem(25px);
+      padding-bottom: rem(40px);
+
+      &:last-child {
+        padding-bottom: 0;
+      }
+
+      &.companions {
+        border-color: $color_purple;
+
+        img { @include small-or-less { width: rem(100px); }}
+      }
+
+      &.sponsors {
+        border-color: $color_green;
+      }
+
+      &.partners {
+        border-color: $color_blue;
+      }
+
+      h3 {
+        font-weight: bold;
+        @include small-or-less {  margin-bottom: rem(15px);}
+      }
+
+      @include small-or-less { padding-bottom: rem(35px);}
+    }
+
+    &-title {
+      margin-top: 0;
+      margin-bottom: rem(10px);
+
+      @include small-or-less {
+        font-size: rem(20px);
+        margin:    0 0 rem(20px) 0;
+      }
+    }
+  }
+
+  &-image{
+    max-height: 808px;
+    object-fit: cover;
+
+    @include medium-or-less {
+      display: none;
+      width: 100%;
+   }
+  }
+
+  @include small-or-less { padding: 2.5rem 3.125rem; }
+}
+
+// OBJECTIVE
 .front-page--objective {
 	@include small-or-less {
 		text-align: center;
+    padding:    2.5rem 3.125rem;
 
 		svg {
 			max-width:     rem(145px);
@@ -68,3 +301,5 @@
 		}
 	}
 }
+
+body.frontpage .footer { margin-top: 0; }

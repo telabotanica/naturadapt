@@ -4,6 +4,7 @@
 
 $breakpoint-medium: rem(600px) !default;
 $breakpoint-large: rem(960px) !default;
+$breakpoint-xlarge: rem(2000px) !default;
 
 /**************************************************
 * SCREEN SIZE MEDIAQUERIES
@@ -37,6 +38,12 @@ $breakpoint-large: rem(960px) !default;
 	@media screen and (min-width: $breakpoint-large) {
 		@content;
 	}
+}
+
+@mixin xlarge {
+  @media screen and (min-width: $breakpoint-xlarge) {
+    @content;
+  }
 }
 
 /**************************************************

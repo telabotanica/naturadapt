@@ -36,6 +36,10 @@ img {
 	@include cta-style;
 }
 
+.cta.cta-front {
+	margin-top: 1.25rem;
+}
+
 .cta__red {
 	@include cta-style($color_red);
 }

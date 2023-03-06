@@ -10,3 +10,4 @@ trim_trailing_whitespace = true
 
 [*.{php,html,scss,twig}]
 indent_style = tab
+indent_size = 8

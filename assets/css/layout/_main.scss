@@ -14,11 +14,11 @@ main {
 }
 
 .main--header__cover {
-	min-height: math.div(237, 375) * 100vw;
+	min-height: math.div(688, 1366) * 100vw;
 
-	@include medium-or-more {
-		min-height: rem(500px);
-	}
+	@include xlarge { min-height: rem(850px); }
+	@include large-or-more { min-height: rem(600px); }
+
 }
 
 .main--header--image {

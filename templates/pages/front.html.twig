@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% block body_class %}frontpage{% endblock %}
 
 {% block main %}
 	<section class="main main__front-page">
@@ -17,78 +18,46 @@
 						pollinisateurs en passant concrètement à l'action
 					</h1>
 
-					<p><a class="cta" href="{{ path('groups_index') }}">Voir les groupes</a></p>
+					<p><a class="cta cta-front" href="{{ path('groups_index') }}">Voir les groupes</a></p>
 				</div>
 			</div>
 		</div>
-		<div class="main--content content-container">
-			<section>
-				<h2>Intéressé⋅e par le merveilleux monde des pollinisateurs et leur préservation ?</h2>
-				<p>Vous trouverez sur cette plateforme :</p>
-					<div class="front-page--columns columns__33-33-33">
-					<div>
-						<p>
-							<svg xmlns="http://www.w3.org/2000/svg" width="79" height="79" viewBox="0 0 79 79">
-								<rect width="2.952" height="26.568" transform="translate(39.852 41.327)"/>
-								<rect width="31.31" height="2.952" transform="translate(44.712 29.951) rotate(-45)"/>
-								<rect width="41.746" height="2.952" transform="translate(7.813 66.85) rotate(-45)"/>
-								<rect width="2.952" height="22.96" transform="translate(18.144 14.327) rotate(-45)"/>
-								<rect width="2.952" height="31.31" transform="translate(43.236 39.418) rotate(-45)"/>
-								<ellipse cx="7.38" cy="7.38" rx="7.38" ry="7.38" transform="translate(63.467)" fill="#2fb67d"/>
-								<ellipse cx="7.38" cy="7.38" rx="7.38" ry="7.38" transform="translate(33.948 63.467)" fill="#2fb67d"/>
-								<ellipse cx="7.38" cy="7.38" rx="7.38" ry="7.38" transform="translate(0 60.515)" fill="#2fb67d"/>
-								<ellipse cx="4.428" cy="4.428" rx="4.428" ry="4.428" transform="translate(13.284 7.38)" fill="#2fb67d"/>
-								<ellipse cx="4.428" cy="4.428" rx="4.428" ry="4.428" transform="translate(60.515 54.611)" fill="#2fb67d"/>
-								<ellipse cx="10.332" cy="10.332" rx="10.332" ry="10.332" transform="translate(30.996 25.092)" fill="#2fb67d"/>
-							</svg>
-
-						</p>
-						<p>Des programmes de sciences participatives et d’autres moyens d’agir quels que soient votre niveau et votre milieu de vie.</p>
+		<section class="front-page--info">
+			<div class="content-container">
+				<div class="front-page--info-title">
+					<h2>Intéressé⋅e par le merveilleux monde des pollinisateurs et leur préservation ?<br />Vous trouverez sur cette plateforme :</h2>
+				</div>
+				<div class="front-page--info-columns columns-25">
+					<div class="front-page--info-card">
+						<div class="front-page--info-icon-background yellow">
+								{% include 'assets/svg/echange.svg' %}
+						</div>
+						<p class="front-page--info-icon-background-description">Des projets collaboratifs pour mettre vos envies et savoirs faires au profit d’actions concrètes.</p>
 					</div>
-					<div>
-						<p>
-							<svg xmlns="http://www.w3.org/2000/svg" width="83" height="85" viewBox="0 0 83 85">
-								<g transform="translate(3.056 8.437)">
-									<path d="M42.837,8.918a1.476,1.476,0,1,0-1.548,2.514A35.224,35.224,0,0,1,58.171,41.615a35.467,35.467,0,0,1-1.188,9.08A1.478,1.478,0,0,0,58.032,52.5a1.517,1.517,0,0,0,.378.049,1.475,1.475,0,0,0,1.426-1.1,38.348,38.348,0,0,0-17-42.533Z"
-										  transform="translate(15.524 -4.297)"/>
-									<path d="M51.3,56.2a35.228,35.228,0,0,1-13.536,2.683A35.489,35.489,0,0,1,11.6,47.323a1.476,1.476,0,0,0-2.182,1.99A38.456,38.456,0,0,0,37.766,61.835a38.131,38.131,0,0,0,14.665-2.909A1.475,1.475,0,1,0,51.3,56.2Z"
-										  transform="translate(0.506 13.859)"/>
-									<path d="M32.405,8.625a1.476,1.476,0,0,0-.7-2.868A38.209,38.209,0,0,0,2.574,40.3a1.474,1.474,0,0,0,1.368,1.575c.035,0,.071,0,.1,0A1.476,1.476,0,0,0,5.519,40.5,35.267,35.267,0,0,1,32.405,8.625Z"
-										  transform="translate(-2.57 -5.716)"/>
-								</g>
-								<ellipse cx="8.856" cy="8.856" rx="8.856" ry="8.856" transform="translate(32.472)" fill="#2fb67d"/>
-								<ellipse cx="8.856" cy="8.856" rx="8.856" ry="8.856" transform="translate(0 54.611)" fill="#2fb67d"/>
-								<ellipse cx="8.856" cy="8.856" rx="8.856" ry="8.856" transform="translate(64.943 54.611)" fill="#2fb67d"/>
-							</svg>
-
-						</p>
-						<p>D’autres passionnés ou curieux de nature touchés par le déclin des pollinisateurs et souhaitant agir pour leur préservation.</p>
+					<div class="front-page--info-card">
+						<div class="front-page--info-icon-background purple">
+								{% include 'assets/svg/protection.svg' %}
+						</div>
+						<p class="front-page--info-icon-background-description">Des programmes de sciences participatives et d’autres moyens d’agir quelque soit votre niveau et votre milieu de vie.</p>
 					</div>
-					<div>
-						<p>
-							<svg xmlns="http://www.w3.org/2000/svg" width="83" height="83" viewBox="0 0 83 83">
-								<g transform="translate(28.125 6.555)" fill="#2fb67d">
-									<path d="M12.974 26.191a15.52 15.52 0 0 0 12.974-6.931A15.765 15.765 0 0 0 0 19.26a15.488 15.488 0 0 0 12.974 6.931z"/>
-									<ellipse cx="4.876" cy="4.876" rx="4.876" ry="4.876" transform="translate(8.098)"/>
-								</g>
-								<g transform="translate(4.109 54.719)" fill="#2fb67d">
-									<path d="M12.975 26.191a15.52 15.52 0 0 0 12.974-6.931A15.767 15.767 0 0 0 0 19.26a15.162 15.162 0 0 0 12.975 6.931z"/>
-									<ellipse cx="4.876" cy="4.876" rx="4.876" ry="4.876" transform="translate(8.099)"/>
-								</g>
-								<g transform="translate(52.139 54.719)" fill="#2fb67d">
-									<path d="M12.975 26.191a15.52 15.52 0 0 0 12.974-6.931A15.767 15.767 0 0 0 0 19.26a15.508 15.508 0 0 0 12.975 6.931z"/>
-									<ellipse cx="4.876" cy="4.876" rx="4.876" ry="4.876" transform="translate(8.099)"/>
-								</g>
-								<path
-									d="M65.115 48.166a17.514 17.514 0 0 0-11.564 4.5l-11.175-6.421V34.049a17.178 17.178 0 1 0-2.565-.015v12.2l-11.172 6.417a17.046 17.046 0 1 0-11.554 29.545 17 17 0 0 0 13.364-27.614l10.785-6.165 10.785 6.165a16.924 16.924 0 1 0 13.1-6.419zm-48.03 31.468a14.518 14.518 0 1 1 14.519-14.518 14.588 14.588 0 0 1-14.519 14.517zm9.5-62.548a14.519 14.519 0 1 1 14.514 14.519A14.679 14.679 0 0 1 26.58 17.086zM65.12 79.634a14.518 14.518 0 1 1 14.514-14.518 14.5 14.5 0 0 1-14.519 14.517z"/>
-							</svg>
-						</p>
-						<p>Des ressources accessibles et scientifiquement validées pour mieux les connaître et reconnaître.</p>
+					<div class="front-page--info-card">
+						<div class="front-page--info-icon-background blue">
+								{% include 'assets/svg/recherche.svg' %}
+						</div>
+						<p class="front-page--info-icon-background-description">D’autres passionnés ou curieux de nature touchés par le déclin des pollinisateurs et souhaitant agir pour leur préservation.</p>
+					</div>
+					<div class="front-page--info-card">
+						<div class="front-page--info-icon-background green">
+								{% include 'assets/svg/dossier.svg' %}
+						</div>
+						<p class="front-page--info-icon-background-description">Des ressources accessibles et scientifiquement validées pour mieux les connaître et reconnaître.</p>
 					</div>
 				</div>
-			</section>
-			<section>
-				<h1>Comment ça marche ?</h1>
+			</div>
+		</section>
+		<section class="front-page--how-it-works">
+			<div class="content-container">
+				<h2>Comment ça marche ?</h2>
 				<p>
 					Inscrivez-vous et rejoignez la communauté ! Dès que votre compte personnel est créé vous rejoignez l’espace central communautaire vous permettant d’échanger avec tous les inscrits !
 				</p>
@@ -98,16 +67,17 @@
 				<p>
 					Vous avez envie de porter une action ? De créer par exemple un recensement des pépinières de végétaux locaux favorables à la biodiversité ?
 				</p>
-			</section>
-			<section>
-				<h3>Et si vous aussi vous lanciez votre projet ?</h3>
-				<a href="/groups" class="cta">Voir les groupes</a>
-			</section>
-			<section>
+				<div class="front-page--how-it-works-cta">
+					<h3>Et si vous aussi vous lanciez votre projet ?</h3>
+					<a href="/groups" class="cta">Voir les groupes</a>
+				</div>
+			</div>
+		</section>
+		<section class="front-page--pollinating">
 				<div class="front-page--columns columns__50-50" style="text-align: left">
-				<img src="{{ asset('media/layout/help.svg') }}" alt="" style="width:25%">
-				<div>
-					<h1>C’est quoi un pollinisateur ?</h1>
+					<img class="front-page--pollinating-image" src="{{ asset('/media/layout/BIOS-1905362.jpg') }}" alt="foraging bee">
+				<div class="front-page--pollinating-description">
+					<h2>C’est quoi un pollinisateur ?</h2>
 					<p>Les pollinisateurs les plus emblématiques et les mieux connus du grand public sont les abeilles (dont l’abeille domestique, les bourdons…), les mouches (syrphes…), les papillons, et de nombreux coléoptères. Certains oiseaux (colibris) ou encore des mammifères (chauve-souris nectarivores) jouent également un rôle important de pollinisation durant tout ou partie de leur stade de vie adulte.</p>
 					<p> La pollinisation est essentielle, sans cela la reproduction de nombreuses plantes sauvages et la production de plantes cultivées ne seraient pas possibles. Les pollinisateurs sont aussi et surtout les garants de la richesse des écosystèmes. Il est important de les préserver !</p>
 					<h3>Le déclin</h3>
@@ -115,36 +85,35 @@
 					<h3>Le saviez-vous ?</h3>
 					<p>Il y a 2 fois plus de coléoptères que de plantes en France ! Et pourtant il y a moins d’entomologistes que de botanistes.</p>
 				</div>
-			</section>
-			<section class="front-page--focus">
-				<h1>Je veux agir !</h1>
+		</section>
+		<section class="front-page--banner">
+			<div class="content-container">
+				<h2>Je veux agir !</h2>
 				<p>Un grand pouvoir ne nécessite pas forcément de grandes responsabilités ! Tout le monde peut agir à son échelle et en fonction de ses envies et de ses connaissances !</p>
 				<p> Découvrez comment agir en fonction de votre milieu, vos envies, votre temps.</p>
 				<a href="/user/login" class="cta">Rejoindre la plateforme !</a>
-			</section>
-			<section>
-				<div class="front-page--columns columns__50-50" style="text-align: left">
-					<div>
-						<h1>Qui sommes-nous ?</h1>
-						<p>La plateforme Nos pollinisateurs est créée par des passionnés de plusieurs domaines :</p>
-						<p> </p>
-						{#<svg viewBox="0 0 4 100" xmlns="http://www.w3.org/2000/svg">
-							<line x1="2" y1="0" x2="2" y2="100"
-								  style="stroke: #8F607C; stroke-width: 2"/>
-						</svg>#}
-						<h3 style="color: #8F607C">Réalisé par :</h3>
-						<p> </p>
-						<h3 style="color: #06A243">En collaboration avec :</h3>
-						<p> </p>
-						<h3 style="color: #92D4F2">Avec l’appui de :</h3>
-						<p> </p>
+			</div>
+		</section>
+			<section class="front-page--about-us">
+					<div class="front-page--columns columns__50-50" style="text-align: left">
+						<div class="front-page--about-us-description">
+							<h2>Qui sommes-nous ?</h2>
+							<p>La plateforme Nos pollinisateurs est créée par des passionnés de plusieurs domaines :</p>
+							<div class="front-page--about-us-description-block companions">
+								<h3 style="color: #8F607C" class="front-page--about-us-description-title">Réalisé par :</h3>
+								<img src="{{ asset('/media/layout/telabotanica.png') }}" alt="partenaires du Nos Pollinisateurs">
+							</div>
+							<div class="front-page--about-us-description-block sponsors">
+								<h3 style="color: #06A243" class="front-page--about-us-description-title">En collaboration avec :</h3>
+								<img src="{{ asset('/media/layout/collab.png') }}" alt="partenaires du Nos Pollinisateurs">
+							</div>
+							<div class="front-page--about-us-description-block partners">
+								<h3 style="color: #92D4F2" class="front-page--about-us-description-title">Avec l’appui de :</h3>
+								<img src="{{ asset('/media/layout/appui.png') }}" alt="partenaires du Nos Pollinisateurs">
+							</div>
 					</div>
-					<img src="{{ asset('media/layout/help.svg') }}" alt="" style="width:25%">
+					<img class="front-page--about-us-image" src="{{ asset('/media/layout/BIOS-2466801.jpg') }}" alt="blue butterfly">
 			</section>
-			<p>
-			{#<img src="{{ asset('media/layout/logos_naturadapt_2022.png') }}" alt="partenaires du Nos Pollinisateurs">#}
-			</p>
-			</section>
-		</div>
+		</section>
 	</section>
 {% endblock %}
