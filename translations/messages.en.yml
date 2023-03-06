@@ -56,9 +56,9 @@ forms:
             hint: "Your favorite environment to act in"
             labels:
                 garden: "garden"
-                urban area: "urban area"
-                rural area: "rural area"
-                field/forest: "field/forest"
+                urban_area: "urban area"
+                rural_area: "rural area"
+                field_forest: "field/forest"
                 nature: "nature"
                 other: "other"
         skills:
