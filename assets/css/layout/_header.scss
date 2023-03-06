@@ -223,6 +223,8 @@
 	}
 
 	.links {
+		@include font_helvetica;
+		font-weight: lighter;
 		position:    absolute;
 		top:         calc(100% + 1rem);
 		right:       0;
