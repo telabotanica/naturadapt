@@ -394,6 +394,14 @@ pages:
                     labels:
                         private: "Grand public"
                         professional: "Professionnel"
+                favorite_environment:
+                    labels:
+                        garden: "Jardin"
+                        urban_area: "Milieu urbain"
+                        rural_area: "Milieu rural"
+                        field_forest: "Agricole/Sylvicole"
+                        nature: "Naturel"
+                        other: "Autre"
                 skills:
                     label: "Compétences"
             query:

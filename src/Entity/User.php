@@ -24,9 +24,9 @@ class User implements UserInterface {
 	public const TYPE_PROFESSIONNAL = 'professional';
 
 	public const ENVIRONMENT_GARDEN = 'garden';
-	public const ENVIRONMENT_URBAN  = 'urban area';
-	public const ENVIRONMENT_RURAL  = 'rural area';
-	public const ENVIRONMENT_FOREST = 'field/forest';
+	public const ENVIRONMENT_URBAN  = 'urban_area';
+	public const ENVIRONMENT_RURAL  = 'rural_area';
+	public const ENVIRONMENT_FOREST = 'field_forest';
 	public const ENVIRONMENT_NATURE = 'nature';
 	public const ENVIRONMENT_OTHER  = 'other';
 
