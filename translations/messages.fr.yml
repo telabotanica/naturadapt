@@ -62,12 +62,12 @@ forms:
                 nature: "naturel"
                 other: "autre"
         skills:
-            label: "Vos compétences"
-            hint: "Sélectionnez dans la liste proposée les compétences que vous souhaitez partager"
+            label: "Vos centres d’intérêt et connaissances"
+            hint: "Sélectionnez dans la liste proposée les centres d’intérêt et connaissances que vous souhaitez partager"
         site:
             label: "Votre site d’observation préféré"
             hint: "Que ce soit votre jardin, un parc, ou un site naturel, quel est votre coin favori pour observer les pollinisateurs ?"
-            placeholder: "Exemple : Parc naturel régional des volcans d'Auvergne"
+            placeholder: "Exemple : Parc naturel régional des volcans d’Auvergne"
         agree_terms:
             label:
                 agree: "J’accepte les "
@@ -403,7 +403,7 @@ pages:
                         nature: "Naturel"
                         other: "Autre"
                 skills:
-                    label: "Compétences"
+                    label: "Centres d’interêt et connaissances"
             query:
                 placeholder: "Chercher un membre par nom, pseudo, bio…"
             search: "Filtrer"
@@ -418,7 +418,7 @@ pages:
             member_set_banned: "Bannir"
         profile:
             skills:
-                title: "Compétences"
+                title: "Centres d’interêt et connaissances"
             bio:
                 title: "Biographie"
             groups:

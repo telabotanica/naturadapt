@@ -62,11 +62,11 @@ forms:
                 nature: "nature"
                 other: "other"
         skills:
-            label: "Your skills"
-            hint: "Pick in the list the skills you want to share with the community"
+            label: "Your interests and knowledge"
+            hint: "Pick in the list the interests and knowledgeyou want to share with the community"
         site:
-            lable: "Your nature area"
-            hint: "Because you work there, you live there or simply if you're especially interested in a specific nature site"
+            lable: "Your favorite viewing spot"
+            hint: "Whether it's your garden, a park, or a natural environment, what's your favourite place to observe pollinators?"
             placeholder: "Example: Écrins National Park"
         agree_terms:
             label:
@@ -403,7 +403,7 @@ pages:
                         nature: "Nature"
                         other: "Other"
                 skills:
-                    label: "Skills"
+                    label: "Interests and knowledge"
             query:
                 placeholder: "Find a member by name, nickname, bio…"
             search: "Filter"
@@ -418,7 +418,7 @@ pages:
             member_set_banned: "Ban"
         profile:
             skills:
-                title: "Skills"
+                title: "Interests and knowledge"
             bio:
                 title: "Bio"
             groups:
