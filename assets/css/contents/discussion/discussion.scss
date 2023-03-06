@@ -107,7 +107,9 @@
 }
 
 .discussion__teaser {
-	font-size:           rem(12px);
+	@include font_helvetica;
+	font-size:           rem(14px);
+	font-weight:         lighter;
 	color:               $color_grey_light;
 
 	text-decoration:     none;
