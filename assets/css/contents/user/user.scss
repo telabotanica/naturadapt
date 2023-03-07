@@ -8,15 +8,18 @@
 	position: relative;
 }
 
+.user--blob {
+	@include visually-hidden;
+}
+
 .user--avatar {
-	display:       flex;
-	border-radius: 50%;
-	overflow:      hidden;
-	flex-shrink:   0;
+	clip-path:	url(#user--blob-clip-path);
+	display:	flex;
+	overflow:	hidden;
+	flex-shrink:	0;
 
 	&.user--avatar__empty {
 		background-color: $color_aubergine;
-		//background-color: var(--color);
 	}
 
 	img {
@@ -85,6 +88,17 @@
 		right:    0;
 		bottom:   0;
 		left:     0;
+	}
+}
+
+/**************************************************
+ * USER IN HEADER
+ *************************************************/
+
+.header--user {
+	.user--avatar {
+		border-radius:	50%;
+		clip-path: none;
 	}
 }
 
