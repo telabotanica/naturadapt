@@ -305,6 +305,8 @@ input[type="submit"] {
 
 .form-row__radiobox,
 .form-row__radioboxes:not(#_o) {
+	@include font_helvetica;
+	margin-top : rem(10px);
 	label {
 		display:	block;
 		font-size:	rem(15px);
@@ -323,6 +325,12 @@ input[type="submit"] {
 		overflow: hidden;
 	}
 }
+#form_search_filters_groups{
+	label {
+		color : 	$color_grey_neutral;
+		font-size:	1rem!important;
+	}
+}
 
 /**************************************************
 * FORM LAYOUT
@@ -331,6 +339,7 @@ input[type="submit"] {
 $form_label_width: math.div(1, 3) * 100%;
 
 .form-row {
+	@include font_helvetica;
 	margin-bottom: rem(26px);
 
 	display:       flex;
@@ -463,6 +472,7 @@ $form_label_width: math.div(1, 3) * 100%;
 }
 
 .form-row__filter {
+	@include  font_helvetica;
 	margin-bottom:  padding_vertical();
 	padding-bottom: padding_vertical();
 	border-bottom:  1px solid $color_grey_border;
@@ -501,6 +511,14 @@ $form_label_width: math.div(1, 3) * 100%;
 		&:hover {
 			text-decoration: underline;
 		}
+	}
+}
+#form_search_filters_result_type {
+	@include font_helvetica;
+	margin-top: rem(10px);
+
+	& label {
+		color: $color_aubergine;
 	}
 }
 
