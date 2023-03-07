@@ -131,6 +131,8 @@ class BulkTransport extends Transport {
     protected function getMessagePayload ( Swift_Mime_SimpleMessage $message ) {
 		$payload = [];
 
+		$payload['MessageStream'] = 'broadcast';
+
 		$this->processRecipients( $payload, $message );
 
 		$this->processMessageParts( $payload, $message );
