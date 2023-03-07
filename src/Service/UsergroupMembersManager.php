@@ -74,7 +74,7 @@ class UsergroupMembersManager {
 								  ->add( 'favoriteEnvironment', ChoiceType::class, [
 								  		  'required' => FALSE,
 								  		  'expanded' => TRUE,
-								  		  'multiple' => FALSE,
+								  		  'multiple' => TRUE,
 								  		  'choices'  => array_combine( [
 								  		  	'pages.member.list.filters.favorite_environment.labels.' . User::ENVIRONMENT_GARDEN,
 								  		  	'pages.member.list.filters.favorite_environment.labels.' . User::ENVIRONMENT_URBAN,
