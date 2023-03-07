@@ -18,6 +18,7 @@
 label.autocomplete-tags {
 	@include input-style;
 
+	margin-top:    	rem(10px);
 	padding-bottom: 0 !important;
 	display:        block;
 	@include clearfloat;

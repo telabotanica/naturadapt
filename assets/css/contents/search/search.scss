@@ -23,10 +23,12 @@
 
 	border-bottom: 1px solid #e3e5e9;
 	margin:        0 0 column_gap();
+
 }
 
 .result-number{
 	font-weight: bold;
+	@include font_helvetica;
 }
 
 .tag-panel{
@@ -41,6 +43,11 @@
 		@include columns_item(math.div(4, 5));
 	}
 
+
+	span {
+		@include font_helvetica;
+	}
+
 }
 
 .results-list {
@@ -53,6 +60,7 @@
 **************************************************/
 
 .result__teaser {
+	@include font_helvetica;
 	display:         flex;
 	flex-flow:       row nowrap;
 	justify-content: flex-start;
@@ -94,14 +102,14 @@
 	}
 
 	.result-title{
-		font-weight: bold;
+		font-weight: 500;
 		font-size: 16px;
 		padding: 5px 0 3px 0;
 	}
 
 	.result-author{
 		padding-top: 5px;
-		font-size: 16px;
+		font-size: 14px;
 		font-weight: bold;
 	}
 
@@ -111,6 +119,7 @@
 		-webkit-box-orient: vertical;
 		text-overflow:      ellipsis;
 		color: $color_grey_medium;
+		font-style: none;
 
 		height:             5 * line_height_default() * 1em;
 		line-height:        line_height_default();
