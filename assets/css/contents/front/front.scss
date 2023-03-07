@@ -11,15 +11,24 @@
 		}
 	}
 
+	.main--header--content .h1 {
+		@include medium-or-less { font-size: 1.8rem; }
+	}
+
 	.main--content section:not(:first-child) {
 		margin-top: rem(80px);
+	}
+
+	h2 {
+		@include h2;
+		@include font_default_bold;
 	}
 }
 
 // SECTION INFO
 .front-page--info {
-    padding:          rem(140px) 0;
     background-color: $color_white;
+    padding:          rem(140px) 0;
 
     @include small-or-less { padding: rem(70px) 0; }
 
@@ -29,13 +38,9 @@
 
   &-title {
     h2 {
-      @include h1;
+      font-size:      rem(26px);
       margin-bottom:  3.75rem;
       text-align:     center;
-
-      &:first-child {
-        margin-bottom: rem(4px);
-      }
 
       @include small-or-less { font-size: 1.4375rem; }
     }
@@ -51,14 +56,14 @@
       grid-template-rows: 1fr;
 
       @include medium-or-less{
-        grid-template-columns: repeat(2, 1fr);
         grid-column-gap: rem(30px);
         grid-row-gap: rem(50px);
+        grid-template-columns: repeat(2, 1fr);
       }
 
       @include small-or-less{
-        grid-template-columns: 1fr;
         grid-row-gap: rem(50px);
+        grid-template-columns: 1fr;
       }
     }
   }
@@ -161,17 +166,14 @@
     margin-left:    rem(100px);
     max-width:      26.75rem;
 
-    h2 {
-      @include h1;
-    }
-
     h3 {
       color: $color_purple;
       @include small-or-less { font-size: rem(22px); }
     }
 
     @include medium-or-less {
-      padding: 0;
+      min-width:      	26.75rem;
+      padding: 		0;
     }
 
     @include small-or-less {
@@ -208,17 +210,23 @@
 
   .columns__50-50 {
     justify-content: flex-end;
+
+    @include medium-or-less { width: 100%; }
   }
 
   &-description {
     margin: rem(100px) rem(100px);
     max-width:      26.75rem;
 
-    @include medium-or-less { margin: rem(50px) auto; }
-    @include small-or-less {
-      padding:        0;
-      width:          100%;
-    }
+    	@include medium-or-less {
+		margin: rem(50px) auto;
+		min-width:      26.75rem;
+	}
+
+    	@include small-or-less {
+		padding:        0;
+		min-width:      100%;
+	}
 
     &-block {
       border-left:    solid rem(4px);
@@ -279,7 +287,7 @@
 .front-page--objective {
 	@include small-or-less {
 		text-align: center;
-    padding:    2.5rem 3.125rem;
+    		padding:    2.5rem 3.125rem;
 
 		svg {
 			max-width:     rem(145px);
