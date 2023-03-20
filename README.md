@@ -22,6 +22,11 @@ Create the tables:
 php bin/console doctrine:migrations:migrate
 ```
 
+Create the file containing administrators informations
+```bash
+cp config/platform/default.config.yaml config/platform/config.yaml
+```
+
 ## Inserting default data
 
 The plateform uses data like taxonomies to be fully functionnal. Default data can be inserted via PHP commands.

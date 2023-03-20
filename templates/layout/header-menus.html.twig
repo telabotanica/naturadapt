@@ -1,0 +1,9 @@
+{% for lien in liens %}
+	{% if lien.nom == 'Ressources' %}
+		{% if resources.group_slug is not empty and resources.page_slug is not empty %}
+			{# <li><a href="{{ path('group_page_index', { 'groupSlug': resources.group_slug, 'pageSlug': resources.page_slug }) }}">Ressources</a></li> #}
+		{% endif %}
+	{% else %}
+		<li><a href="{{ lien.lien }}">{{lien.nom}}</a></li>
+	{% endif %}
+{% endfor %}

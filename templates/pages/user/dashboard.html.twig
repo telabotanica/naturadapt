@@ -23,15 +23,25 @@
 					</ul>
 				</nav>
 				<div class="user-dashboard--tabs-contents">
-					<div class="user-dashboard--groups">
-						<h3 class="user-dashboard--groups-title">{{ 'pages.user.dashboard.my_groups'|trans }}</h3>
-						<ul>
-							{% for membership in app.user.usergroupMemberships %}
-								<li>
-									{% include 'contents/group/group--in-items-list.html.twig' with {'group': membership.usergroup} %}
-								</li>
-							{% endfor %}
-						</ul>
+					<div>
+						<div class="user-dashboard--groups">
+							<h3 class="user-dashboard--groups-title">{{ 'pages.user.dashboard.my_groups'|trans }}</h3>
+							<ul>
+								{% for membership in app.user.usergroupMemberships %}
+									<li>
+										{% include 'contents/group/group--in-items-list.html.twig' with {'group': membership.usergroup} %}
+									</li>
+								{% endfor %}
+							</ul>
+						</div>
+
+						{% if is_granted('ROLE_ADMIN') %}
+						<div class="user-dashboard--admin-button">
+							<a href="{{ path('administration_platform') }}">
+							<span>{{ 'pages.user.administration_edit.link'|trans }}</span>
+							</a>
+						</div>
+						{% endif %}
 					</div>
 					<div class="user-dashboard--events">
 						<ul>

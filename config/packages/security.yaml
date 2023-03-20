@@ -38,4 +38,9 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/administration/platform, roles: ROLE_ADMIN }
+        - { path: ^/administration/home, roles: ROLE_ADMIN }
+        - { path: ^/administration/groups, roles: ROLE_ADMIN }
+        - { path: ^/administration/menus, roles: ROLE_ADMIN }
+        - { path: ^/administration/administrators, roles: ROLE_ADMIN }
         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: '%env(SECURE_SCHEME)%' }
