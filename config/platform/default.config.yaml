@@ -151,6 +151,9 @@ menus:
         -
             nom: Actualités
             lien: '/groups/communaute/articles/'
+        -
+            nom: Annuaire
+            lien: '/members'
     footbarFirstLiens:
         title: 'Menu'
         liens:
@@ -161,17 +164,14 @@ menus:
             nom: 'Connexion / Inscription'
             lien: '/login/'
         -
+            nom: Groupes
+            lien: '/groups/'
+        -
             nom: Annuaire
             lien: '/members/'
         -
             nom: Ressources
             lien: '/groups/communaute/pages/ressources/'
-        -
-            nom: Groupes
-            lien: '/groups/'
-        -
-            nom: Nouveau
-            lien: neuf
     footbarSecondLiens:
         title: 'En savoir plus'
         liens:
@@ -180,27 +180,27 @@ menus:
             lien: '/about'
         -
             nom: Newsletter
-            lien: '/newsletter'
+            lien: '/communaute/pages/newsletter'
         -
             nom: 'À propos de la plateforme'
-            lien: '/platform'
+            lien: '/groups/communaute/pages/a-propos-de-la-plateforme'
         -
             nom: 'Charte de la plateforme'
-            lien: '/charte/'
+            lien: '/groups/communaute/pages/charte-de-la-plateforme'
         -
             nom: 'Mentions Légales'
-            lien: '/legal'
+            lien: '/groups/plateforme-web/pages/mentions-legales'
     footbarThirdLiens:
         title: 'Aide'
         liens:
         -
             nom: 'Tutoriels d’utilisation de la plateforme'
-            lien: '/groups/communaute/tutoriels'
+            lien: '/groups/communaute/tutoriels-d-utilisation-de-la-plateforme'
         -
             nom: 'Règles d’utilisation de la plateforme'
-            lien: '/rules'
+            lien: '/groups/plateforme-web/pages/regles'
         -
             nom: 'Signaler un problème'
-            lien: '/report'
+            lien: 'mailto:support@naturadapt.com'
 
 
