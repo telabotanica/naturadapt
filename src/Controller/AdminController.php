@@ -8,8 +8,10 @@ use App\Form\AdminGroupsType;
 use App\Form\AdminMenusType;
 use App\Entity\AppLink;
 use App\Entity\AppLinkGroup;
+use App\Entity\Usergroup;
 
 use App\Service\AdminManager;
+use App\Security\GroupVoter;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -59,6 +61,11 @@ class AdminController extends AbstractController {
 
 			return $this->redirectToRoute( 'administration_platform' );
 		}
+
+		$communauteGroup = $manager->getRepository( Usergroup::class )
+						 ->findOneBy( [ 'slug' => 'communaute' ] );
+
+		$this->denyAccessUnlessGranted(GroupVoter::ADMIN, $communauteGroup);
 
 		return $this->render( 'pages/user/admin-edit.html.twig', [
 			'tab' => 'platform',
@@ -112,6 +119,11 @@ class AdminController extends AbstractController {
 
 			return $this->redirectToRoute( 'administration_home' );
 		}
+
+		$communauteGroup = $manager->getRepository( Usergroup::class )
+		->findOneBy( [ 'slug' => 'communaute' ] );
+
+		$this->denyAccessUnlessGranted(GroupVoter::ADMIN, $communauteGroup);
 
 		return $this->render( 'pages/user/admin-edit.html.twig', [
 			'tab' => 'home',
@@ -176,7 +188,6 @@ class AdminController extends AbstractController {
 			$setFunction = 'set'.ucfirst($liensType).'Title';
 			$appLinkGroup->{$setFunction}($liens['title']);
 		}
-		$linkTemp;
 		$liensTypes = [];
 		foreach($menusTexts as $liensType => $liens) {
 			array_push($liensTypes, $liensType);
@@ -201,6 +212,11 @@ class AdminController extends AbstractController {
 			return $this->redirectToRoute( 'administration_menus' );
 		}
 
+		$communauteGroup = $manager->getRepository( Usergroup::class )
+						 ->findOneBy( [ 'slug' => 'communaute' ] );
+
+		$this->denyAccessUnlessGranted(GroupVoter::ADMIN, $communauteGroup);
+
 		return $this->render( 'pages/user/admin-edit.html.twig', [
 			'tab' => 'menus',
 			'form' => $menuForm->createView(),
@@ -214,9 +230,14 @@ class AdminController extends AbstractController {
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function adminAdministratorsEdit (
+		EntityManagerInterface $manager,
 		AdminManager $adminManager
 	) {
 		$data = $adminManager->getAdminMembers();
+		$communauteGroup = $manager->getRepository( Usergroup::class )
+		->findOneBy( [ 'slug' => 'communaute' ] );
+
+		$this->denyAccessUnlessGranted(GroupVoter::ADMIN, $communauteGroup);
 		return $this->render( 'pages/user/admin-edit.html.twig', [
 			'tab' => 'admin',
 			'members' => $data[ 'members' ]
