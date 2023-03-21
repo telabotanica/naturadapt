@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Service\FileManager;
+use App\Entity\Usergroup;
 
 // Import the BinaryFileResponse
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -132,7 +133,23 @@ class AppController extends AbstractController {
 			'title' => $liens['title'],
 			'liens' => $liens['liens']
 		] );
-	}
+	} 
 
+	/**
+	 * @param \Doctrine\ORM\EntityManagerInterface       $manager
+	 *
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
+	public function headerUserOptions (
+		EntityManagerInterface $manager
+	) {
+
+		$communauteGroup = $manager->getRepository( Usergroup::class )
+			->findOneBy( [ 'slug' => 'communaute' ] );
+
+		return $this->render( 'layout/header-user-options.html.twig', [
+			'communauteGroup' => $communauteGroup
+		] );
+	}
 
 }
