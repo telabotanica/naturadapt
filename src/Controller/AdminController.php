@@ -207,6 +207,11 @@ class AdminController extends AbstractController {
 
 		if ( $menuForm->isSubmitted() && $menuForm->isValid() ) {
 			foreach($liensTypes as $liensType) {
+				// navbarLiens has no title
+				if($liensType!='navbarLiens'){
+					$linksTitle = $menuForm->get($liensType.'Title')->getData();
+					$appTextManager->changeLiensTitle('menus', $linksTitle, $liensType);
+				}
 				$appTextManager->changeLiens('menus', $menuForm->get($liensType)->getData(), $liensType);
 			}
 			return $this->redirectToRoute( 'administration_menus' );

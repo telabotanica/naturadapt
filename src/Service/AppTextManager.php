@@ -52,6 +52,16 @@ class AppTextManager
         return $adminYamlTab;
     }
 
+    public function changeLiensTitle($tab, $value, $liensType)
+    {
+        $adminYaml = Yaml::parse(file_get_contents($this->projectDir.'/config/platform/config.yaml'));
+        if (!is_null($value)) {
+            $adminYaml[$tab][$liensType]['title'] = $value;
+        }
+        $adminYaml = Yaml::dump($adminYaml, 5);
+        file_put_contents($this->projectDir.'/config/platform/config.yaml', $adminYaml);
+    }
+
     public function changeLiens($tab, $liens, $liensType)
     {
         $adminYaml = Yaml::parse(file_get_contents($this->projectDir.'/config/platform/config.yaml'));
