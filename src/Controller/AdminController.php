@@ -98,6 +98,12 @@ class AdminController extends AbstractController {
 		if ( $homeForm->isSubmitted() && $homeForm->isValid() ) {
 
 			// Front
+			// Update all textuals info
+			foreach ( $homeForm->getData() as $key => $value ) {
+				$appTextManager->changeText('home', $key, $value);
+			}
+
+			// Update images info
 			$uploadFile = $homeForm->get( 'frontfile' )->getData();
 			if ( !empty( $uploadFile ) ) {
 				/**
@@ -112,10 +118,6 @@ class AdminController extends AbstractController {
 				$appFileManager->setAppImageId('home', 'front', $newFrontFile->getId());
 			}
 
-
-			foreach ( $homeForm->getData() as $key => $value ) {
-				$appTextManager->changeText('home', $key, $value);
-			}
 
 			return $this->redirectToRoute( 'administration_home' );
 		}
