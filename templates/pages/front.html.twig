@@ -25,17 +25,21 @@
 			<section class="wysiwyg-content">
 				{{ adminText.premier_texte | raw}}
 			</section>
-			<section class="front-page--focus">
-				<p>{{ adminText.premier_clique_texte }}</p>
-				<a href="{{ adminText.premier_clique_lien}}" class="cta">{{ adminText.premier_clique_bouton_texte }}</a>
-			</section>
+			{% if adminText.premier_clique_visibility %}
+				<section class="front-page--focus">
+					<p>{{ adminText.premier_clique_texte }}</p>
+					<a href="{{ adminText.premier_clique_lien}}" class="cta">{{ adminText.premier_clique_bouton_texte }}</a>
+				</section>
+			{% endif %}
 			<section class="wysiwyg-content">
 				{{ adminText.second_texte | raw}}
 			</section>
-			<section class="front-page--focus">
-				<p>{{ adminText.second_clique_texte }} </p>
-				<a href="{{ adminText.second_clique_lien}}" class="cta">{{ adminText.second_clique_bouton_texte}}</a>
-			</section>
+			{% if adminText.second_clique_visibility %}
+				<section class="front-page--focus">
+					<p>{{ adminText.second_clique_texte }} </p>
+					<a href="{{ adminText.second_clique_lien}}" class="cta">{{ adminText.second_clique_bouton_texte}}</a>
+				</section>
+			{% endif %}
 			<section class="front-page--objective wysiwyg-content">
 				{{ adminText.troisieme_texte | raw}}
 			</section>
