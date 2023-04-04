@@ -279,11 +279,11 @@ class User implements UserInterface {
 	}
 
 	public function getPresentation (): ?string {
-		return mb_substr( $this->presentation, 0, 32 );
+		return mb_substr( $this->presentation ?? '', 0, 32 );
 	}
 
 	public function setPresentation ( ?string $presentation ): self {
-		$this->presentation = mb_substr( trim( $presentation ), 0, 32 );
+		$this->presentation = mb_substr( trim( $presentation ?? '' ), 0, 32 );
 
 		return $this;
 	}
