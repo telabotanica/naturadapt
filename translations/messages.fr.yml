@@ -64,6 +64,11 @@ forms:
                 terms_of_use: "CGU"
                 share_values: " et partage les valeurs de la "
                 charter: "Charte Natur’Adapt"
+        has_adaptative_approach:
+            label: "Démarche Adaptative"
+            labels:
+                adaptative_approach: "Je suis engagé dans une démarche adaptative"
+                no_adaptative_approach: "Je ne suis pas engagé dans une démarche adaptative"
 
     user_parameters:
         email_introduction:

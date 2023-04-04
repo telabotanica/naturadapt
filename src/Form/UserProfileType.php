@@ -103,6 +103,16 @@ class UserProfileType extends AbstractType {
 						'required' => FALSE,
 						'mapped'   => FALSE,
 				] )
+				->add( 'hasAdaptativeApproach', ChoiceType::class, [
+						'required'    => TRUE,
+						'expanded'    => TRUE,
+						'multiple'    => FALSE,
+						'placeholder' => FALSE,
+						'choices'     => [
+								'forms.user.has_adaptative_approach.labels.' . User::TYPE_HAS_ADAPTATIVE_APPROCH_YES => User::TYPE_HAS_ADAPTATIVE_APPROCH_YES,
+								'forms.user.has_adaptative_approach.labels.' . User::TYPE_HAS_ADAPTATIVE_APPROCH_NO  => User::TYPE_HAS_ADAPTATIVE_APPROCH_NO,
+						],
+				] )	
 				->add( 'submit', SubmitType::class );
 	}
 

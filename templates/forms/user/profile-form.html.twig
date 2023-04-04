@@ -67,6 +67,12 @@
 		<div class="hint">{{ 'forms.user.site.hint'|trans }}</div>
 		{{ form_widget(form.siteName, {'attr': {'placeholder': 'forms.user.site.placeholder', 'data-query': path('search_site', {'query':'query'})}}) }}
 	</div>
+	<div class="form-row form-row__field">
+		{{ form_label(form.hasAdaptativeApproach, 'forms.user.has_adaptative_approach.label') }}
+		<div class="form-row__radioboxes">
+			{{ form_widget(form.hasAdaptativeApproach) }}
+		</div>
+	</div>
 </div>
 <div class="form-row form-row__submit">
 	{{ form_widget(form.submit, {'label': form_submit}) }}
