@@ -1,0 +1,23 @@
+.map-size{
+    height: 500px;
+    display: flex;
+    z-index: 1;
+
+}
+
+.map-spacing{
+    margin: 1.25rem 0 1.25rem 0 ;
+}
+
+.mycluster {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background-color: #51ae30;
+    color: white;
+    text-align: center;
+    font-size: 20px;    
+    line-height: 40px;
+    margin-top: -20px;
+    margin-left: -20px;
+}

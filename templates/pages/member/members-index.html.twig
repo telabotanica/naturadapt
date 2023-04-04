@@ -84,6 +84,9 @@
 					<div class="form-row form-row__no-gap search">
 						{{ form_widget(form.query, {'attr': {'placeholder': 'pages.member.list.query.placeholder'}}) }}
 					</div>
+					<div class="map-spacing">
+						{% include 'components/map.html.twig' with {'members':members} %}
+					</div>
 					<ul class="members-list">
 						{% for user in members %}
 							<li>

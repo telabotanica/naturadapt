@@ -6,13 +6,14 @@ use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User implements UserInterface {
+class User implements UserInterface, JsonSerializable {
 	public const STATUS_DISABLED = 0;
 	public const STATUS_ACTIVE   = 1;
 	public const STATUS_PENDING  = 2;
@@ -538,4 +539,17 @@ class User implements UserInterface {
 
 		return $this;
 	}
+
+	public function jsonSerialize()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'latitude' => $this->latitude,
+            'longitude' => $this->longitude,
+			'site' => $this->site,
+			'city' => $this->city,
+			'zipcode' => $this->zipcode
+        ];
+    }
 }
