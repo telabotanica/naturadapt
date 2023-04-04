@@ -170,6 +170,11 @@ class User implements UserInterface, JsonSerializable {
 	 */
 	private $hasAgreedTermsOfUse;
 
+	/**
+	 * @ORM\Column(type="boolean", options={"default":"0"})
+	 */
+	private $hasAdaptativeApproach;
+
 	public function __construct () {
 		$this->usergroupMemberships = new ArrayCollection();
 		$this->skills               = new ArrayCollection();
@@ -536,6 +541,16 @@ class User implements UserInterface, JsonSerializable {
 
 	public function setHasAgreedTermsOfUse ( ?bool $hasAgreedTermsOfUse ): self {
 		$this->hasAgreedTermsOfUse = $hasAgreedTermsOfUse ?? false;
+
+		return $this;
+	}
+
+	public function getHasAdaptativeApproach (): bool {
+		return $this->hasAdaptativeApproach;
+	}
+
+	public function setHasAdaptativeApproach ( ?bool $hasAdaptativeApproach ): self {
+		$this->hasAdaptativeApproach = $hasAdaptativeApproach ?? false;
 
 		return $this;
 	}
