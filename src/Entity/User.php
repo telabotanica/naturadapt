@@ -178,6 +178,11 @@ class User implements UserInterface, JsonSerializable {
 	 */
 	private $hasAdaptativeApproach;
 
+	/**
+	 * @ORM\Column(type="boolean", options={"default":"0"})
+	 */
+	private $hasBeenNotifiedOfNewAdaptativeApproach;
+
 	public function __construct () {
 		$this->usergroupMemberships = new ArrayCollection();
 		$this->skills               = new ArrayCollection();
@@ -554,6 +559,16 @@ class User implements UserInterface, JsonSerializable {
 
 	public function setHasAdaptativeApproach ( ?bool $hasAdaptativeApproach ): self {
 		$this->hasAdaptativeApproach = $hasAdaptativeApproach ?? false;
+
+		return $this;
+	}
+
+	public function getHasBeenNotifiedOfNewAdaptativeApproach (): bool {
+		return $this->hasBeenNotifiedOfNewAdaptativeApproach;
+	}
+
+	public function setHasBeenNotifiedOfNewAdaptativeApproach ( ?bool $hasBeenNotifiedOfNewAdaptativeApproach ): self {
+		$this->hasBeenNotifiedOfNewAdaptativeApproach = $hasBeenNotifiedOfNewAdaptativeApproach ?? false;
 
 		return $this;
 	}

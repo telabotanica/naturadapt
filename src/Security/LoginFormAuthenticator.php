@@ -79,6 +79,21 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator {
 	}
 
 	public function onAuthenticationSuccess ( Request $request, TokenInterface $token, $providerKey ) {
+		
+		$user = $token->getUser();
+		if (!$user instanceof UserInterface) {
+			throw new \Exception('Invalid user object');
+		}
+	
+		if (!$user->getHasBeenNotifiedOfNewAdaptativeApproach()) {
+			// Add a flash message to notify the user
+			$request->getSession()->getFlashBag()->add('warning', 'Veuillez remplir le nouveau champs "Démarche adaptative" sur votre profil.');
+			$user->setHasBeenNotifiedOfNewAdaptativeApproach(true);
+
+			// Rediriger vers la page de notification pour demander à l'utilisateur de mettre à jour sa variable hasBeenNotifiedOfNewAdaptativeApproach
+			return new RedirectResponse($this->router->generate('user_profile_create'));
+		}
+		
 		if ( $targetPath = $this->getTargetPath( $request->getSession(), $providerKey ) ) {
 			return new RedirectResponse( $targetPath );
 		}
