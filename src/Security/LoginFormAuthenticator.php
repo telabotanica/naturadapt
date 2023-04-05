@@ -87,7 +87,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator {
 	
 		if (!$user->getHasBeenNotifiedOfNewAdaptativeApproach()) {
 			// Add a flash message to notify the user
-			// Code à enlever une fois que les utilisateurs auront mis à jour leur profil
+			// TODO: Code à enlever une fois que les utilisateurs auront mis à jour leur profil
 			$request->getSession()->getFlashBag()->add('warning', 'Veuillez remplir le nouveau champs "Démarche adaptative" sur votre profil.');
 			$user->setHasBeenNotifiedOfNewAdaptativeApproach(true);
 			$this->entityManager->flush();

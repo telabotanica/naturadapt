@@ -26,6 +26,22 @@ class AppController extends AbstractController {
 
 		$homeTexts = $appTextManager->getTabText('home');
 
+       // Obtenez l'objet token actuel
+	   $token = $this->get('security.token_storage')->getToken();
+	   
+	   // TODO: Code à enlever une fois que les utilisateurs auront mis à jour leurs profils
+		// Si l'utilisateur est connecté, récupérez l'objet User
+		if ($token && $token->getUser()) {
+			$user = $token->getUser();
+
+			if ($user->getHasBeenNotifiedOfNewAdaptativeApproach()) {
+				// Add a flash message to notify the user
+				$this->addFlash('warning', 'Une nouvelle fonctionnalité est disponible. <br> Veuillez remplir le nouveau champs "Démarche adaptative" sur votre profil.');
+				$user->setHasBeenNotifiedOfNewAdaptativeApproach(true);
+				$manager->flush();
+			}
+		}
+
 		return $this->render( 'pages/front.html.twig', [
 			'adminText' => $homeTexts
 		] );
