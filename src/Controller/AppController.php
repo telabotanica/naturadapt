@@ -34,7 +34,7 @@ class AppController extends AbstractController {
 		if ($token && $token->getUser()) {
 			$user = $token->getUser();
 
-			if ($user->getHasBeenNotifiedOfNewAdaptativeApproach()) {
+			if (!$user->getHasBeenNotifiedOfNewAdaptativeApproach()) {
 				// Add a flash message to notify the user
 				$this->addFlash('warning', 'Une nouvelle fonctionnalité est disponible. <br> Veuillez remplir le nouveau champs "Démarche adaptative" sur votre profil.');
 				$user->setHasBeenNotifiedOfNewAdaptativeApproach(true);
