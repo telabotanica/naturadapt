@@ -477,6 +477,10 @@ pages:
                     labels:
                         private: "Grand public"
                         professional: "Professionnel"
+                has_adaptative_approach:
+                    labels: 
+                        adaptative_approach: "Engagés dans une démarche"
+                        everyone: "Tous"
                 skills:
                     label: "Compétences"
             query:

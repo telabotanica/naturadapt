@@ -71,6 +71,11 @@
 						</div>
 					</div>
 					<div class="form-row form-row__filter">
+						<div class="form-row__radioboxes">
+							{{ form_widget(form.hasAdaptativeApproach) }}
+						</div>
+					</div>
+					<div class="form-row form-row__filter">
 						{{ form_label(form.skills, 'pages.member.list.filters.skills.label') }}
 						<div class="form-row__checkboxes checkboxes-autocomplete">
 							{{ form_widget(form.skills) }}

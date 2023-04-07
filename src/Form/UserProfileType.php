@@ -109,8 +109,8 @@ class UserProfileType extends AbstractType {
 						'multiple'    => FALSE,
 						'placeholder' => FALSE,
 						'choices'     => [
-								'forms.user.has_adaptative_approach.labels.' . User::TYPE_HAS_ADAPTATIVE_APPROCH_YES => TRUE,
-								'forms.user.has_adaptative_approach.labels.' . User::TYPE_HAS_ADAPTATIVE_APPROCH_NO  => FALSE,
+								'forms.user.has_adaptative_approach.labels.' . User::TYPE_HAS_ADAPTATIVE_APPROACH_YES => TRUE,
+								'forms.user.has_adaptative_approach.labels.' . User::TYPE_HAS_ADAPTATIVE_APPROACH_NO  => FALSE,
 						],
 				] )	
 				->add( 'submit', SubmitType::class );

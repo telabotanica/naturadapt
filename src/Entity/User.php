@@ -24,8 +24,8 @@ class User implements UserInterface, JsonSerializable {
 	public const TYPE_PRIVATE       = 'private';
 	public const TYPE_PROFESSIONNAL = 'professional';
 
-	public const TYPE_HAS_ADAPTATIVE_APPROCH_YES = 'adaptative_approach';
-	public const TYPE_HAS_ADAPTATIVE_APPROCH_NO = 'no_adaptative_approach';
+	public const TYPE_HAS_ADAPTATIVE_APPROACH_YES = 'adaptative_approach';
+	public const TYPE_HAS_ADAPTATIVE_APPROACH_NO = 'no_adaptative_approach';
 
 	/**
 	 * @ORM\Id()

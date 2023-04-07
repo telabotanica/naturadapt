@@ -145,6 +145,22 @@ class UserRepository extends ServiceEntityRepository {
 		}
 
 		/**
+		 * ADAPTATIVE APPROACH
+		 * 
+		 * If the user has adaptative approach to true, we add the user to the results
+		 */
+		if (isset($filters['hasAdaptativeApproach'])) {
+			if ($filters['hasAdaptativeApproach'] === '1') {
+				// si l'option "Engagé dans une démarche" est cochée, on filtre les utilisateurs avec hasAdaptativeApproach = true
+				$qb->andWhere($qb->expr()->eq('u.hasAdaptativeApproach', ':hasAdaptativeApproach'))
+					->setParameter('hasAdaptativeApproach', true);
+			} elseif ($filters['hasAdaptativeApproach'] === '0') {
+				// si l'option "Engagé dans une démarche" n'est pas cochée, on ne filtre pas les utilisateurs sur hasAdaptativeApproach
+			}
+		} else {
+			// si aucune option n'est cochée, on ne filtre pas les utilisateurs sur hasAdaptativeApproach
+		}
+		/**
 		 * SKILLS
 		 */
 		if ( !empty( $filters[ 'skills' ] ) ) {
