@@ -7,16 +7,14 @@ domready(() => {
   L.Icon.Default.imagePath = '/media/favicon/';
   const mapElement = document.getElementById('mapId');
 
-  const mapCommunaute = L.map('mapId').setView([51.505, -0.09], 13);
+  const mapCommunaute = L.map('mapId').setView([51.505, -0.09], 5);
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
     maxZoom: 18
   }).addTo(mapCommunaute);
 
-  const marker = L.marker([51.5, -0.09]).addTo(mapCommunaute);
 
-  marker.bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
   console.log(members);
   
   var markers = L.markerClusterGroup({
