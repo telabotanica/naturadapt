@@ -15,7 +15,11 @@ class AdminManager {
 		$this->manager     = $manager;
 	}
 
-	public function getAdminMembers () {
+	/**
+	 * get all admin of the communaute group
+	 * @return array
+	 */
+	public function getCommuniteAdminMembers () {
 		$manager = $this->manager;
 
 		/**
@@ -23,7 +27,7 @@ class AdminManager {
 		 */
 		$usersRepository = $manager->getRepository( User::class );
 
-		$members = $usersRepository->searchAdmins();
+		$members = $usersRepository->searchCommunauteAdmins();
 
 		return [
 				'members' => $members,

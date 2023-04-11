@@ -240,7 +240,7 @@ class AdminController extends AbstractController {
 		EntityManagerInterface $manager,
 		AdminManager $adminManager
 	) {
-		$data = $adminManager->getAdminMembers();
+		$data = $adminManager->getCommuniteAdminMembers();
 		$communauteGroup = $manager->getRepository( Usergroup::class )
 		->findOneBy( [ 'slug' => 'communaute' ] );
 

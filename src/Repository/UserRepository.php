@@ -207,14 +207,20 @@ class UserRepository extends ServiceEntityRepository {
 	 *
 	 * @param \Doctrine\ORM\QueryBuilder $qb
 	 */
-	public function searchAdmins ( ) {
+	public function searchCommunauteAdmins ( ) {
 
-		$qb = $this->createQueryBuilder( 'u' );
-		return $qb->select('u')
-				->where( 'u.roles LIKE :roleAdmin' )
-				->setParameter('roleAdmin', '%"'.User::ROLE_ADMIN.'"%')
-				->getQuery()
-				->getResult();
+		$role = 'admin';
+		$groupId = 1; 
+
+		$qb = $this->createQueryBuilder('u')
+			->leftJoin('u.usergroupMemberships', 'm')
+			->leftJoin('m.usergroup', 'g')
+			->where('m.role LIKE :role')
+			->andWhere('g.id = :groupId')
+			->setParameter('role', $role)
+			->setParameter('groupId', $groupId);
+	
+		return $qb->getQuery()->getResult();
 	}
 
 	// /**
