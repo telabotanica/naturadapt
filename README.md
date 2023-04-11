@@ -24,6 +24,8 @@ php bin/console doctrine:migrations:migrate
 
 Create the file containing administrators informations
 ```bash
+test ! -f config/platform/config.yaml && cp config/platform/default.config.yaml config/platform/config.yaml || true
+
 cp config/platform/default.config.yaml config/platform/config.yaml
 ```
 
