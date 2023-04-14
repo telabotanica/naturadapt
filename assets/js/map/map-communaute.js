@@ -61,54 +61,56 @@ async function getCustomIcon(color, avatarUrl=null) {
 domready(async () => {
   // Configuration du chemin de l'image par défaut pour les icônes de Leaflet
   L.Icon.Default.imagePath = '/media/favicon/';
+  const mapElement = document.getElementById('mapId');
+  if (mapElement) { 
+    // Création de la carte avec les coordonnées et le niveau de zoom initiaux
+    const mapCommunaute = L.map('mapId').setView([51.505, -0.09], 5);
 
-  // Création de la carte avec les coordonnées et le niveau de zoom initiaux
-  const mapCommunaute = L.map('mapId').setView([51.505, -0.09], 5);
+    // Ajout de la couche de tuiles OpenStreetMap à la carte
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+      maxZoom: 18
+    }).addTo(mapCommunaute);
 
-  // Ajout de la couche de tuiles OpenStreetMap à la carte
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
-    maxZoom: 18
-  }).addTo(mapCommunaute);
+    // Configuration du regroupement de marqueurs
+    var markers = L.markerClusterGroup({
+      iconCreateFunction: function(cluster) {
+        // Calculez le nombre de marqueurs dans le cluster
+        const count = cluster.getChildCount();
 
-  // Configuration du regroupement de marqueurs
-  var markers = L.markerClusterGroup({
-    iconCreateFunction: function(cluster) {
-      // Calculez le nombre de marqueurs dans le cluster
-      const count = cluster.getChildCount();
+        // Créez une icône pour représenter le cluster
+        return L.divIcon({
+          html: count,
+          className: 'mycluster',
+          iconSize: null
+        });
+      }
+    });
 
-      // Créez une icône pour représenter le cluster
-      return L.divIcon({
-        html: count,
-        className: 'mycluster',
-        iconSize: null
-      });
-    }
-  });
+    // Parcourez la liste des membres et ajoutez un marqueur pour chaque membre
+    const markerPromises = members.map(async (member) => {
+      if (member.latitude != null && member.longitude != null) {
+        const userId = member.id;
+        const avatarElement = document.querySelector(`[data-user-id="${userId}"]`);
+        const avatarUrl = avatarElement.dataset.avatarUrl;
+        const color = avatarElement.dataset.color;
 
-  // Parcourez la liste des membres et ajoutez un marqueur pour chaque membre
-  const markerPromises = members.map(async (member) => {
-    if (member.latitude != null && member.longitude != null) {
-      const userId = member.id;
-      const avatarElement = document.querySelector(`[data-user-id="${userId}"]`);
-      const avatarUrl = avatarElement.dataset.avatarUrl;
-      const color = avatarElement.dataset.color;
+        // Obtenez l'icône personnalisée pour chaque membre
+        const icon = await getCustomIcon(color, avatarUrl);
 
-      // Obtenez l'icône personnalisée pour chaque membre
-      const icon = await getCustomIcon(color, avatarUrl);
+        // Créez un marqueur avec l'icône personnalisée et ajoutez-le au groupe de marqueurs
+        const marker = L.marker([member.latitude, member.longitude], { icon: icon });
+        marker.bindPopup(`<b>${member.name}</b><br />${member.description}`).openPopup();
+        markers.addLayer(marker);
+        return marker;
+      }
+      return null;
+    });
 
-      // Créez un marqueur avec l'icône personnalisée et ajoutez-le au groupe de marqueurs
-      const marker = L.marker([member.latitude, member.longitude], { icon: icon });
-      marker.bindPopup(`<b>${member.name}</b><br />${member.description}`).openPopup();
-      markers.addLayer(marker);
-      return marker;
-    }
-    return null;
-  });
+    // Attendez que tous les marqueurs soient chargés
+    await Promise.all(markerPromises);
 
-  // Attendez que tous les marqueurs soient chargés
-  await Promise.all(markerPromises);
-
-  // Ajoutez le groupe de marqueurs à la carte
-  mapCommunaute.addLayer(markers);
+    // Ajoutez le groupe de marqueurs à la carte
+    mapCommunaute.addLayer(markers);
+  }
 });
