@@ -92,7 +92,9 @@ domready( () => {
 					displayKey: ( item ) => item.name,
 				} ] );
 		}
-		
+
+		// TODO: Enlever cette partie de code quand la plupart des longitude et lattitude est renseignée
+		// TODO: Il faudra mettre à jour latitude et longitude lorsque la ville est changée 
 		// Ajoutez un gestionnaire d'événement 'submit' au formulaire
 		form.addEventListener('submit', (event) => {
 			// Empêche l'envoi du formulaire jusqu'à ce que les coordonnées soient mises à jour
