@@ -20,7 +20,7 @@ import 'core-js/features/promise';
 //
 import './interaction/interactive-submission';
 // 
-import './map/map';
+import './map/map-communaute';
 //
 import './ui/input-autocomplete';
 import './ui/input-checkboxes-autocomplete';
