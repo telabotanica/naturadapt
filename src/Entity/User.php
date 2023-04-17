@@ -184,6 +184,11 @@ class User implements UserInterface, JsonSerializable {
     private $adaptativeApproachLink;
 
 	/**
+	 * @ORM\Column(type="string", length=255, nullable=true)
+	 */
+	private $adaptativeApproachDescription;
+
+	/**
 	 * @ORM\Column(type="boolean", options={"default":"0"})
 	 */
 	private $hasBeenNotifiedOfNewAdaptativeApproach;
@@ -580,6 +585,18 @@ class User implements UserInterface, JsonSerializable {
         return $this;
     }
 
+	public function getAdaptativeApproachDescription(): ?string
+	{
+		return $this->adaptativeApproachDescription;
+	}
+
+	public function setAdaptativeApproachDescription(?string $adaptativeApproachDescription): self
+	{
+		$this->adaptativeApproachDescription = $adaptativeApproachDescription;
+
+		return $this;
+	}
+
 	public function getHasBeenNotifiedOfNewAdaptativeApproach (): bool {
 		return $this->hasBeenNotifiedOfNewAdaptativeApproach;
 	}
@@ -599,7 +616,10 @@ class User implements UserInterface, JsonSerializable {
             'longitude' => $this->longitude,
 			'site' => $this->site,
 			'city' => $this->city,
-			'zipcode' => $this->zipcode
+			'zipcode' => $this->zipcode,
+			'hasAdaptativeApproach' => $this->hasAdaptativeApproach,
+			'adaptativeApproachDescription' => $this->adaptativeApproachDescription,
+			'adaptativeApproachLink' => $this->adaptativeApproachLink,
         ];
     }
 }

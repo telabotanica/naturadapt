@@ -100,7 +100,17 @@ domready(async () => {
 
         // Créez un marqueur avec l'icône personnalisée et ajoutez-le au groupe de marqueurs
         const marker = L.marker([member.latitude, member.longitude], { icon: icon });
-        marker.bindPopup(`<b>${member.name}</b><br />${member.description}`).openPopup();
+        let popupContent = `<b>${member.name}</b>`;
+        if (member.hasAdaptativeApproach) {
+          if(member.adaptativeApproachDescription && member.adaptativeApproachLink) {
+            popupContent += `<br/><a href='${member.adaptativeApproachLink}' target="_blank">${member.adaptativeApproachDescription}</a>`;
+          } else if(member.adaptativeApproachDescription) {
+            popupContent += `<br/>${member.adaptativeApproachDescription}`;
+          } else if (member.adaptativeApproachLink) {
+            popupContent += `<br/><a href='${member.adaptativeApproachLink}' target="_blank">${member.adaptativeApproachLink}</a>`;
+          }     
+        }
+        marker.bindPopup(popupContent).openPopup();
         markers.addLayer(marker);
         return marker;
       }

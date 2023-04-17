@@ -113,6 +113,9 @@ class UserProfileType extends AbstractType {
 								'forms.user.has_adaptative_approach.labels.' . User::TYPE_HAS_ADAPTATIVE_APPROACH_NO  => FALSE,
 						],
 				] )
+				->add ( 'adaptativeApproachDescription', TextType::class, [
+					'required' => FALSE,
+				] )
 				->add( 'adaptativeApproachLink', TextType::class, [
 					'required' => FALSE
 				] )

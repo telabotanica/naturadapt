@@ -69,6 +69,9 @@ forms:
             labels:
                 adaptative_approach: "Je suis engagé dans une démarche adaptative"
                 no_adaptative_approach: "Je ne suis pas engagé dans une démarche adaptative"
+        adaptative_approach_description:
+            label: "Description de votre démarche adaptative"
+            placeholder: "Décrivez succinctement votre démarche adaptative"
         adaptative_approach_link:
             label: "Lien de votre démarche adaptative"
             placeholder: "Entrez un éventuel lien lié à votre démarche adaptative."
