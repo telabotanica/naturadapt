@@ -179,6 +179,11 @@ class User implements UserInterface, JsonSerializable {
 	private $hasAdaptativeApproach;
 
 	/**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $adaptativeApproachLink;
+
+	/**
 	 * @ORM\Column(type="boolean", options={"default":"0"})
 	 */
 	private $hasBeenNotifiedOfNewAdaptativeApproach;
@@ -562,6 +567,18 @@ class User implements UserInterface, JsonSerializable {
 
 		return $this;
 	}
+
+	public function getAdaptativeApproachLink(): ?string
+    {
+        return $this->adaptativeApproachLink;
+    }
+
+    public function setAdaptativeApproachLink(?string $adaptativeApproachLink): self
+    {
+        $this->adaptativeApproachLink = $adaptativeApproachLink;
+
+        return $this;
+    }
 
 	public function getHasBeenNotifiedOfNewAdaptativeApproach (): bool {
 		return $this->hasBeenNotifiedOfNewAdaptativeApproach;

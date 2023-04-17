@@ -73,6 +73,10 @@
 			{{ form_widget(form.hasAdaptativeApproach) }}
 		</div>
 	</div>
+	<div class="form-row form-row__field">
+		{{ form_label(form.adaptativeApproachLink, 'forms.user.adaptative_approach_link.label') }}
+		{{ form_widget(form.adaptativeApproachLink, {'attr': {'placeholder': 'forms.user.adaptative_approach_link.placeholder'}}) }}
+	</div>
 </div>
 <div class="form-row form-row__submit">
 	{{ form_widget(form.submit, {'label': form_submit}) }}
