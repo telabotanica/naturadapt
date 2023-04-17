@@ -16,6 +16,8 @@ domready(() => {
             adaptativeApproachLinkRow.querySelector('input').setAttribute('disabled', 'disabled');
         }
     }
-    hasAdaptativeApproach.addEventListener('change', toggleAdaptativeApproachLink);
-    toggleAdaptativeApproachLink();
+    if(hasAdaptativeApproach){
+        hasAdaptativeApproach.addEventListener('change', toggleAdaptativeApproachLink);
+        toggleAdaptativeApproachLink();
+    }
 });
