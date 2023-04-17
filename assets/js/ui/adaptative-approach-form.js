@@ -8,7 +8,6 @@ domready(() => {
     function toggleAdaptativeApproachLink() {
         radio = document.querySelector('input[name="user_profile[hasAdaptativeApproach]"]:checked');
 
-        console.log(radio)
         if (radio.value === '1') {
             adaptativeApproachLinkRow.style.display = '';
             adaptativeApproachLinkRow.querySelector('input').removeAttribute('disabled');
