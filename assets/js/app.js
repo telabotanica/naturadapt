@@ -21,6 +21,8 @@ import 'core-js/features/promise';
 import './interaction/interactive-submission';
 // 
 import './map/map-communaute';
+import './map/map-home';
+import './map/map-home-region';
 //
 import './ui/input-autocomplete';
 import './ui/input-checkboxes-autocomplete';

@@ -1,0 +1,7 @@
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+
+<script>
+  // Créez une variable JavaScript avec la liste des membres
+  const members = {{ members | json_encode | raw }};
+</script>
+<div id="mapHomeRegionId" class="map-size"></div>

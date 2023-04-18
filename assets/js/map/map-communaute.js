@@ -61,10 +61,10 @@ async function getCustomIcon(color, avatarUrl=null) {
 domready(async () => {
   // Configuration du chemin de l'image par défaut pour les icônes de Leaflet
   L.Icon.Default.imagePath = '/media/favicon/';
-  const mapElement = document.getElementById('mapId');
+  const mapElement = document.getElementById('mapCommunauteId');
   if (mapElement) { 
     // Création de la carte avec les coordonnées et le niveau de zoom initiaux
-    const mapCommunaute = L.map('mapId').setView([51.505, -0.09], 5);
+    const mapCommunaute = L.map('mapCommunauteId').setView([51.505, -0.09], 5);
 
     // Ajout de la couche de tuiles OpenStreetMap à la carte
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

@@ -21,6 +21,21 @@
 				</div>
 			</div>
 		</div>
+
+		{% block map %}
+			{% if app.user %}
+				<!-- Utilisateur connecté, affichez la carte avec les marqueurs de membres -->
+				<div class="map-spacing">
+					{% include 'components/map-home.html.twig' with {'members': users} %}
+				</div>
+			{% else %}
+				<!-- Utilisateur non connecté, affichez la carte avec les régions colorées -->
+				<div class="map-spacing">
+					{% include 'components/map-home-region.html.twig' with {'members': users} %}
+				</div>
+			{% endif %}
+		{% endblock %}
+
 		<div class="main--content content-container">
 			<section class="wysiwyg-content">
 				{{ adminText.premier_texte | raw}}
