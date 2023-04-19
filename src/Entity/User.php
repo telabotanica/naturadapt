@@ -86,6 +86,11 @@ class User implements UserInterface, JsonSerializable {
 	private $country;
 
 	/**
+	 * @ORM\Column(type="string", length=5, nullable=true)
+	 */
+	private $region;
+
+	/**
 	 * @ORM\Column(type="text", length=64, nullable=true)
 	 */
 	private $presentation;
@@ -436,6 +441,16 @@ class User implements UserInterface, JsonSerializable {
 
 	public function setCountry ( ?string $country ): self {
 		$this->country = mb_convert_case( trim( $country ), MB_CASE_UPPER );
+
+		return $this;
+	}
+
+	public function getRegion (): ?string {
+		return $this->region;
+	}
+
+	public function setRegion ( ?string $region ): self {
+		$this->region = mb_convert_case( trim( $region ), MB_CASE_UPPER );
 
 		return $this;
 	}
