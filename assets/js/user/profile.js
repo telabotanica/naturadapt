@@ -20,11 +20,11 @@ function get_places(element) {
   }
 
 // Fonction pour rechercher les coordonnées d'une ville en particulier
-function searchCoords(query) {
+function searchCoords(query, country) {
 	return new Promise((resolve, reject) => {
 	  const url = new URL('https://nominatim.openstreetmap.org/search');
 	  url.searchParams.append('format', 'json');
-	  url.searchParams.append('q', query);
+	  url.searchParams.append('q', `${query}, ${country}`);
 	  url.searchParams.append('limit', 1);
   
 	  fetch(url)
@@ -101,10 +101,12 @@ domready( () => {
 			event.preventDefault();
 		
 			const inputCity = form.querySelector('[name="user_profile[city]"]');
-		
+			const inputCountry = form.querySelector('[name="user_profile[country]"]'); // Ajoutez cette ligne pour récupérer le pays
+
 			if (inputCity.value) {
 				const city = inputCity.value;
-				searchCoords(`${city}`)
+				const country = inputCountry.value;
+				searchCoords(`${city}`, `${country}`)
 				.then((coordinates) => {
 					if (coordinates) {
 					form.querySelector('[name="user_profile[latitude]"]').value = coordinates.lat || '';
