@@ -15,6 +15,7 @@ use App\Service\Community;
 use App\Service\EmailSender;
 use App\Service\FileManager;
 use App\Service\UserAnonymize;
+use App\Util\Geocoder;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;;
 use Exception;
@@ -33,6 +34,14 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 class UserController extends AbstractController {
+
+    private $geocoder;
+
+    public function __construct(Geocoder $myUtil)
+    {
+        $this->geocoder = $myUtil;
+    }
+
 	/**
 	 * Login form can be embed in pages
 	 *
@@ -428,6 +437,16 @@ class UserController extends AbstractController {
 				$user->setAvatar( $file );
 			}
 			// --
+
+			// Convert Latitude et Longitude to Nuts code (european Region Code)
+            $latitude = $user->getLatitude();
+            $longitude = $user->getLongitude();
+            $NUTS_ID = $this->geocoder->getNutsId($latitude, $longitude);
+
+            // Associer la région et le pays au membre
+            if ($NUTS_ID) {
+				$user->setRegion($NUTS_ID);
+            }
 
 			$manager->flush();
 
