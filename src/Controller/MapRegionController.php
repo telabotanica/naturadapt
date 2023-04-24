@@ -18,7 +18,7 @@ class MapRegionController extends AbstractController
         MapManager $mapManager
     ): JsonResponse
     {
-        $countByRegion = $mapManager->getUsersByRegion();
+        $countByRegion = $mapManager->getUsersByGeoSubdivision();
 
         return $this->json($countByRegion);
     }

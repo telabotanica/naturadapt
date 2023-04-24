@@ -256,4 +256,27 @@ class UserRepository extends ServiceEntityRepository {
 	
 		return $countByRegion;
 	}
+
+	/**************************************************
+	 * Search number of user by country
+	 *************************************************
+	*/
+	public function countUsersByCountry()
+	{
+		$qb = $this->createQueryBuilder('u');
+		$qb->addSelect('u.country')
+			->select('u.country as countryCode, COUNT(u.id) as userCount')
+			->groupBy('u.country');
+	
+		$results = $qb->getQuery()->getResult();
+	
+		// Transformer les résultats en un tableau associatif
+		$countByCountry = [];
+		foreach ($results as $result) {
+			$countByCountry[$result['countryCode']] = $result['userCount'];
+		}
+	
+		return $countByCountry;
+	}
+
 }

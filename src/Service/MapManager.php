@@ -15,7 +15,9 @@ class MapManager
 		$this->manager     = $manager;
 	}
 
-    public function getUsersByRegion () {
+
+	// Get the number of users by region and country
+    public function getUsersByGeoSubdivision() {
 		$manager = $this->manager;
 
 		/**
@@ -24,9 +26,11 @@ class MapManager
 		$usersRepository = $manager->getRepository( User::class );
 
 		$countByRegion = $usersRepository->countUsersByRegion();
+		$countByCountry = $usersRepository->countUsersByCountry();
 
 		return [
-				'countByRegion' => $countByRegion,
+			'level1' => $countByCountry,
+			'level3' => $countByRegion,
 		];
 	}
 }
