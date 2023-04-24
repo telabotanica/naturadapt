@@ -5,35 +5,62 @@ let geojsonLayer; // Déclarez la variable en dehors de la fonction
 
 function getColor(value) {
   let color;
-  let alpha;
 
   if (value === 0) {
     color = 'rgba(255, 255, 255, 0)'; // Completely transparent for 0
   } else if (value === 1) {
-    alpha = 0.2;
-    color = `rgba(255, 245, 230, ${alpha})`;
+    color = `rgba(255, 245, 230, 1)`;
   } else if (value < 10) {
-    alpha = 0.4;
-    color = `rgba(255, 215, 180, ${alpha})`;
+    color = `rgba(255, 215, 180, 1)`;
   } else if (value < 50) {
-    alpha = 0.6;
-    color = `rgba(255, 185, 130, ${alpha})`;
+    color = `rgba(255, 185, 130, 1)`;
   } else if (value < 100) {
-    alpha = 0.8;
-    color = `rgba(255, 155, 80, ${alpha})`;
+    color = `rgba(255, 155, 80, 1)`;
   } else if (value < 250) {
-    alpha = 1;
-    color = `rgba(255, 125, 30, ${alpha})`;
-  } else if (value < 500) {
-    alpha = 1;
-    color = `rgba(255, 95, 0, ${alpha})`;
+    color = `rgba(255, 125, 30, 1)`;
   } else {
     alpha = 1;
-    color = `rgba(230, 75, 0, ${alpha})`; // Darker orange for >= 500
+    color = `rgba(230, 75, 0, 1)`; // Darker orange for >= 250
   }
 
   return color;
 }
+
+function getCountByRegion(feature, membersData, zoomLevel) {
+  let levelCodeToKeep;
+  if (zoomLevel > 5) {
+    levelCodeToKeep = 3;
+  } else if (zoomLevel > 3) {
+    levelCodeToKeep = 2;
+  } else {
+    levelCodeToKeep = 1;
+  }
+
+  let count = 0;
+  if (levelCodeToKeep == 3 || levelCodeToKeep == 2) {
+    const levelCode = feature.properties["LEVL_CODE"];
+
+    if (levelCodeToKeep == 2) {
+      const level2RegionCode = feature.properties.NUTS_ID.substring(0, 4);
+      if (membersData.level2.hasOwnProperty(level2RegionCode)) {
+        count = membersData.level2[level2RegionCode];
+      }
+    } else {
+      const level3RegionCode = feature.properties.NUTS_ID;
+      if (membersData.level3.hasOwnProperty(level3RegionCode)) {
+        count = membersData.level3[level3RegionCode];
+      }
+    }
+  } else {
+    const countryCode = feature.properties.ISO_A2;
+    if (membersData.level1.hasOwnProperty(countryCode)) {
+      count = membersData.level1[countryCode];
+    }
+  }
+
+  return count;
+}
+
 
 async function loadRegionsLayer(map, zoomLevel, membersDataPromise) {
   // Retirez la couche de tuiles précédente (si elle existe)
@@ -49,6 +76,20 @@ async function loadRegionsLayer(map, zoomLevel, membersDataPromise) {
   // Initialisez geojsonLayer avec les données récupérées et la fonction de style adaptée
   geojsonLayer = L.geoJSON(data, {
     style: (feature) => style(feature, membersData, zoomLevel),
+    onEachFeature: function (feature, layer) {
+      // Add a mouseover event handler to display the count number
+      layer.on('mouseover', function (e) {
+        let count = getCountByRegion(feature, membersData, zoomLevel);
+        if (count !== 0) {
+          layer.bindTooltip(count + " démarches d'adaptations", {sticky: true}).openTooltip();
+        }
+      });
+
+      // Add a mouseout event handler to hide the tooltip
+      layer.on('mouseout', function (e) {
+        layer.closeTooltip();
+      });
+    }
   });
 
   // Ajoutez la nouvelle couche de tuiles GeoJSON à la carte
