@@ -233,32 +233,27 @@ class UserRepository extends ServiceEntityRepository {
 				->getResult();
 	}
 
-	// /**
-	//  * @return User[] Returns an array of User objects
-	//  */
-	/*
-	public function findByExampleField($value)
-	{
-		return $this->createQueryBuilder('u')
-			->andWhere('u.exampleField = :val')
-			->setParameter('val', $value)
-			->orderBy('u.id', 'ASC')
-			->setMaxResults(10)
-			->getQuery()
-			->getResult()
-		;
-	}
+	/**************************************************
+	 * Search number of user by region
+	 *************************************************
+	*
+	* @param \Doctrine\ORM\QueryBuilder $qb
 	*/
-
-	/*
-	public function findOneBySomeField($value): ?User
+	public function countUsersByRegion()
 	{
-		return $this->createQueryBuilder('u')
-			->andWhere('u.exampleField = :val')
-			->setParameter('val', $value)
-			->getQuery()
-			->getOneOrNullResult()
-		;
+		$qb = $this->createQueryBuilder('u');
+		$qb->addSelect('u.region')
+			->select('u.region as regionCode, COUNT(u.id) as userCount')
+			->groupBy('u.region');
+	
+		$results = $qb->getQuery()->getResult();
+	
+		// Transformer les résultats en un tableau associatif
+		$countByRegion = [];
+		foreach ($results as $result) {
+			$countByRegion[$result['regionCode']] = $result['userCount'];
+		}
+	
+		return $countByRegion;
 	}
-	*/
 }
