@@ -64,7 +64,7 @@ domready(async () => {
   const mapElement = document.getElementById('mapHomeId');
   if (mapElement) { 
     // Création de la carte avec les coordonnées et le niveau de zoom initiaux
-    const mapCommunaute = L.map('mapHomeId').setView([51.505, -0.09], 5);
+    const mapCommunaute = L.map('mapHomeId').setView([46.7111, 1.7191], 5);
 
     // Ajout de la couche de tuiles OpenStreetMap à la carte
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
