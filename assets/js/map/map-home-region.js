@@ -162,7 +162,7 @@ domready(async () => {
         minZoom: 3, // Niveau de zoom minimal
         maxZoom: 6, // Niveau de zoom maximal
         zoomSnap: 1, // Niveau de zoom auquel la carte s'accroche
-      }).setView([51.505, -0.09], initialZoom);
+      }).setView([46.7111, 1.7191], initialZoom);
   
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
