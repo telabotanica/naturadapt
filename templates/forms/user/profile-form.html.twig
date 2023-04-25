@@ -75,7 +75,8 @@
 	</div>
 	<div class="form-row form-row__field form-row__field.adaptative-approach-description">
 		{{ form_label(form.adaptativeApproachDescription, 'forms.user.adaptative_approach_description.label') }}
-		{{ form_widget(form.adaptativeApproachDescription, {'attr': {'placeholder': 'forms.user.adaptative_approach_description.placeholder', 'maxlength': '100'}, 'disabled': not form.hasAdaptativeApproach.vars.value}) }}
+		<div class="hint">{{ 'forms.user.adaptative_approach_description.hint'|trans }}</div>
+		{{ form_widget(form.adaptativeApproachDescription, {'attr': {'placeholder': 'forms.user.adaptative_approach_description.placeholder', 'maxlength': '50'}, 'disabled': not form.hasAdaptativeApproach.vars.value}) }}
 	</div>
 	<div class="form-row form-row__field form-row__field.adaptative-approach-link-row">
 		{{ form_label(form.adaptativeApproachLink, 'forms.user.adaptative_approach_link.label') }}

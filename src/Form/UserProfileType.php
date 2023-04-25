@@ -115,6 +115,7 @@ class UserProfileType extends AbstractType {
 				] )
 				->add ( 'adaptativeApproachDescription', TextType::class, [
 					'required' => FALSE,
+					'attr'     => [ 'maxlength' => 50 ],
 				] )
 				->add( 'adaptativeApproachLink', TextType::class, [
 					'required' => FALSE
