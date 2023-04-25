@@ -19,7 +19,6 @@ function getColor(value) {
   } else if (value < 250) {
     color = `rgba(255, 125, 30, 1)`;
   } else {
-    alpha = 1;
     color = `rgba(230, 75, 0, 1)`; // Darker orange for >= 250
   }
 
