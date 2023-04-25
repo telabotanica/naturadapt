@@ -65,16 +65,16 @@ forms:
                 share_values: " et partage les valeurs de la "
                 charter: "Charte Natur’Adapt"
         has_adaptative_approach:
-            label: "Démarche Adaptative"
+            label: "Démarche d'adaptation au changement climatique"
             labels:
-                adaptative_approach: "Je suis engagé dans une démarche adaptative"
-                no_adaptative_approach: "Je ne suis pas engagé dans une démarche adaptative"
+                adaptative_approach: "Je suis engagé dans une démarche d'adaptation"
+                no_adaptative_approach: "Je ne suis pas engagé dans une démarche d'adaptation"
         adaptative_approach_description:
-            label: "Description de votre démarche adaptative"
-            placeholder: "Décrivez succinctement votre démarche adaptative"
+            label: "Description de votre démarche d'adaptation"
+            placeholder: "Décrivez succinctement votre démarche d'adaptation"
         adaptative_approach_link:
-            label: "Lien de votre démarche adaptative"
-            placeholder: "Entrez un éventuel lien lié à votre démarche adaptative."
+            label: "Lien de votre démarche d'adaptation"
+            placeholder: "Entrez un éventuel lien lié à votre démarche d'adaptation."
 
     user_parameters:
         email_introduction:
