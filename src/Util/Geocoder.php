@@ -3,7 +3,9 @@
 namespace App\Util;
 
 
-use \Point;
+use App\Util\Point;
+use App\Util\Polygon;
+use App\Util\MultiPolygon;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class Geocoder
@@ -70,7 +72,7 @@ class Geocoder
                 $coordinates = $feature['geometry']['coordinates'];
 
                 if ($geometryType === 'Polygon') {
-                    $polygon = new \Polygon(
+                    $polygon = new Polygon(
                         array_map(function ($coords) {
                             return new Point($coords[0], $coords[1]);
                         }, $coordinates[0])
@@ -81,9 +83,9 @@ class Geocoder
                         break;
                     }
                 } elseif ($geometryType === 'MultiPolygon') {
-                    $multiPolygon = new \MultiPolygon(
+                    $multiPolygon = new MultiPolygon(
                         array_map(function ($polygonCoords) {
-                            return new \Polygon(
+                            return new Polygon(
                                 array_map(function ($coords) {
                                     return new Point($coords[0], $coords[1]);
                                 }, $polygonCoords[0])
@@ -107,6 +109,28 @@ class Geocoder
         }
     
         return null;
+    }
+
+    function searchCoords($city, $countryCode, $postcode = null) {
+        $endpoint = 'https://nominatim.openstreetmap.org/search';
+        $address = urlencode("$city" . ($postcode ? ", $postcode" : ""));
+        // Country code is required to avoid ambiguous results (ISO_A2 in BDD)
+        $url = "$endpoint?q=$address&format=json&countrycodes=$countryCode";
+
+        // Add a custom User-Agent to the request header
+        $options = array(
+            'http' => array(
+                'header' => "User-Agent: naturadapt/1.0 (antoine.schlegel@rnfrance.org)\r\n",
+            ),
+        );
+        $context = stream_context_create($options);
+    
+        $data = json_decode(file_get_contents($url, false, $context), true);
+        if (count($data) == 0) {
+            return array('lat' => null, 'lng' => null);
+        }
+        $coords = $data[0];
+        return array('lat' => $coords['lat'], 'lng' => $coords['lon']);
     }
 
 }
