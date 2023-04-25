@@ -56,20 +56,20 @@ async function loadRegionsLayer(map, zoomLevel, membersDataPromise) {
     map.removeLayer(geojsonLayer);
   }
 
-  const geojsonUrl = zoomLevel <= 3 ? '/data/countries.geojson' : '/data/NUTS_RG_60M_2021_4326.geojson';
-  const response = await fetch(geojsonUrl);
-  const data = await response.json();
-
   // LevelCodeToKeep défini le niveau de détail à afficher sur la carte
   // Valeur en fonction du niveau de zoom
   let levelCodeToKeep;
   if(zoomLevel > 5) {
     levelCodeToKeep = 3;
-  } else if (zoomLevel > 3) {
+  } else if (zoomLevel > 4) {
     levelCodeToKeep = 2;
   } else {
     levelCodeToKeep = 1;
   }
+
+  const geojsonUrl = levelCodeToKeep == 1 ? '/data/countries.geojson' : '/data/NUTS_RG_60M_2021_4326.geojson';
+  const response = await fetch(geojsonUrl);
+  const data = await response.json();
 
   // Filter the GeoJSON data based on the current zoom level
   const filteredData = {
@@ -159,15 +159,15 @@ domready(async () => {
       const initialZoom = 5;
 
       const mapRegions = L.map('mapHomeRegionId', {
-        minZoom: 2, // Niveau de zoom minimal
-        maxZoom: 10, // Niveau de zoom maximal
-        zoomSnap: 2.5, // Niveau de zoom auquel la carte s'accroche
+        minZoom: 3, // Niveau de zoom minimal
+        maxZoom: 6, // Niveau de zoom maximal
+        zoomSnap: 1, // Niveau de zoom auquel la carte s'accroche
       }).setView([51.505, -0.09], initialZoom);
   
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
-        minZoom: 2, // Niveau de zoom minimal pour la couche de tuiles
-        maxZoom: 10, 
+        minZoom: 3, // Niveau de zoom minimal pour la couche de tuiles
+        maxZoom: 6, 
       }).addTo(mapRegions);
   
       // Chargez les données de la carte
