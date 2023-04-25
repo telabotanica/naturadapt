@@ -20,11 +20,12 @@ function get_places(element) {
   }
 
 // Fonction pour rechercher les coordonnées d'une ville en particulier
-function searchCoords(query, country) {
+function searchCoords(query, countryCode) {
 	return new Promise((resolve, reject) => {
 	  const url = new URL('https://nominatim.openstreetmap.org/search');
 	  url.searchParams.append('format', 'json');
-	  url.searchParams.append('q', `${query}, ${country}`);
+	  url.searchParams.append('q', query);
+	  url.searchParams.append('countrycodes', countryCode);
 	  url.searchParams.append('limit', 1);
   
 	  fetch(url)
