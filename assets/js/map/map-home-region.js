@@ -25,40 +25,29 @@ function getColor(value) {
   return color;
 }
 
-function getCountByRegion(feature, membersData, zoomLevel) {
-  let levelCodeToKeep;
-  if (zoomLevel > 5) {
-    levelCodeToKeep = 3;
-  } else if (zoomLevel > 3) {
-    levelCodeToKeep = 2;
-  } else {
-    levelCodeToKeep = 1;
-  }
-
+function getCountByRegion(feature, membersData, levelCodeToKeep) {
   let count = 0;
-  if (levelCodeToKeep == 3 || levelCodeToKeep == 2) {
-    const levelCode = feature.properties["LEVL_CODE"];
 
-    if (levelCodeToKeep == 2) {
-      const level2RegionCode = feature.properties.NUTS_ID.substring(0, 4);
-      if (membersData.level2.hasOwnProperty(level2RegionCode)) {
-        count = membersData.level2[level2RegionCode];
-      }
-    } else {
-      const level3RegionCode = feature.properties.NUTS_ID;
-      if (membersData.level3.hasOwnProperty(level3RegionCode)) {
-        count = membersData.level3[level3RegionCode];
-      }
-    }
-  } else {
+  if (levelCodeToKeep === 1) {
     const countryCode = feature.properties.ISO_A2;
     if (membersData.level1.hasOwnProperty(countryCode)) {
       count = membersData.level1[countryCode];
+    }
+  } else if (levelCodeToKeep === 2) {
+    const level2RegionCode = feature.properties.NUTS_ID.substring(0, 4);
+    if (membersData.level2.hasOwnProperty(level2RegionCode)) {
+      count = membersData.level2[level2RegionCode];
+    }
+  } else if (levelCodeToKeep === 3) {
+    const level3RegionCode = feature.properties.NUTS_ID;
+    if (membersData.level3.hasOwnProperty(level3RegionCode)) {
+      count = membersData.level3[level3RegionCode];
     }
   }
 
   return count;
 }
+
 
 
 async function loadRegionsLayer(map, zoomLevel, membersDataPromise) {
@@ -71,14 +60,45 @@ async function loadRegionsLayer(map, zoomLevel, membersDataPromise) {
   const response = await fetch(geojsonUrl);
   const data = await response.json();
 
+  // LevelCodeToKeep défini le niveau de détail à afficher sur la carte
+  // Valeur en fonction du niveau de zoom
+  let levelCodeToKeep;
+  if(zoomLevel > 5) {
+    levelCodeToKeep = 3;
+  } else if (zoomLevel > 3) {
+    levelCodeToKeep = 2;
+  } else {
+    levelCodeToKeep = 1;
+  }
+
+  // Filter the GeoJSON data based on the current zoom level
+  const filteredData = {
+    ...data,
+    features: data.features.filter(feature => {
+      if(levelCodeToKeep === 1) {
+        return true;
+      } else {
+        const levelCode = feature.properties["LEVL_CODE"];
+
+        if (levelCodeToKeep === levelCode) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+
+      return false;
+    }),
+  };
+
   const membersData = await membersDataPromise;
   // Initialisez geojsonLayer avec les données récupérées et la fonction de style adaptée
-  geojsonLayer = L.geoJSON(data, {
-    style: (feature) => style(feature, membersData, zoomLevel),
+  geojsonLayer = L.geoJSON(filteredData, {
+    style: (feature) => style(feature, membersData, levelCodeToKeep),
     onEachFeature: function (feature, layer) {
       // Add a mouseover event handler to display the count number
       layer.on('mouseover', function (e) {
-        let count = getCountByRegion(feature, membersData, zoomLevel);
+        let count = getCountByRegion(feature, membersData, levelCodeToKeep);
         if (count !== 0) {
           layer.bindTooltip(count + " démarches d'adaptations", {sticky: true}).openTooltip();
         }
@@ -96,66 +116,16 @@ async function loadRegionsLayer(map, zoomLevel, membersDataPromise) {
 }
 
   
-function style(feature, membersData, zoomLevel) {
-  // Note: Plus le zoomLevel est élévé plus le niveau de détail est grand
-  // Le niveau de Zoom défini les régions plus ou moins petite à colorer sur la carte
-  let levelCodeToKeep;
-  if(zoomLevel > 5) {
-    levelCodeToKeep = 3;
-  } else if (zoomLevel > 3) {
-    levelCodeToKeep = 2;
-  } else {
-    levelCodeToKeep = 1;
-  }
-
-  let count = 0;
-  if (levelCodeToKeep == 3 || levelCodeToKeep == 2) {
-    const levelCode = feature.properties["LEVL_CODE"];
-    
-    if (levelCodeToKeep == 2) {
-      const level2RegionCode = feature.properties.NUTS_ID.substring(0, 4);
-      if (membersData.level2.hasOwnProperty(level2RegionCode)) {
-        count = membersData.level2[level2RegionCode];
-      }
-    } else {
-        const level3RegionCode = feature.properties.NUTS_ID;
-        if (membersData.level3.hasOwnProperty(level3RegionCode)) {
-          count = membersData.level3[level3RegionCode];
-        }
-    }
-    let fillColor = null
-    if(levelCode === levelCodeToKeep) {
-      fillColor = getColor(count);
-        return {
-          fillColor: fillColor,
-          weight: 1,
-          opacity: 1,
-          color: 'white',
-          fillOpacity: 0.7,
-        };
-    } else {
-  
-      return {
-        weight: 2,
-        opacity: 1,
-        color: 'white',
-        dashArray: '3',
-        fillOpacity: 0
-      };
-    }
-  } else {
-    const countryCode = feature.properties.ISO_A2;
-    if (membersData.level1.hasOwnProperty(countryCode)) {
-      count = membersData.level1[countryCode];
-    }
-    return {
-      fillColor: getColor(count),
-      weight: 1,
-      opacity: 1,
-      color: 'white',
-      fillOpacity: 0.7,
-    };
-  }
+function style(feature, membersData, levelCodeToKeep) {
+  const count = getCountByRegion(feature, membersData, levelCodeToKeep);
+  const fillColor = getColor(count);
+  return {
+    fillColor: fillColor,
+    weight: 1,
+    opacity: 1,
+    color: 'white',
+    fillOpacity: 0.7,
+  };
 
 }
       
