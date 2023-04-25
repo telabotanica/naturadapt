@@ -9,9 +9,9 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class UpdateCoordinatesCommand extends Command
+class UpdateNutsIdCommand extends Command
 {
-    protected static $defaultName = 'app:update-coordinates';
+    protected static $defaultName = 'app:update-nuts-id';
 
     private $entityManager;
     private $geocoder;
@@ -27,13 +27,13 @@ class UpdateCoordinatesCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Update coordinates and NUTS ID for entities');
+            ->setDescription('Update NUTS ID for entities');
     }
 
     public function execute(InputInterface $input, OutputInterface $output): void
     {
         $output->writeln([
-            'Updating coordinates...',
+            'Updating NUTS ID...',
             '=======================',
             '',
         ]);
@@ -41,30 +41,30 @@ class UpdateCoordinatesCommand extends Command
         $users = $this->entityManager->getRepository(User::class)->findAll();
 
         foreach ($users as $user) {
-            $output->write("Updating coordinates for {$user->getName()}...");
+            $output->write("Updating NUTS ID for {$user->getName()}...");
 
-            $coords = $this->geocoder->searchCoords($user->getCity(), $user->getCountry(), $user->getZipcode());
+            if ($user->getLatitude() !== null && $user->getLongitude() !== null) {
+                $nutsId = $this->geocoder->getNutsId($user->getLatitude(), $user->getLongitude());
+            } else {
+                $nutsId = null;
+            }
 
-            if ($coords !== null) {
-                $user->setLatitude($coords['lat']);
-                $user->setLongitude($coords['lng']);
+            if ($nutsId !== null) {
+                $user->setRegion($nutsId);
 
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
 
                 $output->writeln(' Done.');
             } else {
-                $output->writeln(' Failed. Coordinates not found.');
+                $output->writeln(' Failed. NUTS ID not found.');
             }
         }
 
         $output->writeln([
             '',
             '=======================',
-            'Coordinates update complete.',
+            'NUTS ID update complete.',
         ]);
-
     }
-
 }
-
