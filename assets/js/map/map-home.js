@@ -86,17 +86,11 @@ domready(async () => {
         });
       }
     });
-    console.log(members)
     // Parcourez la liste des membres et ajoutez un marqueur pour chaque membre
     const markerPromises = members.map(async (member) => {
       if (member.latitude != null && member.longitude != null) {
-        // const userId = member.id;
-        // const avatarElement = document.querySelector(`[data-user-id="${userId}"]`);
-        // const avatarUrl = avatarElement.dataset.avatarUrl;
-        // const color = avatarElement.dataset.color;
 
         // Obtenez l'icône personnalisée pour chaque membre
-        // const icon = await getCustomIcon(color, avatarUrl);
         const icon = await getCustomIcon('#ffffff', null);
 
         // Créez un marqueur avec l'icône personnalisée et ajoutez-le au groupe de marqueurs
