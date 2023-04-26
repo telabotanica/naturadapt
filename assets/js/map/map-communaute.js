@@ -5,6 +5,19 @@ import 'leaflet.markercluster';
 import domready from 'mf-js/modules/dom/ready';
 import '../../css/map/map-communaute.scss';
 
+// Fonction js copiant le fonctionnement de l'extension Twig dans ColorExtension.php
+function generateColorFromString(string) {
+  const c = string
+      .substr(0, 16)
+      .split('')
+      .reduce((carry, char) => {
+          return (carry + char.charCodeAt(0)) % 256;
+      }, 0);
+
+  return `hsl(${c}, 80%, 60%)`;
+}
+
+
 // Fonction pour créer une icône personnalisée en fonction de la couleur et de l'URL de l'avatar
 async function getCustomIcon(color, avatarUrl=null) {
   const defaultIcon = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" viewBox="0 0 16 16">
@@ -99,7 +112,8 @@ domready(async () => {
           // Obtenez l'icône personnalisée pour chaque membre
           icon = await getCustomIcon(color, avatarUrl);
         } else {
-          icon = await getCustomIcon('#ffffff');
+          const color = generateColorFromString(member.name)
+          icon = await getCustomIcon(color);
         }
 
         // Créez un marqueur avec l'icône personnalisée et ajoutez-le au groupe de marqueurs
