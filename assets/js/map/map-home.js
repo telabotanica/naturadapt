@@ -57,6 +57,18 @@ async function getCustomIcon(color, avatarUrl=null) {
   }
 }
 
+// Function pour filtrer entre les démarches adaptatives et tout le monde
+function filterMarkers(markersCluster, markersArray, showAdaptive) {
+  markersCluster.clearLayers(); // Retirez tous les marqueurs du groupe de clusters
+  markersArray.forEach((marker) => {
+      if (!marker) return;
+
+      if (!showAdaptive || marker.options.hasAdaptiveApproach) {
+          markersCluster.addLayer(marker); // Ajoutez les marqueurs qui correspondent au filtre
+      }
+  });
+}
+
 // Fonction principale exécutée lorsque le DOM est prêt
 domready(async () => {
   // Configuration du chemin de l'image par défaut pour les icônes de Leaflet
@@ -94,7 +106,7 @@ domready(async () => {
         const icon = await getCustomIcon('#ffffff', null);
 
         // Créez un marqueur avec l'icône personnalisée et ajoutez-le au groupe de marqueurs
-        const marker = L.marker([member.latitude, member.longitude], { icon: icon });
+        const marker = L.marker([member.latitude, member.longitude], { icon: icon, hasAdaptiveApproach: member.hasAdaptativeApproach, });
         let popupContent = `<b>${member.name}</b>`;
         if (member.hasAdaptativeApproach) {
           if(member.adaptativeApproachDescription && member.adaptativeApproachLink) {
@@ -115,6 +127,16 @@ domready(async () => {
     // Attendez que tous les marqueurs soient chargés
     await Promise.all(markerPromises);
 
+    document.getElementById('show-all-markers').addEventListener('click', async () => {
+      const allMarkers = await Promise.all(markerPromises);
+      filterMarkers(markers, allMarkers, false);
+    });
+    
+    document.getElementById('show-adaptive-markers').addEventListener('click', async () => {
+        const allMarkers = await Promise.all(markerPromises);
+        filterMarkers(markers, allMarkers, true);
+    });
+  
     // Ajoutez le groupe de marqueurs à la carte
     mapCommunaute.addLayer(markers);
   }

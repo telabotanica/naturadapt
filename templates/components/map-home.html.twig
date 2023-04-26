@@ -2,4 +2,10 @@
   // Créez une variable JavaScript avec la liste des membres
   const members = {{ members | json_encode | raw }};
 </script>
+<!-- Bouton pour afficher tous les marqueurs -->
+<button id="show-all-markers">Afficher tous les marqueurs</button>
+
+<!-- Bouton pour afficher les marqueurs avec une démarche adaptative -->
+<button id="show-adaptive-markers">Afficher les marqueurs adaptatifs</button>
+
 <div id="mapHomeId" class="map-size"></div>
