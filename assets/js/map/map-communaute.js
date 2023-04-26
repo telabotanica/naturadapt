@@ -92,11 +92,15 @@ domready(async () => {
       if (member.latitude != null && member.longitude != null) {
         const userId = member.id;
         const avatarElement = document.querySelector(`[data-user-id="${userId}"]`);
-        const avatarUrl = avatarElement.dataset.avatarUrl;
-        const color = avatarElement.dataset.color;
-
-        // Obtenez l'icône personnalisée pour chaque membre
-        const icon = await getCustomIcon(color, avatarUrl);
+        let icon;
+        if(avatarElement) {
+          const avatarUrl = avatarElement.dataset.avatarUrl;
+          const color = avatarElement.dataset.color; 
+          // Obtenez l'icône personnalisée pour chaque membre
+          icon = await getCustomIcon(color, avatarUrl);
+        } else {
+          icon = await getCustomIcon('#ffffff');
+        }
 
         // Créez un marqueur avec l'icône personnalisée et ajoutez-le au groupe de marqueurs
         const marker = L.marker([member.latitude, member.longitude], { icon: icon });

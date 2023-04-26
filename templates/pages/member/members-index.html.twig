@@ -90,7 +90,7 @@
 						{{ form_widget(form.query, {'attr': {'placeholder': 'pages.member.list.query.placeholder'}}) }}
 					</div>
 					<div class="map-spacing">
-						{% include 'components/map-communaute.html.twig' with {'members':members} %}
+						{% include 'components/map-communaute.html.twig' with {'members':all_members} %}
 					</div>
 					<ul class="members-list">
 						{% for user in members %}
