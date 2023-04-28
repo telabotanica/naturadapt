@@ -1,5 +1,7 @@
 import L from 'leaflet';
 import domready from 'mf-js/modules/dom/ready';
+import '../../css/map/map-communaute.scss';
+import '../../css/map/map-home.scss';
 
 let geojsonLayer; // Déclarez la variable en dehors de la fonction
 
@@ -25,23 +27,24 @@ function getColor(value) {
   return color;
 }
 
-function getCountByRegion(feature, membersData, levelCodeToKeep) {
+function getCountByRegion(feature, membersData, levelCodeToKeep, adaptativeChecked) {
   let count = 0;
+  const adaptativeString = adaptativeChecked? 'adaptative_approach':'all';
 
   if (levelCodeToKeep === 1) {
     const countryCode = feature.properties.ISO_A2;
-    if (membersData.level1.hasOwnProperty(countryCode)) {
-      count = membersData.level1[countryCode];
+    if (membersData.level1[adaptativeString].hasOwnProperty(countryCode)) {
+      count = membersData.level1[adaptativeString][countryCode];
     }
   } else if (levelCodeToKeep === 2) {
     const level2RegionCode = feature.properties.NUTS_ID.substring(0, 4);
-    if (membersData.level2.hasOwnProperty(level2RegionCode)) {
-      count = membersData.level2[level2RegionCode];
+    if (membersData.level2[adaptativeString].hasOwnProperty(level2RegionCode)) {
+      count = membersData.level2[adaptativeString][level2RegionCode];
     }
   } else if (levelCodeToKeep === 3) {
     const level3RegionCode = feature.properties.NUTS_ID;
-    if (membersData.level3.hasOwnProperty(level3RegionCode)) {
-      count = membersData.level3[level3RegionCode];
+    if (membersData.level3[adaptativeString].hasOwnProperty(level3RegionCode)) {
+      count = membersData.level3[adaptativeString][level3RegionCode];
     }
   }
 
@@ -50,7 +53,7 @@ function getCountByRegion(feature, membersData, levelCodeToKeep) {
 
 
 
-async function loadRegionsLayer(map, zoomLevel, membersDataPromise) {
+async function loadRegionsLayer(map, zoomLevel, membersDataPromise, adaptativeChecked) {
   // Retirez la couche de tuiles précédente (si elle existe)
   if (geojsonLayer) {
     map.removeLayer(geojsonLayer);
@@ -94,11 +97,11 @@ async function loadRegionsLayer(map, zoomLevel, membersDataPromise) {
   const membersData = await membersDataPromise;
   // Initialisez geojsonLayer avec les données récupérées et la fonction de style adaptée
   geojsonLayer = L.geoJSON(filteredData, {
-    style: (feature) => style(feature, membersData, levelCodeToKeep),
+    style: (feature) => style(feature, membersData, levelCodeToKeep, adaptativeChecked),
     onEachFeature: function (feature, layer) {
       // Add a mouseover event handler to display the count number
       layer.on('mouseover', function (e) {
-        let count = getCountByRegion(feature, membersData, levelCodeToKeep);
+        let count = getCountByRegion(feature, membersData, levelCodeToKeep, adaptativeChecked);
         if (count !== 0) {
           layer.bindTooltip(count + " démarches d'adaptations", {sticky: true}).openTooltip();
         }
@@ -116,8 +119,8 @@ async function loadRegionsLayer(map, zoomLevel, membersDataPromise) {
 }
 
   
-function style(feature, membersData, levelCodeToKeep) {
-  const count = getCountByRegion(feature, membersData, levelCodeToKeep);
+function style(feature, membersData, levelCodeToKeep, adaptativeChecked) {
+  const count = getCountByRegion(feature, membersData, levelCodeToKeep, adaptativeChecked);
   const fillColor = getColor(count);
   return {
     fillColor: fillColor,
@@ -134,15 +137,17 @@ async function fetchMapData() {
   const membersData =  await response.json();
 
   // Calculer les données de niveau 2
-  const level2Data = {};
+  const level2Data = {'adaptative_approach': {}, 'all': {}};
 
   let level3Data = membersData["level3"];
-  for (const regionId in level3Data) {
-    const level2RegionId = regionId.substring(0, 4);
-    if (!level2Data[level2RegionId]) {
-      level2Data[level2RegionId] = 0;
+  for(const userOrAdaptativeData in level3Data){
+    for (const regionId in level3Data[userOrAdaptativeData]) {
+      const level2RegionId = regionId.substring(0, 4);
+      if (!level2Data[userOrAdaptativeData][level2RegionId]) {
+        level2Data[userOrAdaptativeData][level2RegionId] = 0;
+      }
+      level2Data[userOrAdaptativeData][level2RegionId] += level3Data[userOrAdaptativeData][regionId];
     }
-    level2Data[level2RegionId] += level3Data[regionId];
   }
 
   return {
@@ -173,12 +178,37 @@ domready(async () => {
       // Chargez les données de la carte
       const membersDataPromise = await fetchMapData();
 
+
+      const adaptativeToggle = document.getElementById("adaptative-toggle");
+      const toggleSwitchText = document.getElementById("toggle-switch-text");
+      const toggleSwitchLabel = document.getElementById("toggle-switch-label");
+
+      adaptativeToggle.addEventListener("change", (event) => {
+        // updateRegionColors(event.target.checked);
+        loadRegionsLayer(mapRegions, mapRegions.getZoom(), membersDataPromise, event.target.checked);
+        // Mettre à jour le texte à côté du switch
+        if (adaptativeToggle.checked) {
+          toggleSwitchText.textContent = "Utilisateurs avec une démarches d'adaptation";
+        } else {
+          toggleSwitchText.textContent = "Tous les utilisateurs";
+        }
+      });
+
+
       // Appeler la fonction loadRegionsLayer avec le niveau de zoom initial (2)
-      loadRegionsLayer(mapRegions, initialZoom, membersDataPromise);
+      loadRegionsLayer(mapRegions, initialZoom, membersDataPromise, adaptativeToggle.checked);
+
+
+
+
 
       // Mettre à jour la couche des régions lors d'un changement de zoom
       mapRegions.on('zoomend', function () {
-        loadRegionsLayer(mapRegions, mapRegions.getZoom(), membersDataPromise);
+        loadRegionsLayer(mapRegions, mapRegions.getZoom(), membersDataPromise, adaptativeToggle.checked);
+      });
+
+      toggleSwitchLabel.addEventListener("click", function (event) {
+        event.stopPropagation(); // Empêcher la propagation de l'événement au niveau supérieur (la carte)
       });
     }
 });

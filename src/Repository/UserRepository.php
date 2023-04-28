@@ -234,17 +234,25 @@ class UserRepository extends ServiceEntityRepository {
 	}
 
 	/**************************************************
-	 * Search number of user by region
+	 * Search number of user/adaptative approach by region
 	 *************************************************
 	*
 	* @param \Doctrine\ORM\QueryBuilder $qb
 	*/
-	public function countUsersByRegion()
+	public function countUsersByRegion(bool $adaptativeApproachWanted)
 	{
 		$qb = $this->createQueryBuilder('u');
-		$qb->addSelect('u.region')
+		if($adaptativeApproachWanted === true){
+			$qb->addSelect('u.region')
 			->select('u.region as regionCode, COUNT(u.id) as userCount')
+			->where('u.hasAdaptativeApproach = :hasAdaptativeApproach')
+			->setParameter('hasAdaptativeApproach', $adaptativeApproachWanted)
 			->groupBy('u.region');
+		} else {
+			$qb->addSelect('u.region')
+				->select('u.region as regionCode, COUNT(u.id) as userCount')
+				->groupBy('u.region');
+		}
 	
 		$results = $qb->getQuery()->getResult();
 	
@@ -261,12 +269,21 @@ class UserRepository extends ServiceEntityRepository {
 	 * Search number of user by country
 	 *************************************************
 	*/
-	public function countUsersByCountry()
+	public function countUsersByCountry($adaptativeApproachWanted)
 	{
 		$qb = $this->createQueryBuilder('u');
-		$qb->addSelect('u.country')
-			->select('u.country as countryCode, COUNT(u.id) as userCount')
-			->groupBy('u.country');
+
+		if($adaptativeApproachWanted){
+			$qb->addSelect('u.country')
+				->select('u.country as countryCode, COUNT(u.id) as userCount')
+				->where('u.hasAdaptativeApproach = :hasAdaptativeApproach')
+				->setParameter('hasAdaptativeApproach', $adaptativeApproachWanted)
+				->groupBy('u.country');
+		} else {
+			$qb->addSelect('u.country')
+				->select('u.country as countryCode, COUNT(u.id) as userCount')
+				->groupBy('u.country');
+		}
 	
 		$results = $qb->getQuery()->getResult();
 	

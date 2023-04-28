@@ -25,12 +25,20 @@ class MapManager
 		 */
 		$usersRepository = $manager->getRepository( User::class );
 
-		$countByRegion = $usersRepository->countUsersByRegion();
-		$countByCountry = $usersRepository->countUsersByCountry();
+		$countUserPerRegion = $usersRepository->countUsersByRegion(False);       
+		$countAdaptativeApproachPerRegion = $usersRepository->countUsersByRegion(True);       
+		$countUserByCountry = $usersRepository->countUsersByCountry(False);
+		$countAdaptativeApproachByCountry = $usersRepository->countUsersByCountry(True);
 
 		return [
-			'level1' => $countByCountry,
-			'level3' => $countByRegion,
+			'level1' => [
+				'all' => $countUserByCountry,
+				'adaptative_approach' => $countAdaptativeApproachByCountry
+			],
+			'level3' => [
+				'all' => $countUserPerRegion,
+				'adaptative_approach' => $countAdaptativeApproachPerRegion
+			]
 		];
 	}
 }
