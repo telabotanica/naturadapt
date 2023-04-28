@@ -2,10 +2,14 @@
   // Créez une variable JavaScript avec la liste des membres
   const members = {{ members | json_encode | raw }};
 </script>
-<!-- Bouton pour afficher tous les marqueurs -->
-<button id="show-all-markers">Afficher tous les marqueurs</button>
 
-<!-- Bouton pour afficher les marqueurs avec une démarche adaptative -->
-<button id="show-adaptive-markers">Afficher les marqueurs adaptatifs</button>
+<div id="mapHomeId" class="map-size">
+  <div id="toggle-switch-container" class="toggle-switch-container">
+    <span id="toggle-switch-text" class="toggle-switch-text">Tous les utilisateurs</span>
+    <label id="toggle-switch-label" class="toggle-switch">
+      <input id="adaptative-toggle" type="checkbox" />
+      <span class="toggle-switch-background"></span>
+    </label>
+  </div>
 
-<div id="mapHomeId" class="map-size"></div>
+</div>

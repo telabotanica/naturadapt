@@ -4,6 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet.markercluster';
 import domready from 'mf-js/modules/dom/ready';
 import '../../css/map/map-communaute.scss';
+import '../../css/map/map-home.scss';
 
 // Fonction pour créer une icône personnalisée en fonction de la couleur et de l'URL de l'avatar
 async function getCustomIcon(color, avatarUrl=null) {
@@ -69,6 +70,37 @@ function filterMarkers(markersCluster, markersArray, showAdaptive) {
   });
 }
 
+function showAdaptiveMarkers(showAdaptiveOnly) {
+  markers.clearLayers(); // Effacer tous les marqueurs existants
+
+  // Parcourez la liste des membres et ajoutez un marqueur pour chaque membre
+  members.forEach(async (member) => {
+    if (member.latitude != null && member.longitude != null) {
+      // Si on montre seulement les démarches d'adaptation et que le membre n'a pas de démarche d'adaptation, passer
+      if (showAdaptiveOnly && !member.hasAdaptativeApproach) return;
+
+      // Obtenez l'icône personnalisée pour chaque membre
+      const icon = await getCustomIcon('#ffffff', null);
+
+      // Créez un marqueur avec l'icône personnalisée et ajoutez-le au groupe de marqueurs
+      const marker = L.marker([member.latitude, member.longitude], { icon: icon });
+      let popupContent = `<b>${member.name}</b>`;
+      if (member.hasAdaptativeApproach) {
+        if(member.adaptativeApproachDescription && member.adaptativeApproachLink) {
+          popupContent += `<br/><a href='${member.adaptativeApproachLink}' target="_blank">${member.adaptativeApproachDescription}</a>`;
+        } else if(member.adaptativeApproachDescription) {
+          popupContent += `<br/>${member.adaptativeApproachDescription}`;
+        } else if (member.adaptativeApproachLink) {
+          popupContent += `<br/><a href='${member.adaptativeApproachLink}' target="_blank">${member.adaptativeApproachLink}</a>`;
+        }     
+      }
+      marker.bindPopup(popupContent).openPopup();
+      markers.addLayer(marker);
+    }
+  });
+}
+
+
 // Fonction principale exécutée lorsque le DOM est prêt
 domready(async () => {
   // Configuration du chemin de l'image par défaut pour les icônes de Leaflet
@@ -127,16 +159,27 @@ domready(async () => {
     // Attendez que tous les marqueurs soient chargés
     await Promise.all(markerPromises);
 
-    document.getElementById('show-all-markers').addEventListener('click', async () => {
+    const adaptativeToggle = document.getElementById("adaptative-toggle");
+    const toggleSwitchText = document.getElementById("toggle-switch-text");
+    const toggleSwitchLabel = document.getElementById("toggle-switch-label");
+    
+    adaptativeToggle.addEventListener("change", async (event) => {
       const allMarkers = await Promise.all(markerPromises);
-      filterMarkers(markers, allMarkers, false);
+      filterMarkers(markers, allMarkers, event.target.checked);
+
+      // Mettre à jour le texte à côté du switch
+      if (adaptativeToggle.checked) {
+        toggleSwitchText.textContent = "Utilisateurs avec une démarches d'adaptation";
+      } else {
+        toggleSwitchText.textContent = "Tous les utilisateurs";
+      }
+    });
+
+
+    toggleSwitchLabel.addEventListener("click", function (event) {
+      event.stopPropagation(); // Empêcher la propagation de l'événement au niveau supérieur (la carte)
     });
     
-    document.getElementById('show-adaptive-markers').addEventListener('click', async () => {
-        const allMarkers = await Promise.all(markerPromises);
-        filterMarkers(markers, allMarkers, true);
-    });
-  
     // Ajoutez le groupe de marqueurs à la carte
     mapCommunaute.addLayer(markers);
   }
