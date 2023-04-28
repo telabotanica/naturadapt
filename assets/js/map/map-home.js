@@ -163,9 +163,16 @@ domready(async () => {
     const toggleSwitchText = document.getElementById("toggle-switch-text");
     const toggleSwitchLabel = document.getElementById("toggle-switch-label");
     
-    adaptativeToggle.addEventListener("change", async (event) => {
+    async function updateMarkers(checked) {
       const allMarkers = await Promise.all(markerPromises);
-      filterMarkers(markers, allMarkers, event.target.checked);
+      filterMarkers(markers, allMarkers, checked);
+    }
+
+    // Initialisation de l'état des marqueurs
+    updateMarkers(adaptativeToggle.checked);
+
+    adaptativeToggle.addEventListener("change", async (event) => {
+      updateMarkers(event.target.checked);
 
       // Mettre à jour le texte à côté du switch
       if (adaptativeToggle.checked) {
