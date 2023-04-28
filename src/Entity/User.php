@@ -613,7 +613,7 @@ class User implements UserInterface, JsonSerializable {
 	}
 
 	public function getHasBeenNotifiedOfNewAdaptativeApproach (): bool {
-		return $this->hasBeenNotifiedOfNewAdaptativeApproach;
+		return $this->hasBeenNotifiedOfNewAdaptativeApproach ?? false;
 	}
 
 	public function setHasBeenNotifiedOfNewAdaptativeApproach ( ?bool $hasBeenNotifiedOfNewAdaptativeApproach ): self {
