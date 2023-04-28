@@ -92,6 +92,7 @@ class GroupMembersController extends AbstractController {
 				'group'   => $group,
 				'form'    => $data[ 'form' ]->createView(),
 				'members' => $data[ 'members' ],
+				'all_members' => $data[ 'all_members' ],
 				'pager'   => [
 						'base_url' => $request->getPathInfo() . '?' . http_build_query( [ 'form' => $filters ] ) . '&',
 						'page'     => $page,

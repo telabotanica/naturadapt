@@ -83,6 +83,19 @@ Generate all indexes:
 php bin/console search:reindex:all
 ```
 
+## Map Informations
+
+For each user, get Latitude and Longitude from city, zipcode and Country
+```bash
+php bin/console app:update-coordinates
+```
+
+For each user, convert Latitude and Longitude into NutsId
+```bash
+php bin/console app:update-nuts-id
+```
+
+
 Generate one index (`pages`, `discussions_messages`, `articles`, `documents`, `groups`, `members`)
 ```bash
 php bin/console search:reindex <index>

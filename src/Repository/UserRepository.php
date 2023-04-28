@@ -145,6 +145,22 @@ class UserRepository extends ServiceEntityRepository {
 		}
 
 		/**
+		 * ADAPTATIVE APPROACH
+		 * 
+		 * If the user has adaptative approach to true, we add the user to the results
+		 */
+		if (isset($filters['hasAdaptativeApproach'])) {
+			if ($filters['hasAdaptativeApproach'] === '1') {
+				// si l'option "Engagé dans une démarche" est cochée, on filtre les utilisateurs avec hasAdaptativeApproach = true
+				$qb->andWhere($qb->expr()->eq('u.hasAdaptativeApproach', ':hasAdaptativeApproach'))
+					->setParameter('hasAdaptativeApproach', true);
+			} elseif ($filters['hasAdaptativeApproach'] === '0') {
+				// si l'option "Engagé dans une démarche" n'est pas cochée, on ne filtre pas les utilisateurs sur hasAdaptativeApproach
+			}
+		} else {
+			// si aucune option n'est cochée, on ne filtre pas les utilisateurs sur hasAdaptativeApproach
+		}
+		/**
 		 * SKILLS
 		 */
 		if ( !empty( $filters[ 'skills' ] ) ) {
@@ -223,32 +239,67 @@ class UserRepository extends ServiceEntityRepository {
 		return $qb->getQuery()->getResult();
 	}
 
-	// /**
-	//  * @return User[] Returns an array of User objects
-	//  */
-	/*
-	public function findByExampleField($value)
-	{
-		return $this->createQueryBuilder('u')
-			->andWhere('u.exampleField = :val')
-			->setParameter('val', $value)
-			->orderBy('u.id', 'ASC')
-			->setMaxResults(10)
-			->getQuery()
-			->getResult()
-		;
-	}
+	/**************************************************
+	 * Search number of user/adaptative approach by region
+	 *************************************************
+	*
+	* @param \Doctrine\ORM\QueryBuilder $qb
 	*/
+	public function countUsersByRegion(bool $adaptativeApproachWanted)
+	{
+		$qb = $this->createQueryBuilder('u');
+		if($adaptativeApproachWanted === true){
+			$qb->addSelect('u.region')
+			->select('u.region as regionCode, COUNT(u.id) as userCount')
+			->where('u.hasAdaptativeApproach = :hasAdaptativeApproach')
+			->setParameter('hasAdaptativeApproach', $adaptativeApproachWanted)
+			->groupBy('u.region');
+		} else {
+			$qb->addSelect('u.region')
+				->select('u.region as regionCode, COUNT(u.id) as userCount')
+				->groupBy('u.region');
+		}
+	
+		$results = $qb->getQuery()->getResult();
+	
+		// Transformer les résultats en un tableau associatif
+		$countByRegion = [];
+		foreach ($results as $result) {
+			$countByRegion[$result['regionCode']] = $result['userCount'];
+		}
+	
+		return $countByRegion;
+	}
 
-	/*
-	public function findOneBySomeField($value): ?User
-	{
-		return $this->createQueryBuilder('u')
-			->andWhere('u.exampleField = :val')
-			->setParameter('val', $value)
-			->getQuery()
-			->getOneOrNullResult()
-		;
-	}
+	/**************************************************
+	 * Search number of user by country
+	 *************************************************
 	*/
+	public function countUsersByCountry($adaptativeApproachWanted)
+	{
+		$qb = $this->createQueryBuilder('u');
+
+		if($adaptativeApproachWanted){
+			$qb->addSelect('u.country')
+				->select('u.country as countryCode, COUNT(u.id) as userCount')
+				->where('u.hasAdaptativeApproach = :hasAdaptativeApproach')
+				->setParameter('hasAdaptativeApproach', $adaptativeApproachWanted)
+				->groupBy('u.country');
+		} else {
+			$qb->addSelect('u.country')
+				->select('u.country as countryCode, COUNT(u.id) as userCount')
+				->groupBy('u.country');
+		}
+	
+		$results = $qb->getQuery()->getResult();
+	
+		// Transformer les résultats en un tableau associatif
+		$countByCountry = [];
+		foreach ($results as $result) {
+			$countByCountry[$result['countryCode']] = $result['userCount'];
+		}
+	
+		return $countByCountry;
+	}
+
 }

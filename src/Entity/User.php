@@ -6,13 +6,14 @@ use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User implements UserInterface {
+class User implements UserInterface, JsonSerializable {
 	public const STATUS_DISABLED = 0;
 	public const STATUS_ACTIVE   = 1;
 	public const STATUS_PENDING  = 2;
@@ -22,6 +23,9 @@ class User implements UserInterface {
 
 	public const TYPE_PRIVATE       = 'private';
 	public const TYPE_PROFESSIONNAL = 'professional';
+
+	public const TYPE_HAS_ADAPTATIVE_APPROACH_YES = 'adaptative_approach';
+	public const TYPE_HAS_ADAPTATIVE_APPROACH_NO = 'no_adaptative_approach';
 
 	/**
 	 * @ORM\Id()
@@ -80,6 +84,11 @@ class User implements UserInterface {
 	 * @ORM\Column(type="string", length=2, nullable=true)
 	 */
 	private $country;
+
+	/**
+	 * @ORM\Column(type="string", length=5, nullable=true)
+	 */
+	private $region;
 
 	/**
 	 * @ORM\Column(type="text", length=64, nullable=true)
@@ -168,6 +177,26 @@ class User implements UserInterface {
 	 * @ORM\Column(type="boolean", options={"default":"0"})
 	 */
 	private $hasAgreedTermsOfUse;
+
+	/**
+	 * @ORM\Column(type="boolean", options={"default":"0"})
+	 */
+	private $hasAdaptativeApproach;
+
+	/**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $adaptativeApproachLink;
+
+	/**
+	 * @ORM\Column(type="string", length=255, nullable=true)
+	 */
+	private $adaptativeApproachDescription;
+
+	/**
+	 * @ORM\Column(type="boolean", options={"default":"0"})
+	 */
+	private $hasBeenNotifiedOfNewAdaptativeApproach;
 
 	public function __construct () {
 		$this->usergroupMemberships = new ArrayCollection();
@@ -416,6 +445,16 @@ class User implements UserInterface {
 		return $this;
 	}
 
+	public function getRegion (): ?string {
+		return $this->region;
+	}
+
+	public function setRegion ( ?string $region ): self {
+		$this->region = mb_convert_case( trim( $region ), MB_CASE_UPPER );
+
+		return $this;
+	}
+
 	public function getBio (): ?string {
 		return $this->bio;
 	}
@@ -538,4 +577,64 @@ class User implements UserInterface {
 
 		return $this;
 	}
+
+	public function getHasAdaptativeApproach (): bool {
+		return $this->hasAdaptativeApproach;
+	}
+
+	public function setHasAdaptativeApproach ( ?bool $hasAdaptativeApproach ): self {
+		$this->hasAdaptativeApproach = $hasAdaptativeApproach ?? false;
+
+		return $this;
+	}
+
+	public function getAdaptativeApproachLink(): ?string
+    {
+        return $this->adaptativeApproachLink;
+    }
+
+    public function setAdaptativeApproachLink(?string $adaptativeApproachLink): self
+    {
+        $this->adaptativeApproachLink = $adaptativeApproachLink;
+
+        return $this;
+    }
+
+	public function getAdaptativeApproachDescription(): ?string
+	{
+		return $this->adaptativeApproachDescription;
+	}
+
+	public function setAdaptativeApproachDescription(?string $adaptativeApproachDescription): self
+	{
+		$this->adaptativeApproachDescription = $adaptativeApproachDescription;
+
+		return $this;
+	}
+
+	public function getHasBeenNotifiedOfNewAdaptativeApproach (): bool {
+		return $this->hasBeenNotifiedOfNewAdaptativeApproach;
+	}
+
+	public function setHasBeenNotifiedOfNewAdaptativeApproach ( ?bool $hasBeenNotifiedOfNewAdaptativeApproach ): self {
+		$this->hasBeenNotifiedOfNewAdaptativeApproach = $hasBeenNotifiedOfNewAdaptativeApproach ?? false;
+
+		return $this;
+	}
+
+	public function jsonSerialize()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'latitude' => $this->latitude,
+            'longitude' => $this->longitude,
+			'site' => $this->site,
+			'city' => $this->city,
+			'zipcode' => $this->zipcode,
+			'hasAdaptativeApproach' => $this->hasAdaptativeApproach,
+			'adaptativeApproachDescription' => $this->adaptativeApproachDescription,
+			'adaptativeApproachLink' => $this->adaptativeApproachLink,
+        ];
+    }
 }
