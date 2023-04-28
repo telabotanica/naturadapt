@@ -18,7 +18,7 @@ class DiscussionMessage {
 	private $id;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="App\Entity\Discussion", inversedBy="discussionMessages")
+	 * @ORM\ManyToOne(targetEntity="App\Entity\Discussion", inversedBy="messages")
 	 * @ORM\JoinColumn(nullable=false)
 	 */
 	private $discussion;

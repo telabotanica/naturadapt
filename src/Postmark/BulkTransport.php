@@ -45,6 +45,7 @@ class BulkTransport extends Transport {
 								'X-Postmark-Server-Token' => $this->serverToken,
 								'Content-Type'            => 'application/json',
 								'User-Agent'              => "swiftmailer-postmark (PHP Version: $v, OS: $o)",
+								'X-PM-Message-Stream'     => 'broadcast',
 						],
 						'json'        => $messagesPool,
 						'http_errors' => FALSE,
