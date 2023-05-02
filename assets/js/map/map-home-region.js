@@ -164,6 +164,7 @@ domready(async () => {
       const initialZoom = 5;
 
       const mapRegions = L.map('mapHomeRegionId', {
+        scrollWheelZoom: false, // Désactivez le zoom avec la molette de la souris
         minZoom: 3, // Niveau de zoom minimal
         maxZoom: 6, // Niveau de zoom maximal
         zoomSnap: 1, // Niveau de zoom auquel la carte s'accroche
