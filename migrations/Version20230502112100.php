@@ -20,8 +20,8 @@ final class Version20230502112100 extends AbstractMigration
     public function up(Schema $schema): void
     {
        // Created colum to false by default
-       $this->addSql('UPDATE naturadapt_users SET has_adaptative_approach = false');
-       $this->addSql('UPDATE naturadapt_users SET has_been_notified_of_new_adaptative_approach = false');
+       $this->addSql('UPDATE naturadapt_users SET has_adaptative_approach = 0');
+       $this->addSql('UPDATE naturadapt_users SET has_been_notified_of_new_adaptative_approach = 0');
 
     }
 
