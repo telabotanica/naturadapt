@@ -579,7 +579,7 @@ class User implements UserInterface, JsonSerializable {
 	}
 
 	public function getHasAdaptativeApproach (): bool {
-		return $this->hasAdaptativeApproach;
+		return $this->hasAdaptativeApproach?? false;
 	}
 
 	public function setHasAdaptativeApproach ( ?bool $hasAdaptativeApproach ): self {
