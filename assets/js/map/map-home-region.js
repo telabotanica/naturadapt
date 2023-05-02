@@ -164,6 +164,7 @@ domready(async () => {
       const initialZoom = 5;
 
       const mapRegions = L.map('mapHomeRegionId', {
+        scrollWheelZoom: false, // Désactivez le zoom avec la molette de la souris
         minZoom: 3, // Niveau de zoom minimal
         maxZoom: 6, // Niveau de zoom maximal
         zoomSnap: 1, // Niveau de zoom auquel la carte s'accroche
@@ -188,9 +189,9 @@ domready(async () => {
         loadRegionsLayer(mapRegions, mapRegions.getZoom(), membersDataPromise, event.target.checked);
         // Mettre à jour le texte à côté du switch
         if (adaptativeToggle.checked) {
-          toggleSwitchText.textContent = "Utilisateurs avec une démarches d'adaptation";
+          toggleSwitchText.textContent = "Montrer tous les utilisateurs";
         } else {
-          toggleSwitchText.textContent = "Tous les utilisateurs";
+          toggleSwitchText.textContent = "Montrer les utilisateurs avec une démarches d'adaptation";
         }
       });
 
