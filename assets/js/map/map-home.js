@@ -176,9 +176,9 @@ domready(async () => {
 
       // Mettre à jour le texte à côté du switch
       if (adaptativeToggle.checked) {
-        toggleSwitchText.textContent = "Utilisateurs avec une démarches d'adaptation";
+        toggleSwitchText.textContent = "Montrer tous les utilisateurs";
       } else {
-        toggleSwitchText.textContent = "Tous les utilisateurs";
+        toggleSwitchText.textContent = "Montrer les utilisateurs avec une démarches d'adaptation";
       }
     });
 
