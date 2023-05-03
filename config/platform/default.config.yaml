@@ -7,15 +7,24 @@ home:
     sur_titre: Bienvenue sur Natur’Adapt
     texte_principal: Adapter la protection de la nature aux défis du changement climatique en Europe.
     premier_texte:  |
-        <h2>Bienvenue sur la plateforme Natur’Adapt !</h2>
-
-        <p>Elle est en cours de développement dans le cadre du <a href="{{ path('group_page_index', { groupSlug: 'communaute', pageSlug: 'a-propos-du-projet-natur-adapt' }) }}">projet LIFE Natur’Adapt</a> mais elle est d’ores et déjà <strong>ouverte à toutes les personnes intéressées par le sujet de l’adaptation au changement climatique dans les espaces naturels</strong>.
+        <h2>Bienvenue sur la communauté Natur’Adapt !</h2>
+        <p><strong>De quoi parle-t-on ?</strong> La communauté Natur’Adapt s’intéresse au changement climatique et à ses impacts sur la nature, notamment dans les espaces naturels protégés (réserves naturelles, sites natura 2000, parcs nationaux, parcs naturels régionaux,…).
         </p>
-
-        <p><strong>Le changement climatique est une réalité et il impacte la nature</strong>, y compris dans nos espaces naturels protégés. Les gestionnaires sont donc confrontés à la nécessité d’adapter leurs pratiques. Le projet Natur’Adapt a été développé pour les accompagner dans cette démarche.</p>
-        <p><strong>S’adapter, c’est aussi une responsabilité collective</strong> car les espaces naturels protégés font partie intégrante de nos territoires. Une des réponses à cette problématique passe par la mobilisation d’une communauté d’experts, de praticiens mais aussi de novices autour de ces sujets.</p>
-        <p><strong>Le but de cette plateforme est de constituer, accueillir et renforcer cette communauté.<br /> Elle est collaborative : l’idée est de partager, d’échanger et d’avancer ensemble</strong> pour l’adaptation des espaces naturels au changement climatique au bénéfice de tous.</p>
-        <p>Vous êtes intéressé par le sujet ? Vous êtes gestionnaire et ne savez pas comment faire pour intégrer les enjeux climatiques ? Vous êtes scientifique et aimeriez travailler avec des gestionnaires ? Vous êtes élu, acteur public ou économique et vous vous questionnez ? Vous êtes formateur et cherchez à monter en compétence sur ce sujet ? Vous êtes citoyen et souhaitez échanger ? Vous avez envie de trouver des ressources ? <strong>Cette plateforme est faite pour vous !</strong></p>
+	    <p>La montée du niveau marin en bord de mer, la hausse des températures, la diminution de l’enneigement, ou encore des événements extrêmes plus fréquents et plus intenses ont des effets sur la faune et la flore : remontée des espèces vers le Nord/en altitude ; décalage des migrations saisonnières et des périodes de végétation ; apparition de nouvelles maladies, de nouveaux parasites ou d’espèces exotiques envahissantes ; modification des interactions entre espèces; mortalités; etc.
+	    </p>
+	    <p>Alors, comment adapter la gestion de ces espaces de nature face au changement climatique et à ses impacts? C’est tout l’objet de cette communauté !
+	    </p>
+	    <h2>Pourquoi cette communauté ?</h2>
+        <p>Le changement climatique est un sujet qui peut parfois être difficile à appréhender. Les professionnels des espaces naturels, qui observent déjà les conséquences du changement climatique, ont besoin d’être accompagnés pour mettre en place des solutions. Les outils techniques (guides, formations, etc.) sont indispensables mais ne suffisent pas : la communauté Natur’Adapt permet d’avancer collectivement grâce à l’échange d’actualités, d’informations, de retours d’expérience mais aussi de questionnements !
+	    </p>
+        <p>Développée dans le cadre du <a href="/groups/communaute/pages/a-propos-du-projet-natur-adapt">projet LIFE Natur’Adapt</a>,la communauté est notamment animée grâce à la plateforme collaborative naturadapt.com sur laquelle vous êtes, et qui a vocation à perdurer après le projet. Elle regroupe toutes les personnes intéressées et sensibilisées aux enjeux du changement climatique et de la protection de la nature : gestionnaires d’espaces naturels protégés, scientifiques, animateurs, naturalistes, élus, citoyens, étudiants, débutants ou experts du climat, simplement curieux ou amoureux de la nature.
+	    </p>
+        <p>En résumé, la communauté Natur'Adapt, c'est <strong>un groupe passionné, multi-acteurs et évolutif, qui échange connaissances et retours d’expériences de manière conviviale autour d’une problématique commune : l’adaptation au changement climatique dans les aires protégées</strong>.
+	    </p>
+        <p>Nos valeurs communes et principes de fonctionnement sont inscrits dans < a href="/groups/communaute/pages/charte-de-la-plateforme">une charte que nous vous invitons à lire</a>.
+	    </p>
+	    <p>Intéressés par l’aventure ? <a href="/groups/communaute/pages/a-propos-de-la-communaute-natur-adapt">Rejoignez la communauté Natur’Adapt ici ! C’est gratuit, libre et réversible !
+	    </p>
         </section>
 
         <section>
@@ -38,7 +47,7 @@ home:
         </svg>
 
         </p>
-        <p>Les contacts des membres de la communauté, via <a href="{{ path('members') }}">l’annuaire</a> </p>
+        <p>Les contacts des membres de la communauté, via <a href="/members">l’annuaire</a> </p>
         </div>
         <div>
         <p>
@@ -83,54 +92,46 @@ home:
         </div>
         </section>
         <section>
-        <p>Elle est organisée autour de groupes projets et thématiques, certains publics, d’autres privés (il faudra demander à s’inscrire) dans lesquels vous retrouverez des :</p>
-
+        <p>Cette plateforme est constituée de <a href="/groups/communaute/pages/a-propos-de-la-communaute-natur-adapt">« groupes »</a> dédiés à un sujet lié au changement climatique et aux espaces naturels.<br />
+        Vous pourrez rejoindre les groupes que vous souhaitez selon vos intérêts, puis échanger, partager vos idées, une actualité, un document, etc. avec les autres membres du groupe. Certains groupes sont ouverts, sans modération pour y entrer. D’autres sont privés (indiqués par un symbole cadenas) : un animateur validera ou non votre demande.
+        </p>
+	    <p>Le groupe « Communauté » rassemble l’intégralité des membres de la plateforme, ainsi que les documents, pages et actualités qui peuvent intéresser tous les inscrits.
+	    </p>
+	    <p>La plateforme est collaborative, ce qui signifie que vous êtes libre de créer du contenu ou de réagir, sans modération ou presque. Vous pouvez même à votre tour <a href="/groups/new">créer un groupe si vous le souhaitez !</a></p>
         <ul>
-        <li><strong>Pages</strong> : il s’agit de pages web avec du texte, des liens, etc.</li>
-        <li>
-        <strong>Discussions</strong> : vous y trouverez les différents sujets de discussion du groupe, vous pourrez les lire, y répondre et en créer de nouvelles. Vous pouvez si vous le souhaitez recevoir les échanges par mail et y répondre via votre messagerie habituelle.</li>
-        <li>
-        <strong>Actualités</strong> : elles sont rédigées par les membres du groupe pour présenter… une actualité ! Chacun peut donc y contribuer.</li>
-        <li><strong>Documents</strong> : chaque membre peut ajouter des documents qui lui semblent pertinents en lien avec le groupe.</li>
-        <li><strong>Membres</strong> : c’est la liste des personnes membres du groupe.</li>
+        <li><a href="/groups/communaute/pages/tutoriels-d-utilisation-de-la-plateforme>Prise en main de la plateforme et de ses fonctionnalités.</li>
         </ul>
-        <p>Le groupe <a href="{{ path('group_index', { groupSlug: 'communaute', }) }}">« Communauté »</a> rassemble tous les membres de la plateforme, ainsi que les documents, pages et actualités qui peuvent intéresser toute la communauté.</p>
+        <p><strong>Découvrir et comprendre <a href="/groups/communaute/pages/a-propos-du-projet-natur-adapt">le projet LIFE Natur’Adapt en quelques mots et en vidéo</a></strong>.
+	    </p>
+
 
     premier_clique_visibility: true
-    premier_clique_texte: Découvrez les groupes projets et thématiques mis en place
-    premier_clique_bouton_texte: Découvrir les groupes
-    premier_clique_lien: /groups
+    premier_clique_texte: Suivez les actualités
+    premier_clique_bouton_texte: S'abonner à la newsletter
+    premier_clique_lien: /groups/communaute/pages/newsletter
 
 
     second_texte: |
-        <h2>A vous de jouer !</h2>
-        <p>Nouveau venu ? Vous pouvez :</p>
-        <ul>
-            <li>Vous <a href="{{ path('user_login') }}">inscrire</a> ça prend 5 min ! Si besoin, suivez <a href="{{ path('group_page_index', { groupSlug: 'plateforme-web', pageSlug: '-tuto--comment-s-inscrire-sur-la-plateforme' }) }}">le tuto !</li>
-            <li><a href="{{ path('groups_index') }}">Rejoindre des groupes</a> déjà créés (certains sont ouverts, pour d’autres il faudra demander à l’animateur de rejoindre le groupe en un simple clic) et dans ces groupes rejoindre des discussions (<a href="{{ path('group_page_index', { groupSlug: 'plateforme-web', pageSlug: '-tuto--rejoindre-les-discussions' }) }}">voir le tuto), rédiger des actualités (<a href="{{ path('group_page_index', { groupSlug: 'plateforme-web', pageSlug: '-tuto--rediger-une-actualite' }) }}">voir le tuto</a>), etc.</li>
-            <li><a href="{{ path('group_new') }}">Créer vous-même un groupe</a> sur un sujet qui vous semble manquer dans la liste actuelle</li>
-            <li>Trouver des membres avec qui échanger grâce à <a href="{{ path('members') }}">l’annuaire</a></li>
-            <li>Trouver (<a href="{{ path('group_page_index', { groupSlug: 'communaute', pageSlug: 'ressources' }) }}">des ressources</a>, produites dans le cadre du projet Natur’Adapt ou non !</li>
-            <li>Et plein d’autres choses encore que vous découvrirez en naviguant ou en <a href="{{ path('group_page_index', { groupSlug: 'plateforme-web', pageSlug: 'tutoriel---prise-en-main-de-la-plateforme-natur-adapt' }) }}">suivant ce tuto</a> !</li>
-        </ul>
-        <p>Si vous rencontrez un problème technique, n’hésitez pas à nous le dire ! Pour rappel, cette plateforme est encore en cours de développement (nous l’adaptons selon les retours des utilisateurs), nous vous remercions de votre compréhension ! Il existe d’ailleurs un groupe dédié au <a href="{{ path('group_index', { groupSlug: 'plateforme-web', }) }}">développement de la plateforme</a>.</p>
-
-    second_clique_visibility: true
-    second_clique_texte: Suivez les actualités
-    second_clique_bouton_texte: S'abonner à la newsletter
-    second_clique_lien: /groups/communaute/pages/newsletter
-    troisieme_texte: |
         <img src="/media/layout/help.svg" alt="" style="width:25%">
         <div>
-        <h2>Aide en ligne</h2>
+        <h2>Comment s'inscrire ?</h2>
         <ul>
-        <li>S’inscrire à la plateforme : <a href="/user/login">page d’inscription</a> et <a href="/groups/plateforme-web/pages/-tuto--comment-s-inscrire-sur-la-plateforme">tuto</a></li>
-        <li><a href="/groups/communaute/pages/charte-de-la-plateforme">Lire la charte de la plateforme</a></li>
-        <li><a href="/groups/plateforme-web/pages/regles">Lire les règles de la plateforme</a></li>
-        <li><a href="/groups/plateforme-web/pages/tutoriel---prise-en-main-de-la-plateforme-natur-adapt">Découvrir la plateforme</a></li>
-        <li>Contacter le support de la plateforme : <a href="mailto:support@naturadapt.com">support@naturadapt.com</a></li>
-        <li>Contacter l’équipe du projet : <a href="mailto:naturadapt-rnf@espaces-naturels.fr">naturadapt-rnf@espaces-naturels.fr</a></li></ul>
+        <li>1. RDV en haut à droite puis cliquez sur le bouton vert « Connexion »</li>
+        <li>2. Tapez votre adresse mail et choisissez un mot de passe</li>
+        <li>3. Ouvrez le mail de confirmation d’inscription reçu sur votre boite mail</li>
+        </ul>
+        <p>Bienvenue en tant que <strong>Natur’Acteur, Natur’Actrice</strong> de notre communauté ! Vous pouvez par ailleurs, vous <a href="/groups/communaute/pages/newsletter">inscrire à la newsletter du LIFE Natur’Adapt pour suivre les actualités du projet</a>.</p>
         </div>
+
+    second_clique_visibility: true
+    second_clique_texte: Vous avez suivi le MOOC Natur’Adapt ?
+    second_clique_bouton_texte: Rejoignez le groupe dédié juste ici pour continuer vos échanges !
+    second_clique_lien:  /groups/moocoeurs
+    troisieme_texte: |
+        <ul>
+        <li>Contacter le support de la plateforme : <a href="mailto:support@naturadapt.com">support@naturadapt.com</a></li>
+        <li>Contacter l’équipe du projet : <a href="mailto:naturadapt-rnf@espaces-naturels.fr">naturadapt-rnf@espaces-naturels.fr</a></li>
+        </ul>
 groups:
     frontgroup:
         fileId: 'groups-hero.jpg'
@@ -177,7 +178,7 @@ menus:
         liens:
         -
             nom: 'À propos du projet Natur’Adapt'
-            lien: '/about'
+            lien: '/groups/communaute/pages/a-propos-du-projet-natur-adapt'
         -
             nom: Newsletter
             lien: '/communaute/pages/newsletter'
