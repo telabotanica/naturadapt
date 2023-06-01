@@ -47,7 +47,7 @@ class AppController extends AbstractController {
 
 			if (!$user->getHasBeenNotifiedOfNewAdaptativeApproach()) {
 				// Add a flash message to notify the user
-				$this->addFlash('warning', 'Une nouvelle fonctionnalité est disponible. <br> Veuillez remplir le nouveau champs "Démarche adaptative" sur votre profil.');
+				$this->addFlash('warning', 'messages.user.new_adaptative_approach_required');
 				$user->setHasBeenNotifiedOfNewAdaptativeApproach(true);
 				$manager->flush();
 			}
