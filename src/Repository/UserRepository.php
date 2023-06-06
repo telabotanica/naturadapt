@@ -226,15 +226,15 @@ class UserRepository extends ServiceEntityRepository {
 	public function searchCommunauteAdmins ( ) {
 
 		$role = 'admin';
-		$groupId = 1; 
+		$groupSlug = 'communaute';
 
 		$qb = $this->createQueryBuilder('u')
 			->leftJoin('u.usergroupMemberships', 'm')
 			->leftJoin('m.usergroup', 'g')
 			->where('m.role LIKE :role')
-			->andWhere('g.id = :groupId')
+			->andWhere('g.slug = :groupSlug')
 			->setParameter('role', $role)
-			->setParameter('groupId', $groupId);
+			->setParameter('groupSlug', $groupSlug);
 	
 		return $qb->getQuery()->getResult();
 	}
