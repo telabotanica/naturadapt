@@ -486,7 +486,7 @@ pages:
                         professional: "Professionnel"
                 has_adaptative_approach:
                     labels: 
-                        adaptative_approach: "Engagés dans une démarche"
+                        adaptative_approach: "Engagés dans une démarche d'adaptation"
                         everyone: "Tous"
                 skills:
                     label: "Compétences"
@@ -592,6 +592,8 @@ messages:
         email_change_successful: "Votre adresse e-mail a été modifiée."
         not_active: "Cet utilisateur n’est pas activé."
         account_deleted: "Votre compte a bien été supprimé."
+        adaptative_approach_required: "Veuillez remplir le nouveau champ 'Démarche adaptative' sur votre profil."
+        new_adaptative_approach_required: "Une nouvelle fonctionnalité est disponible. <br> Veuillez remplir le nouveau champ 'Démarche adaptative' sur votre profil."
 
     group:
         joined: "Vous avez rejoint ce groupe."

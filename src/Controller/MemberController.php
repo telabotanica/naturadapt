@@ -59,6 +59,7 @@ class MemberController extends AbstractController {
 		return $this->render( 'pages/member/members-index.html.twig', [
 				'form'    => $data[ 'form' ]->createView(),
 				'members' => $data[ 'members' ],
+				'all_members' => $data[ 'all_members' ],
 				'pager'   => [
 						'base_url' => $request->getPathInfo() . '?' . http_build_query( [ 'form' => $filters ] ) . '&',
 						'page'     => $page,

@@ -226,15 +226,15 @@ class UserRepository extends ServiceEntityRepository {
 	public function searchCommunauteAdmins ( ) {
 
 		$role = 'admin';
-		$groupId = 1; 
+		$groupSlug = 'communaute';
 
 		$qb = $this->createQueryBuilder('u')
 			->leftJoin('u.usergroupMemberships', 'm')
 			->leftJoin('m.usergroup', 'g')
 			->where('m.role LIKE :role')
-			->andWhere('g.id = :groupId')
+			->andWhere('g.slug = :groupSlug')
 			->setParameter('role', $role)
-			->setParameter('groupId', $groupId);
+			->setParameter('groupSlug', $groupSlug);
 	
 		return $qb->getQuery()->getResult();
 	}
@@ -279,15 +279,25 @@ class UserRepository extends ServiceEntityRepository {
 	{
 		$qb = $this->createQueryBuilder('u');
 
+		$excludedCountries = ['PL', 'GB', 'RS', 'SI', 'IS', 'HU', 'AL', 'NL', 'EE', 'AT', 'MT', 'IE', 'ME', 'CH', 'RO', 'LU', 'MK', 'FI', 'ES', 'PT', 'BE', 'IT', 'DK', 'SK', 'FR', 'CZ', 'BG', 'LT', 'LV', 'NO', 'EL', 'HR', 'CY', 'SE', 'TR', 'DE', 'LI'];
+
 		if($adaptativeApproachWanted){
 			$qb->addSelect('u.country')
 				->select('u.country as countryCode, COUNT(u.id) as userCount')
 				->where('u.hasAdaptativeApproach = :hasAdaptativeApproach')
+				->andWhere($qb->expr()->orX(
+					$qb->expr()->notIn('u.country', $excludedCountries),
+					$qb->expr()->isNotNull('u.region')
+				))
 				->setParameter('hasAdaptativeApproach', $adaptativeApproachWanted)
 				->groupBy('u.country');
 		} else {
 			$qb->addSelect('u.country')
 				->select('u.country as countryCode, COUNT(u.id) as userCount')
+				->andWhere($qb->expr()->orX(
+					$qb->expr()->notIn('u.country', $excludedCountries),
+					$qb->expr()->isNotNull('u.region')
+				))
 				->groupBy('u.country');
 		}
 	
