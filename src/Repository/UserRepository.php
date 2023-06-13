@@ -279,7 +279,7 @@ class UserRepository extends ServiceEntityRepository {
 	{
 		$qb = $this->createQueryBuilder('u');
 
-		$excludedCountries = ['PL', 'UK', 'RS', 'SI', 'IS', 'HU', 'AL', 'NL', 'EE', 'AT', 'MT', 'IE', 'ME', 'CH', 'RO', 'LU', 'MK', 'FI', 'ES', 'PT', 'BE', 'IT', 'DK', 'SK', 'FR', 'CZ', 'BG', 'LT', 'LV', 'NO', 'EL', 'HR', 'CY', 'SE', 'TR', 'DE', 'LI'];
+		$excludedCountries = ['PL', 'GB', 'RS', 'SI', 'IS', 'HU', 'AL', 'NL', 'EE', 'AT', 'MT', 'IE', 'ME', 'CH', 'RO', 'LU', 'MK', 'FI', 'ES', 'PT', 'BE', 'IT', 'DK', 'SK', 'FR', 'CZ', 'BG', 'LT', 'LV', 'NO', 'EL', 'HR', 'CY', 'SE', 'TR', 'DE', 'LI'];
 
 		if($adaptativeApproachWanted){
 			$qb->addSelect('u.country')
