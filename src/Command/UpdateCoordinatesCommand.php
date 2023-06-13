@@ -44,8 +44,11 @@ class UpdateCoordinatesCommand extends Command
             $output->write("Updating coordinates for {$user->getName()}...");
 
             $coords = $this->geocoder->searchCoords($user->getCity(), $user->getCountry(), $user->getZipcode());
+            if($coords['lat'] == null || $coords['lng'] == null) {
+                $coords = $this->geocoder->searchCoords($user->getCity(), $user->getCountry());
+            }
 
-            if ($coords !== null) {
+            if ($coords['lat'] !== null || $coords['lng'] !== null) {
                 $user->setLatitude($coords['lat']);
                 $user->setLongitude($coords['lng']);
 
