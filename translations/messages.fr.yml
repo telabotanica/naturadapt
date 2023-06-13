@@ -486,7 +486,7 @@ pages:
                         professional: "Professionnel"
                 has_adaptative_approach:
                     labels: 
-                        adaptative_approach: "Engagés dans une démarche"
+                        adaptative_approach: "Engagés dans une démarche d'adaptation"
                         everyone: "Tous"
                 skills:
                     label: "Compétences"
