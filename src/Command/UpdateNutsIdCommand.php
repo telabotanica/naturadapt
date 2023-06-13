@@ -49,12 +49,12 @@ class UpdateNutsIdCommand extends Command
                 $nutsId = null;
             }
 
+            $user->setRegion($nutsId);
+
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+
             if ($nutsId !== null) {
-                $user->setRegion($nutsId);
-
-                $this->entityManager->persist($user);
-                $this->entityManager->flush();
-
                 $output->writeln(' Done.');
             } else {
                 $output->writeln(' Failed. NUTS ID not found.');
