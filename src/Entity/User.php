@@ -450,7 +450,7 @@ class User implements UserInterface, JsonSerializable {
 	}
 
 	public function setRegion ( ?string $region ): self {
-		$this->region = mb_convert_case( trim( $region ), MB_CASE_UPPER );
+		$this->region = $region !== null ? mb_convert_case( trim( $region ), MB_CASE_UPPER ) : null;
 
 		return $this;
 	}
