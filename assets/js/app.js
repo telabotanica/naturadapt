@@ -24,6 +24,7 @@ import './map/map-communaute';
 import './map/map-home';
 import './map/map-home-region';
 //
+import './ui/home';
 import './ui/input-autocomplete';
 import './ui/input-checkboxes-autocomplete';
 import './ui/input-file-preview';
