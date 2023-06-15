@@ -99,6 +99,8 @@ domready( () => {
 
 						return new UploadAdapter( loader, uploadURL );
 					};
+
+					editor.config.filebrowserUploadAllowedTypes = [ 'image', 'svg' ];
 				}
 
 				if ( wysiwyg.getAttribute( 'data-upload' ) ) {
@@ -125,6 +127,8 @@ domready( () => {
 								'imageStyle:reducedSize20',
 								'|',
 								'imageStyle:alignRight',
+								'|',
+								'imageStyle:threeImagesInSameLine'
 							],
 							styles: [
 								'full',
@@ -155,8 +159,13 @@ domready( () => {
 									title: 'reducedSize20', 
 									icon: '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><text x="5" y="15" fill="black">20</text></svg>',
 								},
-
-							]
+								{ 
+									name: 'threeImagesInSameLine', 
+									className: 'threeImagesInSameLine', 
+									title: 'threeImagesInSameLine', 
+									icon: '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><text x="5" y="15" fill="black">3c</text></svg>',
+								},
+								]
 						},
 					} )
 					.then( editor => {

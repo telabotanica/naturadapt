@@ -23,75 +23,24 @@ home:
             </p>
         <p>Nos valeurs communes et principes de fonctionnement sont inscrits dans < a href="/groups/communaute/pages/charte-de-la-plateforme">une charte que nous vous invitons à lire</a>.
             </p>
-            <p>Intéressés par l’aventure ? <a href="/groups/communaute/pages/a-propos-de-la-communaute-natur-adapt">Rejoignez la communauté Natur’Adapt ici ! C’est gratuit, libre et réversible !
-            </p>
-        </section>
-
-        <section>
+            <p>Intéressés par l’aventure ? <a href="/groups/communaute/pages/a-propos-de-la-communaute-natur-adapt">Rejoignez la communauté Natur’Adapt ici ! C’est gratuit, libre et réversible !></a>
+            </p>  
         <h2>Que pouvez-vous y trouver ?</h2>
-        <div class="front-page--columns columns__33-33-33">
-        <div>
-        <p>
-        <svg xmlns="http://www.w3.org/2000/svg" width="79" height="79" viewBox="0 0 79 79">
-        <rect width="2.952" height="26.568" transform="translate(39.852 41.327)"/>
-        <rect width="31.31" height="2.952" transform="translate(44.712 29.951) rotate(-45)"/>
-        <rect width="41.746" height="2.952" transform="translate(7.813 66.85) rotate(-45)"/>
-        <rect width="2.952" height="22.96" transform="translate(18.144 14.327) rotate(-45)"/>
-        <rect width="2.952" height="31.31" transform="translate(43.236 39.418) rotate(-45)"/>
-        <ellipse cx="7.38" cy="7.38" rx="7.38" ry="7.38" transform="translate(63.467)" fill="#2fb67d"/>
-        <ellipse cx="7.38" cy="7.38" rx="7.38" ry="7.38" transform="translate(33.948 63.467)" fill="#2fb67d"/>
-        <ellipse cx="7.38" cy="7.38" rx="7.38" ry="7.38" transform="translate(0 60.515)" fill="#2fb67d"/>
-        <ellipse cx="4.428" cy="4.428" rx="4.428" ry="4.428" transform="translate(13.284 7.38)" fill="#2fb67d"/>
-        <ellipse cx="4.428" cy="4.428" rx="4.428" ry="4.428" transform="translate(60.515 54.611)" fill="#2fb67d"/>
-        <ellipse cx="10.332" cy="10.332" rx="10.332" ry="10.332" transform="translate(30.996 25.092)" fill="#2fb67d"/>
-        </svg>
 
-        </p>
-        <p>Les contacts des membres de la communauté, via <a href="/members">l’annuaire</a> </p>
-        </div>
-        <div>
-        <p>
-        <svg xmlns="http://www.w3.org/2000/svg" width="83" height="85" viewBox="0 0 83 85">
-        <g transform="translate(3.056 8.437)">
-        <path d="M42.837,8.918a1.476,1.476,0,1,0-1.548,2.514A35.224,35.224,0,0,1,58.171,41.615a35.467,35.467,0,0,1-1.188,9.08A1.478,1.478,0,0,0,58.032,52.5a1.517,1.517,0,0,0,.378.049,1.475,1.475,0,0,0,1.426-1.1,38.348,38.348,0,0,0-17-42.533Z"
-        transform="translate(15.524 -4.297)"/>
-        <path d="M51.3,56.2a35.228,35.228,0,0,1-13.536,2.683A35.489,35.489,0,0,1,11.6,47.323a1.476,1.476,0,0,0-2.182,1.99A38.456,38.456,0,0,0,37.766,61.835a38.131,38.131,0,0,0,14.665-2.909A1.475,1.475,0,1,0,51.3,56.2Z"
-        transform="translate(0.506 13.859)"/>
-        <path d="M32.405,8.625a1.476,1.476,0,0,0-.7-2.868A38.209,38.209,0,0,0,2.574,40.3a1.474,1.474,0,0,0,1.368,1.575c.035,0,.071,0,.1,0A1.476,1.476,0,0,0,5.519,40.5,35.267,35.267,0,0,1,32.405,8.625Z"
-        transform="translate(-2.57 -5.716)"/>
-        </g>
-        <ellipse cx="8.856" cy="8.856" rx="8.856" ry="8.856" transform="translate(32.472)" fill="#2fb67d"/>
-        <ellipse cx="8.856" cy="8.856" rx="8.856" ry="8.856" transform="translate(0 54.611)" fill="#2fb67d"/>
-        <ellipse cx="8.856" cy="8.856" rx="8.856" ry="8.856" transform="translate(64.943 54.611)" fill="#2fb67d"/>
-        </svg>
 
-        </p>
+        <figure class="image threeImagesInSameLine">
+        <img src="/media/layout/contacts_et_membres.svg" alt="">
+        </figure>
+        <p><a href="/groups/communaute/pages/a-propos-de-la-communaute-natur-adapt">Les contacts des membres de la communauté, via </a><a href="/members">l’annuaire</a></p>
+        <figure class="image threeImagesInSameLine">
+        <img src="/media/layout/listes_discussions.svg" alt="">
+        </figure>
         <p>Des listes de discussion pour échanger</p>
-        </div>
-        <div>
-        <p>
-        <svg xmlns="http://www.w3.org/2000/svg" width="83" height="83" viewBox="0 0 83 83">
-        <g transform="translate(28.125 6.555)" fill="#2fb67d">
-        <path d="M12.974 26.191a15.52 15.52 0 0 0 12.974-6.931A15.765 15.765 0 0 0 0 19.26a15.488 15.488 0 0 0 12.974 6.931z"/>
-        <ellipse cx="4.876" cy="4.876" rx="4.876" ry="4.876" transform="translate(8.098)"/>
-        </g>
-        <g transform="translate(4.109 54.719)" fill="#2fb67d">
-        <path d="M12.975 26.191a15.52 15.52 0 0 0 12.974-6.931A15.767 15.767 0 0 0 0 19.26a15.162 15.162 0 0 0 12.975 6.931z"/>
-        <ellipse cx="4.876" cy="4.876" rx="4.876" ry="4.876" transform="translate(8.099)"/>
-        </g>
-        <g transform="translate(52.139 54.719)" fill="#2fb67d">
-        <path d="M12.975 26.191a15.52 15.52 0 0 0 12.974-6.931A15.767 15.767 0 0 0 0 19.26a15.508 15.508 0 0 0 12.975 6.931z"/>
-        <ellipse cx="4.876" cy="4.876" rx="4.876" ry="4.876" transform="translate(8.099)"/>
-        </g>
-        <path
-        d="M65.115 48.166a17.514 17.514 0 0 0-11.564 4.5l-11.175-6.421V34.049a17.178 17.178 0 1 0-2.565-.015v12.2l-11.172 6.417a17.046 17.046 0 1 0-11.554 29.545 17 17 0 0 0 13.364-27.614l10.785-6.165 10.785 6.165a16.924 16.924 0 1 0 13.1-6.419zm-48.03 31.468a14.518 14.518 0 1 1 14.519-14.518 14.588 14.588 0 0 1-14.519 14.517zm9.5-62.548a14.519 14.519 0 1 1 14.514 14.519A14.679 14.679 0 0 1 26.58 17.086zM65.12 79.634a14.518 14.518 0 1 1 14.514-14.518 14.5 14.5 0 0 1-14.519 14.517z"/>
-        </svg>
-        </p>
-        <p>Des ressources et des productions collaboratives</p>
-        </div>
-        </div>
-        </section>
-        <section>
+        <figure class="image threeImagesInSameLine">
+        <img src="/media/layout/ressources_prod.svg" alt="">
+        </figure>
+        <p>Des ressources et des productions collaboratives</p><p>&nbsp;</p>
+          
         <p>Cette plateforme est constituée de <a href="/groups/communaute/pages/a-propos-de-la-communaute-natur-adapt">« groupes »</a> dédiés à un sujet lié au changement climatique et aux espaces naturels.<br />
         Vous pourrez rejoindre les groupes que vous souhaitez selon vos intérêts, puis échanger, partager vos idées, une actualité, un document, etc. avec les autres membres du groupe. Certains groupes sont ouverts, sans modération pour y entrer. D’autres sont privés (indiqués par un symbole cadenas) : un animateur validera ou non votre demande.
         </p>
@@ -112,7 +61,7 @@ home:
 
 
     second_texte: |
-        <img src="/media/layout/help.svg" alt="" style="width:25%">
+        <figure class="image reducedSize20"><img src="/media/layout/help.svg" alt=""></figure>
         <div>
         <h2>Comment s'inscrire ?</h2>
         <ul>
