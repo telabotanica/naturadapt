@@ -161,31 +161,36 @@ domready(async () => {
     // Attendez que tous les marqueurs soient chargés
     await Promise.all(markerPromises);
 
-    const adaptativeToggle = document.getElementById("adaptative-toggle");
-    const toggleSwitchText = document.getElementById("toggle-switch-text");
-    const toggleSwitchLabel = document.getElementById("toggle-switch-label");
+    const radioAdaptedLabel = document.getElementById("radio-adapted-label");
+    const radioNotAdaptedLabel = document.getElementById("radio-not-adapted-label");
     
     async function updateMarkers(checked) {
       const allMarkers = await Promise.all(markerPromises);
       filterMarkers(markers, allMarkers, checked);
     }
 
+   
+
+
     // Initialisation de l'état des marqueurs
-    updateMarkers(adaptativeToggle.checked);
-
-    adaptativeToggle.addEventListener("change", async (event) => {
-      updateMarkers(event.target.checked);
-
-      // Mettre à jour le texte à côté du switch
-      if (adaptativeToggle.checked) {
-        toggleSwitchText.textContent = "Montrer tous les utilisateurs";
-      } else {
-        toggleSwitchText.textContent = "Montrer les utilisateurs avec une démarches d'adaptation";
-      }
+    updateMarkers(true);
+    // Add event listener for radio buttons
+    const radioButtons = document.querySelectorAll('input[name="adaptative-user-filter"]');
+    radioButtons.forEach((radioButton) => {
+      radioButton.addEventListener("change", async (event) => {
+        const value = event.target.value;
+        if (value === "adapted") {
+          updateMarkers(true);
+        } else {
+          updateMarkers(false);
+        }
+      });
     });
 
-
-    toggleSwitchLabel.addEventListener("click", function (event) {
+    radioAdaptedLabel.addEventListener("click", function (event) {
+      event.stopPropagation(); // Empêcher la propagation de l'événement au niveau supérieur (la carte)
+    });
+    radioNotAdaptedLabel.addEventListener("click", function (event) {
       event.stopPropagation(); // Empêcher la propagation de l'événement au niveau supérieur (la carte)
     });
     
