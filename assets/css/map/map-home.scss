@@ -8,76 +8,39 @@
     align-items: center; /* Aligner verticalement les éléments au centre */
     cursor: pointer;
     z-index: 1000;
-  }
-  
-  .toggle-switch-text {
-
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    color: #FFFFFF;
-    background-color: rgba(0, 0, 0, 0.4);
-    padding: 5px;
-    border-radius: 3px;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
-    margin-right: 5px;
-
-}
-  
-
-  /* Le texte à côté du toggle switch */
-  .toggle-switch-container {
     padding: 10px; /* Ajouter une marge à gauche pour espacer le texte du switch */
     font-size: 18px; /* Taille de la police du texte */
   }
-  
-  /* Le toggle switch */
-  .toggle-switch {
-    position: relative;
-    display: inline-block;
-    width: 50px;
-    height: 24px;
-  }
-  
-  /* Cache l'input du switch */
-  .toggle-switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-  
-  /* Le fond du switch */
-  .toggle-switch span {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    border-radius: 24px;
-    transition: .2s;
-  }
-  
-  /* Le cercle à l'intérieur du switch */
-  .toggle-switch span:before {
-    position: absolute;
-    content: "";
-    height: 20px;
-    width: 20px;
-    left: 2px;
-    bottom: 2px;
-    background-color: white;
-    border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Ajoute une ombre au cercle */
-    transition: .2s;
-  }
-  
-  /* Lorsque le switch est activé */
-  .toggle-switch input:checked + span {
-    background-color: #4CAF50; /* Couleur de fond du switch lorsqu'il est activé */
-  }
-  
-  /* Lorsque le cercle est déplacé */
-  .toggle-switch input:checked + span:before {
-    transform: translateX(26px);
-  }
-  
+
+  /* Style for the radio button when it is checked */
+.custom-radio:checked {
+  background-color: white;
+}
+
+/* Optional: Add a smaller circle inside the radio button when it is checked */
+.custom-radio:checked::after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #30b67d;
+}
+
+/* Hide the default radio button */
+.custom-radio {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 50%;
+  border: 3px solid grey;
+  outline: none;
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+}
