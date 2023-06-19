@@ -181,13 +181,16 @@ domready(async () => {
 
 
       const radioAdaptedLabel = document.getElementById("radio-adapted-label");
-      const radioNotAdaptedLabel = document.getElementById("radio-not-adapted-label");
+      const radioAdaptedInput = radioAdaptedLabel.querySelector('input[type="radio"]');
 
+      const radioNotAdaptedLabel = document.getElementById("radio-not-adapted-label");
+      
       // Add event listener for radio buttons
       const radioButtons = document.querySelectorAll('input[name="adaptative-user-filter"]');
       radioButtons.forEach((radioButton) => {
         radioButton.addEventListener("change", async (event) => {
           const value = event.target.value;
+          
           if (value === "adapted") {
             loadRegionsLayer(mapRegions, mapRegions.getZoom(), membersDataPromise, true);
           } else {
@@ -205,7 +208,7 @@ domready(async () => {
 
       // Mettre à jour la couche des régions lors d'un changement de zoom
       mapRegions.on('zoomend', function () {
-        loadRegionsLayer(mapRegions, mapRegions.getZoom(), membersDataPromise, adaptativeToggle.checked);
+        loadRegionsLayer(mapRegions, mapRegions.getZoom(), membersDataPromise, radioAdaptedInput.checked);
       });
 
       radioAdaptedLabel.addEventListener("click", function (event) {
