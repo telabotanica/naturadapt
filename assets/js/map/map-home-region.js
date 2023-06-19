@@ -180,24 +180,24 @@ domready(async () => {
       const membersDataPromise = await fetchMapData();
 
 
-      const adaptativeToggle = document.getElementById("adaptative-toggle");
-      const toggleSwitchText = document.getElementById("toggle-switch-text");
-      const toggleSwitchLabel = document.getElementById("toggle-switch-label");
+      const radioAdaptedLabel = document.getElementById("radio-adapted-label");
+      const radioNotAdaptedLabel = document.getElementById("radio-not-adapted-label");
 
-      adaptativeToggle.addEventListener("change", (event) => {
-        // updateRegionColors(event.target.checked);
-        loadRegionsLayer(mapRegions, mapRegions.getZoom(), membersDataPromise, event.target.checked);
-        // Mettre à jour le texte à côté du switch
-        if (adaptativeToggle.checked) {
-          toggleSwitchText.textContent = "Montrer tous les utilisateurs";
-        } else {
-          toggleSwitchText.textContent = "Montrer les utilisateurs avec une démarches d'adaptation";
-        }
+      // Add event listener for radio buttons
+      const radioButtons = document.querySelectorAll('input[name="adaptative-user-filter"]');
+      radioButtons.forEach((radioButton) => {
+        radioButton.addEventListener("change", async (event) => {
+          const value = event.target.value;
+          if (value === "adapted") {
+            loadRegionsLayer(mapRegions, mapRegions.getZoom(), membersDataPromise, true);
+          } else {
+            loadRegionsLayer(mapRegions, mapRegions.getZoom(), membersDataPromise, false);
+          }
+        });
       });
 
-
       // Appeler la fonction loadRegionsLayer avec le niveau de zoom initial (2)
-      loadRegionsLayer(mapRegions, initialZoom, membersDataPromise, adaptativeToggle.checked);
+      loadRegionsLayer(mapRegions, initialZoom, membersDataPromise, true);
 
 
 
@@ -208,9 +208,13 @@ domready(async () => {
         loadRegionsLayer(mapRegions, mapRegions.getZoom(), membersDataPromise, adaptativeToggle.checked);
       });
 
-      toggleSwitchLabel.addEventListener("click", function (event) {
+      radioAdaptedLabel.addEventListener("click", function (event) {
         event.stopPropagation(); // Empêcher la propagation de l'événement au niveau supérieur (la carte)
       });
+      radioNotAdaptedLabel.addEventListener("click", function (event) {
+        event.stopPropagation(); // Empêcher la propagation de l'événement au niveau supérieur (la carte)
+      });
+
     }
 });
 

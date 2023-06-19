@@ -4,12 +4,20 @@
   // Créez une variable JavaScript avec la liste des membres
   const members = {{ members | json_encode | raw }};
 </script>
-<div id="mapHomeRegionId" class="map-size">
-  <div id="toggle-switch-container" class="toggle-switch-container">
-    <span id="toggle-switch-text" class="toggle-switch-text">Montrer tous les utilisateurs</span>
-    <label id="toggle-switch-label" class="toggle-switch">
-      <input id="adaptative-toggle" type="checkbox" checked/>
-      <span class="toggle-switch-background"></span>
-    </label>
+
+<div id="mapHomeId" class="map-size">
+
+  <div id="toggle-switch-container" class="toggle-switch-container" style="background-color: white; display: block;">
+    <h2 style="margin: 0;text-decoration: underline; margin-bottom: 5px">Cartographie des membres</h2>
+          <div id="radio-buttons-container" class="radio-buttons-container" style="display: flex; flex-direction: column;">
+            <label id="radio-adapted-label" for="show-active-users" class="radio-button-label" style="display: flex; align-items: center;">
+              <input id="show-active-users" type="radio" name="adaptative-user-filter" value="adapted" checked class="custom-radio">
+              <span class="radio-button-text" style="margin-left: 5px;">Engagés dans une démarche d'adaptation</span>
+            </label>
+            <label id="radio-not-adapted-label" for="show-all-users" class="radio-button-label" style="display: flex; align-items: center;">
+              <input id="show-all-users" type="radio" name="adaptative-user-filter" value="all" class="custom-radio">
+              <span class="radio-button-text" style="margin-left: 5px;">Tous</span>
+            </label>
+          </div>
   </div>
 </div>
