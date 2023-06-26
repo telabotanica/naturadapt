@@ -27,15 +27,16 @@ class UserProfileType extends AbstractType {
 	 *
 	 * @param \App\Service\FileManager $fileManager
 	 */
-	public function __construct ( FileManager $fileManager ) {
+	public function __construct ( FileManager $fileManager) {
 		$this->fileManager = $fileManager;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function buildForm ( FormBuilderInterface $builder, array $options ) {
+	public function buildForm ( FormBuilderInterface $builder, array $options) {
 		$maxFileSize = $this->fileManager->fileUploadMaxSize( '5M' );
+		$hasBeenNotified = $options['has_been_notified'];
 
 		$builder
 				->add( 'name', TextType::class )
@@ -112,6 +113,9 @@ class UserProfileType extends AbstractType {
 								'forms.user.has_adaptative_approach.labels.' . User::TYPE_HAS_ADAPTATIVE_APPROACH_YES => TRUE,
 								'forms.user.has_adaptative_approach.labels.' . User::TYPE_HAS_ADAPTATIVE_APPROACH_NO  => FALSE,
 						],
+						'attr' => [
+							'class' => $hasBeenNotified ? '' : 'adaptative-approach-form-has-not-been-notified',
+						],
 				] )
 				->add ( 'adaptativeApproachDescription', TextType::class, [
 					'required' => FALSE,
@@ -130,6 +134,7 @@ class UserProfileType extends AbstractType {
 		$resolver->setDefaults( [
 				'attr'       => [],
 				'data_class' => User::class,
+				'has_been_notified' => TRUE,
 		] );
 	}
 }

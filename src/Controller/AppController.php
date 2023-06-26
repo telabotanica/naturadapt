@@ -48,7 +48,6 @@ class AppController extends AbstractController {
 			if (!$user->getHasBeenNotifiedOfNewAdaptativeApproach()) {
 				// Add a flash message to notify the user
 				$this->addFlash('warning', 'messages.user.new_adaptative_approach_required');
-				$user->setHasBeenNotifiedOfNewAdaptativeApproach(true);
 				$manager->flush();
 			}
 		}
