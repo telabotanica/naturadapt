@@ -1,0 +1,23 @@
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+
+<script>
+  // Créez une variable JavaScript avec la liste des membres
+  const members = {{ members | json_encode | raw }};
+</script>
+
+<div id="mapHomeRegionId" class="map-size">
+
+  <div id="toggle-switch-container" class="toggle-switch-container" style="background-color: white; display: block;">
+    <h2 id="title-radio-button" >Cartographie des membres</h2>
+          <div id="radio-buttons-container" class="radio-buttons-container" style="display: flex; flex-direction: column;">
+            <label id="radio-adapted-label" for="show-active-users" class="radio-button-label" style="display: flex; align-items: center;">
+              <input id="show-adapted-users" type="radio" name="adaptative-user-filter" value="adapted" checked class="custom-radio">
+              <span class="radio-button-text" style="margin-left: 5px;">Engagés dans une démarche d'adaptation</span>
+            </label>
+            <label id="radio-not-adapted-label" for="show-all-users" class="radio-button-label" style="display: flex; align-items: center;">
+              <input id="show-all-users" type="radio" name="adaptative-user-filter" value="all" class="custom-radio">
+              <span class="radio-button-text" style="margin-left: 5px;">Tous</span>
+            </label>
+          </div>
+  </div>
+</div>

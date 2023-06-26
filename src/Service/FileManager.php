@@ -18,10 +18,12 @@ class FileManager {
 	public function __construct (
 			UserFileManager $userFileManager,
 			UsergroupFileManager $usergroupFileManager,
+			AppFileManager $appFileManager,
 			CacheManager $cacheManager
 	) {
 		$this->managers[ File::USER_FILES ]      = $userFileManager;
 		$this->managers[ File::USERGROUP_FILES ] = $usergroupFileManager;
+		$this->managers[ File::APP_FILES ] = $appFileManager;
 
 		$this->cacheManager = $cacheManager;
 	}

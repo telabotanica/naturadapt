@@ -1,0 +1,53 @@
+#title-radio-button{
+  margin: 0;
+  text-decoration: underline; 
+  margin-bottom: 5px;
+  font-size: 1.5rem;
+}
+
+/* Conteneur pour le toggle switch */
+/* Conteneur pour le toggle switch et le texte */
+.toggle-switch-container {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    display: flex; /* Change le display en flex pour aligner les éléments horizontalement */
+    align-items: center; /* Aligner verticalement les éléments au centre */
+    cursor: pointer;
+    z-index: 1000;
+    padding: 10px; /* Ajouter une marge à gauche pour espacer le texte du switch */
+    font-size: 15px; /* Taille de la police du texte */
+  }
+
+  /* Style for the radio button when it is checked */
+.custom-radio:checked {
+  background-color: white;
+}
+
+/* Optional: Add a smaller circle inside the radio button when it is checked */
+.custom-radio:checked::after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #30b67d;
+}
+
+/* Hide the default radio button */
+.custom-radio {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 50%;
+  border: 3px solid grey;
+  outline: none;
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+}

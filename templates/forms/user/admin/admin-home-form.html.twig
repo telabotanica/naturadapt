@@ -1,0 +1,94 @@
+{{ form_start(form) }}
+<div class="form-rows">
+	<h2 class="h2">{{ 'forms.administration.home.name'|trans }}</h2>
+	<p class="hint">{{ 'forms.administration.home.introduction'|trans }}</p>
+
+	<p class="element_title">{{ 'forms.administration.home.front.name'|trans }}</p>
+
+
+	<div class="form-row form-row__file">
+		<div class="file-preview">
+			<div class="file-preview--img">
+				<img src="{{ path('app_image', {'tab': 'home', 'image_type': 'front'}) }}" alt="">
+			</div>
+			<div class="file-preview--content">
+				{{ form_label(form.frontfile, 'forms.administration.home.front.image.label') }}
+				<div class="hint">{{ 'forms.administration.home.front.image.hint'|trans|format(form.frontfile.vars.attr['data-max-size']) }}</div>
+				{{ form_widget(form.frontfile) }}
+				{{ form_label(form.frontfile, 'forms.administration.home.front.image.button', {'label_attr': {'class': 'submit-style submit-style__inverted'}}) }}
+				<div class="form_errors">{{ form_errors(form.frontfile) }}</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="form-row form-row__field">
+		{{ form_label(form.sur_titre, 'forms.administration.home.front.surtitre.label') }}
+		<div class="hint">{{ 'forms.administration.home.front.surtitre.hint'|trans}}</div>
+		{{ form_widget(form.sur_titre) }}
+	</div>
+
+	<div class="form-row form-row__field">
+		{{ form_label(form.texte_principal, 'forms.administration.home.front.texteprincipal.label') }}
+		{{ form_widget(form.texte_principal) }}
+	</div>
+
+	<p class="element_title">{{ 'forms.administration.home.premiertexte.name'|trans }}</p>
+	<div class="form-row form-row__field wysiwyg-editor" data-upload="{{ upload }}">
+		{{ form_widget(form.premier_texte, {'attr': {'placeholder': 'forms.administration.home.premiertexte.placeholder'}}) }}
+	</div>
+
+
+	<p class="element_title">{{ 'forms.administration.home.premierclique.name'|trans }}</p>
+	<div class="form-row form-row__field">
+		{{ form_label(form.premier_clique_visibility, 'forms.administration.home.premierclique.visibility.label') }}
+		<div class="form-row__radioboxes">
+			{{ form_widget(form.premier_clique_visibility) }}
+		</div>
+	</div>
+	<div class="form-row form-row__field">
+		{{ form_label(form.premier_clique_texte, 'forms.administration.home.premierclique.texte.label') }}
+		{{ form_widget(form.premier_clique_texte) }}
+	</div>
+		<div class="form-row form-row__field">
+		{{ form_label(form.premier_clique_bouton_texte, 'forms.administration.home.premierclique.bouton.label') }}
+		{{ form_widget(form.premier_clique_bouton_texte) }}
+	</div>
+		<div class="form-row form-row__field">
+		{{ form_label(form.premier_clique_lien, 'forms.administration.home.premierclique.lien.label') }}
+		{{ form_widget(form.premier_clique_lien) }}
+	</div>
+
+	<p class="element_title">{{ 'forms.administration.home.secondtexte.name'|trans }}</p>
+	<div class="form-row form-row__field wysiwyg-editor" data-upload="{{ upload }}">
+		{{ form_widget(form.second_texte, {'attr': {'placeholder': 'forms.administration.home.secondtexte.placeholder'}}) }}
+	</div>
+	<p class="element_title">{{ 'forms.administration.home.secondclique.name'|trans }}</p>
+	<div class="form-row form-row__field">
+		{{ form_label(form.second_clique_visibility, 'forms.administration.home.secondclique.visibility.label') }}
+		<div class="form-row__radioboxes">
+			{{ form_widget(form.second_clique_visibility) }}
+		</div>
+	</div>
+	<div class="form-row form-row__field">
+		{{ form_label(form.second_clique_texte, 'forms.administration.home.secondclique.texte.label') }}
+		{{ form_widget(form.second_clique_texte) }}
+	</div>
+		<div class="form-row form-row__field">
+		{{ form_label(form.second_clique_bouton_texte, 'forms.administration.home.secondclique.bouton.label') }}
+		{{ form_widget(form.second_clique_bouton_texte) }}
+	</div>
+		<div class="form-row form-row__field">
+		{{ form_label(form.second_clique_lien, 'forms.administration.home.secondclique.lien.label') }}
+		{{ form_widget(form.second_clique_lien) }}
+	</div>
+	<p class="element_title">{{ 'forms.administration.home.troisiemetexte.name'|trans }}</p>
+	<div class="form-row form-row__field wysiwyg-editor" data-upload="{{ upload }}">
+		{{ form_widget(form.troisieme_texte, {'attr': {'placeholder': 'forms.administration.home.troisiemetexte.placeholder'}}) }}
+	</div>
+</div>
+<div class="form-row form-row__submit">
+	{{ form_widget(form.submit, {'label': 'forms.administration.submit'|trans}) }}
+</div>
+{{ form_end(form) }}
+
+

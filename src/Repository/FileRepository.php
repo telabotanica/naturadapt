@@ -17,6 +17,21 @@ class FileRepository extends ServiceEntityRepository {
 		parent::__construct( $registry, File::class );
 	}
 
+
+	/**
+	 * @param int $id
+	 * @return mixed
+	 */
+	public function getFileById ( $id ) : ?File{
+
+		return $this->createQueryBuilder('f')
+				->andWhere('f.id = :id')
+				->setParameter('id', $id)
+				->getQuery()
+				->getOneOrNullResult()
+			;
+	}
+
 	// /**
 	//  * @return File[] Returns an array of File objects
 	//  */

@@ -22,6 +22,13 @@ Create the tables:
 php bin/console doctrine:migrations:migrate
 ```
 
+Create the file containing administrators informations
+```bash
+test ! -f config/platform/config.yaml && cp config/platform/default.config.yaml config/platform/config.yaml || true
+
+cp config/platform/default.config.yaml config/platform/config.yaml
+```
+
 ## Inserting default data
 
 The plateform uses data like taxonomies to be fully functionnal. Default data can be inserted via PHP commands.
@@ -80,6 +87,19 @@ Generate one index (`pages`, `discussions_messages`, `articles`, `documents`, `g
 ```bash
 php bin/console search:reindex <index>
 ```
+
+## Map Informations
+
+For each user, get Latitude and Longitude from city, zipcode and Country
+```bash
+php bin/console app:update-coordinates
+```
+
+For each user, convert Latitude and Longitude into NutsId
+```bash
+php bin/console app:update-nuts-id
+```
+
 
 ## FAQ
 

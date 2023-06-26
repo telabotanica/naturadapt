@@ -1,0 +1,64 @@
+{{ form_start(form) }}
+<div class="form-rows">
+	<h2 class="h2">{{ 'forms.administration.menus.name'|trans }}</h2>
+	<p class="hint">{{ 'forms.administration.menus.introduction'|trans }}</p>
+
+	<p class="element_title">{{ 'forms.administration.menus.navbar.name'|trans }}</p>
+
+	{% include 'forms/user/admin/admin-menus-form-unit.html.twig' with {'liens': form.navbarLiens, 'id_liens': 'admin_menus_navbarLiens'} %}
+
+	<a class="add_item_link">
+		<span>{{ 'forms.administration.menus.add'|trans }}</span>
+	</a>
+</div>
+<div class="form-rows">
+
+	<p class="element_title">{{ 'forms.administration.menus.footbar_first.name'|trans }}</p>
+
+	<div class="form-row form-row__field subtitle-input">
+		{{ form_label(form.footbarFirstLiensTitle, 'forms.administration.menus.footbar_first.title') }}
+		{{ form_widget(form.footbarFirstLiensTitle) }}
+	</div>
+
+	{% include 'forms/user/admin/admin-menus-form-unit.html.twig' with {'liens': form.footbarFirstLiens, 'id_liens': 'admin_menus_footbarFirstLiens'} %}
+
+	<a class="add_item_link">
+		<span>{{ 'forms.administration.menus.add'|trans }}</span>
+	</a>
+</div>
+<div class="form-rows">
+
+	<p class="element_title">{{ 'forms.administration.menus.footbar_second.name'|trans }}</p>
+
+	<div class="form-row form-row__field subtitle-input">
+		{{ form_label(form.footbarSecondLiensTitle, 'forms.administration.menus.footbar_second.title') }}
+		{{ form_widget(form.footbarSecondLiensTitle) }}
+	</div>
+
+	{% include 'forms/user/admin/admin-menus-form-unit.html.twig' with {'liens': form.footbarSecondLiens, 'id_liens': 'admin_menus_footbarSecondLiens'} %}
+
+	<a class="add_item_link">
+		<span>{{ 'forms.administration.menus.add'|trans }}</span>
+	</a>
+</div>
+<div class="form-rows">
+
+	<p class="element_title">{{ 'forms.administration.menus.footbar_third.name'|trans }}</p>
+
+	<div class="form-row form-row__field subtitle-input">
+		{{ form_label(form.footbarThirdLiensTitle, 'forms.administration.menus.footbar_third.title') }}
+		{{ form_widget(form.footbarThirdLiensTitle) }}
+	</div>
+
+	{% include 'forms/user/admin/admin-menus-form-unit.html.twig' with {'liens': form.footbarThirdLiens, 'id_liens': 'admin_menus_footbarThirdLiens'} %}
+
+	<a class="add_item_link">
+		<span>{{ 'forms.administration.menus.add'|trans }}</span>
+	</a>
+</div>
+<div class="form-row form-row__submit">
+	{{ form_widget(form.submit, {'label': 'forms.administration.submit'|trans}) }}
+</div>
+{{ form_end(form) }}
+
+

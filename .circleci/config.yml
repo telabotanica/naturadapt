@@ -44,6 +44,8 @@ jobs:
 
       - run: composer install -n --prefer-dist
 
+      - run: test ! -f config/platform/config.yaml && cp config/platform/default.config.yaml config/platform/config.yaml || true
+
       - save_cache:
           key: composer-{{ .Environment.CACHE_VERSION }}-dependencies-{{ checksum "composer.json" }}
           paths:
