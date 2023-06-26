@@ -103,7 +103,11 @@ async function loadRegionsLayer(map, zoomLevel, membersDataPromise, adaptativeCh
       layer.on('mouseover', function (e) {
         let count = getCountByRegion(feature, membersData, levelCodeToKeep, adaptativeChecked);
         if (count !== 0) {
-          layer.bindTooltip(count + " démarches d'adaptations", {sticky: true}).openTooltip();
+          if (adaptativeChecked) {
+            layer.bindTooltip(count + " démarches d'adaptations", {sticky: true}).openTooltip();
+          } else {
+            layer.bindTooltip(count + " membres", {sticky: true}).openTooltip();
+          }
         }
       });
 
