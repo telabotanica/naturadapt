@@ -18,6 +18,7 @@ use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LoginFormAuthenticator extends AbstractFormLoginAuthenticator {
 	use TargetPathTrait;
@@ -26,12 +27,14 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator {
 	private $router;
 	private $csrfTokenManager;
 	private $passwordEncoder;
+	private $translator;
 
-	public function __construct ( EntityManagerInterface $entityManager, RouterInterface $router, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder ) {
+	public function __construct ( EntityManagerInterface $entityManager, RouterInterface $router, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder, TranslatorInterface $translator ) {
 		$this->entityManager    = $entityManager;
 		$this->router           = $router;
 		$this->csrfTokenManager = $csrfTokenManager;
 		$this->passwordEncoder  = $passwordEncoder;
+		$this->translator       = $translator;
 	}
 
 	public function supports ( Request $request ) {
@@ -88,12 +91,12 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator {
 		if (!$user->getHasBeenNotifiedOfNewAdaptativeApproach()) {
 			// Add a flash message to notify the user
 			// TODO: Code à enlever une fois que les utilisateurs auront mis à jour leur profil
-			$request->getSession()->getFlashBag()->add('warning', 'messages.user.adaptative_approach_required');
-			$user->setHasBeenNotifiedOfNewAdaptativeApproach(true);
+			$adaptativeFormMessage = $this->translator->trans('messages.user.adaptative_approach_required', ['%link%' => "#user_profile_hasAdaptativeApproach"]);
+			$request->getSession()->getFlashBag()->add('warning', $adaptativeFormMessage);
 			$this->entityManager->flush();
 
 			// Rediriger vers la page de notification pour demander à l'utilisateur de mettre à jour sa variable hasBeenNotifiedOfNewAdaptativeApproach
-			return new RedirectResponse($this->router->generate('user_profile_create'));
+			return new RedirectResponse($this->router->generate('user_profile_edit'));
 		}
 		
 		if ( $targetPath = $this->getTargetPath( $request->getSession(), $providerKey ) ) {

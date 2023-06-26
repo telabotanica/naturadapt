@@ -401,8 +401,10 @@ class UserController extends AbstractController {
 		 * @var User $user
 		 */
 		$user = $this->getUser();
-		$form = $this->createForm( UserProfileType::class, $user );
-
+		$form = $this->createForm( UserProfileType::class, $user, [
+			'has_been_notified' => $user->getHasBeenNotifiedOfNewAdaptativeApproach(),
+		] );
+		$user->setHasBeenNotifiedOfNewAdaptativeApproach(true);
 		$form->handleRequest( $request );
 
 		if ( $form->isSubmitted() && $form->isValid() ) {
