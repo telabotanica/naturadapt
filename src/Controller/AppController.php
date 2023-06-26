@@ -9,6 +9,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Service\FileManager;
 use App\Entity\Usergroup;
 use App\Repository\UserRepository;
+use Symfony\Contracts\Translation\TranslatorInterface;
+
 
 // Import the BinaryFileResponse
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -16,10 +18,13 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 class AppController extends AbstractController {
 
     private $userRepository;
+	private $translator;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, TranslatorInterface $translator)
     {
         $this->userRepository = $userRepository;
+		$this->translator       = $translator;
+
     }
 
 	/**
@@ -46,8 +51,9 @@ class AppController extends AbstractController {
 			$user = $token->getUser();
 
 			if (!$user->getHasBeenNotifiedOfNewAdaptativeApproach()) {
+				$adaptativeFormMessage = $this->translator->trans('messages.user.new_adaptative_approach_required', ['%link%' => $this->generateUrl('user_profile_edit')]);
 				// Add a flash message to notify the user
-				$this->addFlash('warning', 'messages.user.new_adaptative_approach_required');
+				$this->addFlash('warning', $adaptativeFormMessage);
 				$manager->flush();
 			}
 		}

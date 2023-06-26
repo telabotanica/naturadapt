@@ -593,7 +593,7 @@ messages:
         not_active: "Cet utilisateur n’est pas activé."
         account_deleted: "Votre compte a bien été supprimé."
         adaptative_approach_required: "Veuillez remplir le <a href='%link%''> nouveau champ 'Démarche d'adaptation'</a>."
-        new_adaptative_approach_required: "Une nouvelle fonctionnalité est disponible. <br> Veuillez remplir le nouveau champ 'Démarche d'adaptation'."
+        new_adaptative_approach_required: "Une nouvelle fonctionnalité est disponible. <br> Veuillez remplir le nouveau champ 'Démarche d'adaptation' de votre page <a href='%link%'>profil</a>."
 
     group:
         joined: "Vous avez rejoint ce groupe."
