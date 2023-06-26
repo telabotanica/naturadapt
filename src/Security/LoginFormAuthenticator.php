@@ -93,7 +93,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator {
 			$this->entityManager->flush();
 
 			// Rediriger vers la page de notification pour demander à l'utilisateur de mettre à jour sa variable hasBeenNotifiedOfNewAdaptativeApproach
-			return new RedirectResponse($this->router->generate('user_profile_create'));
+			return new RedirectResponse($this->router->generate('user_profile_edit'));
 		}
 		
 		if ( $targetPath = $this->getTargetPath( $request->getSession(), $providerKey ) ) {
