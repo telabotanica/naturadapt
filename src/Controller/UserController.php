@@ -129,6 +129,8 @@ class UserController extends AbstractController {
 			$user->setRoles( [ User::ROLE_USER ] );
 			$user->setStatus( User::STATUS_PENDING );
 			$user->setHasAgreedTermsOfUse(true);
+			$user->setHasAdaptativeApproach(false);
+			$user->setHasBeenNotifiedOfNewAdaptativeApproach(false);
 
 			$token = $tokenGenerator->generateToken();
 			$user->setResetToken( $token );
