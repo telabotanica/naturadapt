@@ -84,7 +84,9 @@ function showAdaptiveMarkers(showAdaptiveOnly) {
 
       // Créez un marqueur avec l'icône personnalisée et ajoutez-le au groupe de marqueurs
       const marker = L.marker([member.latitude, member.longitude], { icon: icon });
-      let popupContent = `<b>${member.name}</b>`;
+      // let popupContent = `<b>${member.name}</b>`;
+      let popupContent = `<b><a href='/members/${member.id}' target='_blank'>${member.name} bbb</a></b>`;
+
       if (member.hasAdaptativeApproach) {
         if(member.adaptativeApproachDescription && member.adaptativeApproachLink) {
           popupContent += `<br/><a href='${member.adaptativeApproachLink}' target="_blank">${member.adaptativeApproachDescription}</a>`;
@@ -141,7 +143,7 @@ domready(async () => {
 
         // Créez un marqueur avec l'icône personnalisée et ajoutez-le au groupe de marqueurs
         const marker = L.marker([member.latitude, member.longitude], { icon: icon, hasAdaptiveApproach: member.hasAdaptativeApproach, });
-        let popupContent = `<b>${member.name}</b>`;
+        let popupContent = `<b><a href='/members/${member.id}' target='_blank'>${member.name} bbb</a></b>`;
         if (member.hasAdaptativeApproach) {
           if(member.adaptativeApproachDescription && member.adaptativeApproachLink) {
             popupContent += `<br/><a href='${member.adaptativeApproachLink}' target="_blank">${member.adaptativeApproachDescription}</a>`;
