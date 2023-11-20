@@ -54,8 +54,12 @@ class Geocoder
     }
 
 
-    public function getNutsId(float $latitude, float $longitude): ?String
+    public function getNutsId(?float $latitude, ?float $longitude): ?String
     {
+        if ($latitude === null || $longitude === null) {
+            return null;
+        }
+
         // Charger le fichier GeoJSON
         $geojson = file_get_contents($this->params->get('kernel.project_dir') . "/public/data/NUTS_RG_10M_2021_4326.geojson");
         $geojson_data = json_decode($geojson, true);
