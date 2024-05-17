@@ -11,7 +11,7 @@
 		</div>
 		<div class="main--content content-container">
 			<section class="register-form">
-				{% include 'forms/user/register.html.twig' %}
+				{% include 'forms/user/register.html.twig'  with {'recaptcha_site_key': recaptcha_site_key} %}
 			</section>
 		</div>
 	</section>

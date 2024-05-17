@@ -20,7 +20,7 @@
 
 					<p class="hint">{{ 'pages.user.register.subtitle'|trans }}</p>
 
-					{% include 'forms/user/register.html.twig' %}
+					{% include 'forms/user/register.html.twig' with {'recaptcha_site_key': recaptcha_site_key} %}
 				</section>
 			</div>
 		</div>
