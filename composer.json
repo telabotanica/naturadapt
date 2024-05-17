@@ -15,6 +15,7 @@
         "doctrine/orm": "^2.9",
         "fzaninotto/faker": "^1.8",
         "gaufrette/local-adapter": "^0.4.0",
+        "google/recaptcha": "*",
         "knplabs/gaufrette": "^0.9.0",
         "knplabs/knp-gaufrette-bundle": "^0.7.1",
         "knplabs/knp-time-bundle": "^1.9",
