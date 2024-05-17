@@ -120,6 +120,18 @@
     "gaufrette/local-adapter": {
         "version": "v0.4.0"
     },
+    "google/recaptcha": {
+        "version": "1.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "1.1",
+            "ref": "e5a4aa21f2e98d7440ae9aab6b56e307f99dd084"
+        },
+        "files": [
+            "config/packages/google_recaptcha.yaml"
+        ]
+    },
     "guzzlehttp/guzzle": {
         "version": "6.3.3"
     },
