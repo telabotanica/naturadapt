@@ -46,16 +46,18 @@ class UsergroupRepository extends ServiceEntityRepository {
 
 		$logEventRepository = $this->getEntityManager()->getRepository( LogEvent::class );
 		uasort( $results, function ( $a, $b ) use ( $logEventRepository ) {
-			$a = $logEventRepository->findOneBy( [ 'usergroup' => $a ], [ 'createdAt' => 'DESC' ] )
-				->getCreatedAt()->format( 'c' );
-			$b = $logEventRepository->findOneBy( [ 'usergroup' => $b ], [ 'createdAt' => 'DESC' ] )
-				->getCreatedAt()->format( 'c' ) ;
+			$aLog = $logEventRepository->findOneBy( [ 'usergroup' => $a ], [ 'createdAt' => 'DESC' ] );
+			$bLog = $logEventRepository->findOneBy( [ 'usergroup' => $b ], [ 'createdAt' => 'DESC' ] );
 
-			if ( $a == $b ) {
+			$aDate = $aLog ? $aLog->getCreatedAt()->format( 'c' ) : '';
+			$bDate = $bLog ? $bLog->getCreatedAt()->format( 'c' ) : '';
+
+			if ( $aDate == $bDate ) {
 				return 0;
 			}
-			return ( $a < $b ) ? 1 : -1;
+			return ( $aDate < $bDate ) ? 1 : -1;
 		});
+
 
 		if ( $community ) {
 			array_unshift( $results, $community );
