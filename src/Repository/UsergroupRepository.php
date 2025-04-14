@@ -49,13 +49,23 @@ class UsergroupRepository extends ServiceEntityRepository {
 			$aLog = $logEventRepository->findOneBy( [ 'usergroup' => $a ], [ 'createdAt' => 'DESC' ] );
 			$bLog = $logEventRepository->findOneBy( [ 'usergroup' => $b ], [ 'createdAt' => 'DESC' ] );
 
-			$aDate = $aLog ? $aLog->getCreatedAt()->format( 'c' ) : '';
-			$bDate = $bLog ? $bLog->getCreatedAt()->format( 'c' ) : '';
-
-			if ( $aDate == $bDate ) {
+			// Si aucun des groupes n'a d'événement de journal, on considère qu'ils sont égaux
+			if (!$aLog && !$bLog) {
 				return 0;
 			}
-			return ( $aDate < $bDate ) ? 1 : -1;
+			
+			// Si un seul groupe a un événement de journal, on le met en premier
+			if (!$aLog) return 1;
+			if (!$bLog) return -1;
+			
+			// Si les deux ont des événements, on compare leurs dates
+			$aDate = $aLog->getCreatedAt()->format('c');
+			$bDate = $bLog->getCreatedAt()->format('c');
+
+			if ($aDate == $bDate) {
+				return 0;
+			}
+			return ($aDate < $bDate) ? 1 : -1;
 		});
 
 
