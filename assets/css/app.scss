@@ -40,7 +40,8 @@
 @import "components/in-list-admin";
 @import "components/disabled-link";
 @import "components/iframe";
-@import "components/removable-tags";
+@import "components/removable-tags"; 
+@import "components/map"; 
 /**************************************************
  * CONTENTS
  *************************************************/
@@ -58,4 +59,7 @@
 @import "contents/user/pages";
 @import "contents/logevent/logevent";
 @import "contents/search/search";
+@import "contents/administration/administration";
+
+@import "map/map-home";
 

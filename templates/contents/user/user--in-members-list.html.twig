@@ -27,8 +27,7 @@
 				<div class="user--admin"><span>{{ 'pages.user.is_admin'|trans }}</span></div>
 			{% endif %}
 
-			{% include 'contents/user/partials/user--avatar.html.twig' with{'user':user} %}
-
+			{% include 'contents/user/partials/user--avatar.html.twig' with{'user':user} only %}			
 			<div class="user--infos-site">
 				<div class="user--infos">
 					<div class="user--name">{{ user.name }}</div>

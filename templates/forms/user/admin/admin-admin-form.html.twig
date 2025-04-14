@@ -1,0 +1,37 @@
+<div class="form-rows">
+	<h2 class="h2">{{ 'forms.administration.admin.name'|trans }}</h2>
+	<p class="hint">{{ 'forms.administration.admin.introduction'|trans({'%link_start%' : '<a href="'~path('group_index', {'groupSlug':'communaute'})~'">', '%link_end%' : '</a>'}) | raw  }}</p>
+
+		<ul class="members-list">
+			{% for user in members %}
+				<li>
+					<div class="admin__in-members-list user__admin">
+						<a class="user-infos" href="{{ path('member', {'user_id':user.id}) }}">
+							<div class="user--admin"><span>{{ 'pages.user.is_admin'|trans }}</span></div>
+
+							{% include 'contents/user/partials/user--avatar.html.twig' with{'user':user} %}
+
+							<div class="user--infos-site">
+								<div class="user--infos">
+									<div class="user--name">{{ user.name }}</div>
+									<div class="user--presentation">{{ user.presentation }}</div>
+								</div>
+
+							</div>
+						</a>
+						<div class="in-list-admin-module">
+							<ul>
+								<li>
+									<a class="admin_module_set_admin">
+										<span>{{ 'forms.administration.admin.community'|trans }}</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</li>
+			{% endfor %}
+		</ul>
+</div>
+
+

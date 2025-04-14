@@ -26,4 +26,6 @@ files
 /public/media/cache/
 ###< liip/imagine-bundle ###
 
+/.vscode
+
 launch.json

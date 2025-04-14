@@ -1,42 +1,47 @@
 <form method="post" action="{{ path('user_register') }}">
-	<div class="form-rows">
-		<div class="form-row form-row__field">
-			<label for="register-form-email">{{ 'forms.user.email.label'|trans }}</label>
-			<input id="register-form-email" type="email" name="email" placeholder="{{ 'forms.user.email.placeholder'|trans }}" required autofocus>
-		</div>
-		<div class="form-row form-row__field">
-			<label for="register-form-password">{{ 'forms.user.password.label'|trans }}</label>
-			<input id="register-form-password" type="password" name="password" placeholder="{{ 'forms.user.password.placeholder'|trans }}" required>
-		</div>
-		<div class="form-row form-row__field">
-			<div class="form-row__checkboxes">
-				<input id="register-form-agree_terms" type="checkbox" name="agree_terms">
-				<label for="register-form-agree_terms">
-					{{ 'forms.user.agree_terms.label.agree'|trans|raw }}
+    <div class="form-rows">
+        <div class="form-row form-row__field">
+            <label for="register-form-email">{{ 'forms.user.email.label'|trans }}</label>
+            <input id="register-form-email" type="email" name="email" placeholder="{{ 'forms.user.email.placeholder'|trans }}" required autofocus>
+        </div>
+        <div class="form-row form-row__field">
+            <label for="register-form-password">{{ 'forms.user.password.label'|trans }}</label>
+            <input id="register-form-password" type="password" name="password" placeholder="{{ 'forms.user.password.placeholder'|trans }}" required>
+        </div>
+        <div class="form-row form-row__field">
+            <div class="form-row__checkboxes">
+                <input id="register-form-agree_terms" type="checkbox" name="agree_terms">
+                <label for="register-form-agree_terms">
+                    {{ 'forms.user.agree_terms.label.agree'|trans|raw }}
 
-					{% if terms_of_use.group_slug is not empty and terms_of_use.page_slug is not empty %}
-						<a href="{{ path('group_page_index', { 'groupSlug': terms_of_use.group_slug, 'pageSlug': terms_of_use.page_slug }) }}" target="_blank">
-							{{ 'forms.user.agree_terms.label.terms_of_use'|trans|raw }}
-						</a>
-					{% else %}
-						{{ 'forms.user.agree_terms.label.terms_of_use'|trans|raw }}
-					{% endif %}
+                    {% if terms_of_use.group_slug is not empty and terms_of_use.page_slug is not empty %}
+                        <a href="{{ path('group_page_index', { 'groupSlug': terms_of_use.group_slug, 'pageSlug': terms_of_use.page_slug }) }}" target="_blank">
+                            {{ 'forms.user.agree_terms.label.terms_of_use'|trans|raw }}
+                        </a>
+                    {% else %}
+                        {{ 'forms.user.agree_terms.label.terms_of_use'|trans|raw }}
+                    {% endif %}
 
-					{{ 'forms.user.agree_terms.label.share_values'|trans|raw }}
+                    {{ 'forms.user.agree_terms.label.share_values'|trans|raw }}
 
-					{% if platform_charter.group_slug is not empty and platform_charter.page_slug is not empty %}
-						<a href="{{ path('group_page_index', { 'groupSlug': platform_charter.group_slug, 'pageSlug': platform_charter.page_slug }) }}" target="_blank">
-							{{ 'forms.user.agree_terms.label.charter'|trans|raw }}
-						</a>
-					{% else %}
-						{{ 'forms.user.agree_terms.label.charter'|trans|raw }}
-					{% endif %}
-				</label>
-			</div>
-		</div>
-	</div>
-	<div class="form-row form-row__submit">
-		<input type="hidden" name="action" value="register">
-		<button type="submit">{{ 'pages.user.register.button'|trans }}</button>
-	</div>
+                    {% if platform_charter.group_slug is not empty and platform_charter.page_slug is not empty %}
+                        <a href="{{ path('group_page_index', { 'groupSlug': platform_charter.group_slug, 'pageSlug': platform_charter.page_slug }) }}" target="_blank">
+                            {{ 'forms.user.agree_terms.label.charter'|trans|raw }}
+                        </a>
+                    {% else %}
+                        {{ 'forms.user.agree_terms.label.charter'|trans|raw }}
+                    {% endif %}
+                </label>
+            </div>
+        </div>
+    </div>
+    <!-- reCAPTCHA widget -->
+    <div class="form-row">
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+        <div class="g-recaptcha" data-sitekey="{{ recaptcha_site_key }}"></div>
+    </div>
+    <div class="form-row form-row__submit">
+        <input type="hidden" name="action" value="register">
+        <button type="submit">{{ 'pages.user.register.button'|trans }}</button>
+    </div>
 </form>

@@ -12,4 +12,48 @@
 			margin-bottom: column_gap();
 		}
 	}
+
+	figure.image-style-align-right {
+		float: right;
+		margin-right: 1em;
+		margin-bottom: 1em;
+	}
+
+	figure.image-style-align-left {
+		float: left;
+		margin-left: 1em;
+		margin-bottom: 1em;
+	}
+
+	// move text when image is displayed at the right
+	.image-margin-left{
+		margin-left: 120px;
+	}
+	
+	// Center figures
+	figure.image {
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	// Resize images 
+	figure.image.reducedSize80{
+		max-width: 80%; /* You can adjust this to suit your needs */
+		height: auto;
+	}
+	figure.image.reducedSize60{
+		max-width: 60%; /* You can adjust this to suit your needs */
+		height: auto;
+	}
+	figure.image.reducedSize40{
+		max-width: 40%; /* You can adjust this to suit your needs */
+		height: auto;
+	}
+	figure.image.reducedSize20{
+		max-width: 20%; /* You can adjust this to suit your needs */
+		height: auto;
+	}
+
+
 }

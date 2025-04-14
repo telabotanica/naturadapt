@@ -43,28 +43,3 @@
 		padding:      rem(30px) rem(60px);
 	}
 }
-
-.front-page--objective {
-	@include small-or-less {
-		text-align: center;
-
-		svg {
-			max-width:     rem(145px);
-			max-height:    rem(145px);
-
-			margin-bottom: padding_vertical();
-		}
-	}
-
-	@include medium-or-more {
-		display:         flex;
-		justify-content: space-between;
-		align-items:     center;
-
-		svg {
-			flex-shrink:  0;
-			flex-grow:    0;
-			margin-right: rem(30px);
-		}
-	}
-}

@@ -1,10 +1,10 @@
 {% set hasAvatar = (user.avatar is defined) and user.avatar %}
-<div class="user--avatar{% if not hasAvatar %} user--avatar__empty{% endif %}" {% if not hasAvatar %}style="--color: {{ user.name|color }}"{% endif %}>
+<div class="user--avatar{% if not hasAvatar %} user--avatar__empty{% endif %}" {% if not hasAvatar %}style="--color: {{ user.name|color }}" data-color="{{ user.name|color }}" data-user-id="{{ user.id }}"{% endif %}>
 	{% if filter is not defined %}
 		{% set filter = 'avatar' %}
 	{% endif %}
 	{% if hasAvatar %}
-		<img src="{{ user.avatar.path | imagine_filter(filter) }}" alt="">
+    	<img src="{{ user.avatar.path | imagine_filter(filter) }}" alt="" data-avatar-url="{{ user.avatar.path | imagine_filter(filter) }}" data-user-id="{{ user.id }}">
 	{% else %}
 		<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" viewBox="0 0 16 16">
 			<use xlink:href="#user"/>

@@ -71,6 +71,17 @@ class UsergroupMembersManager {
 												  User::TYPE_PROFESSIONNAL,
 										  ] ),
 								  ] )
+								  ->add('hasAdaptativeApproach', ChoiceType::class, [
+									'required' => false,
+									'expanded' => true,
+									'multiple' => false,
+									'choices'  => [
+										'pages.member.list.filters.has_adaptative_approach.labels.' . User::TYPE_HAS_ADAPTATIVE_APPROACH_YES => true,
+										'pages.member.list.filters.has_adaptative_approach.labels.everyone' => false,
+									],
+									'placeholder' => false,
+									'empty_data' => null,
+								  ])
 								  ->add( 'skills', EntityType::class, [
 										  'class'                     => Skill::class,
 										  'required'                  => FALSE,
@@ -91,11 +102,13 @@ class UsergroupMembersManager {
 
 		$total   = $usersRepository->searchCount( $filters );
 		$members = $usersRepository->search( $filters, [ 'page' => $options[ 'page' ], 'limit' => $options[ 'per_page' ] ] );
+		$all_members = $usersRepository->search( $filters, [ 'limit' => PHP_INT_MAX ] );
 
 		return [
 				'form'    => $form,
 				'total'   => $total,
 				'members' => $members,
+				'all_members' => $all_members,
 		];
 	}
 }

@@ -99,6 +99,8 @@ domready( () => {
 
 						return new UploadAdapter( loader, uploadURL );
 					};
+
+					editor.config.filebrowserUploadAllowedTypes = [ 'image', 'svg' ];
 				}
 
 				if ( wysiwyg.getAttribute( 'data-upload' ) ) {
@@ -114,6 +116,57 @@ domready( () => {
 						toolbar:      toolbar,
 						extraPlugins: extraPlugins,
 						height:       '500px',
+						image: {
+							toolbar: [
+								'imageStyle:alignLeft',
+								'|',
+								'imageStyle:full',
+								'imageStyle:reducedSize80',
+								'imageStyle:reducedSize60',
+								'imageStyle:reducedSize40',
+								'imageStyle:reducedSize20',
+								'|',
+								'imageStyle:alignRight',
+								'|',
+								'imageStyle:threeImagesInSameLine'
+							],
+							styles: [
+								'full',
+								'alignLeft',
+								'alignRight',
+								{ 
+									name: 'reducedSize80', 
+									className: 'reducedSize80', 
+									title: 'reducedSize80', 
+									icon: '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><text x="5" y="15" fill="black">80</text></svg>',
+								},
+								{ 
+									name: 'reducedSize60', 
+									className: 'reducedSize60', 
+									title: 'reducedSize60', 
+									icon: '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><text x="5" y="15" fill="black">60</text></svg>',
+
+								},
+								{ 
+									name: 'reducedSize40', 
+									className: 'reducedSize40', 
+									title: 'reducedSize40', 
+									icon: '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><text x="5" y="15" fill="black">40</text></svg>',
+								},
+								{ 
+									name: 'reducedSize20', 
+									className: 'reducedSize20', 
+									title: 'reducedSize20', 
+									icon: '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><text x="5" y="15" fill="black">20</text></svg>',
+								},
+								{ 
+									name: 'threeImagesInSameLine', 
+									className: 'threeImagesInSameLine', 
+									title: 'threeImagesInSameLine', 
+									icon: '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><text x="5" y="15" fill="black">3c</text></svg>',
+								},
+								]
+						},
 					} )
 					.then( editor => {
 						console.log( Array.from( editor.ui.componentFactory.names() ) );

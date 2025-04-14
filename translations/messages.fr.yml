@@ -56,7 +56,7 @@ forms:
             hint: "Sélectionnez dans la liste proposée les compétences que vous souhaitez partager"
         site:
             label: "Votre site naturel"
-            hint: "Parce que vous y travaillez, vous y habitez ou simplement si vous êtes particlièrement attaché·e à un site naturel en particulier"
+            hint: "Parce que vous y travaillez, vous y habitez ou simplement si vous êtes particulièrement attaché·e à un site naturel en particulier"
             placeholder: "Exemple : Parc naturel régional des volcans d'Auvergne"
         agree_terms:
             label:
@@ -64,6 +64,18 @@ forms:
                 terms_of_use: "CGU"
                 share_values: " et partage les valeurs de la "
                 charter: "Charte Natur’Adapt"
+        has_adaptative_approach:
+            label: "Démarche d'adaptation au changement climatique"
+            labels:
+                adaptative_approach: "Je suis engagé dans une démarche d'adaptation"
+                no_adaptative_approach: "Je ne suis pas engagé dans une démarche d'adaptation"
+        adaptative_approach_description:
+            label: "Description de votre démarche d'adaptation"
+            hint: "Limité à 50 caractères (sera affiché sur la carte des démarches adaptatives)"
+            placeholder: "Décrivez succinctement votre démarche d'adaptation"
+        adaptative_approach_link:
+            label: "Lien de votre démarche d'adaptation"
+            placeholder: "Entrez un éventuel lien lié à votre démarche d'adaptation."
 
     user_parameters:
         email_introduction:
@@ -164,6 +176,90 @@ forms:
             label: "Dossier"
             placeholder: "(non classé)"
 
+    administration:
+        submit: "Sauvegarder les modifications"
+        platform:
+            name: "Plateforme"
+            introduction: "Ici vous pouvez modifier les paramètres principaux de la plateforme"
+            logo:
+                name: "Logo"
+                label: "Logo / Icone de la plateforme"
+                hint: "Format JPG ou PNG, %s maximum"
+                button: "Parcourir"
+        home:
+            name: "Page d'accueil"
+            introduction: "Modfiez les contenus de la page d'accueil"
+            front:
+                name: "Entête"
+                image:
+                    label: "Image de couverture de la page d'accueil"
+                    hint: "Format JPG ou PNG, %s maximum"
+                    button: "Parcourir"
+                surtitre:
+                    label: "Sur-titre affiché par dessus l’image de couverture"
+                    hint: "Le surtitre sera affiché en capitales"
+                texteprincipal:
+                    label: "Texte principal affiché par dessus l’image de couverture"
+            premiertexte:
+                name: "Première zone de texte"
+                placeholder: "Saisissez votre contenu ici …"
+            premierclique:
+                name: Premier appel au clic
+                visibility:
+                    label: "Afficher"
+                texte:
+                    label: "Texte au dessus du bouton"
+                bouton:
+                    label: "Texte du bouton"
+                lien:
+                    label: "Lien"
+            secondtexte:
+                name: "Seconde zone de texte"
+                placeholder: "Saisissez votre contenu ici …"
+            secondclique:
+                name: Deuxième appel au clic
+                visibility:
+                    label: "Afficher"
+                texte:
+                    label: "Texte au dessus du bouton"
+                bouton:
+                    label: "Texte du bouton"
+                lien:
+                    label: "Lien"
+            troisiemetexte:
+                name: "Troisième zone de texte"
+                placeholder: "Saisissez votre contenu ici …"
+        groups:
+            name: "Page Groupes"
+            introduction: "Modifiez l'image d'entête de la page Groupes"
+            front:
+                name: "Entête"
+                label: "Image de couverture de la page Groupes"
+                hint: "Format JPG ou PNG, %s maximum"
+                button: "Parcourir"
+        menus:
+            name: "Menus"
+            introduction: "Modifiez la barre de navigation et le footer"
+            label: "Nom"
+            link: "Lien"
+            order: "Ordre"
+            add: "Ajouter un lien"
+            navbar:
+                name: "Barre de navigation"
+            footbar_first:
+                title: "Titre de la première colonne"
+                name: "Pied de page – Première colonne de liens"
+            footbar_second:
+                title: "Titre de la seconde colonne"
+                name: "Pied de page – Seconde colonne de liens"
+            footbar_third:
+                title: "Titre de la troisième colonne"
+                name: "Pied de page – Troisième colonne de liens"
+        admin:
+            name: "Administrateurs communauté"
+            introduction: "Liste des administrateurs de la plateforme. Ajoutez, supprimez les rôles d'admin dans %link_start%l'annuaire du groupe Communauté%link_end%"
+            community: "Admin communauté"
+
 pages:
     user:
         login:
@@ -216,6 +312,10 @@ pages:
             title: "Mes groupes"
             introduction: "Gérez rapidement vos adhésions aux groupes"
             link: "Mes groupes"
+        administration_edit:
+            title: "Administration du site"
+            # introduction: "Gérez rapidement vos adhésions aux groupes"
+            link: "Administration du site"
 
     group:
         group_create:
@@ -384,6 +484,10 @@ pages:
                     labels:
                         private: "Grand public"
                         professional: "Professionnel"
+                has_adaptative_approach:
+                    labels: 
+                        adaptative_approach: "Engagés dans une démarche d'adaptation"
+                        everyone: "Tous"
                 skills:
                     label: "Compétences"
             query:
@@ -409,6 +513,31 @@ pages:
     event:
         list:
             title: "Activités"
+
+    administration:
+        tabs:
+            platform:
+                title: "Plateforme"
+                name: "Plateforme"
+                introduction: "Ici vous pouvez modifier les paramètres principaux de la plateforme"
+            home:
+                title: "Page d'accueil"
+                name: "Page d'accueil"
+                introduction: "Modfiez les contenus de la page d'accueil"
+            groups:
+                title: "Page Groupes"
+                name: "Page Groupes"
+                introduction: "Modifiez l'image d'entête de la page Groupes"
+            menus:
+                title: "Menus"
+                name: "Menus"
+                introduction: "Modifiez la barre de navigation et le footer"
+            admin:
+                title: "Administrateurs"
+                name: "Administrateurs"
+                introduction: "Liste des administrateurs de la plateforme. Ajoutez, supprimez les rôles d'admin dans l'annuaire du groupe Communauté"
+
+
 
 search:
     title: "Résultats de recherche"
@@ -463,6 +592,8 @@ messages:
         email_change_successful: "Votre adresse e-mail a été modifiée."
         not_active: "Cet utilisateur n’est pas activé."
         account_deleted: "Votre compte a bien été supprimé."
+        adaptative_approach_required: "Veuillez remplir le <a href='%link%''> nouveau champ 'Démarche d'adaptation'</a>."
+        new_adaptative_approach_required: "Une nouvelle fonctionnalité est disponible. <br> Veuillez remplir le nouveau champ 'Démarche d'adaptation' de votre page <a href='%link%'>profil</a>."
 
     group:
         joined: "Vous avez rejoint ce groupe."

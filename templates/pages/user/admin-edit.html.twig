@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'pages.user.administration_edit.title'|trans }} | {{ plateform.name }}{% endblock %}
+
+{% block main %}
+	<section class="main main__user-page main__user-page__administrator">
+
+		<div class="main--content content-container">
+			<div class="thin">
+				{% include 'components/app-flashes.html.twig' %}
+
+				<section>
+					<div class="panel">
+						<h1 class="h1">{{ 'pages.user.administration_edit.title'|trans }}</h1>
+					</div>
+				</section>
+
+
+				{% include 'contents/admin/partials/admin-tabs.html.twig' with {'tab': tab} %}
+
+				{% if (tab =='platform') or not tab %}
+					<section class="admin-form">
+						{% include 'forms/user/admin/admin-platform-form.html.twig' with ({
+							'form': form
+						})	%}
+					</section>
+				{% elseif (tab =='home') %}
+					<section class="admin-form">
+						{% include 'forms/user/admin/admin-home-form.html.twig' with ({
+							'form': form,
+							'upload':upload
+						}) %}
+					</section>
+				{% elseif (tab =='groups') %}
+					<section class="admin-form">
+						{% include 'forms/user/admin/admin-groups-form.html.twig' with ({
+							'form': form
+						}) %}
+					</section>
+				{% elseif (tab =='menus') %}
+					<section class="admin-form">
+						{% include 'forms/user/admin/admin-menus-form.html.twig' with ({
+							'form': form
+						}) %}
+					</section>
+				{% elseif (tab =='admin') %}
+					<section class="admin-form">
+						{% include 'forms/user/admin/admin-admin-form.html.twig' %}
+					</section>
+				{% else %}
+					<section class="admin-form">
+						{% include 'forms/user/admin/admin-platform-form.html.twig' %}
+					</section>
+				{% endif %}
+
+			</div>
+		</div>
+	</section>
+{% endblock %}
